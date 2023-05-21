@@ -10,7 +10,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const {LEXICAL_PKG, DEFAULT_PKGS, SHARED_PKG} = require('./npm/packages');
+const { LEXICAL_PKG, DEFAULT_PKGS, SHARED_PKG } = require('./npm/packages');
 
 const packages = [LEXICAL_PKG, ...DEFAULT_PKGS, SHARED_PKG];
 packages.forEach((pkg) => {

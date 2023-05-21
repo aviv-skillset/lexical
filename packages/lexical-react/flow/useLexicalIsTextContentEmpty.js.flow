@@ -7,9 +7,6 @@
  * @flow strict
  */
 
-import type {LexicalEditor} from 'lexical';
+import type { LexicalEditor } from 'lexical';
 
-declare export function useLexicalIsTextContentEmpty(
-  editor: LexicalEditor,
-  trim?: boolean,
-): boolean;
+declare export function useLexicalIsTextContentEmpty(editor: LexicalEditor, trim?: boolean): boolean;

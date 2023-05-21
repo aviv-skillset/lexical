@@ -6,40 +6,25 @@
  *
  */
 
-import type {NodeKey, SerializedLexicalNode} from '../LexicalNode';
-import type {
-  GridSelection,
-  NodeSelection,
-  PointType,
-  RangeSelection,
-} from '../LexicalSelection';
-import type {Spread} from 'lexical';
+import type { NodeKey, SerializedLexicalNode } from '../LexicalNode';
+import type { GridSelection, NodeSelection, PointType, RangeSelection } from '../LexicalSelection';
+import type { Spread } from 'lexical';
 
 import invariant from 'shared/invariant';
 
-import {$isTextNode, TextNode} from '../';
-import {
-  DOUBLE_LINE_BREAK,
-  ELEMENT_FORMAT_TO_TYPE,
-  ELEMENT_TYPE_TO_FORMAT,
-} from '../LexicalConstants';
-import {LexicalNode} from '../LexicalNode';
+import { $isTextNode, TextNode } from '../';
+import { DOUBLE_LINE_BREAK, ELEMENT_FORMAT_TO_TYPE, ELEMENT_TYPE_TO_FORMAT } from '../LexicalConstants';
+import { LexicalNode } from '../LexicalNode';
 import {
   $getSelection,
   $isRangeSelection,
   internalMakeRangeSelection,
   moveSelectionPointToSibling,
 } from '../LexicalSelection';
-import {errorOnReadOnly, getActiveEditor} from '../LexicalUpdates';
-import {
-  $getNodeByKey,
-  $isRootOrShadowRoot,
-  removeFromParent,
-} from '../LexicalUtils';
+import { errorOnReadOnly, getActiveEditor } from '../LexicalUpdates';
+import { $getNodeByKey, $isRootOrShadowRoot, removeFromParent } from '../LexicalUtils';
 
-export type SerializedElementNode<
-  T extends SerializedLexicalNode = SerializedLexicalNode,
-> = Spread<
+export type SerializedElementNode<T extends SerializedLexicalNode = SerializedLexicalNode> = Spread<
   {
     children: Array<T>;
     direction: 'ltr' | 'rtl' | null;
@@ -49,14 +34,7 @@ export type SerializedElementNode<
   SerializedLexicalNode
 >;
 
-export type ElementFormatType =
-  | 'left'
-  | 'start'
-  | 'center'
-  | 'right'
-  | 'end'
-  | 'justify'
-  | '';
+export type ElementFormatType = 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
 
 /** @noInheritDoc */
 export class ElementNode extends LexicalNode {
@@ -180,18 +158,10 @@ export class ElementNode extends LexicalNode {
     // (either a leaf node or the bottom-most element)
     if (index >= childrenLength) {
       const resolvedNode = children[childrenLength - 1];
-      return (
-        ($isElementNode(resolvedNode) && resolvedNode.getLastDescendant()) ||
-        resolvedNode ||
-        null
-      );
+      return ($isElementNode(resolvedNode) && resolvedNode.getLastDescendant()) || resolvedNode || null;
     }
     const resolvedNode = children[index];
-    return (
-      ($isElementNode(resolvedNode) && resolvedNode.getFirstDescendant()) ||
-      resolvedNode ||
-      null
-    );
+    return ($isElementNode(resolvedNode) && resolvedNode.getFirstDescendant()) || resolvedNode || null;
   }
   getFirstChild<T extends LexicalNode>(): null | T {
     const self = this.getLatest();
@@ -251,11 +221,7 @@ export class ElementNode extends LexicalNode {
     for (let i = 0; i < childrenLength; i++) {
       const child = children[i];
       textContent += child.getTextContent();
-      if (
-        $isElementNode(child) &&
-        i !== childrenLength - 1 &&
-        !child.isInline()
-      ) {
+      if ($isElementNode(child) && i !== childrenLength - 1 && !child.isInline()) {
         textContent += DOUBLE_LINE_BREAK;
       }
     }
@@ -268,11 +234,7 @@ export class ElementNode extends LexicalNode {
     for (let i = 0; i < childrenLength; i++) {
       const child = children[i];
       textContentSize += child.getTextContentSize();
-      if (
-        $isElementNode(child) &&
-        i !== childrenLength - 1 &&
-        !child.isInline()
-      ) {
+      if ($isElementNode(child) && i !== childrenLength - 1 && !child.isInline()) {
         textContentSize += DOUBLE_LINE_BREAK.length;
       }
     }
@@ -322,14 +284,7 @@ export class ElementNode extends LexicalNode {
     }
     const key = this.__key;
     if (!$isRangeSelection(selection)) {
-      return internalMakeRangeSelection(
-        key,
-        anchorOffset,
-        key,
-        focusOffset,
-        'element',
-        'element',
-      );
+      return internalMakeRangeSelection(key, anchorOffset, key, focusOffset, 'element', 'element');
     } else {
       selection.anchor.set(key, anchorOffset, 'element');
       selection.focus.set(key, focusOffset, 'element');
@@ -383,11 +338,7 @@ export class ElementNode extends LexicalNode {
     self.__indent = indentLevel;
     return this;
   }
-  splice(
-    start: number,
-    deleteCount: number,
-    nodesToInsert: Array<LexicalNode>,
-  ): this {
+  splice(start: number, deleteCount: number, nodesToInsert: Array<LexicalNode>): this {
     const nodesToInsertLength = nodesToInsert.length;
     const oldSize = this.getChildrenSize();
     const writableSelf = this.getWritable();
@@ -410,10 +361,7 @@ export class ElementNode extends LexicalNode {
     }
 
     if (deleteCount > 0) {
-      let nodeToDelete =
-        nodeBeforeRange === null
-          ? this.getFirstChild()
-          : nodeBeforeRange.getNextSibling();
+      let nodeToDelete = nodeBeforeRange === null ? this.getFirstChild() : nodeBeforeRange.getNextSibling();
       for (let i = 0; i < deleteCount; i++) {
         if (nodeToDelete === null) {
           invariant(false, 'splice: sibling not found');
@@ -485,24 +433,12 @@ export class ElementNode extends LexicalNode {
         const nodesToRemoveKeySet = new Set(nodesToRemoveKeys);
         const nodesToInsertKeySet = new Set(nodesToInsertKeys);
 
-        const {anchor, focus} = selection;
+        const { anchor, focus } = selection;
         if (isPointRemoved(anchor, nodesToRemoveKeySet, nodesToInsertKeySet)) {
-          moveSelectionPointToSibling(
-            anchor,
-            anchor.getNode(),
-            this,
-            nodeBeforeRange,
-            nodeAfterRange,
-          );
+          moveSelectionPointToSibling(anchor, anchor.getNode(), this, nodeBeforeRange, nodeAfterRange);
         }
         if (isPointRemoved(focus, nodesToRemoveKeySet, nodesToInsertKeySet)) {
-          moveSelectionPointToSibling(
-            focus,
-            focus.getNode(),
-            this,
-            nodeBeforeRange,
-            nodeAfterRange,
-          );
+          moveSelectionPointToSibling(focus, focus.getNode(), this, nodeBeforeRange, nodeAfterRange);
         }
         // Cleanup if node can't be empty
         if (newSize === 0 && !this.canBeEmpty() && !$isRootOrShadowRoot(this)) {
@@ -525,10 +461,7 @@ export class ElementNode extends LexicalNode {
     };
   }
   // These are intended to be extends for specific element heuristics.
-  insertNewAfter(
-    selection: RangeSelection,
-    restoreSelection?: boolean,
-  ): null | LexicalNode {
+  insertNewAfter(selection: RangeSelection, restoreSelection?: boolean): null | LexicalNode {
     return null;
   }
   canIndent(): boolean {
@@ -586,9 +519,7 @@ export class ElementNode extends LexicalNode {
   }
 }
 
-export function $isElementNode(
-  node: LexicalNode | null | undefined,
-): node is ElementNode {
+export function $isElementNode(node: LexicalNode | null | undefined): node is ElementNode {
   return node instanceof ElementNode;
 }
 

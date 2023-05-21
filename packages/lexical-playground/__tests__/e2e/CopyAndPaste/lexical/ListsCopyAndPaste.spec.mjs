@@ -26,12 +26,9 @@ import {
 } from '../../../utils/index.mjs';
 
 test.describe('Lists CopyAndPaste', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
 
-  test('Copy and paste of partial list items into an empty editor', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('Copy and paste of partial list items into an empty editor', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
 
@@ -79,12 +76,7 @@ test.describe('Lists CopyAndPaste', () => {
     await page.keyboard.press('Backspace');
     await page.keyboard.press('Backspace');
 
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     await assertSelection(page, {
       anchorOffset: 0,
       anchorPath: [0],
@@ -108,12 +100,7 @@ test.describe('Lists CopyAndPaste', () => {
     });
   });
 
-  test('Copy and paste of partial list items into the list', async ({
-    page,
-    isPlainText,
-    isCollab,
-    browserName,
-  }) => {
+  test('Copy and paste of partial list items into the list', async ({ page, isPlainText, isCollab, browserName }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -135,28 +122,17 @@ test.describe('Lists CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="3"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="3" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
         </ul>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Some text.</span>
         </p>
       `,
@@ -197,31 +173,20 @@ test.describe('Lists CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li value="2" class="PlaygroundEditorTheme__listItem">
+          <li class="PlaygroundEditorTheme__listItem" value="2">
             <br />
           </li>
-          <li
-            value="3"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="3" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="4"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="4" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
         </ul>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Some text.</span>
         </p>
       `,
@@ -239,41 +204,25 @@ test.describe('Lists CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">ee</span>
           </li>
         </ul>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Some text.</span>
         </p>
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
         </ul>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Some text.</span>
         </p>
       `,
@@ -286,11 +235,7 @@ test.describe('Lists CopyAndPaste', () => {
     });
   });
 
-  test('Copy list items and paste back into list', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('Copy list items and paste back into list', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -354,11 +299,7 @@ test.describe('Lists CopyAndPaste', () => {
     });
   });
 
-  test('Copy list items and paste into list', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('Copy list items and paste into list', async ({ page, isPlainText, isCollab }) => {
     test.fixme(isCollab && IS_LINUX, 'Flaky on Linux + Collab');
     test.skip(isPlainText);
 
@@ -380,34 +321,19 @@ test.describe('Lists CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="3"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="3" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
-          <li
-            value="4"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="4" dir="ltr">
             <span data-lexical-text="true">four</span>
           </li>
-          <li
-            value="5"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="5" dir="ltr">
             <span data-lexical-text="true">five</span>
           </li>
         </ul>
@@ -426,34 +352,19 @@ test.describe('Lists CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="3"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="3" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
-          <li
-            value="4"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="4" dir="ltr">
             <span data-lexical-text="true">four</span>
           </li>
-          <li
-            value="5"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="5" dir="ltr">
             <span data-lexical-text="true">five</span>
           </li>
         </ul>
@@ -473,68 +384,39 @@ test.describe('Lists CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="3"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="3" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
-          <li
-            value="4"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="4" dir="ltr">
             <span data-lexical-text="true">four</span>
           </li>
-          <li
-            value="5"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="5" dir="ltr">
             <span data-lexical-text="true">five</span>
           </li>
         </ul>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">12one</span>
         </p>
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
-          <li
-            value="3"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="3" dir="ltr">
             <span data-lexical-text="true">four</span>
           </li>
-          <li
-            value="4"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="4" dir="ltr">
             <span data-lexical-text="true">five</span>
           </li>
-          <li value="5" class="PlaygroundEditorTheme__listItem">
+          <li class="PlaygroundEditorTheme__listItem" value="5">
             <span data-lexical-text="true">45</span>
           </li>
         </ul>
@@ -610,10 +492,7 @@ test.describe('Lists CopyAndPaste', () => {
     });
   });
 
-  test('Copy and paste two paragraphs into list on an existing item', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('Copy and paste two paragraphs into list on an existing item', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
 
@@ -670,10 +549,7 @@ test.describe('Lists CopyAndPaste', () => {
     });
   });
 
-  test('Copy and paste two paragraphs at the end of a list', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('Copy and paste two paragraphs at the end of a list', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);

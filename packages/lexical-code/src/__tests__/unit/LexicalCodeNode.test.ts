@@ -6,14 +6,10 @@
  *
  */
 
-import {
-  $createCodeNode,
-  $isCodeHighlightNode,
-  registerCodeHighlighting,
-} from '@lexical/code';
-import {registerTabIndentation} from '@lexical/react/LexicalTabIndentationPlugin';
-import {registerRichText} from '@lexical/rich-text';
-import {$dfs} from '@lexical/utils';
+import { $createCodeNode, $isCodeHighlightNode, registerCodeHighlighting } from '@lexical/code';
+import { registerTabIndentation } from '@lexical/react/LexicalTabIndentationPlugin';
+import { registerRichText } from '@lexical/rich-text';
+import { $dfs } from '@lexical/utils';
 import {
   $createParagraphNode,
   $createRangeSelection,
@@ -51,7 +47,7 @@ const SPACES4 = ' '.repeat(4);
 describe('LexicalCodeNode tests', () => {
   initializeUnitTest((testEnv) => {
     test('CodeNode.constructor', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const codeNode = $createCodeNode();
@@ -62,7 +58,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('CodeNode.createDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const codeNode = $createCodeNode();
@@ -79,7 +75,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('CodeNode.updateDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const newCodeNode = $createCodeNode();
@@ -89,18 +85,14 @@ describe('LexicalCodeNode tests', () => {
           theme: {},
         });
         expect(domElement.outerHTML).toBe('<code spellcheck="false"></code>');
-        const result = newCodeNode.updateDOM(
-          codeNode,
-          domElement,
-          editorConfig,
-        );
+        const result = newCodeNode.updateDOM(codeNode, domElement, editorConfig);
         expect(result).toBe(false);
         expect(domElement.outerHTML).toBe('<code spellcheck="false"></code>');
       });
     });
 
     test('CodeNode.exportJSON() should return and object conforming to the expected schema', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const node = $createCodeNode('javascript');
         // If you broke this test, you changed the public interface of a
@@ -121,7 +113,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test.skip('CodeNode.insertNewAfter()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const root = $getRoot();
@@ -155,7 +147,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('$createCodeNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const codeNode = $createCodeNode();
@@ -167,7 +159,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('can tab with collapsed selection', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       registerRichText(editor);
       registerTabIndentation(editor);
       registerCodeHighlighting(editor);
@@ -188,7 +180,7 @@ describe('LexicalCodeNode tests', () => {
       let tabKey;
       await editor.update(() => {
         tabKey = $dfs()
-          .find(({node}) => $isTabNode(node))
+          .find(({ node }) => $isTabNode(node))
           .node.getKey();
         $getSelection().insertText('foo');
       });
@@ -203,7 +195,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('can tab with non-collapsed selection', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       registerRichText(editor);
       registerTabIndentation(editor);
       registerCodeHighlighting(editor);
@@ -226,7 +218,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('can indent/outdent one line by selecting all line (with tabs)', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       registerRichText(editor);
       registerTabIndentation(editor);
       registerCodeHighlighting(editor);
@@ -262,7 +254,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('can indent/outdent with collapsed selection at start of line (with tabs)', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       registerRichText(editor);
       registerTabIndentation(editor);
       registerCodeHighlighting(editor);
@@ -299,7 +291,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('can indent/outdent multiline (with tabs)', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       registerRichText(editor);
       registerTabIndentation(editor);
       registerCodeHighlighting(editor);
@@ -333,7 +325,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('can indent at the start of the second line', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       registerRichText(editor);
       registerTabIndentation(editor);
       registerCodeHighlighting(editor);
@@ -351,7 +343,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('can outdent at arbitrary points in the line (with tabs)', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       registerRichText(editor);
       registerTabIndentation(editor);
       registerCodeHighlighting(editor);
@@ -374,7 +366,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('code blocks can shift lines (with tab)', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       registerRichText(editor);
       registerTabIndentation(editor);
       registerCodeHighlighting(editor);
@@ -394,7 +386,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('code blocks can shift multiple lines (with tab)', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       registerRichText(editor);
       registerTabIndentation(editor);
       registerCodeHighlighting(editor);
@@ -431,16 +423,11 @@ describe('LexicalCodeNode tests', () => {
       for (const moveTo of ['start', 'end']) {
         for (const tabOrSpaces of ['tab', 'spaces']) {
           // eslint-disable-next-line no-inner-declarations
-          function testMoveTo(
-            name: string,
-            $beforeFn: () => void,
-            $afterFn: () => void,
-            only = false,
-          ) {
+          function testMoveTo(name: string, $beforeFn: () => void, $afterFn: () => void, only = false) {
             // eslint-disable-next-line no-only-tests/no-only-tests
             const test_ = only ? test.only : test;
             test_(`${moveTo} ${tabOrSpaces}: ${name}`, async () => {
-              const {editor} = testEnv;
+              const { editor } = testEnv;
               registerRichText(editor);
               registerTabIndentation(editor);
               registerCodeHighlighting(editor);
@@ -453,24 +440,16 @@ describe('LexicalCodeNode tests', () => {
                 if (tabOrSpaces === 'tab') {
                   selection.insertRawText('\t\tfunction foo\n\t\tfunction bar');
                 } else {
-                  selection.insertRawText(
-                    `${SPACES4}function foo\n${SPACES4}function bar`,
-                  );
+                  selection.insertRawText(`${SPACES4}function foo\n${SPACES4}function bar`);
                 }
               });
               await editor.update(() => {
                 $beforeFn();
               });
               if (moveTo === 'start') {
-                await editor.dispatchCommand(
-                  MOVE_TO_START,
-                  new KeyboardEventMock('keydown'),
-                );
+                await editor.dispatchCommand(MOVE_TO_START, new KeyboardEventMock('keydown'));
               } else {
-                await editor.dispatchCommand(
-                  MOVE_TO_END,
-                  new KeyboardEventMock('keydown'),
-                );
+                await editor.dispatchCommand(MOVE_TO_END, new KeyboardEventMock('keydown'));
               }
               await editor.update(() => {
                 $afterFn();
@@ -486,30 +465,19 @@ describe('LexicalCodeNode tests', () => {
             },
             () => {
               const selection = $getSelection();
-              invariant(
-                $isRangeSelection(selection),
-                'Expected selection to be RangeSelection',
-              );
+              invariant($isRangeSelection(selection), 'Expected selection to be RangeSelection');
               expect(selection.isCollapsed()).toBe(true);
               if (moveTo === 'start') {
                 if (tabOrSpaces === 'tab') {
                   expect($isTabNode(selection.anchor.getNode())).toBe(true);
-                  expect(
-                    $isCodeHighlightNode(
-                      selection.anchor.getNode().getNextSibling(),
-                    ),
-                  ).toBe(true);
+                  expect($isCodeHighlightNode(selection.anchor.getNode().getNextSibling())).toBe(true);
                   expect(selection.anchor.offset).toBe(1);
                 } else {
-                  expect(selection.anchor.getNode().getTextContent()).toBe(
-                    SPACES4,
-                  );
+                  expect(selection.anchor.getNode().getTextContent()).toBe(SPACES4);
                   expect(selection.anchor.offset).toBe(4);
                 }
               } else {
-                expect(selection.anchor.getNode().getTextContent()).toBe(
-                  ' foo',
-                );
+                expect(selection.anchor.getNode().getTextContent()).toBe(' foo');
                 expect(selection.anchor.offset).toBe(' foo'.length);
               }
             },
@@ -519,37 +487,24 @@ describe('LexicalCodeNode tests', () => {
             'caret at start of line (second line)',
             () => {
               const nodes = $dfs();
-              const linebreak = nodes.filter((dfsNode) =>
-                $isLineBreakNode(dfsNode.node),
-              )[0].node;
+              const linebreak = nodes.filter((dfsNode) => $isLineBreakNode(dfsNode.node))[0].node;
               linebreak.selectNext(0, 0);
             },
             () => {
               const selection = $getSelection();
-              invariant(
-                $isRangeSelection(selection),
-                'Expected selection to be RangeSelection',
-              );
+              invariant($isRangeSelection(selection), 'Expected selection to be RangeSelection');
               expect(selection.isCollapsed()).toBe(true);
               if (moveTo === 'start') {
                 if (tabOrSpaces === 'tab') {
                   expect($isTabNode(selection.anchor.getNode())).toBe(true);
-                  expect(
-                    $isCodeHighlightNode(
-                      selection.anchor.getNode().getNextSibling(),
-                    ),
-                  ).toBe(true);
+                  expect($isCodeHighlightNode(selection.anchor.getNode().getNextSibling())).toBe(true);
                   expect(selection.anchor.offset).toBe(1);
                 } else {
-                  expect(selection.anchor.getNode().getTextContent()).toBe(
-                    SPACES4,
-                  );
+                  expect(selection.anchor.getNode().getTextContent()).toBe(SPACES4);
                   expect(selection.anchor.offset).toBe(4);
                 }
               } else {
-                expect(selection.anchor.getNode().getTextContent()).toBe(
-                  ' bar',
-                );
+                expect(selection.anchor.getNode().getTextContent()).toBe(' bar');
                 expect(selection.anchor.offset).toBe(' bar'.length);
               }
             },
@@ -568,10 +523,7 @@ describe('LexicalCodeNode tests', () => {
             },
             () => {
               const selection = $getSelection();
-              invariant(
-                $isRangeSelection(selection),
-                'Expected selection to be RangeSelection',
-              );
+              invariant($isRangeSelection(selection), 'Expected selection to be RangeSelection');
               expect(selection.isCollapsed()).toBe(true);
               if (moveTo === 'start') {
                 const code = $getRoot().getFirstChild();
@@ -579,9 +531,7 @@ describe('LexicalCodeNode tests', () => {
                 expect(selection.anchor.getNode().is(firstChild)).toBe(true);
                 expect(selection.anchor.offset).toBe(0);
               } else {
-                expect(selection.anchor.getNode().getTextContent()).toBe(
-                  ' foo',
-                );
+                expect(selection.anchor.getNode().getTextContent()).toBe(' foo');
                 expect(selection.anchor.offset).toBe(' foo'.length);
               }
             },
@@ -591,9 +541,7 @@ describe('LexicalCodeNode tests', () => {
             'caret immediately before code (second line)',
             () => {
               const nodes = $dfs();
-              const linebreak = nodes.filter((dfsNode) =>
-                $isLineBreakNode(dfsNode.node),
-              )[0].node;
+              const linebreak = nodes.filter((dfsNode) => $isLineBreakNode(dfsNode.node))[0].node;
               if (tabOrSpaces === 'tab') {
                 const firstTab = linebreak.getNextSibling();
                 firstTab.selectNext();
@@ -603,23 +551,16 @@ describe('LexicalCodeNode tests', () => {
             },
             () => {
               const selection = $getSelection();
-              invariant(
-                $isRangeSelection(selection),
-                'Expected selection to be RangeSelection',
-              );
+              invariant($isRangeSelection(selection), 'Expected selection to be RangeSelection');
               expect(selection.isCollapsed()).toBe(true);
               if (moveTo === 'start') {
                 const nodes = $dfs();
-                const linebreak = nodes.filter((dfsNode) =>
-                  $isLineBreakNode(dfsNode.node),
-                )[0].node;
+                const linebreak = nodes.filter((dfsNode) => $isLineBreakNode(dfsNode.node))[0].node;
                 const tabOrSpace = linebreak.getNextSibling();
                 expect(selection.anchor.getNode().is(tabOrSpace)).toBe(true);
                 expect(selection.anchor.offset).toBe(0);
               } else {
-                expect(selection.anchor.getNode().getTextContent()).toBe(
-                  ' bar',
-                );
+                expect(selection.anchor.getNode().getTextContent()).toBe(' bar');
                 expect(selection.anchor.offset).toBe(' bar'.length);
               }
             },
@@ -638,30 +579,19 @@ describe('LexicalCodeNode tests', () => {
             },
             () => {
               const selection = $getSelection();
-              invariant(
-                $isRangeSelection(selection),
-                'Expected selection to be RangeSelection',
-              );
+              invariant($isRangeSelection(selection), 'Expected selection to be RangeSelection');
               expect(selection.isCollapsed()).toBe(true);
               if (moveTo === 'start') {
                 if (tabOrSpaces === 'tab') {
                   expect($isTabNode(selection.anchor.getNode())).toBe(true);
-                  expect(
-                    $isCodeHighlightNode(
-                      selection.anchor.getNode().getNextSibling(),
-                    ),
-                  ).toBe(true);
+                  expect($isCodeHighlightNode(selection.anchor.getNode().getNextSibling())).toBe(true);
                   expect(selection.anchor.offset).toBe(1);
                 } else {
-                  expect(selection.anchor.getNode().getTextContent()).toBe(
-                    SPACES4,
-                  );
+                  expect(selection.anchor.getNode().getTextContent()).toBe(SPACES4);
                   expect(selection.anchor.offset).toBe(4);
                 }
               } else {
-                expect(selection.anchor.getNode().getTextContent()).toBe(
-                  ' foo',
-                );
+                expect(selection.anchor.getNode().getTextContent()).toBe(' foo');
                 expect(selection.anchor.offset).toBe(' foo'.length);
               }
             },
@@ -671,9 +601,7 @@ describe('LexicalCodeNode tests', () => {
             'caret in between space (second line)',
             () => {
               const nodes = $dfs();
-              const linebreak = nodes.filter((dfsNode) =>
-                $isLineBreakNode(dfsNode.node),
-              )[0].node;
+              const linebreak = nodes.filter((dfsNode) => $isLineBreakNode(dfsNode.node))[0].node;
               if (tabOrSpaces === 'tab') {
                 const firstTab = linebreak.getNextSibling();
                 firstTab.selectNext(0, 0);
@@ -683,30 +611,19 @@ describe('LexicalCodeNode tests', () => {
             },
             () => {
               const selection = $getSelection();
-              invariant(
-                $isRangeSelection(selection),
-                'Expected selection to be RangeSelection',
-              );
+              invariant($isRangeSelection(selection), 'Expected selection to be RangeSelection');
               expect(selection.isCollapsed()).toBe(true);
               if (moveTo === 'start') {
                 if (tabOrSpaces === 'tab') {
                   expect($isTabNode(selection.anchor.getNode())).toBe(true);
-                  expect(
-                    $isCodeHighlightNode(
-                      selection.anchor.getNode().getNextSibling(),
-                    ),
-                  ).toBe(true);
+                  expect($isCodeHighlightNode(selection.anchor.getNode().getNextSibling())).toBe(true);
                   expect(selection.anchor.offset).toBe(1);
                 } else {
-                  expect(selection.anchor.getNode().getTextContent()).toBe(
-                    SPACES4,
-                  );
+                  expect(selection.anchor.getNode().getTextContent()).toBe(SPACES4);
                   expect(selection.anchor.offset).toBe(4);
                 }
               } else {
-                expect(selection.anchor.getNode().getTextContent()).toBe(
-                  ' bar',
-                );
+                expect(selection.anchor.getNode().getTextContent()).toBe(' bar');
                 expect(selection.anchor.offset).toBe(' bar'.length);
               }
             },
@@ -716,38 +633,27 @@ describe('LexicalCodeNode tests', () => {
             'caret in between code',
             () => {
               const nodes = $dfs();
-              const codeHighlight = nodes.filter((dfsNode) =>
-                $isCodeHighlightNode(dfsNode.node),
-              )[tabOrSpaces === 'tab' ? 0 : 1].node;
+              const codeHighlight = nodes.filter((dfsNode) => $isCodeHighlightNode(dfsNode.node))[
+                tabOrSpaces === 'tab' ? 0 : 1
+              ].node;
               const index = codeHighlight.getTextContent().indexOf('tion');
               codeHighlight.select(index, index);
             },
             () => {
               const selection = $getSelection();
-              invariant(
-                $isRangeSelection(selection),
-                'Expected selection to be RangeSelection',
-              );
+              invariant($isRangeSelection(selection), 'Expected selection to be RangeSelection');
               expect(selection.isCollapsed()).toBe(true);
               if (moveTo === 'start') {
                 if (tabOrSpaces === 'tab') {
                   expect($isTabNode(selection.anchor.getNode())).toBe(true);
-                  expect(
-                    $isCodeHighlightNode(
-                      selection.anchor.getNode().getNextSibling(),
-                    ),
-                  ).toBe(true);
+                  expect($isCodeHighlightNode(selection.anchor.getNode().getNextSibling())).toBe(true);
                   expect(selection.anchor.offset).toBe(1);
                 } else {
-                  expect(selection.anchor.getNode().getTextContent()).toBe(
-                    SPACES4,
-                  );
+                  expect(selection.anchor.getNode().getTextContent()).toBe(SPACES4);
                   expect(selection.anchor.offset).toBe(4);
                 }
               } else {
-                expect(selection.anchor.getNode().getTextContent()).toBe(
-                  ' foo',
-                );
+                expect(selection.anchor.getNode().getTextContent()).toBe(' foo');
                 expect(selection.anchor.offset).toBe(' foo'.length);
               }
             },
@@ -757,38 +663,27 @@ describe('LexicalCodeNode tests', () => {
             'caret in between code (after space)',
             () => {
               const nodes = $dfs();
-              const codeHighlight = nodes.filter((dfsNode) =>
-                $isCodeHighlightNode(dfsNode.node),
-              )[tabOrSpaces === 'tab' ? 1 : 2].node;
+              const codeHighlight = nodes.filter((dfsNode) => $isCodeHighlightNode(dfsNode.node))[
+                tabOrSpaces === 'tab' ? 1 : 2
+              ].node;
               const index = codeHighlight.getTextContent().indexOf('oo');
               codeHighlight.select(index, index);
             },
             () => {
               const selection = $getSelection();
-              invariant(
-                $isRangeSelection(selection),
-                'Expected selection to be RangeSelection',
-              );
+              invariant($isRangeSelection(selection), 'Expected selection to be RangeSelection');
               expect(selection.isCollapsed()).toBe(true);
               if (moveTo === 'start') {
                 if (tabOrSpaces === 'tab') {
                   expect($isTabNode(selection.anchor.getNode())).toBe(true);
-                  expect(
-                    $isCodeHighlightNode(
-                      selection.anchor.getNode().getNextSibling(),
-                    ),
-                  ).toBe(true);
+                  expect($isCodeHighlightNode(selection.anchor.getNode().getNextSibling())).toBe(true);
                   expect(selection.anchor.offset).toBe(1);
                 } else {
-                  expect(selection.anchor.getNode().getTextContent()).toBe(
-                    SPACES4,
-                  );
+                  expect(selection.anchor.getNode().getTextContent()).toBe(SPACES4);
                   expect(selection.anchor.offset).toBe(4);
                 }
               } else {
-                expect(selection.anchor.getNode().getTextContent()).toBe(
-                  ' foo',
-                );
+                expect(selection.anchor.getNode().getTextContent()).toBe(' foo');
                 expect(selection.anchor.offset).toBe(' foo'.length);
               }
             },
@@ -798,12 +693,9 @@ describe('LexicalCodeNode tests', () => {
             'non-collapsed multi-line selection',
             () => {
               const nodes = $dfs();
-              const codeHighlightDFSNodes = nodes.filter((dfsNode) =>
-                $isCodeHighlightNode(dfsNode.node),
-              );
+              const codeHighlightDFSNodes = nodes.filter((dfsNode) => $isCodeHighlightNode(dfsNode.node));
               const secondCodeHighlight = codeHighlightDFSNodes[1].node;
-              const lastCodeHighlight =
-                codeHighlightDFSNodes[codeHighlightDFSNodes.length - 1].node;
+              const lastCodeHighlight = codeHighlightDFSNodes[codeHighlightDFSNodes.length - 1].node;
               const selection = $createRangeSelection();
               selection.anchor.set(lastCodeHighlight.getKey(), 1, 'text');
               selection.focus.set(secondCodeHighlight.getKey(), 1, 'text');
@@ -811,30 +703,19 @@ describe('LexicalCodeNode tests', () => {
             },
             () => {
               const selection = $getSelection();
-              invariant(
-                $isRangeSelection(selection),
-                'Expected selection to be RangeSelection',
-              );
+              invariant($isRangeSelection(selection), 'Expected selection to be RangeSelection');
               expect(selection.isCollapsed()).toBe(true);
               if (moveTo === 'start') {
                 if (tabOrSpaces === 'tab') {
                   expect($isTabNode(selection.anchor.getNode())).toBe(true);
-                  expect(
-                    $isCodeHighlightNode(
-                      selection.anchor.getNode().getNextSibling(),
-                    ),
-                  ).toBe(true);
+                  expect($isCodeHighlightNode(selection.anchor.getNode().getNextSibling())).toBe(true);
                   expect(selection.anchor.offset).toBe(1);
                 } else {
-                  expect(selection.anchor.getNode().getTextContent()).toBe(
-                    SPACES4,
-                  );
+                  expect(selection.anchor.getNode().getTextContent()).toBe(SPACES4);
                   expect(selection.anchor.offset).toBe(4);
                 }
               } else {
-                expect(selection.anchor.getNode().getTextContent()).toBe(
-                  ' foo',
-                );
+                expect(selection.anchor.getNode().getTextContent()).toBe(' foo');
                 expect(selection.anchor.offset).toBe(' foo'.length);
               }
             },

@@ -7,7 +7,7 @@
  *
  */
 
-export type {PasteCommandType} from './LexicalCommands';
+export type { PasteCommandType } from './LexicalCommands';
 export type {
   CommandListener,
   CommandListenerPriority,
@@ -24,7 +24,7 @@ export type {
   SerializedEditor,
   Spread,
 } from './LexicalEditor';
-export type {EditorState, SerializedEditorState} from './LexicalEditorState';
+export type { EditorState, SerializedEditorState } from './LexicalEditorState';
 export type {
   DOMChildConversion,
   DOMConversion,
@@ -49,17 +49,10 @@ export type {
   RangeSelection,
   TextPointType as TextPoint,
 } from './LexicalSelection';
-export type {
-  ElementFormatType,
-  SerializedElementNode,
-} from './nodes/LexicalElementNode';
-export type {SerializedGridCellNode} from './nodes/LexicalGridCellNode';
-export type {SerializedRootNode} from './nodes/LexicalRootNode';
-export type {
-  SerializedTextNode,
-  TextFormatType,
-  TextModeType,
-} from './nodes/LexicalTextNode';
+export type { ElementFormatType, SerializedElementNode } from './nodes/LexicalElementNode';
+export type { SerializedGridCellNode } from './nodes/LexicalGridCellNode';
+export type { SerializedRootNode } from './nodes/LexicalRootNode';
+export type { SerializedTextNode, TextFormatType, TextModeType } from './nodes/LexicalTextNode';
 
 // TODO Move this somewhere else and/or recheck if we still need this
 export {
@@ -116,8 +109,8 @@ export {
   COMMAND_PRIORITY_NORMAL,
   createEditor,
 } from './LexicalEditor';
-export type {EventHandler} from './LexicalEvents';
-export {$normalizeSelection as $normalizeSelection__EXPERIMENTAL} from './LexicalNormalization';
+export type { EventHandler } from './LexicalEvents';
+export { $normalizeSelection as $normalizeSelection__EXPERIMENTAL } from './LexicalNormalization';
 export {
   $createNodeSelection,
   $createRangeSelection,
@@ -133,7 +126,7 @@ export {
   DEPRECATED_$getNodeTriplet,
   DEPRECATED_$isGridSelection,
 } from './LexicalSelection';
-export {$parseSerializedNode} from './LexicalUpdates';
+export { $parseSerializedNode } from './LexicalUpdates';
 export {
   $addUpdateTag,
   $applyNodeReplacement,
@@ -156,33 +149,16 @@ export {
   isSelectionCapturedInDecoratorInput,
   isSelectionWithinEditor,
 } from './LexicalUtils';
-export {$isDecoratorNode, DecoratorNode} from './nodes/LexicalDecoratorNode';
-export {$isElementNode, ElementNode} from './nodes/LexicalElementNode';
-export {
-  DEPRECATED_$isGridCellNode,
-  DEPRECATED_GridCellNode,
-} from './nodes/LexicalGridCellNode';
-export {
-  DEPRECATED_$isGridNode,
-  DEPRECATED_GridNode,
-} from './nodes/LexicalGridNode';
-export {
-  DEPRECATED_$isGridRowNode,
-  DEPRECATED_GridRowNode,
-} from './nodes/LexicalGridRowNode';
-export type {SerializedLineBreakNode} from './nodes/LexicalLineBreakNode';
-export {
-  $createLineBreakNode,
-  $isLineBreakNode,
-  LineBreakNode,
-} from './nodes/LexicalLineBreakNode';
-export type {SerializedParagraphNode} from './nodes/LexicalParagraphNode';
-export {
-  $createParagraphNode,
-  $isParagraphNode,
-  ParagraphNode,
-} from './nodes/LexicalParagraphNode';
-export {$isRootNode, RootNode} from './nodes/LexicalRootNode';
-export type {SerializedTabNode} from './nodes/LexicalTabNode';
-export {$createTabNode, $isTabNode, TabNode} from './nodes/LexicalTabNode';
-export {$createTextNode, $isTextNode, TextNode} from './nodes/LexicalTextNode';
+export { $isDecoratorNode, DecoratorNode } from './nodes/LexicalDecoratorNode';
+export { $isElementNode, ElementNode } from './nodes/LexicalElementNode';
+export { DEPRECATED_$isGridCellNode, DEPRECATED_GridCellNode } from './nodes/LexicalGridCellNode';
+export { DEPRECATED_$isGridNode, DEPRECATED_GridNode } from './nodes/LexicalGridNode';
+export { DEPRECATED_$isGridRowNode, DEPRECATED_GridRowNode } from './nodes/LexicalGridRowNode';
+export type { SerializedLineBreakNode } from './nodes/LexicalLineBreakNode';
+export { $createLineBreakNode, $isLineBreakNode, LineBreakNode } from './nodes/LexicalLineBreakNode';
+export type { SerializedParagraphNode } from './nodes/LexicalParagraphNode';
+export { $createParagraphNode, $isParagraphNode, ParagraphNode } from './nodes/LexicalParagraphNode';
+export { $isRootNode, RootNode } from './nodes/LexicalRootNode';
+export type { SerializedTabNode } from './nodes/LexicalTabNode';
+export { $createTabNode, $isTabNode, TabNode } from './nodes/LexicalTabNode';
+export { $createTextNode, $isTextNode, TextNode } from './nodes/LexicalTextNode';

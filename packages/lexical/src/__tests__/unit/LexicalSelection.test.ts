@@ -6,24 +6,16 @@
  *
  */
 
-import {$createLinkNode} from '@lexical/link';
-import {
-  $createParagraphNode,
-  $createTextNode,
-  $getRoot,
-  LexicalEditor,
-  RangeSelection,
-} from 'lexical';
+import { $createLinkNode } from '@lexical/link';
+import { $createParagraphNode, $createTextNode, $getRoot, LexicalEditor, RangeSelection } from 'lexical';
 
-import {initializeUnitTest} from '../utils';
+import { initializeUnitTest } from '../utils';
 
 describe('LexicalSelection tests', () => {
   initializeUnitTest((testEnv) => {
     describe('Inserting text either side of inline elements', () => {
-      const setup = async (
-        mode: 'start-of-paragraph' | 'mid-paragraph' | 'end-of-paragraph',
-      ) => {
-        const {container, editor} = testEnv;
+      const setup = async (mode: 'start-of-paragraph' | 'mid-paragraph' | 'end-of-paragraph') => {
+        const { container, editor } = testEnv;
 
         if (!container) {
           throw new Error('Expected container to be truthy');
@@ -37,10 +29,7 @@ describe('LexicalSelection tests', () => {
 
           const paragraph = $createParagraphNode();
           if (mode === 'start-of-paragraph') {
-            paragraph.append(
-              $createLinkNode('https://', {}).append($createTextNode('a')),
-              $createTextNode('b'),
-            );
+            paragraph.append($createLinkNode('https://', {}).append($createTextNode('a')), $createTextNode('b'));
           } else if (mode === 'mid-paragraph') {
             paragraph.append(
               $createTextNode('a'),
@@ -48,10 +37,7 @@ describe('LexicalSelection tests', () => {
               $createTextNode('c'),
             );
           } else {
-            paragraph.append(
-              $createTextNode('a'),
-              $createLinkNode('https://', {}).append($createTextNode('b')),
-            );
+            paragraph.append($createTextNode('a'), $createLinkNode('https://', {}).append($createTextNode('b')));
           }
 
           root.append(paragraph);
@@ -66,13 +52,10 @@ describe('LexicalSelection tests', () => {
 
         expect(container.innerHTML).toBe(expectation);
 
-        return {container, editor};
+        return { container, editor };
       };
 
-      const insertTextOrNodes = (
-        selection: RangeSelection,
-        method: 'insertText' | 'insertNodes',
-      ) => {
+      const insertTextOrNodes = (selection: RangeSelection, method: 'insertText' | 'insertNodes') => {
         if (method === 'insertText') {
           // Insert text (mirroring what LexicalClipboard does when pasting
           // inline plain text)
@@ -80,9 +63,7 @@ describe('LexicalSelection tests', () => {
         } else {
           // Insert a paragraph bearing a single text node (mirroring what
           // LexicalClipboard does when pasting inline rich text)
-          selection.insertNodes([
-            $createParagraphNode().append($createTextNode('x')),
-          ]);
+          selection.insertNodes([$createParagraphNode().append($createTextNode('x'))]);
         }
       };
 
@@ -114,9 +95,9 @@ describe('LexicalSelection tests', () => {
           };
 
           test('Can insert text before a start-of-paragraph inline element, using insertText', async () => {
-            const {container, editor} = await setup('start-of-paragraph');
+            const { container, editor } = await setup('start-of-paragraph');
 
-            await insertText({container, editor, method: 'insertText'});
+            await insertText({ container, editor, method: 'insertText' });
           });
 
           // TODO: https://github.com/facebook/lexical/issues/4295
@@ -153,15 +134,15 @@ describe('LexicalSelection tests', () => {
           };
 
           test('Can insert text before a mid-paragraph inline element, using insertText', async () => {
-            const {container, editor} = await setup('mid-paragraph');
+            const { container, editor } = await setup('mid-paragraph');
 
-            await insertText({container, editor, method: 'insertText'});
+            await insertText({ container, editor, method: 'insertText' });
           });
 
           test('Can insert text before a mid-paragraph inline element, using insertNodes', async () => {
-            const {container, editor} = await setup('mid-paragraph');
+            const { container, editor } = await setup('mid-paragraph');
 
-            await insertText({container, editor, method: 'insertNodes'});
+            await insertText({ container, editor, method: 'insertNodes' });
           });
         });
 
@@ -191,15 +172,15 @@ describe('LexicalSelection tests', () => {
           };
 
           test('Can insert text before an end-of-paragraph inline element, using insertText', async () => {
-            const {container, editor} = await setup('end-of-paragraph');
+            const { container, editor } = await setup('end-of-paragraph');
 
-            await insertText({container, editor, method: 'insertText'});
+            await insertText({ container, editor, method: 'insertText' });
           });
 
           test('Can insert text before an end-of-paragraph inline element, using insertNodes', async () => {
-            const {container, editor} = await setup('end-of-paragraph');
+            const { container, editor } = await setup('end-of-paragraph');
 
-            await insertText({container, editor, method: 'insertNodes'});
+            await insertText({ container, editor, method: 'insertNodes' });
           });
         });
       });
@@ -231,9 +212,9 @@ describe('LexicalSelection tests', () => {
           };
 
           test('Can insert text after a start-of-paragraph inline element, using insertText', async () => {
-            const {container, editor} = await setup('start-of-paragraph');
+            const { container, editor } = await setup('start-of-paragraph');
 
-            await insertText({container, editor, method: 'insertText'});
+            await insertText({ container, editor, method: 'insertText' });
           });
 
           // TODO: https://github.com/facebook/lexical/issues/4295
@@ -270,9 +251,9 @@ describe('LexicalSelection tests', () => {
           };
 
           test('Can insert text after a mid-paragraph inline element, using insertText', async () => {
-            const {container, editor} = await setup('mid-paragraph');
+            const { container, editor } = await setup('mid-paragraph');
 
-            await insertText({container, editor, method: 'insertText'});
+            await insertText({ container, editor, method: 'insertText' });
           });
 
           // TODO: https://github.com/facebook/lexical/issues/4295
@@ -310,9 +291,9 @@ describe('LexicalSelection tests', () => {
           };
 
           test('Can insert text after an end-of-paragraph inline element, using insertText', async () => {
-            const {container, editor} = await setup('end-of-paragraph');
+            const { container, editor } = await setup('end-of-paragraph');
 
-            await insertText({container, editor, method: 'insertText'});
+            await insertText({ container, editor, method: 'insertText' });
           });
 
           // TODO: https://github.com/facebook/lexical/issues/4295

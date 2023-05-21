@@ -17,11 +17,8 @@ import styles from './styles.module.css';
 const links = [
   {
     description: (
-      <Translate
-        id="pages.community.links.github.description"
-        description="Description of Github community">
-        Want to add a new feature or get a bug fixed? Create a pull request or
-        raise an issue.
+      <Translate id="pages.community.links.github.description" description="Description of Github community">
+        Want to add a new feature or get a bug fixed? Create a pull request or raise an issue.
       </Translate>
     ),
     image: (
@@ -31,9 +28,7 @@ const links = [
       />
     ),
     title: (
-      <Translate
-        id="pages.community.links.github.title"
-        description="Hyperlink to Github">
+      <Translate id="pages.community.links.github.title" description="Hyperlink to Github">
         GitHub
       </Translate>
     ),
@@ -43,7 +38,8 @@ const links = [
     description: (
       <Translate
         id="pages.community.links.stackoverflow.description"
-        description="Description of StackOverflow community">
+        description="Description of StackOverflow community"
+      >
         Having trouble using Lexical? Just shoot us a question.
       </Translate>
     ),
@@ -54,9 +50,7 @@ const links = [
       />
     ),
     title: (
-      <Translate
-        id="pages.community.links.stackoverflow.title"
-        description="Hyperlink to Stack Overflow">
+      <Translate id="pages.community.links.stackoverflow.title" description="Hyperlink to Stack Overflow">
         Stack Overflow
       </Translate>
     ),
@@ -64,9 +58,7 @@ const links = [
   },
   {
     description: (
-      <Translate
-        id="pages.community.links.discord.description"
-        description="Description of Discord community">
+      <Translate id="pages.community.links.discord.description" description="Description of Discord community">
         Let's discuss upcoming features and plans together.
       </Translate>
     ),
@@ -77,9 +69,7 @@ const links = [
       />
     ),
     title: (
-      <Translate
-        id="pages.community.links.discord.title"
-        description="Hyperlink to Discord">
+      <Translate id="pages.community.links.discord.title" description="Hyperlink to Discord">
         Discord
       </Translate>
     ),
@@ -87,7 +77,7 @@ const links = [
   },
 ];
 
-function CommunityLink({title, url, description, image}) {
+function CommunityLink({ title, url, description, image }) {
   return (
     <div className="row">
       <div className={clsx('col col--4', styles.image)}>{image}</div>

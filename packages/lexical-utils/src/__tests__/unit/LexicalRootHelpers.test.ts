@@ -6,13 +6,9 @@
  *
  */
 
-import {
-  $isRootTextContentEmpty,
-  $isRootTextContentEmptyCurry,
-  $rootTextContent,
-} from '@lexical/text';
-import {$createParagraphNode, $createTextNode, $getRoot} from 'lexical';
-import {initializeUnitTest} from 'lexical/src/__tests__/utils';
+import { $isRootTextContentEmpty, $isRootTextContentEmptyCurry, $rootTextContent } from '@lexical/text';
+import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
+import { initializeUnitTest } from 'lexical/src/__tests__/utils';
 
 describe('LexicalRootHelpers tests', () => {
   initializeUnitTest((testEnv) => {
@@ -37,11 +33,7 @@ describe('LexicalRootHelpers tests', () => {
     it('isBlank', async () => {
       const editor = testEnv.editor;
 
-      expect(
-        editor
-          .getEditorState()
-          .read($isRootTextContentEmptyCurry(editor.isComposing())),
-      ).toBe(true);
+      expect(editor.getEditorState().read($isRootTextContentEmptyCurry(editor.isComposing()))).toBe(true);
 
       await editor.update(() => {
         const root = $getRoot();
@@ -53,11 +45,7 @@ describe('LexicalRootHelpers tests', () => {
         expect($isRootTextContentEmpty(editor.isComposing())).toBe(false);
       });
 
-      expect(
-        editor
-          .getEditorState()
-          .read($isRootTextContentEmptyCurry(editor.isComposing())),
-      ).toBe(false);
+      expect(editor.getEditorState().read($isRootTextContentEmptyCurry(editor.isComposing()))).toBe(false);
     });
   });
 });

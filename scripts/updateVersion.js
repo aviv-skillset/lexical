@@ -54,7 +54,7 @@ function updateVersion() {
 }
 
 function updateDependencies(packageJSON, version) {
-  const {dependencies, peerDependencies} = packageJSON;
+  const { dependencies, peerDependencies } = packageJSON;
   if (dependencies !== undefined) {
     Object.keys(dependencies).forEach((dep) => {
       if (packages[dep] !== undefined) {

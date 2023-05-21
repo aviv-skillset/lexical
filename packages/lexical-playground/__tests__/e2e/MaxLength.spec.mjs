@@ -18,16 +18,12 @@ import {
 } from '../utils/index.mjs';
 
 test.describe('MaxLength', () => {
-  test.use({isMaxLength: true});
-  test.beforeEach(({isCollab, isMaxLength, page}) =>
-    initialize({isCollab, isMaxLength, page}),
-  );
-  test(`can restrict the text to specified length`, async ({page}) => {
+  test.use({ isMaxLength: true });
+  test.beforeEach(({ isCollab, isMaxLength, page }) => initialize({ isCollab, isMaxLength, page }));
+  test(`can restrict the text to specified length`, async ({ page }) => {
     await focusEditor(page);
 
-    await page.keyboard.type(
-      'lorem ipsum dolor sit amet, consectetuer adipiscing elit',
-    );
+    await page.keyboard.type('lorem ipsum dolor sit amet, consectetuer adipiscing elit');
 
     await assertSelection(page, {
       anchorOffset: 30,
@@ -42,16 +38,14 @@ test.describe('MaxLength', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">lorem ipsum dolor sit amet, co</span>
         </p>
       `,
     );
   });
 
-  test(`can restrict pasted text to specified length`, async ({page}) => {
+  test(`can restrict pasted text to specified length`, async ({ page }) => {
     await focusEditor(page);
     await pasteFromClipboard(page, {
       'text/plain': 'lorem ipsum dolor sit amet, consectetuer adipiscing elit',
@@ -61,16 +55,14 @@ test.describe('MaxLength', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">lorem ipsum dolor sit amet, co</span>
         </p>
       `,
     );
   });
 
-  test(`can restrict emojis on boundaries`, async ({page}) => {
+  test(`can restrict emojis on boundaries`, async ({ page }) => {
     await focusEditor(page);
     await pasteFromClipboard(page, {
       'text/plain': 'lorem ipsum dolor sit amet, consectetur adipiscing elit',
@@ -80,9 +72,7 @@ test.describe('MaxLength', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">lorem ipsum dolor sit amet, c</span>
         </p>
       `,
@@ -93,9 +83,7 @@ test.describe('MaxLength', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">lorem ipsum dolor sit amet, c</span>
         </p>
       `,
@@ -107,9 +95,7 @@ test.describe('MaxLength', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">lorem ipsum dolor sit amet, 💏</span>
         </p>
       `,
@@ -121,9 +107,7 @@ test.describe('MaxLength', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻</span>
         </p>
       `,

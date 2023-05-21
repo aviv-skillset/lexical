@@ -11,8 +11,8 @@
 'use strict';
 
 const readline = require('readline');
-const {exec} = require('child-process-promise');
-const {LEXICAL_PKG, DEFAULT_PKGS} = require('./packages');
+const { exec } = require('child-process-promise');
+const { LEXICAL_PKG, DEFAULT_PKGS } = require('./packages');
 const argv = require('minimist')(process.argv.slice(2));
 
 const nonInteractive = argv['non-interactive'];
@@ -40,9 +40,7 @@ async function publish() {
     const pkg = pkgs[i];
     console.info(`Publishing ${pkg}...`);
     if (dryRun === undefined || dryRun === 0) {
-      await exec(
-        `cd ./packages/${pkg}/npm && npm publish --access public --tag ${channel}`,
-      );
+      await exec(`cd ./packages/${pkg}/npm && npm publish --access public --tag ${channel}`);
       console.info(`Done!`);
     } else {
       console.info(`Dry run - skipping publish step.`);

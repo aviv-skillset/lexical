@@ -6,14 +6,9 @@
  *
  */
 
-import type {
-  MenuRenderFn,
-  MenuResolution,
-  MenuTextMatch,
-  TriggerFn,
-} from './shared/LexicalMenu';
+import type { MenuRenderFn, MenuResolution, MenuTextMatch, TriggerFn } from './shared/LexicalMenu';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   $getSelection,
   $isRangeSelection,
@@ -24,13 +19,12 @@ import {
   RangeSelection,
   TextNode,
 } from 'lexical';
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import * as React from 'react';
 
-import {LexicalMenu, MenuOption, useMenuAnchorRef} from './shared/LexicalMenu';
+import { LexicalMenu, MenuOption, useMenuAnchorRef } from './shared/LexicalMenu';
 
-export const PUNCTUATION =
-  '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;';
+export const PUNCTUATION = '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;';
 
 function getTextUpToAnchor(selection: RangeSelection): string | null {
   const anchor = selection.anchor;
@@ -80,10 +74,7 @@ function getQueryTextForSearch(editor: LexicalEditor): string | null {
   return text;
 }
 
-function isSelectionOnEntityBoundary(
-  editor: LexicalEditor,
-  offset: number,
-): boolean {
+function isSelectionOnEntityBoundary(editor: LexicalEditor, offset: number): boolean {
   if (offset !== 0) {
     return false;
   }
@@ -108,40 +99,26 @@ function startTransition(callback: () => void) {
 }
 
 // Got from https://stackoverflow.com/a/42543908/2013580
-export function getScrollParent(
-  element: HTMLElement,
-  includeHidden: boolean,
-): HTMLElement | HTMLBodyElement {
+export function getScrollParent(element: HTMLElement, includeHidden: boolean): HTMLElement | HTMLBodyElement {
   let style = getComputedStyle(element);
   const excludeStaticParent = style.position === 'absolute';
-  const overflowRegex = includeHidden
-    ? /(auto|scroll|hidden)/
-    : /(auto|scroll)/;
+  const overflowRegex = includeHidden ? /(auto|scroll|hidden)/ : /(auto|scroll)/;
   if (style.position === 'fixed') {
     return document.body;
   }
-  for (
-    let parent: HTMLElement | null = element;
-    (parent = parent.parentElement);
-
-  ) {
+  for (let parent: HTMLElement | null = element; (parent = parent.parentElement); ) {
     style = getComputedStyle(parent);
     if (excludeStaticParent && style.position === 'static') {
       continue;
     }
-    if (
-      overflowRegex.test(style.overflow + style.overflowY + style.overflowX)
-    ) {
+    if (overflowRegex.test(style.overflow + style.overflowY + style.overflowX)) {
       return parent;
     }
   }
   return document.body;
 }
 
-function isTriggerVisibleInNearestScrollContainer(
-  targetElement: HTMLElement,
-  containerElement: HTMLElement,
-): boolean {
+function isTriggerVisibleInNearestScrollContainer(targetElement: HTMLElement, containerElement: HTMLElement): boolean {
   const tRect = targetElement.getBoundingClientRect();
   const cRect = containerElement.getBoundingClientRect();
   return tRect.top > cRect.top && tRect.top < cRect.bottom;
@@ -158,15 +135,9 @@ export function useDynamicPositioning(
   useEffect(() => {
     if (targetElement != null && resolution != null) {
       const rootElement = editor.getRootElement();
-      const rootScrollParent =
-        rootElement != null
-          ? getScrollParent(rootElement, false)
-          : document.body;
+      const rootScrollParent = rootElement != null ? getScrollParent(rootElement, false) : document.body;
       let ticking = false;
-      let previousIsInView = isTriggerVisibleInNearestScrollContainer(
-        targetElement,
-        rootScrollParent,
-      );
+      let previousIsInView = isTriggerVisibleInNearestScrollContainer(targetElement, rootScrollParent);
       const handleScroll = function () {
         if (!ticking) {
           window.requestAnimationFrame(function () {
@@ -175,10 +146,7 @@ export function useDynamicPositioning(
           });
           ticking = true;
         }
-        const isInView = isTriggerVisibleInNearestScrollContainer(
-          targetElement,
-          rootScrollParent,
-        );
+        const isInView = isTriggerVisibleInNearestScrollContainer(targetElement, rootScrollParent);
         if (isInView !== previousIsInView) {
           previousIsInView = isInView;
           if (onVisibilityChange != null) {
@@ -209,22 +177,13 @@ export const SCROLL_TYPEAHEAD_OPTION_INTO_VIEW_COMMAND: LexicalCommand<{
 
 export function useBasicTypeaheadTriggerMatch(
   trigger: string,
-  {minLength = 1, maxLength = 75}: {minLength?: number; maxLength?: number},
+  { minLength = 1, maxLength = 75 }: { minLength?: number; maxLength?: number },
 ): TriggerFn {
   return useCallback(
     (text: string) => {
       const validChars = '[^' + trigger + PUNCTUATION + '\\s]';
       const TypeaheadTriggerRegex = new RegExp(
-        '(^|\\s|\\()(' +
-          '[' +
-          trigger +
-          ']' +
-          '((?:' +
-          validChars +
-          '){0,' +
-          maxLength +
-          '})' +
-          ')$',
+        '(^|\\s|\\()(' + '[' + trigger + ']' + '((?:' + validChars + '){0,' + maxLength + '})' + ')$',
       );
       const match = TypeaheadTriggerRegex.exec(text);
       if (match !== null) {
@@ -272,11 +231,7 @@ export function LexicalTypeaheadMenuPlugin<TOption extends MenuOption>({
 }: TypeaheadMenuPluginProps<TOption>): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
   const [resolution, setResolution] = useState<MenuResolution | null>(null);
-  const anchorElementRef = useMenuAnchorRef(
-    resolution,
-    setResolution,
-    anchorClassName,
-  );
+  const anchorElementRef = useMenuAnchorRef(resolution, setResolution, anchorClassName);
 
   const closeTypeahead = useCallback(() => {
     setResolution(null);
@@ -302,12 +257,7 @@ export function LexicalTypeaheadMenuPlugin<TOption extends MenuOption>({
         const selection = $getSelection();
         const text = getQueryTextForSearch(editor);
 
-        if (
-          !$isRangeSelection(selection) ||
-          !selection.isCollapsed() ||
-          text === null ||
-          range === null
-        ) {
+        if (!$isRangeSelection(selection) || !selection.isCollapsed() || text === null || range === null) {
           closeTypeahead();
           return;
         }
@@ -315,10 +265,7 @@ export function LexicalTypeaheadMenuPlugin<TOption extends MenuOption>({
         const match = triggerFn(text, editor);
         onQueryChange(match ? match.matchingString : null);
 
-        if (
-          match !== null &&
-          !isSelectionOnEntityBoundary(editor, match.leadOffset)
-        ) {
+        if (match !== null && !isSelectionOnEntityBoundary(editor, match.leadOffset)) {
           const isRangePositioned = tryToPositionRange(match.leadOffset, range);
           if (isRangePositioned !== null) {
             startTransition(() =>
@@ -339,14 +286,7 @@ export function LexicalTypeaheadMenuPlugin<TOption extends MenuOption>({
     return () => {
       removeUpdateListener();
     };
-  }, [
-    editor,
-    triggerFn,
-    onQueryChange,
-    resolution,
-    closeTypeahead,
-    openTypeahead,
-  ]);
+  }, [editor, triggerFn, onQueryChange, resolution, closeTypeahead, openTypeahead]);
 
   return resolution === null || editor === null ? null : (
     <LexicalMenu
@@ -362,4 +302,4 @@ export function LexicalTypeaheadMenuPlugin<TOption extends MenuOption>({
   );
 }
 
-export {MenuOption, MenuRenderFn, MenuResolution, MenuTextMatch, TriggerFn};
+export { MenuOption, MenuRenderFn, MenuResolution, MenuTextMatch, TriggerFn };

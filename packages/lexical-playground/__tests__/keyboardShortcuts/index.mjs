@@ -135,12 +135,7 @@ export async function selectAll(page) {
     await evaluate(page, () => {
       const rootElement = document.querySelector('div[contenteditable="true"]');
       const selection = window.getSelection();
-      selection.setBaseAndExtent(
-        rootElement,
-        0,
-        rootElement,
-        rootElement.childNodes.length,
-      );
+      selection.setBaseAndExtent(rootElement, 0, rootElement, rootElement.childNodes.length);
     });
   } else {
     await keyDownCtrlOrMeta(page);

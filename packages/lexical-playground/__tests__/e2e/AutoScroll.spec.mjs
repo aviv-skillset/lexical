@@ -6,16 +6,10 @@
  *
  */
 
-import {
-  evaluate,
-  expect,
-  focusEditor,
-  initialize,
-  test,
-} from '../utils/index.mjs';
+import { evaluate, expect, focusEditor, initialize, test } from '../utils/index.mjs';
 
 test.describe('Auto scroll while typing', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
   async function addScroll(page, selector_) {
     await evaluate(
       page,
@@ -39,14 +33,9 @@ test.describe('Auto scroll while typing', () => {
         range.insertNode(element);
         const selectionRect = element.getBoundingClientRect();
         element.parentNode.removeChild(element);
-        const containerRect = document
-          .querySelector(selector)
-          .getBoundingClientRect();
+        const containerRect = document.querySelector(selector).getBoundingClientRect();
 
-        return (
-          selectionRect.top >= containerRect.top &&
-          selectionRect.top < containerRect.bottom
-        );
+        return selectionRect.top >= containerRect.top && selectionRect.top < containerRect.bottom;
       },
       selector_,
     );
@@ -63,9 +52,11 @@ test.describe('Auto scroll while typing', () => {
     },
   ].forEach((testCase) => {
     [true, false].forEach((isSoftLineBreak) => {
-      test(`${testCase.name}${
-        isSoftLineBreak ? ' (soft line break)' : ''
-      }`, async ({page, isPlainText, browserName}) => {
+      test(`${testCase.name}${isSoftLineBreak ? ' (soft line break)' : ''}`, async ({
+        page,
+        isPlainText,
+        browserName,
+      }) => {
         test.skip(isPlainText || isSoftLineBreak);
         await focusEditor(page);
         await addScroll(page, testCase.selector);

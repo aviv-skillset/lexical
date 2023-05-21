@@ -6,14 +6,7 @@
  *
  */
 
-import {
-  moveLeft,
-  moveRight,
-  redo,
-  selectCharacters,
-  toggleUnderline,
-  undo,
-} from '../keyboardShortcuts/index.mjs';
+import { moveLeft, moveRight, redo, selectCharacters, toggleUnderline, undo } from '../keyboardShortcuts/index.mjs';
 import {
   assertHTML,
   assertSelection,
@@ -33,12 +26,7 @@ import {
   waitForSelector,
 } from '../utils/index.mjs';
 
-async function checkHTMLExpectationsIncludingUndoRedo(
-  page,
-  forwardHTML,
-  undoHTML,
-  isCollab,
-) {
+async function checkHTMLExpectationsIncludingUndoRedo(page, forwardHTML, undoHTML, isCollab) {
   await assertHTML(page, forwardHTML);
   if (isCollab || undoHTML === 'none') {
     // Collab uses its own undo/redo
@@ -51,7 +39,7 @@ async function checkHTMLExpectationsIncludingUndoRedo(
 }
 
 test.describe('Markdown', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
   const triggersAndExpectations = [
     {
       expectation: '<h1 class="PlaygroundEditorTheme__h1"><br></h1>',
@@ -111,14 +99,12 @@ test.describe('Markdown', () => {
       undoHTML: '', // Code block.
     },
     {
-      expectation:
-        '<blockquote class="PlaygroundEditorTheme__quote"><br></blockquote>',
+      expectation: '<blockquote class="PlaygroundEditorTheme__quote"><br></blockquote>',
       importExpectation: '',
       isBlockTest: true,
       markdownImport: '',
       markdownText: '> ',
-      undoHTML:
-        '<p class="PlaygroundEditorTheme__paragraph"><span data-lexical-text="true">&gt;</span></p>', // Block quote.
+      undoHTML: '<p class="PlaygroundEditorTheme__paragraph"><span data-lexical-text="true">&gt;</span></p>', // Block quote.
     },
     {
       expectation:
@@ -328,17 +314,11 @@ test.describe('Markdown', () => {
     }
 
     if (triggersAndExpectations[i].markdownImport.length > 0) {
-      test(`Should test importing markdown (${markdownText}) trigger.`, async ({
-        page,
-        isPlainText,
-        isCollab,
-      }) => {
+      test(`Should test importing markdown (${markdownText}) trigger.`, async ({ page, isPlainText, isCollab }) => {
         test.skip(isPlainText);
         await focusEditor(page);
 
-        await page.keyboard.type(
-          '```markdown ' + triggersAndExpectations[i].markdownImport,
-        );
+        await page.keyboard.type('```markdown ' + triggersAndExpectations[i].markdownImport);
         await click(page, 'i.markdown');
 
         const htmlInner = triggersAndExpectations[i].importExpectation;
@@ -354,12 +334,7 @@ test.describe('Markdown', () => {
   }
 });
 
-async function assertMarkdownImportExport(
-  page,
-  textToImport,
-  expectedHTML,
-  ignoreClasses,
-) {
+async function assertMarkdownImportExport(page, textToImport, expectedHTML, ignoreClasses) {
   // Clear the editor from previous content
   await clearEditor(page);
 
@@ -367,7 +342,7 @@ async function assertMarkdownImportExport(
   await page.keyboard.type('```markdown ');
   await page.keyboard.type(textToImport);
   await click(page, '.action-button .markdown');
-  await assertHTML(page, expectedHTML, undefined, {ignoreClasses});
+  await assertHTML(page, expectedHTML, undefined, { ignoreClasses });
 
   // Cycle through import-export to verify it produces the same result
   await click(page, '.action-button .markdown');
@@ -376,22 +351,18 @@ async function assertMarkdownImportExport(
 }
 
 test.describe('Markdown', () => {
-  test.beforeEach(({isCollab, isPlainText, page}) => {
+  test.beforeEach(({ isCollab, isPlainText, page }) => {
     test.skip(isPlainText);
-    initialize({isCollab, page});
+    initialize({ isCollab, page });
   });
 
   const BASE_BLOCK_SHORTCUTS = [
     {
-      html: html`
-        <h1><br /></h1>
-      `,
+      html: html` <h1><br /></h1> `,
       text: '# ',
     },
     {
-      html: html`
-        <h2><br /></h2>
-      `,
+      html: html` <h2><br /></h2> `,
       text: '## ',
     },
     {
@@ -511,15 +482,9 @@ test.describe('Markdown', () => {
   const SIMPLE_TEXT_FORMAT_SHORTCUTS = [
     {
       html: html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">hello</span>
-          <em
-            class="PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
-            world
-          </em>
+          <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> world </em>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -527,15 +492,9 @@ test.describe('Markdown', () => {
     },
     {
       html: html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">hello</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            world
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> world </strong>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -543,13 +502,9 @@ test.describe('Markdown', () => {
     },
     {
       html: html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">hello</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
+          <strong class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic" data-lexical-text="true">
             world
           </strong>
           <span data-lexical-text="true">!</span>
@@ -559,13 +514,9 @@ test.describe('Markdown', () => {
     },
     {
       html: html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">hello</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
+          <strong class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic" data-lexical-text="true">
             world
           </strong>
           <span data-lexical-text="true">!</span>
@@ -575,14 +526,9 @@ test.describe('Markdown', () => {
     },
     {
       html: html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">hello</span>
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://www.test.com">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://www.test.com">
             <span data-lexical-text="true">world</span>
           </a>
           <span data-lexical-text="true">!</span>
@@ -595,12 +541,11 @@ test.describe('Markdown', () => {
   const NESTED_TEXT_FORMAT_SHORTCUTS = [
     {
       html: html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <strong
             class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textStrikethrough"
-            data-lexical-text="true">
+            data-lexical-text="true"
+          >
             hello world
           </strong>
           <span data-lexical-text="true">!</span>
@@ -610,12 +555,11 @@ test.describe('Markdown', () => {
     },
     {
       html: html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <em
             class="PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textStrikethrough"
-            data-lexical-text="true">
+            data-lexical-text="true"
+          >
             hello world
           </em>
           <span data-lexical-text="true">!</span>
@@ -625,12 +569,11 @@ test.describe('Markdown', () => {
     },
     {
       html: html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <strong
             class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textStrikethrough"
-            data-lexical-text="true">
+            data-lexical-text="true"
+          >
             hello world
           </strong>
           <span data-lexical-text="true">!</span>
@@ -640,12 +583,8 @@ test.describe('Markdown', () => {
     },
     {
       html: html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <strong
-            class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <strong class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic" data-lexical-text="true">
             hello world
           </strong>
           <span data-lexical-text="true">!</span>
@@ -656,99 +595,77 @@ test.describe('Markdown', () => {
   ];
 
   BASE_BLOCK_SHORTCUTS.forEach((testCase) => {
-    test(`can convert "${testCase.text}" shortcut`, async ({
-      page,
-      isCollab,
-    }) => {
+    test(`can convert "${testCase.text}" shortcut`, async ({ page, isCollab }) => {
       await focusEditor(page);
       await page.keyboard.type(testCase.text);
-      await assertHTML(page, testCase.html, undefined, {ignoreClasses: true});
+      await assertHTML(page, testCase.html, undefined, { ignoreClasses: true });
 
       if (!isCollab) {
         const escapedText = testCase.text.replace('>', '&gt;');
         await undo(page);
-        await assertHTML(
-          page,
-          `<p><span data-lexical-text="true">${escapedText}</span></p>`,
-          undefined,
-          {ignoreClasses: true},
-        );
+        await assertHTML(page, `<p><span data-lexical-text="true">${escapedText}</span></p>`, undefined, {
+          ignoreClasses: true,
+        });
         await redo(page);
-        await assertHTML(page, testCase.html, undefined, {ignoreClasses: true});
+        await assertHTML(page, testCase.html, undefined, { ignoreClasses: true });
       }
     });
   });
 
   SIMPLE_TEXT_FORMAT_SHORTCUTS.forEach((testCase) => {
-    test(`can convert "${testCase.text}" shortcut`, async ({
-      page,
-      isCollab,
-    }) => {
+    test(`can convert "${testCase.text}" shortcut`, async ({ page, isCollab }) => {
       await focusEditor(page);
       await page.keyboard.type(testCase.text, {
         delay: LEGACY_EVENTS ? 50 : 0,
       });
-      await assertHTML(page, testCase.html, undefined, {ignoreClasses: false});
+      await assertHTML(page, testCase.html, undefined, { ignoreClasses: false });
       await assertMarkdownImportExport(page, testCase.text, testCase.html);
     });
   });
 
   NESTED_TEXT_FORMAT_SHORTCUTS.forEach((testCase) => {
-    test(`can convert "${testCase.text}" shortcut`, async ({page}) => {
+    test(`can convert "${testCase.text}" shortcut`, async ({ page }) => {
       await focusEditor(page);
       await page.keyboard.type(testCase.text, {
         delay: LEGACY_EVENTS ? 50 : 0,
       });
-      await assertHTML(page, testCase.html, undefined, {ignoreClasses: false});
+      await assertHTML(page, testCase.html, undefined, { ignoreClasses: false });
       await assertMarkdownImportExport(page, testCase.text, testCase.html);
     });
   });
 
-  test('can undo/redo nested transformations', async ({page, isCollab}) => {
+  test('can undo/redo nested transformations', async ({ page, isCollab }) => {
     await focusEditor(page);
     await page.keyboard.type('~~_**hello world**_~~');
 
     const BOLD_ITALIC_STRIKETHROUGH = html`
-      <p
-        class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-        dir="ltr">
+      <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
         <strong
           class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textStrikethrough"
-          data-lexical-text="true">
+          data-lexical-text="true"
+        >
           hello world
         </strong>
       </p>
     `;
     const BOLD_ITALIC = html`
-      <p
-        class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-        dir="ltr">
+      <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
         <span data-lexical-text="true">~~</span>
-        <strong
-          class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic"
-          data-lexical-text="true">
+        <strong class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic" data-lexical-text="true">
           hello world
         </strong>
         <span data-lexical-text="true">~~</span>
       </p>
     `;
     const BOLD = html`
-      <p
-        class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-        dir="ltr">
+      <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
         <span data-lexical-text="true">~~_</span>
-        <strong
-          class="PlaygroundEditorTheme__textBold"
-          data-lexical-text="true">
-          hello world
-        </strong>
+        <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> hello world </strong>
         <span data-lexical-text="true">_</span>
       </p>
     `;
     const PLAIN = html`
-      <p
-        class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-        dir="ltr">
+      <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
         <span data-lexical-text="true">~~_**hello world**</span>
       </p>
     `;
@@ -777,9 +694,7 @@ test.describe('Markdown', () => {
     await assertHTML(page, BOLD_ITALIC_STRIKETHROUGH);
   });
 
-  test('can convert already styled text (overlapping ranges)', async ({
-    page,
-  }) => {
+  test('can convert already styled text (overlapping ranges)', async ({ page }) => {
     // type partially bold/underlined text, add opening markdown tag within bold/underline part
     // and add closing within plain text
     await focusEditor(page);
@@ -792,41 +707,36 @@ test.describe('Markdown', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <strong
-            class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textUnderline"
-            data-lexical-text="true">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <strong class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textUnderline" data-lexical-text="true">
             h
           </strong>
           <strong
             class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textUnderline"
-            data-lexical-text="true">
+            data-lexical-text="true"
+          >
             e
           </strong>
           <strong
             class="PlaygroundEditorTheme__textUnderlineStrikethrough PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
+            data-lexical-text="true"
+          >
             llo
           </strong>
           <em
             class="PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textStrikethrough"
-            data-lexical-text="true">
+            data-lexical-text="true"
+          >
             wo
           </em>
-          <em
-            class="PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
-            r
-          </em>
+          <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> r </em>
           <span data-lexical-text="true">ld</span>
         </p>
       `,
     );
   });
 
-  test('can convert markdown text into rich text', async ({page, isCollab}) => {
+  test('can convert markdown text into rich text', async ({ page, isCollab }) => {
     await focusEditor(page);
     await page.keyboard.type('```markdown ');
     await pasteFromClipboard(page, {
@@ -855,21 +765,19 @@ test.describe('Markdown', () => {
     }
   });
 
-  test('can type text with markdown', async ({page}) => {
+  test('can type text with markdown', async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type(TYPED_MARKDOWN);
     await assertHTML(page, TYPED_MARKDOWN_HTML);
   });
 
-  test('itraword text format', async ({page}) => {
+  test('itraword text format', async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('he_llo_ world');
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">he_llo_ world</span>
         </p>
       `,
@@ -882,16 +790,14 @@ test.describe('Markdown', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">_hello wo_rld</span>
         </p>
       `,
     );
   });
 
-  test('can export text format next to a newline', async ({page}) => {
+  test('can export text format next to a newline', async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello');
     await page.keyboard.down('Shift');
@@ -907,48 +813,35 @@ test.describe('Markdown', () => {
           spellcheck="false"
           dir="ltr"
           data-highlight-language="markdown"
-          data-gutter="12">
+          data-gutter="12"
+        >
           <span data-lexical-text="true">Hello</span>
           <br />
-          <span
-            class="PlaygroundEditorTheme__tokenPunctuation"
-            data-lexical-text="true">
-            *
-          </span>
+          <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> * </span>
           <span data-lexical-text="true">world</span>
-          <span
-            class="PlaygroundEditorTheme__tokenPunctuation"
-            data-lexical-text="true">
-            *
-          </span>
+          <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> * </span>
         </code>
       `,
     );
   });
 
-  test('can import single decorator node (#2604)', async ({page}) => {
+  test('can import single decorator node (#2604)', async ({ page }) => {
     await focusEditor(page);
-    await page.keyboard.type(
-      '```markdown ![Yellow flower in tilt shift lens](' +
-        SAMPLE_IMAGE_URL +
-        ')',
-    );
+    await page.keyboard.type('```markdown ![Yellow flower in tilt shift lens](' + SAMPLE_IMAGE_URL + ')');
     await click(page, '.action-button .markdown');
     await waitForSelector(page, '.editor-image img');
     await assertHTML(
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="editor-image"
-            contenteditable="false"
-            data-lexical-decorator="true">
+          <span class="editor-image" contenteditable="false" data-lexical-decorator="true">
             <div draggable="false">
               <img
                 src="${SAMPLE_IMAGE_URL}"
                 alt="Yellow flower in tilt shift lens"
                 draggable="false"
-                style="height: inherit; max-width: 800px; width: inherit" />
+                style="height: inherit; max-width: 800px; width: inherit"
+              />
             </div>
           </span>
           <br />
@@ -957,7 +850,7 @@ test.describe('Markdown', () => {
     );
   });
 
-  test('can adjust selection after text match transformer', async ({page}) => {
+  test('can adjust selection after text match transformer', async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello  world');
     await moveLeft(page, 6);
@@ -965,14 +858,9 @@ test.describe('Markdown', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <a
-            href="https://lexical.dev"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://lexical.dev" dir="ltr">
             <span data-lexical-text="true">link</span>
           </a>
           <span data-lexical-text="true">world</span>
@@ -1025,88 +913,64 @@ const TYPED_MARKDOWN_HTML = html`
   <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Markdown Shortcuts</span>
   </h1>
-  <p
-    class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-    dir="ltr">
+  <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">This is</span>
-    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true">
-      italic
-    </em>
+    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> italic </em>
     <span data-lexical-text="true">,</span>
-    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true">
-      italic
-    </em>
+    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> italic </em>
     <span data-lexical-text="true">,</span>
-    <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true">
-      bold
-    </strong>
+    <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> bold </strong>
     <span data-lexical-text="true">,</span>
-    <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true">
-      bold
-    </strong>
+    <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> bold </strong>
     <span data-lexical-text="true">,</span>
-    <span
-      class="PlaygroundEditorTheme__textStrikethrough"
-      data-lexical-text="true">
-      strikethrough
-    </span>
+    <span class="PlaygroundEditorTheme__textStrikethrough" data-lexical-text="true"> strikethrough </span>
     <span data-lexical-text="true">text</span>
   </p>
-  <p
-    class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-    dir="ltr">
+  <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">This is</span>
     <strong
       class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textStrikethrough PlaygroundEditorTheme__textItalic"
-      data-lexical-text="true">
+      data-lexical-text="true"
+    >
       bold italic strikethrough
     </strong>
     <span data-lexical-text="true">text,</span>
     <strong
       class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textStrikethrough"
-      data-lexical-text="true">
+      data-lexical-text="true"
+    >
       this one too
     </strong>
   </p>
-  <p
-    class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-    dir="ltr">
+  <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">It</span>
     <strong
       class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textStrikethrough"
-      data-lexical-text="true">
+      data-lexical-text="true"
+    >
       works
     </strong>
-    <a
-      href="https://lexical.io"
-      class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-      dir="ltr">
+    <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://lexical.io" dir="ltr">
       <strong
         class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textStrikethrough"
-        data-lexical-text="true">
+        data-lexical-text="true"
+      >
         with links
       </strong>
     </a>
     <strong
       class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textStrikethrough"
-      data-lexical-text="true">
+      data-lexical-text="true"
+    >
       too
     </strong>
   </p>
-  <p
-    class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-    dir="ltr">
-    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true">
-      Nested
-    </em>
-    <strong
-      class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic"
-      data-lexical-text="true">
+  <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> Nested </em>
+    <strong class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic" data-lexical-text="true">
       stars tags
     </strong>
-    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true">
-      are handled too
-    </em>
+    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> are handled too </em>
   </p>
   <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Title</span>
@@ -1114,27 +978,17 @@ const TYPED_MARKDOWN_HTML = html`
   <h2 class="PlaygroundEditorTheme__h2 PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Subtitle</span>
   </h2>
-  <blockquote
-    class="PlaygroundEditorTheme__quote PlaygroundEditorTheme__ltr"
-    dir="ltr">
+  <blockquote class="PlaygroundEditorTheme__quote PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Quote</span>
   </blockquote>
   <hr class="" contenteditable="false" data-lexical-decorator="true" />
   <ul class="PlaygroundEditorTheme__ul">
-    <li
-      value="1"
-      class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-      dir="ltr">
+    <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
       <span data-lexical-text="true">List here</span>
     </li>
-    <li
-      value="2"
-      class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem">
+    <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem" value="2">
       <ul class="PlaygroundEditorTheme__ul">
-        <li
-          value="1"
-          class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
           <span data-lexical-text="true">Nested one</span>
         </li>
       </ul>
@@ -1145,12 +999,11 @@ const TYPED_MARKDOWN_HTML = html`
     spellcheck="false"
     dir="ltr"
     data-highlight-language="sql"
-    data-gutter="1">
+    data-gutter="1"
+  >
     <span data-lexical-text="true">Code block</span>
   </code>
-  <p
-    class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-    dir="ltr">
+  <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Done</span>
   </p>
 `;
@@ -1209,104 +1062,75 @@ const IMPORTED_MARKDOWN_HTML = html`
   <h3 class="PlaygroundEditorTheme__h3 PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Formatting</span>
   </h3>
-  <p
-    class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-    dir="ltr">
+  <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">This is</span>
-    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true">
-      italic
-    </em>
+    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> italic </em>
     <span data-lexical-text="true">,</span>
-    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true">
-      italic
-    </em>
+    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> italic </em>
     <span data-lexical-text="true">,</span>
-    <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true">
-      bold
-    </strong>
+    <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> bold </strong>
     <span data-lexical-text="true">,</span>
-    <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true">
-      bold
-    </strong>
+    <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> bold </strong>
     <span data-lexical-text="true">,</span>
-    <span
-      class="PlaygroundEditorTheme__textStrikethrough"
-      data-lexical-text="true">
-      strikethrough
-    </span>
+    <span class="PlaygroundEditorTheme__textStrikethrough" data-lexical-text="true"> strikethrough </span>
     <span data-lexical-text="true">text</span>
   </p>
-  <p
-    class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-    dir="ltr">
+  <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">This is</span>
     <strong
       class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textStrikethrough"
-      data-lexical-text="true">
+      data-lexical-text="true"
+    >
       bold italic strikethrough
     </strong>
     <span data-lexical-text="true">text,</span>
     <br />
     <strong
       class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textStrikethrough"
-      data-lexical-text="true">
+      data-lexical-text="true"
+    >
       this one too
     </strong>
   </p>
-  <p
-    class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-    dir="ltr">
+  <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">It</span>
     <strong
       class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textStrikethrough"
-      data-lexical-text="true">
+      data-lexical-text="true"
+    >
       works
     </strong>
-    <a
-      href="https://lexical.io"
-      class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-      dir="ltr">
+    <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://lexical.io" dir="ltr">
       <strong
         class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic PlaygroundEditorTheme__textStrikethrough"
-        data-lexical-text="true">
+        data-lexical-text="true"
+      >
         with links
       </strong>
     </a>
     <span data-lexical-text="true">too</span>
   </p>
-  <p
-    class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-    dir="ltr">
+  <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Links</span>
     <a
-      href="https://lexical.io/tag_here_and__here__and___here___too"
       class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-      dir="ltr">
+      href="https://lexical.io/tag_here_and__here__and___here___too"
+      dir="ltr"
+    >
       <span data-lexical-text="true">with underscores</span>
     </a>
     <span data-lexical-text="true">and (</span>
-    <a
-      href="https://lexical.dev"
-      class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-      dir="ltr">
+    <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://lexical.dev" dir="ltr">
       <span data-lexical-text="true">parenthesis</span>
     </a>
     <span data-lexical-text="true">)</span>
   </p>
-  <p
-    class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-    dir="ltr">
-    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true">
-      Nested
-    </em>
-    <strong
-      class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic"
-      data-lexical-text="true">
+  <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> Nested </em>
+    <strong class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic" data-lexical-text="true">
       stars tags
     </strong>
-    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true">
-      are handled too
-    </em>
+    <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> are handled too </em>
   </p>
   <h3 class="PlaygroundEditorTheme__h3 PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Headings</span>
@@ -1336,28 +1160,21 @@ const IMPORTED_MARKDOWN_HTML = html`
   <h3 class="PlaygroundEditorTheme__h3 PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Blockquotes</span>
   </h3>
-  <blockquote
-    class="PlaygroundEditorTheme__quote PlaygroundEditorTheme__ltr"
-    dir="ltr">
+  <blockquote class="PlaygroundEditorTheme__quote PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Blockquotes text goes here</span>
     <br />
     <span data-lexical-text="true">And second</span>
     <br />
     <span data-lexical-text="true">line after</span>
   </blockquote>
-  <blockquote
-    class="PlaygroundEditorTheme__quote PlaygroundEditorTheme__ltr"
-    dir="ltr">
+  <blockquote class="PlaygroundEditorTheme__quote PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Standalone again</span>
   </blockquote>
   <h3 class="PlaygroundEditorTheme__h3 PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Unordered lists</span>
   </h3>
   <ul class="PlaygroundEditorTheme__ul">
-    <li
-      value="1"
-      class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-      dir="ltr">
+    <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
       <span data-lexical-text="true">Create a list with</span>
       <code data-lexical-text="true">
         <span class="PlaygroundEditorTheme__textCode">+</span>
@@ -1371,26 +1188,14 @@ const IMPORTED_MARKDOWN_HTML = html`
         <span class="PlaygroundEditorTheme__textCode">*</span>
       </code>
     </li>
-    <li
-      value="2"
-      class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem">
+    <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem" value="2">
       <ul class="PlaygroundEditorTheme__ul">
-        <li
-          value="1"
-          class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span data-lexical-text="true">
-            Lists can be indented with 2 spaces
-          </span>
+        <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
+          <span data-lexical-text="true"> Lists can be indented with 2 spaces </span>
         </li>
-        <li
-          value="2"
-          class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem">
+        <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem" value="2">
           <ul class="PlaygroundEditorTheme__ul">
-            <li
-              value="1"
-              class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-              dir="ltr">
+            <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
               <span data-lexical-text="true">Very easy</span>
             </li>
           </ul>
@@ -1402,25 +1207,15 @@ const IMPORTED_MARKDOWN_HTML = html`
     <span data-lexical-text="true">Ordered lists</span>
   </h3>
   <ol class="PlaygroundEditorTheme__ol1">
-    <li
-      value="1"
-      class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-      dir="ltr">
-      <span data-lexical-text="true">
-        Oredered lists started with numbers as
-      </span>
+    <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
+      <span data-lexical-text="true"> Oredered lists started with numbers as </span>
       <code data-lexical-text="true">
         <span class="PlaygroundEditorTheme__textCode">1.</span>
       </code>
     </li>
-    <li
-      value="2"
-      class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem">
+    <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem" value="2">
       <ol class="PlaygroundEditorTheme__ol2">
-        <li
-          value="1"
-          class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
           <span data-lexical-text="true">And can be nested</span>
           <br />
           <span data-lexical-text="true">and multiline as well</span>
@@ -1428,29 +1223,22 @@ const IMPORTED_MARKDOWN_HTML = html`
       </ol>
     </li>
   </ol>
-  <ol start="31" class="PlaygroundEditorTheme__ol1">
-    <li
-      value="31"
-      class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-      dir="ltr">
+  <ol class="PlaygroundEditorTheme__ol1" start="31">
+    <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="31" dir="ltr">
       <span data-lexical-text="true">Have any starting number</span>
     </li>
   </ol>
   <h3 class="PlaygroundEditorTheme__h3 PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Inline code</span>
   </h3>
-  <p
-    class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-    dir="ltr">
+  <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
     <span data-lexical-text="true">Inline</span>
     <code data-lexical-text="true">
       <span class="PlaygroundEditorTheme__textCode">code</span>
     </code>
     <span data-lexical-text="true">format which also</span>
     <code data-lexical-text="true">
-      <span class="PlaygroundEditorTheme__textCode">
-        preserves **_~~any markdown-like~~_** text
-      </span>
+      <span class="PlaygroundEditorTheme__textCode"> preserves **_~~any markdown-like~~_** text </span>
     </code>
     <span data-lexical-text="true">within</span>
   </p>
@@ -1462,58 +1250,29 @@ const IMPORTED_MARKDOWN_HTML = html`
     spellcheck="false"
     dir="ltr"
     data-highlight-language="javascript"
-    data-gutter="123">
-    <span class="PlaygroundEditorTheme__tokenComment" data-lexical-text="true">
-      // Some comments
-    </span>
+    data-gutter="123"
+  >
+    <span class="PlaygroundEditorTheme__tokenComment" data-lexical-text="true"> // Some comments </span>
     <br />
-    <span class="PlaygroundEditorTheme__tokenProperty" data-lexical-text="true">
-      1
-    </span>
+    <span class="PlaygroundEditorTheme__tokenProperty" data-lexical-text="true"> 1 </span>
     <span data-lexical-text="true"></span>
-    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true">
-      +
-    </span>
+    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true"> + </span>
     <span data-lexical-text="true"></span>
-    <span class="PlaygroundEditorTheme__tokenProperty" data-lexical-text="true">
-      1
-    </span>
+    <span class="PlaygroundEditorTheme__tokenProperty" data-lexical-text="true"> 1 </span>
     <span data-lexical-text="true"></span>
-    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true">
-      =
-    </span>
+    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true"> = </span>
     <span data-lexical-text="true"></span>
-    <span class="PlaygroundEditorTheme__tokenProperty" data-lexical-text="true">
-      2
-    </span>
-    <span
-      class="PlaygroundEditorTheme__tokenPunctuation"
-      data-lexical-text="true">
-      ;
-    </span>
+    <span class="PlaygroundEditorTheme__tokenProperty" data-lexical-text="true"> 2 </span>
+    <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> ; </span>
     <br />
-    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true">
-      **
-    </span>
+    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true"> ** </span>
     <span data-lexical-text="true">_</span>
-    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true">
-      ~
-    </span>
-    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true">
-      ~
-    </span>
-    <span class="PlaygroundEditorTheme__tokenProperty" data-lexical-text="true">
-      1
-    </span>
-    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true">
-      ~
-    </span>
-    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true">
-      ~
-    </span>
+    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true"> ~ </span>
+    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true"> ~ </span>
+    <span class="PlaygroundEditorTheme__tokenProperty" data-lexical-text="true"> 1 </span>
+    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true"> ~ </span>
+    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true"> ~ </span>
     <span data-lexical-text="true">_</span>
-    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true">
-      **
-    </span>
+    <span class="PlaygroundEditorTheme__tokenOperator" data-lexical-text="true"> ** </span>
   </code>
 `;

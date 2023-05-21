@@ -6,11 +6,11 @@
  *
  */
 
-import {$createParagraphNode, $createTextNode, $getRoot} from 'lexical';
+import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
 
-import {EditorState} from '../../LexicalEditorState';
-import {$createRootNode} from '../../nodes/LexicalRootNode';
-import {initializeUnitTest} from '../utils';
+import { EditorState } from '../../LexicalEditorState';
+import { $createRootNode } from '../../nodes/LexicalRootNode';
+import { initializeUnitTest } from '../utils';
 
 describe('LexicalEditorState tests', () => {
   initializeUnitTest((testEnv) => {
@@ -24,7 +24,7 @@ describe('LexicalEditorState tests', () => {
     });
 
     test('read()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const paragraph = $createParagraphNode();
@@ -85,7 +85,7 @@ describe('LexicalEditorState tests', () => {
     });
 
     test('toJSON()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const paragraph = $createParagraphNode();
@@ -101,7 +101,7 @@ describe('LexicalEditorState tests', () => {
     });
 
     test('ensure garbage collection works as expected', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const paragraph = $createParagraphNode();

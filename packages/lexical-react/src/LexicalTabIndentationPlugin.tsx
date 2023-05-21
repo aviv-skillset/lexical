@@ -6,15 +6,10 @@
  *
  */
 
-import type {
-  LexicalCommand,
-  LexicalEditor,
-  LexicalNode,
-  RangeSelection,
-} from 'lexical';
+import type { LexicalCommand, LexicalEditor, LexicalNode, RangeSelection } from 'lexical';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$getNearestBlockElementAncestorOrThrow} from '@lexical/utils';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $getNearestBlockElementAncestorOrThrow } from '@lexical/utils';
 import {
   $createRangeSelection,
   $getSelection,
@@ -27,13 +22,10 @@ import {
   KEY_TAB_COMMAND,
   OUTDENT_CONTENT_COMMAND,
 } from 'lexical';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 
 // TODO Move to @lexical/utils
-function $filter<T>(
-  nodes: Array<LexicalNode>,
-  filterFn: (node: LexicalNode) => null | T,
-): Array<T> {
+function $filter<T>(nodes: Array<LexicalNode>, filterFn: (node: LexicalNode) => null | T): Array<T> {
   const result: T[] = [];
   for (let i = 0; i < nodes.length; i++) {
     const node = filterFn(nodes[i]);

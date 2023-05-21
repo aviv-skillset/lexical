@@ -18,12 +18,8 @@ import {
 } from '../utils/index.mjs';
 
 test.describe('Placeholder', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Displays a placeholder when no content is present`, async ({
-    page,
-    isRichText,
-    isCollab,
-  }) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Displays a placeholder when no content is present`, async ({ page, isRichText, isCollab }) => {
     await focusEditor(page);
     const content = await textContent(page, '.Placeholder__root');
     if (isCollab) {
@@ -34,12 +30,7 @@ test.describe('Placeholder', () => {
       expect(content).toBe('Enter some plain text...');
     }
 
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     await assertSelection(page, {
       anchorOffset: 0,
       anchorPath: [0],

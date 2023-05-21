@@ -7,7 +7,7 @@
  * @flow strict
  */
 
-import type {Doc, RelativePosition, UndoManager, XmlText} from 'yjs';
+import type { Doc, RelativePosition, UndoManager, XmlText } from 'yjs';
 import type {
   DecoratorNode,
   EditorState,
@@ -47,10 +47,10 @@ declare interface Provider {
   off(type: 'sync', cb: (isSynced: boolean) => void): void;
   // $FlowFixMe: temp
   off(type: 'update', cb: (any) => void): void;
-  off(type: 'status', cb: ({status: string}) => void): void;
+  off(type: 'status', cb: ({ status: string }) => void): void;
   off(type: 'reload', cb: (doc: Doc) => void): void;
   on(type: 'sync', cb: (isSynced: boolean) => void): void;
-  on(type: 'status', cb: ({status: string}) => void): void;
+  on(type: 'status', cb: ({ status: string }) => void): void;
   // $FlowFixMe: temp
   on(type: 'update', cb: (any) => void): void;
   on(type: 'reload', cb: (doc: Doc) => void): void;
@@ -94,13 +94,7 @@ export type Cursor = {
 
 export type Binding = {
   clientID: number,
-  collabNodeMap: Map<
-    NodeKey,
-    | CollabElementNode
-    | CollabTextNode
-    | CollabDecoratorNode
-    | CollabLineBreakNode,
-  >,
+  collabNodeMap: Map<NodeKey, CollabElementNode | CollabTextNode | CollabDecoratorNode | CollabLineBreakNode>,
   cursors: Map<ClientID, Cursor>,
   cursorsContainer: null | HTMLElement,
   doc: Doc,
@@ -120,15 +114,11 @@ declare export class CollabDecoratorNode {
   _type: string;
   _unobservers: Set<() => void>;
 
-  constructor(
-    xmlElem: XmlElement,
-    parent: CollabElementNode,
-    type: string,
-  ): void;
+  constructor(xmlElem: XmlElement, parent: CollabElementNode, type: string): void;
 
-  getPrevNode(nodeMap: null | NodeMap): null | DecoratorNode<{...}>;
+  getPrevNode(nodeMap: null | NodeMap): null | DecoratorNode<{ ... }>;
 
-  getNode(): null | DecoratorNode<{...}>;
+  getNode(): null | DecoratorNode<{ ... }>;
 
   getSharedType(): XmlElement;
 
@@ -142,14 +132,11 @@ declare export class CollabDecoratorNode {
 
   syncPropertiesFromLexical(
     binding: Binding,
-    nextLexicalNode: DecoratorNode<{...}>,
+    nextLexicalNode: DecoratorNode<{ ... }>,
     prevNodeMap: null | NodeMap,
   ): void;
 
-  syncPropertiesFromYjs(
-    binding: Binding,
-    keysChanged: null | Set<string>,
-  ): void;
+  syncPropertiesFromYjs(binding: Binding, keysChanged: null | Set<string>): void;
 
   destroy(binding: Binding): void;
 }
@@ -185,12 +172,7 @@ declare export class CollabTextNode {
   _type: string;
   _normalized: boolean;
 
-  constructor(
-    map: YMap,
-    text: string,
-    parent: CollabElementNode,
-    type: string,
-  ): void;
+  constructor(map: YMap, text: string, parent: CollabElementNode, type: string): void;
 
   getPrevNode(nodeMap: null | NodeMap): null | TextNode;
 
@@ -208,16 +190,9 @@ declare export class CollabTextNode {
 
   spliceText(index: number, delCount: number, newText: string): void;
 
-  syncPropertiesAndTextFromLexical(
-    binding: Binding,
-    nextLexicalNode: TextNode,
-    prevNodeMap: null | NodeMap,
-  ): void;
+  syncPropertiesAndTextFromLexical(binding: Binding, nextLexicalNode: TextNode, prevNodeMap: null | NodeMap): void;
 
-  syncPropertiesAndTextFromYjs(
-    binding: Binding,
-    keysChanged: null | Set<string>,
-  ): void;
+  syncPropertiesAndTextFromYjs(binding: Binding, keysChanged: null | Set<string>): void;
 
   destroy(binding: Binding): void;
 }
@@ -226,21 +201,12 @@ type IntentionallyMarkedAsDirtyElement = boolean;
 
 declare export class CollabElementNode {
   _key: NodeKey;
-  _children: Array<
-    | CollabElementNode
-    | CollabTextNode
-    | CollabDecoratorNode
-    | CollabLineBreakNode,
-  >;
+  _children: Array<CollabElementNode | CollabTextNode | CollabDecoratorNode | CollabLineBreakNode>;
   _xmlText: XmlText;
   _type: string;
   _parent: null | CollabElementNode;
 
-  constructor(
-    xmlText: XmlText,
-    parent: null | CollabElementNode,
-    type: string,
-  ): void;
+  constructor(xmlText: XmlText, parent: null | CollabElementNode, type: string): void;
 
   getPrevNode(nodeMap: null | NodeMap): null | ElementNode;
 
@@ -258,20 +224,13 @@ declare export class CollabElementNode {
 
   getOffset(): number;
 
-  syncPropertiesFromYjs(
-    binding: Binding,
-    keysChanged: null | Set<string>,
-  ): void;
+  syncPropertiesFromYjs(binding: Binding, keysChanged: null | Set<string>): void;
 
   applyChildrenYjsDelta(binding: Binding, deltas: Array<TextOperation>): void;
 
   syncChildrenFromYjs(binding: Binding): void;
 
-  syncPropertiesFromLexical(
-    binding: Binding,
-    nextLexicalNode: ElementNode,
-    prevNodeMap: null | NodeMap,
-  ): void;
+  syncPropertiesFromLexical(binding: Binding, nextLexicalNode: ElementNode, prevNodeMap: null | NodeMap): void;
 
   _syncChildFromLexical(
     binding: Binding,
@@ -290,54 +249,25 @@ declare export class CollabElementNode {
     dirtyLeaves: null | Set<NodeKey>,
   ): void;
 
-  append(
-    collabNode:
-      | CollabElementNode
-      | CollabDecoratorNode
-      | CollabTextNode
-      | CollabLineBreakNode,
-  ): void;
+  append(collabNode: CollabElementNode | CollabDecoratorNode | CollabTextNode | CollabLineBreakNode): void;
 
   splice(
     binding: Binding,
     index: number,
     delCount: number,
-    collabNode?:
-      | CollabElementNode
-      | CollabDecoratorNode
-      | CollabTextNode
-      | CollabLineBreakNode,
+    collabNode?: CollabElementNode | CollabDecoratorNode | CollabTextNode | CollabLineBreakNode,
   ): void;
 
-  getChildOffset(
-    collabNode:
-      | CollabElementNode
-      | CollabTextNode
-      | CollabDecoratorNode
-      | CollabLineBreakNode,
-  ): number;
+  getChildOffset(collabNode: CollabElementNode | CollabTextNode | CollabDecoratorNode | CollabLineBreakNode): number;
 
   destroy(binding: Binding): void;
 }
 
-declare export function createUndoManager(
-  binding: Binding,
-  root: XmlText,
-): UndoManager;
+declare export function createUndoManager(binding: Binding, root: XmlText): UndoManager;
 
-declare export function initLocalState(
-  provider: Provider,
-  name: string,
-  color: string,
-  focusing: boolean,
-): void;
+declare export function initLocalState(provider: Provider, name: string, color: string, focusing: boolean): void;
 
-declare export function setLocalStateFocus(
-  provider: Provider,
-  name: string,
-  color: string,
-  focusing: boolean,
-): void;
+declare export function setLocalStateFocus(provider: Provider, name: string, color: string, focusing: boolean): void;
 
 declare export function createBinding(
   editor: LexicalEditor,
@@ -347,10 +277,7 @@ declare export function createBinding(
   docMap: Map<string, Doc>,
 ): Binding;
 
-declare export function syncCursorPositions(
-  binding: Binding,
-  provider: Provider,
-): void;
+declare export function syncCursorPositions(binding: Binding, provider: Provider): void;
 
 declare export function syncLexicalUpdateToYjs(
   binding: Binding,
@@ -363,13 +290,9 @@ declare export function syncLexicalUpdateToYjs(
   tags: Set<string>,
 ): void;
 
-declare export function syncYjsChangesToLexical(
-  binding: Binding,
-  provider: Provider,
-  events: Array<YjsEvent>,
-): void;
+declare export function syncYjsChangesToLexical(binding: Binding, provider: Provider, events: Array<YjsEvent>): void;
 
 declare export var CONNECTED_COMMAND: LexicalCommand<boolean>;
 declare export var TOGGLE_CONNECT_COMMAND: LexicalCommand<boolean>;
 
-export type {Provider};
+export type { Provider };

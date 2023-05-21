@@ -6,22 +6,14 @@
  *
  */
 
-import type {EditorConfig, LexicalEditor} from '../LexicalEditor';
-import type {
-  DOMConversionMap,
-  DOMConversionOutput,
-  DOMExportOutput,
-  LexicalNode,
-} from '../LexicalNode';
-import type {
-  ElementFormatType,
-  SerializedElementNode,
-} from './LexicalElementNode';
-import type {RangeSelection} from 'lexical';
+import type { EditorConfig, LexicalEditor } from '../LexicalEditor';
+import type { DOMConversionMap, DOMConversionOutput, DOMExportOutput, LexicalNode } from '../LexicalNode';
+import type { ElementFormatType, SerializedElementNode } from './LexicalElementNode';
+import type { RangeSelection } from 'lexical';
 
-import {$applyNodeReplacement, getCachedClassNameArray} from '../LexicalUtils';
-import {ElementNode} from './LexicalElementNode';
-import {$isTextNode} from './LexicalTextNode';
+import { $applyNodeReplacement, getCachedClassNameArray } from '../LexicalUtils';
+import { ElementNode } from './LexicalElementNode';
+import { $isTextNode } from './LexicalTextNode';
 
 export type SerializedParagraphNode = SerializedElementNode;
 
@@ -46,11 +38,7 @@ export class ParagraphNode extends ElementNode {
     }
     return dom;
   }
-  updateDOM(
-    prevNode: ParagraphNode,
-    dom: HTMLElement,
-    config: EditorConfig,
-  ): boolean {
+  updateDOM(prevNode: ParagraphNode, dom: HTMLElement, config: EditorConfig): boolean {
     return false;
   }
 
@@ -64,7 +52,7 @@ export class ParagraphNode extends ElementNode {
   }
 
   exportDOM(editor: LexicalEditor): DOMExportOutput {
-    const {element} = super.exportDOM(editor);
+    const { element } = super.exportDOM(editor);
 
     if (element && this.isEmpty()) {
       element.append(document.createElement('br'));
@@ -120,10 +108,7 @@ export class ParagraphNode extends ElementNode {
     const children = this.getChildren();
     // If we have an empty (trimmed) first paragraph and try and remove it,
     // delete the paragraph as long as we have another sibling to go to
-    if (
-      children.length === 0 ||
-      ($isTextNode(children[0]) && children[0].getTextContent().trim() === '')
-    ) {
+    if (children.length === 0 || ($isTextNode(children[0]) && children[0].getTextContent().trim() === '')) {
       const nextSibling = this.getNextSibling();
       if (nextSibling !== null) {
         this.selectNext();
@@ -150,15 +135,13 @@ function convertParagraphElement(element: HTMLElement): DOMConversionOutput {
       node.setIndent(indent);
     }
   }
-  return {node};
+  return { node };
 }
 
 export function $createParagraphNode(): ParagraphNode {
   return $applyNodeReplacement(new ParagraphNode());
 }
 
-export function $isParagraphNode(
-  node: LexicalNode | null | undefined,
-): node is ParagraphNode {
+export function $isParagraphNode(node: LexicalNode | null | undefined): node is ParagraphNode {
   return node instanceof ParagraphNode;
 }

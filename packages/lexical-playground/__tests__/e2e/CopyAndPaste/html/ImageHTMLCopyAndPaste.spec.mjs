@@ -6,7 +6,7 @@
  *
  */
 
-import {moveLeft, undo} from '../../../keyboardShortcuts/index.mjs';
+import { moveLeft, undo } from '../../../keyboardShortcuts/index.mjs';
 import {
   assertHTML,
   focusEditor,
@@ -19,9 +19,9 @@ import {
 } from '../../../utils/index.mjs';
 
 test.describe('HTML Image CopyAndPaste', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
 
-  test('Copy + paste an image', async ({page, isPlainText}) => {
+  test('Copy + paste an image', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -39,20 +39,16 @@ test.describe('HTML Image CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">An</span>
-          <span
-            class="editor-image"
-            contenteditable="false"
-            data-lexical-decorator="true">
+          <span class="editor-image" contenteditable="false" data-lexical-decorator="true">
             <div draggable="false">
               <img
                 alt="file"
                 draggable="false"
                 src="${LEXICAL_IMAGE_BASE64}"
-                style="height: inherit; max-width: 500px; width: inherit" />
+                style="height: inherit; max-width: 500px; width: inherit"
+              />
             </div>
           </span>
           <span data-lexical-text="true">inline image</span>
@@ -61,7 +57,7 @@ test.describe('HTML Image CopyAndPaste', () => {
     );
   });
 
-  test('Copy + paste + undo multiple image', async ({page, isPlainText}) => {
+  test('Copy + paste + undo multiple image', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -78,28 +74,24 @@ test.describe('HTML Image CopyAndPaste', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="editor-image"
-            contenteditable="false"
-            data-lexical-decorator="true">
+          <span class="editor-image" contenteditable="false" data-lexical-decorator="true">
             <div draggable="false">
               <img
                 alt="file"
                 draggable="false"
                 src="${LEXICAL_IMAGE_BASE64}"
-                style="height: inherit; max-width: 500px; width: inherit" />
+                style="height: inherit; max-width: 500px; width: inherit"
+              />
             </div>
           </span>
-          <span
-            class="editor-image"
-            contenteditable="false"
-            data-lexical-decorator="true">
+          <span class="editor-image" contenteditable="false" data-lexical-decorator="true">
             <div draggable="false">
               <img
                 alt="file"
                 draggable="false"
                 src="${LEXICAL_IMAGE_BASE64}"
-                style="height: inherit; max-width: 500px; width: inherit" />
+                style="height: inherit; max-width: 500px; width: inherit"
+              />
             </div>
           </span>
           <br />
@@ -108,11 +100,6 @@ test.describe('HTML Image CopyAndPaste', () => {
     );
 
     await undo(page);
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
   });
 });

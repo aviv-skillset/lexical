@@ -53,25 +53,11 @@ const $createSelectionByPath = ({
   const selection = $createRangeSelection();
   const root = $getRoot();
 
-  const anchorNode = anchorPath.reduce(
-    (node, index) => node.getChildAtIndex(index),
-    root,
-  );
-  const focusNode = focusPath.reduce(
-    (node, index) => node.getChildAtIndex(index),
-    root,
-  );
+  const anchorNode = anchorPath.reduce((node, index) => node.getChildAtIndex(index), root);
+  const focusNode = focusPath.reduce((node, index) => node.getChildAtIndex(index), root);
 
-  selection.anchor.set(
-    anchorNode.getKey(),
-    anchorOffset,
-    $isTextNode(anchorNode) ? 'text' : 'element',
-  );
-  selection.focus.set(
-    focusNode.getKey(),
-    focusOffset,
-    $isTextNode(focusNode) ? 'text' : 'element',
-  );
+  selection.anchor.set(anchorNode.getKey(), anchorOffset, $isTextNode(anchorNode) ? 'text' : 'element');
+  selection.focus.set(focusNode.getKey(), focusOffset, $isTextNode(focusNode) ? 'text' : 'element');
 
   $setSelection(selection);
 
@@ -199,11 +185,7 @@ describe('CollaborationWithCollisions', () => {
   SIMPLE_TEXT_COLLISION_TESTS.forEach((testCase) => {
     it(testCase.name, async () => {
       const connection = createTestConnection();
-      const clients = createAndStartClients(
-        connection,
-        container,
-        testCase.clients.length,
-      );
+      const clients = createAndStartClients(connection, container, testCase.clients.length);
 
       // Set initial content (into first editor only, the rest will be sync'd)
       const clientA = clients[0];

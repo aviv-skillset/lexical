@@ -7,13 +7,7 @@
  * @flow strict
  */
 
-import type {
-  GridSelection,
-  LexicalEditor,
-  NodeSelection,
-  RangeSelection,
-  LexicalNode,
-} from 'lexical';
+import type { GridSelection, LexicalEditor, NodeSelection, RangeSelection, LexicalNode } from 'lexical';
 
 /*
  * Rich Text
@@ -26,9 +20,7 @@ declare export function $insertDataTransferForRichText(
 ): void;
 
 declare export function $getHtmlContent(editor: LexicalEditor): string | null;
-declare export function $getLexicalContent(
-  editor: LexicalEditor,
-): string | null;
+declare export function $getLexicalContent(editor: LexicalEditor): string | null;
 
 declare export function $insertGeneratedNodes(
   editor: LexicalEditor,
@@ -43,10 +35,7 @@ declare export function $insertGeneratedNodes(
  * Export as JSON
  */
 
-declare export function $insertDataTransferForPlainText(
-  dataTransfer: DataTransfer,
-  selection: RangeSelection,
-): void;
+declare export function $insertDataTransferForPlainText(dataTransfer: DataTransfer, selection: RangeSelection): void;
 
 interface BaseSerializedNode {
   children?: Array<BaseSerializedNode>;
@@ -54,9 +43,7 @@ interface BaseSerializedNode {
   version: number;
 }
 
-declare export function $generateJSONFromSelectedNodes<
-  SerializedNode: BaseSerializedNode,
->(
+declare export function $generateJSONFromSelectedNodes<SerializedNode: BaseSerializedNode>(
   editor: LexicalEditor,
   selection: RangeSelection | NodeSelection | GridSelection | null,
 ): {
@@ -68,7 +55,4 @@ declare export function $generateNodesFromSerializedNodes(
   serializedNodes: Array<BaseSerializedNode>,
 ): Array<LexicalNode>;
 
-declare export function copyToClipboard(
-  editor: LexicalEditor,
-  event: null | ClipboardEvent,
-): Promise<boolean>;
+declare export function copyToClipboard(editor: LexicalEditor, event: null | ClipboardEvent): Promise<boolean>;

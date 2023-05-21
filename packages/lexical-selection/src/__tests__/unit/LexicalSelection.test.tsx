@@ -6,20 +6,16 @@
  *
  */
 
-import {$createLinkNode} from '@lexical/link';
-import {$createListItemNode, $createListNode} from '@lexical/list';
-import {useLexicalComposerContext} from '@lexical/react/src/LexicalComposerContext';
-import {ContentEditable} from '@lexical/react/src/LexicalContentEditable';
+import { $createLinkNode } from '@lexical/link';
+import { $createListItemNode, $createListNode } from '@lexical/list';
+import { useLexicalComposerContext } from '@lexical/react/src/LexicalComposerContext';
+import { ContentEditable } from '@lexical/react/src/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/src/LexicalErrorBoundary';
-import {HistoryPlugin} from '@lexical/react/src/LexicalHistoryPlugin';
-import {RichTextPlugin} from '@lexical/react/src/LexicalRichTextPlugin';
-import {$createHeadingNode} from '@lexical/rich-text';
-import {
-  $addNodeStyle,
-  $getSelectionStyleValueForProperty,
-  $setBlocksType,
-} from '@lexical/selection';
-import {$createTableNodeWithDimensions} from '@lexical/table';
+import { HistoryPlugin } from '@lexical/react/src/LexicalHistoryPlugin';
+import { RichTextPlugin } from '@lexical/react/src/LexicalRichTextPlugin';
+import { $createHeadingNode } from '@lexical/rich-text';
+import { $addNodeStyle, $getSelectionStyleValueForProperty, $setBlocksType } from '@lexical/selection';
+import { $createTableNodeWithDimensions } from '@lexical/table';
 import {
   $createLineBreakNode,
   $createParagraphNode,
@@ -30,7 +26,7 @@ import {
   $isRangeSelection,
   ParagraphNode,
 } from 'lexical';
-import {$createRangeSelection, $setSelection} from 'lexical/src';
+import { $createRangeSelection, $setSelection } from 'lexical/src';
 import {
   $assertRangeSelection,
   $createTestDecoratorNode,
@@ -40,7 +36,7 @@ import {
   TestComposer,
 } from 'lexical/src/__tests__/utils';
 import * as React from 'react';
-import {createRoot} from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import * as ReactTestUtils from 'react-dom/test-utils';
 
 import {
@@ -76,7 +72,7 @@ initializeClipboard();
 jest.mock('shared/environment', () => {
   const originalModule = jest.requireActual('shared/environment');
 
-  return {...originalModule, IS_FIREFOX: true};
+  return { ...originalModule, IS_FIREFOX: true };
 });
 
 Range.prototype.getBoundingClientRect = function (): DOMRect {
@@ -157,7 +153,8 @@ describe('LexicalSelection tests', () => {
                 underlineStrikethrough: 'editor-text-underlineStrikethrough',
               },
             },
-          }}>
+          }}
+        >
           <RichTextPlugin
             contentEditable={
               // eslint-disable-next-line jsx-a11y/aria-role
@@ -200,13 +197,9 @@ describe('LexicalSelection tests', () => {
   function assertSelection(rootElement, expectedSelection) {
     const actualSelection = window.getSelection();
 
-    expect(actualSelection.anchorNode).toBe(
-      getNodeFromPath(expectedSelection.anchorPath, rootElement),
-    );
+    expect(actualSelection.anchorNode).toBe(getNodeFromPath(expectedSelection.anchorPath, rootElement));
     expect(actualSelection.anchorOffset).toBe(expectedSelection.anchorOffset);
-    expect(actualSelection.focusNode).toBe(
-      getNodeFromPath(expectedSelection.focusPath, rootElement),
-    );
+    expect(actualSelection.focusNode).toBe(getNodeFromPath(expectedSelection.focusPath, rootElement));
     expect(actualSelection.focusOffset).toBe(expectedSelection.focusOffset);
   }
 
@@ -233,8 +226,7 @@ describe('LexicalSelection tests', () => {
     {
       description: 'Emoji sequence combined using zero-width joiners',
       // https://emojipedia.org/family-woman-woman-girl-boy/
-      grapheme:
-        '\uD83D\uDC69\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66',
+      grapheme: '\uD83D\uDC69\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66',
     },
     {
       description: 'Emoji sequence with skin-tone modifier',
@@ -253,13 +245,7 @@ describe('LexicalSelection tests', () => {
         focusOffset: 5,
         focusPath: [0, 0, 0],
       },
-      inputs: [
-        insertText('H'),
-        insertText('e'),
-        insertText('l'),
-        insertText('l'),
-        insertText('o'),
-      ],
+      inputs: [insertText('H'), insertText('e'), insertText('l'), insertText('l'), insertText('o')],
       name: 'Simple typing',
     },
     {
@@ -272,14 +258,7 @@ describe('LexicalSelection tests', () => {
         focusOffset: 5,
         focusPath: [0, 0, 0],
       },
-      inputs: [
-        formatBold(),
-        insertText('H'),
-        insertText('e'),
-        insertText('l'),
-        insertText('l'),
-        insertText('o'),
-      ],
+      inputs: [formatBold(), insertText('H'), insertText('e'), insertText('l'), insertText('l'), insertText('o')],
       name: 'Simple typing in bold',
     },
     {
@@ -292,14 +271,7 @@ describe('LexicalSelection tests', () => {
         focusOffset: 5,
         focusPath: [0, 0, 0],
       },
-      inputs: [
-        formatItalic(),
-        insertText('H'),
-        insertText('e'),
-        insertText('l'),
-        insertText('l'),
-        insertText('o'),
-      ],
+      inputs: [formatItalic(), insertText('H'), insertText('e'), insertText('l'), insertText('l'), insertText('o')],
       name: 'Simple typing in italic',
     },
     {
@@ -333,14 +305,7 @@ describe('LexicalSelection tests', () => {
         focusOffset: 5,
         focusPath: [0, 0, 0],
       },
-      inputs: [
-        formatUnderline(),
-        insertText('H'),
-        insertText('e'),
-        insertText('l'),
-        insertText('l'),
-        insertText('o'),
-      ],
+      inputs: [formatUnderline(), insertText('H'), insertText('e'), insertText('l'), insertText('l'), insertText('o')],
       name: 'Simple typing in underline',
     },
     {
@@ -430,11 +395,7 @@ describe('LexicalSelection tests', () => {
         focusOffset: 1,
         focusPath: [0],
       },
-      inputs: [
-        insertText('Dominic Gannaway'),
-        moveNativeSelection([0, 0, 0], 0, [0, 0, 0], 16),
-        convertToTokenNode(),
-      ],
+      inputs: [insertText('Dominic Gannaway'), moveNativeSelection([0, 0, 0], 0, [0, 0, 0], 16), convertToTokenNode()],
       name: 'Convert text to an token node',
     },
     {
@@ -947,7 +908,7 @@ describe('LexicalSelection tests', () => {
         whitespaceCharacter: '\u200A',
         whitespaceName: 'hair space',
       },
-    ].flatMap(({whitespaceCharacter, whitespaceName}) => [
+    ].flatMap(({ whitespaceCharacter, whitespaceName }) => [
       {
         expectedHTML: `<div contenteditable="true" style="user-select: text; white-space: pre-wrap; word-break: break-word;" data-lexical-editor="true"><p class="editor-paragraph" dir="ltr"><span data-lexical-text="true">Hello${printWhitespace(
           whitespaceCharacter,
@@ -958,10 +919,7 @@ describe('LexicalSelection tests', () => {
           focusOffset: 6,
           focusPath: [0, 0, 0],
         },
-        inputs: [
-          insertText(`Hello${whitespaceCharacter}world`),
-          deleteWordBackward(1),
-        ],
+        inputs: [insertText(`Hello${whitespaceCharacter}world`), deleteWordBackward(1)],
         name: `Type two words separated by a ${whitespaceName}, delete word backward from end`,
       },
       {
@@ -1034,12 +992,7 @@ describe('LexicalSelection tests', () => {
           focusOffset: 6,
           focusPath: [0, 0, 0],
         },
-        inputs: [
-          insertText('Hello world'),
-          deleteWordBackward(1),
-          undo(1),
-          redo(1),
-        ],
+        inputs: [insertText('Hello world'), deleteWordBackward(1), undo(1), redo(1)],
         name: `Type a word, delete it and undo the deletion`,
       },
       {
@@ -1052,11 +1005,7 @@ describe('LexicalSelection tests', () => {
           focusOffset: 0,
           focusPath: [0, 0, 0],
         },
-        inputs: [
-          insertText('this is weird test'),
-          moveNativeSelection([0, 0, 0], 14, [0, 0, 0], 14),
-          moveBackward(14),
-        ],
+        inputs: [insertText('this is weird test'), moveNativeSelection([0, 0, 0], 14, [0, 0, 0], 14), moveBackward(14)],
         name: 'Type a sentence, move the caret to the middle and move with the arrows to the start',
       },
       {
@@ -1071,13 +1020,7 @@ describe('LexicalSelection tests', () => {
           focusOffset: 3,
           focusPath: [0, 1, 0],
         },
-        inputs: [
-          insertText('Hello '),
-          insertTokenNode('Bob'),
-          moveBackward(1),
-          moveBackward(1),
-          moveEnd(),
-        ],
+        inputs: [insertText('Hello '), insertTokenNode('Bob'), moveBackward(1), moveBackward(1), moveEnd()],
         name: 'Type a text and token text, move the caret to the end of the first text',
       },
       {
@@ -1089,13 +1032,7 @@ describe('LexicalSelection tests', () => {
           focusOffset: 3,
           focusPath: [0, 0, 0],
         },
-        inputs: [
-          pastePlain('ABD\tEFG'),
-          moveBackward(5),
-          insertText('C'),
-          moveBackward(1),
-          deleteWordForward(1),
-        ],
+        inputs: [pastePlain('ABD\tEFG'), moveBackward(5), insertText('C'), moveBackward(1), deleteWordForward(1)],
         name: 'Paste text, move selection and delete word forward',
       },
     ]),
@@ -1701,12 +1638,10 @@ describe('LexicalSelection tests', () => {
                 anchor.set(paragraph.getKey(), anchorOffset, 'element');
                 focus.set(paragraph.getKey(), focusOffset, 'element');
 
-                const {
-                  expectedAnchor,
-                  expectedAnchorOffset,
-                  expectedFocus,
-                  expectedFocusOffset,
-                } = fn(paragraph, textNode);
+                const { expectedAnchor, expectedAnchorOffset, expectedFocus, expectedFocusOffset } = fn(
+                  paragraph,
+                  textNode,
+                );
 
                 if (invertSelection !== true) {
                   expect(selection.anchor.key).toBe(expectedAnchor.__key);
@@ -1832,7 +1767,7 @@ describe('LexicalSelection tests', () => {
             return;
           }
 
-          const {anchor, focus} = selection;
+          const { anchor, focus } = selection;
 
           expect(anchor.getNode().getKey()).toBe(expectedKey);
           expect(focus.getNode().getKey()).toBe(expectedKey);
@@ -1890,7 +1825,7 @@ describe('LexicalSelection tests', () => {
   describe('Decorator text content for selection', () => {
     [
       {
-        fn: ({textNode1, anchor, focus}) => {
+        fn: ({ textNode1, anchor, focus }) => {
           anchor.set(textNode1.getKey(), 1, 'text');
           focus.set(textNode1.getKey(), 1, 'text');
 
@@ -1899,7 +1834,7 @@ describe('LexicalSelection tests', () => {
         name: 'Not included if cursor right before it',
       },
       {
-        fn: ({textNode2, anchor, focus}) => {
+        fn: ({ textNode2, anchor, focus }) => {
           anchor.set(textNode2.getKey(), 0, 'text');
           focus.set(textNode2.getKey(), 0, 'text');
 
@@ -1908,7 +1843,7 @@ describe('LexicalSelection tests', () => {
         name: 'Not included if cursor right after it',
       },
       {
-        fn: ({textNode1, textNode2, decorator, anchor, focus}) => {
+        fn: ({ textNode1, textNode2, decorator, anchor, focus }) => {
           anchor.set(textNode1.getKey(), 1, 'text');
           focus.set(textNode2.getKey(), 0, 'text');
 
@@ -1917,7 +1852,7 @@ describe('LexicalSelection tests', () => {
         name: 'Included if decorator is selected within text',
       },
       {
-        fn: ({textNode1, textNode2, decorator, anchor, focus}) => {
+        fn: ({ textNode1, textNode2, decorator, anchor, focus }) => {
           anchor.set(textNode1.getKey(), 0, 'text');
           focus.set(textNode2.getKey(), 0, 'text');
 
@@ -1926,7 +1861,7 @@ describe('LexicalSelection tests', () => {
         name: 'Included if decorator is selected with another node before it',
       },
       {
-        fn: ({textNode1, textNode2, decorator, anchor, focus}) => {
+        fn: ({ textNode1, textNode2, decorator, anchor, focus }) => {
           anchor.set(textNode1.getKey(), 1, 'text');
           focus.set(textNode2.getKey(), 1, 'text');
 
@@ -1935,7 +1870,7 @@ describe('LexicalSelection tests', () => {
         name: 'Included if decorator is selected with another node after it',
       },
       {
-        fn: ({paragraph, textNode1, textNode2, decorator, anchor, focus}) => {
+        fn: ({ paragraph, textNode1, textNode2, decorator, anchor, focus }) => {
           textNode1.remove();
           textNode2.remove();
           anchor.set(paragraph.getKey(), 0, 'element');
@@ -1955,7 +1890,7 @@ describe('LexicalSelection tests', () => {
 
         return testSuite.concat(testCase, inverse);
       }, [])
-      .forEach(({name, fn, invertSelection}) => {
+      .forEach(({ name, fn, invertSelection }) => {
         it(name, async () => {
           await ReactTestUtils.act(async () => {
             await editor.update(() => {
@@ -2094,13 +2029,7 @@ describe('LexicalSelection tests', () => {
         const text2 = $createTextNode('abc');
         const text3 = $createTextNode('--');
 
-        root.append(
-          $createParagraphNode().append(
-            text1,
-            $createLinkNode('https://lexical.dev').append(text2),
-            text3,
-          ),
-        );
+        root.append($createParagraphNode().append(text1, $createLinkNode('https://lexical.dev').append(text2), text3));
 
         setAnchorPoint({
           key: text1.getKey(),
@@ -2180,7 +2109,7 @@ describe('LexicalSelection tests', () => {
     ].forEach((testCase) => {
       test(testCase.name, async () => {
         await testEditor.update(() => {
-          const {key, offset} = testCase.fn();
+          const { key, offset } = testCase.fn();
 
           const selection = $getSelection();
 
@@ -2207,9 +2136,7 @@ describe('LexicalSelection tests', () => {
         const root = $getRoot();
         const paragraph = $createParagraphNode();
         const textNode = $createTextNode('Hello, World!');
-        textNode.setStyle(
-          '   font-family  : Arial  ;  color    :   red   ;top     : 50px',
-        );
+        textNode.setStyle('   font-family  : Arial  ;  color    :   red   ;top     : 50px');
         $addNodeStyle(textNode);
         paragraph.append(textNode);
         root.append(paragraph);
@@ -2229,25 +2156,13 @@ describe('LexicalSelection tests', () => {
           type: 'text',
         });
 
-        const cssFontFamilyValue = $getSelectionStyleValueForProperty(
-          selection,
-          'font-family',
-          '',
-        );
+        const cssFontFamilyValue = $getSelectionStyleValueForProperty(selection, 'font-family', '');
         expect(cssFontFamilyValue).toBe('Arial');
 
-        const cssColorValue = $getSelectionStyleValueForProperty(
-          selection,
-          'color',
-          '',
-        );
+        const cssColorValue = $getSelectionStyleValueForProperty(selection, 'color', '');
         expect(cssColorValue).toBe('red');
 
-        const cssTopValue = $getSelectionStyleValueForProperty(
-          selection,
-          'top',
-          '',
-        );
+        const cssTopValue = $getSelectionStyleValueForProperty(selection, 'top', '');
         expect(cssTopValue).toBe('50px');
       });
     });
@@ -2263,9 +2178,7 @@ describe('LexicalSelection tests', () => {
         const root = $getRoot();
         const paragraph = $createParagraphNode();
         const textNode = $createTextNode('Hello, World!');
-        textNode.setStyle(
-          'font-family: double:prefix:Arial; color: color:white; font-size: 30px',
-        );
+        textNode.setStyle('font-family: double:prefix:Arial; color: color:white; font-size: 30px');
         $addNodeStyle(textNode);
         paragraph.append(textNode);
         root.append(paragraph);
@@ -2285,25 +2198,13 @@ describe('LexicalSelection tests', () => {
           type: 'text',
         });
 
-        const cssFontFamilyValue = $getSelectionStyleValueForProperty(
-          selection,
-          'font-family',
-          '',
-        );
+        const cssFontFamilyValue = $getSelectionStyleValueForProperty(selection, 'font-family', '');
         expect(cssFontFamilyValue).toBe('double:prefix:Arial');
 
-        const cssColorValue = $getSelectionStyleValueForProperty(
-          selection,
-          'color',
-          '',
-        );
+        const cssColorValue = $getSelectionStyleValueForProperty(selection, 'color', '');
         expect(cssColorValue).toBe('color:white');
 
-        const cssFontSizeValue = $getSelectionStyleValueForProperty(
-          selection,
-          'font-size',
-          '',
-        );
+        const cssFontSizeValue = $getSelectionStyleValueForProperty(selection, 'font-size', '');
         expect(cssFontSizeValue).toBe('30px');
       });
     });
@@ -2684,9 +2585,7 @@ describe('LexicalSelection tests', () => {
         const rootChildren = root.getChildren();
         expect(rootChildren.length).toBe(1);
         expect(rootChildren[0].getType()).toBe('heading');
-        expect(rootChildren[0].getChildrenKeys()).toEqual(
-          paragraphChildrenKeys,
-        );
+        expect(rootChildren[0].getChildrenKeys()).toEqual(paragraphChildrenKeys);
       });
     });
 

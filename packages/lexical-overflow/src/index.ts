@@ -7,15 +7,9 @@
  *
  */
 
-import type {
-  EditorConfig,
-  LexicalNode,
-  NodeKey,
-  RangeSelection,
-  SerializedElementNode,
-} from 'lexical';
+import type { EditorConfig, LexicalNode, NodeKey, RangeSelection, SerializedElementNode } from 'lexical';
 
-import {$applyNodeReplacement, ElementNode} from 'lexical';
+import { $applyNodeReplacement, ElementNode } from 'lexical';
 
 export type SerializedOverflowNode = SerializedElementNode;
 
@@ -62,10 +56,7 @@ export class OverflowNode extends ElementNode {
     return false;
   }
 
-  insertNewAfter(
-    selection: RangeSelection,
-    restoreSelection = true,
-  ): null | LexicalNode {
+  insertNewAfter(selection: RangeSelection, restoreSelection = true): null | LexicalNode {
     const parent = this.getParentOrThrow();
     return parent.insertNewAfter(selection, restoreSelection);
   }
@@ -79,8 +70,6 @@ export function $createOverflowNode(): OverflowNode {
   return $applyNodeReplacement(new OverflowNode());
 }
 
-export function $isOverflowNode(
-  node: LexicalNode | null | undefined,
-): node is OverflowNode {
+export function $isOverflowNode(node: LexicalNode | null | undefined): node is OverflowNode {
   return node instanceof OverflowNode;
 }

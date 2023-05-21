@@ -6,21 +6,15 @@
  *
  */
 
-import {CodeNode} from '@lexical/code';
-import {createHeadlessEditor} from '@lexical/headless';
-import {$generateHtmlFromNodes, $generateNodesFromDOM} from '@lexical/html';
-import {LinkNode} from '@lexical/link';
-import {ListItemNode, ListNode} from '@lexical/list';
-import {HeadingNode, QuoteNode} from '@lexical/rich-text';
-import {$getRoot, $insertNodes} from 'lexical';
+import { CodeNode } from '@lexical/code';
+import { createHeadlessEditor } from '@lexical/headless';
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html';
+import { LinkNode } from '@lexical/link';
+import { ListItemNode, ListNode } from '@lexical/list';
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { $getRoot, $insertNodes } from 'lexical';
 
-import {
-  $convertFromMarkdownString,
-  $convertToMarkdownString,
-  LINK,
-  TextMatchTransformer,
-  TRANSFORMERS,
-} from '../..';
+import { $convertFromMarkdownString, $convertToMarkdownString, LINK, TextMatchTransformer, TRANSFORMERS } from '../..';
 
 describe('Markdown', () => {
   type Input = Array<{
@@ -33,12 +27,12 @@ describe('Markdown', () => {
   const URL = 'https://lexical.dev';
 
   const IMPORT_AND_EXPORT: Input = [
-    {html: '<h1><span>Hello world</span></h1>', md: '# Hello world'},
-    {html: '<h2><span>Hello world</span></h2>', md: '## Hello world'},
-    {html: '<h3><span>Hello world</span></h3>', md: '### Hello world'},
-    {html: '<h4><span>Hello world</span></h4>', md: '#### Hello world'},
-    {html: '<h5><span>Hello world</span></h5>', md: '##### Hello world'},
-    {html: '<h6><span>Hello world</span></h6>', md: '###### Hello world'},
+    { html: '<h1><span>Hello world</span></h1>', md: '# Hello world' },
+    { html: '<h2><span>Hello world</span></h2>', md: '## Hello world' },
+    { html: '<h3><span>Hello world</span></h3>', md: '### Hello world' },
+    { html: '<h4><span>Hello world</span></h4>', md: '#### Hello world' },
+    { html: '<h5><span>Hello world</span></h5>', md: '##### Hello world' },
+    { html: '<h6><span>Hello world</span></h6>', md: '###### Hello world' },
     {
       // Multiline paragraphs
       html: '<p><span>Hello</span><br><span>world</span><br><span>!</span></p>',
@@ -179,55 +173,32 @@ describe('Markdown', () => {
     },
   };
 
-  for (const {html, md, skipImport} of IMPORT_AND_EXPORT) {
+  for (const { html, md, skipImport } of IMPORT_AND_EXPORT) {
     if (skipImport) {
       continue;
     }
 
     it(`can import "${md.replace(/\n/g, '\\n')}"`, () => {
       const editor = createHeadlessEditor({
-        nodes: [
-          HeadingNode,
-          ListNode,
-          ListItemNode,
-          QuoteNode,
-          CodeNode,
-          LinkNode,
-        ],
+        nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode, CodeNode, LinkNode],
       });
 
-      editor.update(
-        () =>
-          $convertFromMarkdownString(md, [
-            ...TRANSFORMERS,
-            HIGHLIGHT_TEXT_MATCH_IMPORT,
-          ]),
-        {
-          discrete: true,
-        },
-      );
+      editor.update(() => $convertFromMarkdownString(md, [...TRANSFORMERS, HIGHLIGHT_TEXT_MATCH_IMPORT]), {
+        discrete: true,
+      });
 
-      expect(
-        editor.getEditorState().read(() => $generateHtmlFromNodes(editor)),
-      ).toBe(html);
+      expect(editor.getEditorState().read(() => $generateHtmlFromNodes(editor))).toBe(html);
     });
   }
 
-  for (const {html, md, skipExport} of IMPORT_AND_EXPORT) {
+  for (const { html, md, skipExport } of IMPORT_AND_EXPORT) {
     if (skipExport) {
       continue;
     }
 
     it(`can export "${md.replace(/\n/g, '\\n')}"`, () => {
       const editor = createHeadlessEditor({
-        nodes: [
-          HeadingNode,
-          ListNode,
-          ListItemNode,
-          QuoteNode,
-          CodeNode,
-          LinkNode,
-        ],
+        nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode, CodeNode, LinkNode],
       });
 
       editor.update(
@@ -243,11 +214,7 @@ describe('Markdown', () => {
         },
       );
 
-      expect(
-        editor
-          .getEditorState()
-          .read(() => $convertToMarkdownString(TRANSFORMERS)),
-      ).toBe(md);
+      expect(editor.getEditorState().read(() => $convertToMarkdownString(TRANSFORMERS))).toBe(md);
     });
   }
 });

@@ -6,30 +6,26 @@
  *
  */
 
-import {CodeHighlightNode, CodeNode} from '@lexical/code';
-import {HashtagNode} from '@lexical/hashtag';
-import {AutoLinkNode, LinkNode} from '@lexical/link';
-import {ListItemNode, ListNode} from '@lexical/list';
-import {OverflowNode} from '@lexical/overflow';
-import {useLexicalComposerContext} from '@lexical/react/src/LexicalComposerContext';
-import {ContentEditable} from '@lexical/react/src/LexicalContentEditable';
+import { CodeHighlightNode, CodeNode } from '@lexical/code';
+import { HashtagNode } from '@lexical/hashtag';
+import { AutoLinkNode, LinkNode } from '@lexical/link';
+import { ListItemNode, ListNode } from '@lexical/list';
+import { OverflowNode } from '@lexical/overflow';
+import { useLexicalComposerContext } from '@lexical/react/src/LexicalComposerContext';
+import { ContentEditable } from '@lexical/react/src/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/src/LexicalErrorBoundary';
-import {RichTextPlugin} from '@lexical/react/src/LexicalRichTextPlugin';
-import {HeadingNode, QuoteNode} from '@lexical/rich-text';
-import {
-  applySelectionInputs,
-  pasteHTML,
-  setNativeSelectionWithPaths,
-} from '@lexical/selection/src/__tests__/utils';
-import {TableCellNode, TableNode, TableRowNode} from '@lexical/table';
-import {initializeClipboard, TestComposer} from 'lexical/src/__tests__/utils';
+import { RichTextPlugin } from '@lexical/react/src/LexicalRichTextPlugin';
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { applySelectionInputs, pasteHTML, setNativeSelectionWithPaths } from '@lexical/selection/src/__tests__/utils';
+import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
+import { initializeClipboard, TestComposer } from 'lexical/src/__tests__/utils';
 import * as React from 'react';
-import {createRoot} from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import * as ReactTestUtils from 'react-dom/test-utils';
 
 jest.mock('shared/environment', () => {
   const originalModule = jest.requireActual('shared/environment');
-  return {...originalModule, IS_FIREFOX: true};
+  return { ...originalModule, IS_FIREFOX: true };
 });
 
 Range.prototype.getBoundingClientRect = function (): DOMRect {
@@ -144,7 +140,8 @@ describe('LexicalEventHelpers', () => {
                 underlineStrikethrough: 'editor-text-underlineStrikethrough',
               },
             },
-          }}>
+          }}
+        >
           <RichTextPlugin
             contentEditable={
               // eslint-disable-next-line jsx-a11y/aria-role
@@ -208,21 +205,13 @@ describe('LexicalEventHelpers', () => {
         {
           expectedHTML:
             '<div contenteditable="true" style="user-select: text; white-space: pre-wrap; word-break: break-word;" data-lexical-editor="true"><ul class="editor-list-ul"><li value="1" class="editor-listitem" dir="ltr"><span data-lexical-text="true">Other side</span></li><li value="2" class="editor-listitem" dir="ltr"><span data-lexical-text="true">I must have called</span></li></ul></div>',
-          inputs: [
-            pasteHTML(
-              `<meta charset='utf-8'><ul><li>Other side</li><li>I must have called</li></ul>`,
-            ),
-          ],
+          inputs: [pasteHTML(`<meta charset='utf-8'><ul><li>Other side</li><li>I must have called</li></ul>`)],
           name: 'should produce the correct editor state from a pasted HTML ul element',
         },
         {
           expectedHTML:
             '<div contenteditable="true" style="user-select: text; white-space: pre-wrap; word-break: break-word;" data-lexical-editor="true"><ol class="editor-list-ol"><li value="1" class="editor-listitem" dir="ltr"><span data-lexical-text="true">To tell you</span></li><li value="2" class="editor-listitem" dir="ltr"><span data-lexical-text="true">I’m sorry</span></li></ol></div>',
-          inputs: [
-            pasteHTML(
-              `<meta charset='utf-8'><ol><li>To tell you</li><li>I’m sorry</li></ol>`,
-            ),
-          ],
+          inputs: [pasteHTML(`<meta charset='utf-8'><ol><li>To tell you</li><li>I’m sorry</li></ol>`)],
           name: 'should produce the correct editor state from pasted HTML ol element',
         },
         {
@@ -258,31 +247,19 @@ describe('LexicalEventHelpers', () => {
         {
           expectedHTML:
             '<div contenteditable="true" style="user-select: text; white-space: pre-wrap; word-break: break-word;" data-lexical-editor="true"><h1 class="editor-heading-h1" dir="ltr"><span data-lexical-text="true">Lyrics to Hello by Adele</span></h1><p class="editor-paragraph" dir="ltr"><span data-lexical-text="true">A thousand times</span></p></div>',
-          inputs: [
-            pasteHTML(
-              `<meta charset='utf-8'><h1>Lyrics to Hello by Adele</h1>A thousand times`,
-            ),
-          ],
+          inputs: [pasteHTML(`<meta charset='utf-8'><h1>Lyrics to Hello by Adele</h1>A thousand times`)],
           name: 'should produce the correct editor state from pasted heading node followed by a DOM Text Node',
         },
         {
           expectedHTML:
             '<div contenteditable="true" style="user-select: text; white-space: pre-wrap; word-break: break-word;" data-lexical-editor="true"><p class="editor-paragraph"><a href="https://facebook.com" dir="ltr"><span data-lexical-text="true">Facebook</span></a></p></div>',
-          inputs: [
-            pasteHTML(
-              `<meta charset='utf-8'><a href="https://facebook.com">Facebook</a>`,
-            ),
-          ],
+          inputs: [pasteHTML(`<meta charset='utf-8'><a href="https://facebook.com">Facebook</a>`)],
           name: 'should produce the correct editor state from a pasted HTML anchor element',
         },
         {
           expectedHTML:
             '<div contenteditable="true" style="user-select: text; white-space: pre-wrap; word-break: break-word;" data-lexical-editor="true"><p class="editor-paragraph" dir="ltr"><span data-lexical-text="true">Welcome to</span><a href="https://facebook.com" dir="ltr"><span data-lexical-text="true">Facebook!</span></a></p></div>',
-          inputs: [
-            pasteHTML(
-              `<meta charset='utf-8'>Welcome to<a href="https://facebook.com">Facebook!</a>`,
-            ),
-          ],
+          inputs: [pasteHTML(`<meta charset='utf-8'>Welcome to<a href="https://facebook.com">Facebook!</a>`)],
           name: 'should produce the correct editor state from a pasted combination of an HTML text node followed by an anchor node',
         },
         {

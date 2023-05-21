@@ -6,15 +6,15 @@
  *
  */
 
-import type {Binding} from '.';
-import type {CollabElementNode} from './CollabElementNode';
-import type {DecoratorNode, NodeKey, NodeMap} from 'lexical';
-import type {XmlElement} from 'yjs';
+import type { Binding } from '.';
+import type { CollabElementNode } from './CollabElementNode';
+import type { DecoratorNode, NodeKey, NodeMap } from 'lexical';
+import type { XmlElement } from 'yjs';
 
-import {$getNodeByKey, $isDecoratorNode} from 'lexical';
+import { $getNodeByKey, $isDecoratorNode } from 'lexical';
 import invariant from 'shared/invariant';
 
-import {syncPropertiesFromLexical, syncPropertiesFromYjs} from './Utils';
+import { syncPropertiesFromLexical, syncPropertiesFromYjs } from './Utils';
 
 export class CollabDecoratorNode {
   _xmlElem: XmlElement;
@@ -74,23 +74,12 @@ export class CollabDecoratorNode {
     const prevLexicalNode = this.getPrevNode(prevNodeMap);
     const xmlElem = this._xmlElem;
 
-    syncPropertiesFromLexical(
-      binding,
-      xmlElem,
-      prevLexicalNode,
-      nextLexicalNode,
-    );
+    syncPropertiesFromLexical(binding, xmlElem, prevLexicalNode, nextLexicalNode);
   }
 
-  syncPropertiesFromYjs(
-    binding: Binding,
-    keysChanged: null | Set<string>,
-  ): void {
+  syncPropertiesFromYjs(binding: Binding, keysChanged: null | Set<string>): void {
     const lexicalNode = this.getNode();
-    invariant(
-      lexicalNode !== null,
-      'syncPropertiesFromYjs: cound not find decorator node',
-    );
+    invariant(lexicalNode !== null, 'syncPropertiesFromYjs: cound not find decorator node');
     const xmlElem = this._xmlElem;
     syncPropertiesFromYjs(binding, xmlElem, lexicalNode, keysChanged);
   }

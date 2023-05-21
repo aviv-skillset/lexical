@@ -6,9 +6,9 @@
  *
  */
 
-import {$createTextNode, $getRoot, ParagraphNode, TextNode} from 'lexical';
+import { $createTextNode, $getRoot, ParagraphNode, TextNode } from 'lexical';
 
-import {createTestConnection, waitForReact} from './utils';
+import { createTestConnection, waitForReact } from './utils';
 
 describe('Collaboration', () => {
   let container = null;
@@ -60,9 +60,7 @@ describe('Collaboration', () => {
       });
     });
 
-    expect(client1.getHTML()).toEqual(
-      '<p dir="ltr"><span data-lexical-text="true">Hello world</span></p>',
-    );
+    expect(client1.getHTML()).toEqual('<p dir="ltr"><span data-lexical-text="true">Hello world</span></p>');
     expect(client1.getHTML()).toEqual(client2.getHTML());
     expect(client1.getDocJSON()).toEqual(client2.getDocJSON());
 
@@ -78,9 +76,7 @@ describe('Collaboration', () => {
       });
     });
 
-    expect(client2.getHTML()).toEqual(
-      '<p dir="ltr"><span data-lexical-text="true">Hello metaverse</span></p>',
-    );
+    expect(client2.getHTML()).toEqual('<p dir="ltr"><span data-lexical-text="true">Hello metaverse</span></p>');
     expect(client1.getHTML()).toEqual(client2.getHTML());
     expect(client1.getDocJSON()).toEqual({
       root: '[object Object]Hello metaverse',
@@ -115,9 +111,7 @@ describe('Collaboration', () => {
         paragraph.append(text);
       });
     });
-    expect(client1.getHTML()).toEqual(
-      '<p dir="ltr"><span data-lexical-text="true">Hello world</span></p>',
-    );
+    expect(client1.getHTML()).toEqual('<p dir="ltr"><span data-lexical-text="true">Hello world</span></p>');
     expect(client2.getHTML()).toEqual('<p><br></p>');
 
     // Insert some a text node on client 1
@@ -132,9 +126,7 @@ describe('Collaboration', () => {
       });
     });
 
-    expect(client2.getHTML()).toEqual(
-      '<p dir="ltr"><span data-lexical-text="true">Hello world</span></p>',
-    );
+    expect(client2.getHTML()).toEqual('<p dir="ltr"><span data-lexical-text="true">Hello world</span></p>');
     expect(client1.getHTML()).toEqual(client2.getHTML());
 
     await waitForReact(() => {
@@ -142,9 +134,7 @@ describe('Collaboration', () => {
     });
 
     // Text content should be repeated, but there should only be a single node
-    expect(client1.getHTML()).toEqual(
-      '<p dir="ltr"><span data-lexical-text="true">Hello worldHello world</span></p>',
-    );
+    expect(client1.getHTML()).toEqual('<p dir="ltr"><span data-lexical-text="true">Hello worldHello world</span></p>');
     expect(client1.getHTML()).toEqual(client2.getHTML());
     expect(client1.getDocJSON()).toEqual({
       root: '[object Object]Hello worldHello world',
@@ -164,12 +154,8 @@ describe('Collaboration', () => {
       });
     });
 
-    expect(client1.getHTML()).toEqual(
-      '<p dir="ltr"><span data-lexical-text="true">Hello world</span></p>',
-    );
-    expect(client2.getHTML()).toEqual(
-      '<p dir="ltr"><span data-lexical-text="true">Hello worldHello world</span></p>',
-    );
+    expect(client1.getHTML()).toEqual('<p dir="ltr"><span data-lexical-text="true">Hello world</span></p>');
+    expect(client2.getHTML()).toEqual('<p dir="ltr"><span data-lexical-text="true">Hello worldHello world</span></p>');
 
     await waitForReact(() => {
       client2.update(() => {
@@ -186,9 +172,7 @@ describe('Collaboration', () => {
       client2.connect();
     });
 
-    expect(client1.getHTML()).toEqual(
-      '<p dir="ltr"><span data-lexical-text="true">Hello world!</span></p>',
-    );
+    expect(client1.getHTML()).toEqual('<p dir="ltr"><span data-lexical-text="true">Hello world!</span></p>');
     expect(client1.getHTML()).toEqual(client2.getHTML());
     expect(client1.getDocJSON()).toEqual({
       root: '[object Object]Hello world!',
@@ -219,9 +203,7 @@ describe('Collaboration', () => {
       });
     });
 
-    expect(client1.getHTML()).toEqual(
-      '<p dir="ltr"><span data-lexical-text="true">Hello world</span></p>',
-    );
+    expect(client1.getHTML()).toEqual('<p dir="ltr"><span data-lexical-text="true">Hello world</span></p>');
     expect(client1.getHTML()).toEqual(client2.getHTML());
     expect(client1.getDocJSON()).toEqual({
       root: '[object Object]Hello world',
@@ -241,9 +223,7 @@ describe('Collaboration', () => {
     });
 
     expect(client1.getHTML()).toEqual('<p><br></p>');
-    expect(client2.getHTML()).toEqual(
-      '<p dir="ltr"><span data-lexical-text="true">Hello world</span></p>',
-    );
+    expect(client2.getHTML()).toEqual('<p dir="ltr"><span data-lexical-text="true">Hello world</span></p>');
 
     // Insert some text on client 2
     await waitForReact(() => {
@@ -257,9 +237,7 @@ describe('Collaboration', () => {
     });
 
     expect(client1.getHTML()).toEqual('<p><br></p>');
-    expect(client2.getHTML()).toEqual(
-      '<p dir="ltr"><span data-lexical-text="true">Hello worldHello world</span></p>',
-    );
+    expect(client2.getHTML()).toEqual('<p dir="ltr"><span data-lexical-text="true">Hello worldHello world</span></p>');
 
     await waitForReact(() => {
       client1.connect();
@@ -302,12 +280,8 @@ describe('Collaboration', () => {
 
     await expectCorrectInitialContent(client1, client2);
 
-    expect(client1.awareness.getLocalState().awarenessData).toEqual(
-      awarenessData1,
-    );
-    expect(client2.awareness.getLocalState().awarenessData).toEqual(
-      awarenessData2,
-    );
+    expect(client1.awareness.getLocalState().awarenessData).toEqual(awarenessData1);
+    expect(client2.awareness.getLocalState().awarenessData).toEqual(awarenessData2);
 
     client1.stop();
     client2.stop();

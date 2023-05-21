@@ -7,14 +7,9 @@
  * @flow strict
  */
 
-import type {
-  EditorConfig,
-  LexicalNode,
-  NodeKey,
-  SerializedTextNode,
-} from 'lexical';
+import type { EditorConfig, LexicalNode, NodeKey, SerializedTextNode } from 'lexical';
 
-import {TextNode} from 'lexical';
+import { TextNode } from 'lexical';
 
 declare export class HashtagNode extends TextNode {
   static getType(): string;
@@ -28,6 +23,4 @@ declare export class HashtagNode extends TextNode {
   exportJSON(): SerializedTextNode;
 }
 declare export function $createHashtagNode(text?: string): HashtagNode;
-declare export function $isHashtagNode(
-  node: ?LexicalNode,
-): boolean %checks(node instanceof HashtagNode);
+declare export function $isHashtagNode(node: ?LexicalNode): boolean %checks(node instanceof HashtagNode);

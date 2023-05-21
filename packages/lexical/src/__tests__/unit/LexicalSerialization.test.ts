@@ -6,14 +6,14 @@
  *
  */
 
-import {$createCodeHighlightNode, $createCodeNode} from '@lexical/code';
-import {$createLinkNode} from '@lexical/link';
-import {$createListItemNode, $createListNode} from '@lexical/list';
-import {$createHeadingNode, $createQuoteNode} from '@lexical/rich-text';
-import {$createTableNodeWithDimensions} from '@lexical/table';
-import {$createParagraphNode, $createTextNode, $getRoot} from 'lexical';
+import { $createCodeHighlightNode, $createCodeNode } from '@lexical/code';
+import { $createLinkNode } from '@lexical/link';
+import { $createListItemNode, $createListNode } from '@lexical/list';
+import { $createHeadingNode, $createQuoteNode } from '@lexical/rich-text';
+import { $createTableNodeWithDimensions } from '@lexical/table';
+import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
 
-import {initializeUnitTest} from '../utils';
+import { initializeUnitTest } from '../utils';
 
 function createEditorContent() {
   const root = $getRoot();
@@ -49,38 +49,30 @@ function createEditorContent() {
     );
     root.append(paragraph2);
     const paragraph3 = $createParagraphNode();
-    paragraph3.append(
-      $createTextNode(`If you'd like to find out more about Lexical, you can:`),
-    );
+    paragraph3.append($createTextNode(`If you'd like to find out more about Lexical, you can:`));
     root.append(paragraph3);
     const list = $createListNode('bullet');
     list.append(
       $createListItemNode().append(
         $createTextNode(`Visit the `),
-        $createLinkNode('https://lexical.dev/').append(
-          $createTextNode('Lexical website'),
-        ),
+        $createLinkNode('https://lexical.dev/').append($createTextNode('Lexical website')),
         $createTextNode(` for documentation and more information.`),
       ),
       $createListItemNode().append(
         $createTextNode(`Check out the code on our `),
-        $createLinkNode('https://github.com/facebook/lexical').append(
-          $createTextNode('GitHub repository'),
-        ),
+        $createLinkNode('https://github.com/facebook/lexical').append($createTextNode('GitHub repository')),
         $createTextNode(`.`),
       ),
       $createListItemNode().append(
         $createTextNode(`Playground code can be found `),
-        $createLinkNode(
-          'https://github.com/facebook/lexical/tree/main/packages/lexical-playground',
-        ).append($createTextNode('here')),
+        $createLinkNode('https://github.com/facebook/lexical/tree/main/packages/lexical-playground').append(
+          $createTextNode('here'),
+        ),
         $createTextNode(`.`),
       ),
       $createListItemNode().append(
         $createTextNode(`Join our `),
-        $createLinkNode('https://discord.com/invite/KmG4wQnnD9').append(
-          $createTextNode('Discord Server'),
-        ),
+        $createLinkNode('https://discord.com/invite/KmG4wQnnD9').append($createTextNode('Discord Server')),
         $createTextNode(` and chat with the team.`),
       ),
     );
@@ -103,7 +95,7 @@ function createEditorContent() {
 describe('LexicalSerialization tests', () => {
   initializeUnitTest((testEnv) => {
     test('serializes and deserializes from JSON', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         createEditorContent();

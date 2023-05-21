@@ -6,12 +6,12 @@
  *
  */
 
-import type {Klass, LexicalEditor, LexicalNode, NodeKey} from 'lexical';
+import type { Klass, LexicalEditor, LexicalNode, NodeKey } from 'lexical';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$findMatchingParent} from '@lexical/utils';
-import {$getNearestNodeFromDOMNode} from 'lexical';
-import {useEffect, useRef} from 'react';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $findMatchingParent } from '@lexical/utils';
+import { $getNearestNodeFromDOMNode } from 'lexical';
+import { useEffect, useRef } from 'react';
 
 const capturedEvents = new Set<string>(['mouseenter', 'mouseleave']);
 
@@ -22,11 +22,7 @@ export function NodeEventPlugin({
 }: {
   nodeType: Klass<LexicalNode>;
   eventType: string;
-  eventListener: (
-    event: Event,
-    editor: LexicalEditor,
-    nodeKey: NodeKey,
-  ) => void;
+  eventListener: (event: Event, editor: LexicalEditor, nodeKey: NodeKey) => void;
 }): null {
   const [editor] = useLexicalComposerContext();
   const listenerRef = useRef(eventListener);
@@ -44,10 +40,7 @@ export function NodeEventPlugin({
             ? nearestNode instanceof nodeType
               ? nearestNode
               : null
-            : $findMatchingParent(
-                nearestNode,
-                (node) => node instanceof nodeType,
-              );
+            : $findMatchingParent(nearestNode, (node) => node instanceof nodeType);
           if (targetNode !== null) {
             listenerRef.current(event, editor, targetNode.getKey());
             return;

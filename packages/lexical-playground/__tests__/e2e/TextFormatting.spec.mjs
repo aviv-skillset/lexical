@@ -32,11 +32,8 @@ import {
 } from '../utils/index.mjs';
 
 test.describe('TextFormatting', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Can create bold text using the shortcut`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Can create bold text using the shortcut`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -46,15 +43,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            World
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> World </strong>
         </p>
       `,
     );
@@ -70,15 +61,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            World
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> World </strong>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -91,10 +76,7 @@ test.describe('TextFormatting', () => {
     });
   });
 
-  test(`Can create italic text using the shortcut`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test(`Can create italic text using the shortcut`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -104,15 +86,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <em
-            class="PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
-            World
-          </em>
+          <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> World </em>
         </p>
       `,
     );
@@ -128,15 +104,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <em
-            class="PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
-            World
-          </em>
+          <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> World </em>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -149,10 +119,7 @@ test.describe('TextFormatting', () => {
     });
   });
 
-  test(`Can select text and boldify it with the shortcut`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test(`Can select text and boldify it with the shortcut`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -170,15 +137,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            world
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> world </strong>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -194,9 +155,7 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello world!</span>
         </p>
       `,
@@ -237,28 +196,17 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            hello world
-          </strong>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> hello world </strong>
         </p>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">hello world</span>
         </p>
       `,
     );
   });
 
-  test(`Can select text and italicify it with the shortcut`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test(`Can select text and italicify it with the shortcut`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -276,15 +224,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <em
-            class="PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
-            world
-          </em>
+          <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> world </em>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -300,9 +242,7 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello world!</span>
         </p>
       `,
@@ -315,10 +255,7 @@ test.describe('TextFormatting', () => {
     });
   });
 
-  test(`Can select text and underline+strikethrough`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test(`Can select text and underline+strikethrough`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -336,15 +273,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <span
-            class="PlaygroundEditorTheme__textUnderline"
-            data-lexical-text="true">
-            world
-          </span>
+          <span class="PlaygroundEditorTheme__textUnderline" data-lexical-text="true"> world </span>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -360,9 +291,7 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello world!</span>
         </p>
       `,
@@ -381,15 +310,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <span
-            class="PlaygroundEditorTheme__textUnderlineStrikethrough"
-            data-lexical-text="true">
-            world
-          </span>
+          <span class="PlaygroundEditorTheme__textUnderlineStrikethrough" data-lexical-text="true"> world </span>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -406,15 +329,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <span
-            class="PlaygroundEditorTheme__textUnderline"
-            data-lexical-text="true">
-            world
-          </span>
+          <span class="PlaygroundEditorTheme__textUnderline" data-lexical-text="true"> world </span>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -427,10 +344,7 @@ test.describe('TextFormatting', () => {
     });
   });
 
-  test(`Can select text and change the font-size`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test(`Can select text and change the font-size`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -451,9 +365,7 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
           <span style="font-size: 10px;" data-lexical-text="true">world</span>
           <span data-lexical-text="true">!</span>
@@ -469,10 +381,7 @@ test.describe('TextFormatting', () => {
     });
   });
 
-  test(`Can select text and change the font-size and font-family`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test(`Can select text and change the font-size and font-family`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -494,9 +403,7 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
           <span style="font-size: 10px;" data-lexical-text="true">world</span>
           <span data-lexical-text="true">!</span>
@@ -517,15 +424,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <span
-            style="font-size: 10px; font-family: Georgia;"
-            data-lexical-text="true">
-            world
-          </span>
+          <span style="font-size: 10px; font-family: Georgia;" data-lexical-text="true"> world </span>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -544,15 +445,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <span
-            style="font-size: 20px; font-family: Georgia;"
-            data-lexical-text="true">
-            world
-          </span>
+          <span style="font-size: 20px; font-family: Georgia;" data-lexical-text="true"> world </span>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -566,11 +461,7 @@ test.describe('TextFormatting', () => {
     });
   });
 
-  test(`Can select multiple text parts and format them with shortcuts`, async ({
-    page,
-    isPlainText,
-    browserName,
-  }) => {
+  test(`Can select multiple text parts and format them with shortcuts`, async ({ page, isPlainText, browserName }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -588,15 +479,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            world
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> world </strong>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -622,25 +507,13 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            w
-          </strong>
-          <strong
-            class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> w </strong>
+          <strong class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic" data-lexical-text="true">
             or
           </strong>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            ld
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> ld </strong>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -656,25 +529,11 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            w
-          </strong>
-          <em
-            class="PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
-            or
-          </em>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            ld
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> w </strong>
+          <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> or </em>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> ld </strong>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -699,15 +558,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello w</span>
-          <em
-            class="PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
-            or
-          </em>
+          <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> or </em>
           <span data-lexical-text="true">ld!</span>
         </p>
       `,
@@ -723,15 +576,9 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <em
-            class="PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
-            world
-          </em>
+          <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> world </em>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -748,9 +595,7 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello world!</span>
         </p>
       `,
@@ -797,23 +642,13 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">123</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            456
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> 456 </strong>
           <span data-lexical-text="true">789</span>
           <br />
           <span data-lexical-text="true">abc</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            def
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> def </strong>
           <span data-lexical-text="true">ghi</span>
         </p>
       `,
@@ -848,9 +683,7 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">12z</span>
         </p>
       `,
@@ -864,10 +697,7 @@ test.describe('TextFormatting', () => {
     });
   });
 
-  test(`Regression #2439: can format backwards when at first text node boundary`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test(`Regression #2439: can format backwards when at first text node boundary`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await page.keyboard.type('123456');
@@ -888,11 +718,7 @@ test.describe('TextFormatting', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            12
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> 12 </strong>
           <span data-lexical-text="true">3456</span>
         </p>
       `,
@@ -905,11 +731,7 @@ test.describe('TextFormatting', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            123456
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> 123456 </strong>
         </p>
       `,
     );
@@ -935,12 +757,8 @@ test.describe('TextFormatting', () => {
       const isFloatingToolbarItalicButtonActive = !!document.querySelector(
         '.floating-text-format-popup .popup-item.active i.format.italic',
       );
-      const isToolbarBoldButtonActive = !!document.querySelector(
-        '.toolbar .toolbar-item.active i.format.bold',
-      );
-      const isToolbarItalicButtonActive = !!document.querySelector(
-        '.toolbar .toolbar-item.active i.format.italic',
-      );
+      const isToolbarBoldButtonActive = !!document.querySelector('.toolbar .toolbar-item.active i.format.bold');
+      const isToolbarItalicButtonActive = !!document.querySelector('.toolbar .toolbar-item.active i.format.italic');
 
       return (
         isFloatingToolbarBoldButtonActive &&
@@ -973,21 +791,17 @@ test.describe('TextFormatting', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">A</span>
-            <span
-              class="editor-image"
-              contenteditable="false"
-              data-lexical-decorator="true">
+            <span class="editor-image" contenteditable="false" data-lexical-decorator="true">
               <div draggable="false">
                 <img
-                  alt="Yellow flower in tilt shift lens"
                   class="focused"
+                  alt="Yellow flower in tilt shift lens"
                   draggable="false"
                   src="${SAMPLE_IMAGE_URL}"
-                  style="height: inherit; max-width: 500px; width: inherit" />
+                  style="height: inherit; max-width: 500px; width: inherit"
+                />
               </div>
             </span>
             <span data-lexical-text="true">BC</span>
@@ -999,27 +813,19 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">A</span>
-          <span
-            class="editor-image"
-            contenteditable="false"
-            data-lexical-decorator="true">
+          <span class="editor-image" contenteditable="false" data-lexical-decorator="true">
             <div draggable="false">
               <img
                 alt="Yellow flower in tilt shift lens"
                 draggable="false"
                 src="${SAMPLE_IMAGE_URL}"
-                style="height: inherit; max-width: 500px; width: inherit" />
+                style="height: inherit; max-width: 500px; width: inherit"
+              />
             </div>
           </span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            B
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> B </strong>
           <span data-lexical-text="true">C</span>
         </p>
       `,
@@ -1028,20 +834,16 @@ test.describe('TextFormatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">A</span>
-          <span
-            class="editor-image"
-            contenteditable="false"
-            data-lexical-decorator="true">
+          <span class="editor-image" contenteditable="false" data-lexical-decorator="true">
             <div draggable="false">
               <img
                 alt="Yellow flower in tilt shift lens"
                 draggable="false"
                 src="${SAMPLE_IMAGE_URL}"
-                style="height: inherit; max-width: 500px; width: inherit" />
+                style="height: inherit; max-width: 500px; width: inherit"
+              />
             </div>
           </span>
           <span data-lexical-text="true">BC</span>

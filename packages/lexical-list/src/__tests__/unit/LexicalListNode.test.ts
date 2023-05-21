@@ -5,17 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {ParagraphNode, TextNode} from 'lexical';
-import {initializeUnitTest} from 'lexical/src/__tests__/utils';
+import { ParagraphNode, TextNode } from 'lexical';
+import { initializeUnitTest } from 'lexical/src/__tests__/utils';
 
-import {
-  $createListItemNode,
-  $createListNode,
-  $isListItemNode,
-  $isListNode,
-  ListItemNode,
-  ListNode,
-} from '../..';
+import { $createListItemNode, $createListNode, $isListItemNode, $isListNode, ListItemNode, ListNode } from '../..';
 
 const editorConfig = Object.freeze({
   namespace: '',
@@ -48,7 +41,7 @@ const editorConfig = Object.freeze({
 describe('LexicalListNode tests', () => {
   initializeUnitTest((testEnv) => {
     test('ListNode.constructor', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listNode = $createListNode('bullet', 1);
@@ -62,7 +55,7 @@ describe('LexicalListNode tests', () => {
     });
 
     test('ListNode.getTag()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const ulListNode = $createListNode('bullet', 1);
@@ -75,7 +68,7 @@ describe('LexicalListNode tests', () => {
     });
 
     test('ListNode.createDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listNode = $createListNode('bullet', 1);
@@ -100,7 +93,7 @@ describe('LexicalListNode tests', () => {
     });
 
     test('ListNode.createDOM() correctly applies classes to a nested ListNode', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listNode1 = $createListNode('bullet');
@@ -168,11 +161,7 @@ describe('LexicalListNode tests', () => {
             theme: {
               list: {
                 ...editorConfig.theme.list,
-                ulDepth: [
-                  'my-ul-list-class-1',
-                  'my-ul-list-class-2',
-                  'my-ul-list-class-3',
-                ],
+                ulDepth: ['my-ul-list-class-1', 'my-ul-list-class-2', 'my-ul-list-class-3'],
               },
             },
           }).outerHTML,
@@ -181,32 +170,24 @@ describe('LexicalListNode tests', () => {
     });
 
     test('ListNode.updateDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listNode = $createListNode('bullet', 1);
         const domElement = listNode.createDOM(editorConfig);
 
-        expect(domElement.outerHTML).toBe(
-          '<ul class="my-ul-list-class my-ul-list-class-1"></ul>',
-        );
+        expect(domElement.outerHTML).toBe('<ul class="my-ul-list-class my-ul-list-class-1"></ul>');
 
         const newListNode = $createListNode('number', 1);
-        const result = newListNode.updateDOM(
-          listNode,
-          domElement,
-          editorConfig,
-        );
+        const result = newListNode.updateDOM(listNode, domElement, editorConfig);
 
         expect(result).toBe(true);
-        expect(domElement.outerHTML).toBe(
-          '<ul class="my-ul-list-class my-ul-list-class-1"></ul>',
-        );
+        expect(domElement.outerHTML).toBe('<ul class="my-ul-list-class my-ul-list-class-1"></ul>');
       });
     });
 
     test('ListNode.append() should properly transform a ListItemNode', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listNode = new ListNode('bullet', 1);
@@ -223,7 +204,7 @@ describe('LexicalListNode tests', () => {
     });
 
     test('ListNode.append() should properly transform a ListNode', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listNode = new ListNode('bullet', 1);
@@ -238,14 +219,12 @@ describe('LexicalListNode tests', () => {
 
         expect(listNode.append(...nodesToAppend)).toBe(listNode);
         expect($isListItemNode(listNode.getFirstChild())).toBe(true);
-        expect(listNode.getFirstChild<ListItemNode>().getFirstChild()).toBe(
-          nestedListNode,
-        );
+        expect(listNode.getFirstChild<ListItemNode>().getFirstChild()).toBe(nestedListNode);
       });
     });
 
     test('ListNode.append() should properly transform a ParagraphNode', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listNode = new ListNode('bullet', 1);
@@ -261,7 +240,7 @@ describe('LexicalListNode tests', () => {
     });
 
     test('$createListNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listNode = $createListNode('bullet', 1);
@@ -275,7 +254,7 @@ describe('LexicalListNode tests', () => {
     });
 
     test('$isListNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listNode = $createListNode('bullet', 1);
@@ -285,7 +264,7 @@ describe('LexicalListNode tests', () => {
     });
 
     test('$createListNode() with tag name (backward compatibility)', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const numberList = $createListNode('number', 1);
@@ -296,7 +275,7 @@ describe('LexicalListNode tests', () => {
     });
 
     test('ListNode.clone() without list type (backward compatibility)', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const olNode = ListNode.clone({

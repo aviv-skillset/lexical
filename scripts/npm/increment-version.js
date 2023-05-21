@@ -10,7 +10,7 @@
 
 'use strict';
 
-const {exec} = require('child-process-promise');
+const { exec } = require('child-process-promise');
 const argv = require('minimist')(process.argv.slice(2));
 const increment = argv.i;
 const validIncrements = new Set(['minor', 'patch', 'prerelease']);

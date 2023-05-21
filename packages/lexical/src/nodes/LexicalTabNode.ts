@@ -6,19 +6,14 @@
  *
  */
 
-import type {DOMConversionMap, NodeKey} from '../LexicalNode';
+import type { DOMConversionMap, NodeKey } from '../LexicalNode';
 
 import invariant from 'shared/invariant';
 
-import {IS_UNMERGEABLE} from '../LexicalConstants';
-import {LexicalNode} from '../LexicalNode';
-import {$applyNodeReplacement} from '../LexicalUtils';
-import {
-  SerializedTextNode,
-  TextDetailType,
-  TextModeType,
-  TextNode,
-} from './LexicalTextNode';
+import { IS_UNMERGEABLE } from '../LexicalConstants';
+import { LexicalNode } from '../LexicalNode';
+import { $applyNodeReplacement } from '../LexicalUtils';
+import { SerializedTextNode, TextDetailType, TextModeType, TextNode } from './LexicalTextNode';
 
 export type SerializedTabNode = SerializedTextNode;
 
@@ -86,8 +81,6 @@ export function $createTabNode(): TabNode {
   return $applyNodeReplacement(new TabNode());
 }
 
-export function $isTabNode(
-  node: LexicalNode | null | undefined,
-): node is TabNode {
+export function $isTabNode(node: LexicalNode | null | undefined): node is TabNode {
   return node instanceof TabNode;
 }

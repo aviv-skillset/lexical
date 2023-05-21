@@ -7,7 +7,7 @@
  * @flow strict
  */
 
-import type {LexicalCommand, LexicalEditor, NodeKey, TextNode} from 'lexical';
+import type { LexicalCommand, LexicalEditor, NodeKey, TextNode } from 'lexical';
 import * as React from 'react';
 
 export type MenuTextMatch = {
@@ -23,13 +23,13 @@ export type MenuResolution = {
 
 declare export class MenuOption {
   key: string;
-  ref: {current: HTMLElement | null};
+  ref: { current: HTMLElement | null };
   constructor(key: string): void;
   setRefElement(element: HTMLElement | null): void;
 }
 
 export type MenuRenderFn<TOption> = (
-  anchorElementRef: {current: HTMLElement | null},
+  anchorElementRef: { current: HTMLElement | null },
   itemProps: {
     selectedIndex: number | null,
     selectOptionAndCleanUp: (option: TOption) => void,
@@ -39,10 +39,7 @@ export type MenuRenderFn<TOption> = (
   matchingString: string,
 ) => React.Portal | React.MixedElement | null;
 
-export type TriggerFn = (
-  text: string,
-  editor: LexicalEditor,
-) => MenuTextMatch | null;
+export type TriggerFn = (text: string, editor: LexicalEditor) => MenuTextMatch | null;
 
 type NodeMenuPluginProps<TOption> = {
   onSelectOption: (

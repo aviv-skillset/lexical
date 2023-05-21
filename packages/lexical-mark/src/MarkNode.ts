@@ -17,16 +17,8 @@ import type {
   Spread,
 } from 'lexical';
 
-import {
-  addClassNamesToElement,
-  removeClassNamesFromElement,
-} from '@lexical/utils';
-import {
-  $applyNodeReplacement,
-  $isElementNode,
-  $isRangeSelection,
-  ElementNode,
-} from 'lexical';
+import { addClassNamesToElement, removeClassNamesFromElement } from '@lexical/utils';
+import { $applyNodeReplacement, $isElementNode, $isRangeSelection, ElementNode } from 'lexical';
 
 export type SerializedMarkNode = Spread<
   {
@@ -83,11 +75,7 @@ export class MarkNode extends ElementNode {
     return element;
   }
 
-  updateDOM(
-    prevNode: MarkNode,
-    element: HTMLElement,
-    config: EditorConfig,
-  ): boolean {
+  updateDOM(prevNode: MarkNode, element: HTMLElement, config: EditorConfig): boolean {
     const prevIDs = prevNode.__ids;
     const nextIDs = this.__ids;
     const prevIDsCount = prevIDs.length;
@@ -148,14 +136,8 @@ export class MarkNode extends ElementNode {
     }
   }
 
-  insertNewAfter(
-    selection: RangeSelection,
-    restoreSelection = true,
-  ): null | ElementNode {
-    const element = this.getParentOrThrow().insertNewAfter(
-      selection,
-      restoreSelection,
-    );
+  insertNewAfter(selection: RangeSelection, restoreSelection = true): null | ElementNode {
+    const element = this.getParentOrThrow().insertNewAfter(selection, restoreSelection);
     if ($isElementNode(element)) {
       const markNode = $createMarkNode(this.__ids);
       element.append(markNode);
@@ -193,13 +175,9 @@ export class MarkNode extends ElementNode {
     const anchorNode = anchor.getNode();
     const focusNode = focus.getNode();
     const isBackward = selection.isBackward();
-    const selectionLength = isBackward
-      ? anchor.offset - focus.offset
-      : focus.offset - anchor.offset;
+    const selectionLength = isBackward ? anchor.offset - focus.offset : focus.offset - anchor.offset;
     return (
-      this.isParentOf(anchorNode) &&
-      this.isParentOf(focusNode) &&
-      this.getTextContent().length === selectionLength
+      this.isParentOf(anchorNode) && this.isParentOf(focusNode) && this.getTextContent().length === selectionLength
     );
   }
 

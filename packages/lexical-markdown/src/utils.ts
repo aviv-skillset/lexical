@@ -6,18 +6,13 @@
  *
  */
 
-import type {ListNode} from '@lexical/list';
-import type {
-  ElementTransformer,
-  TextFormatTransformer,
-  TextMatchTransformer,
-  Transformer,
-} from '@lexical/markdown';
-import type {ElementNode, LexicalNode, TextFormatType} from 'lexical';
+import type { ListNode } from '@lexical/list';
+import type { ElementTransformer, TextFormatTransformer, TextMatchTransformer, Transformer } from '@lexical/markdown';
+import type { ElementNode, LexicalNode, TextFormatType } from 'lexical';
 
-import {$isCodeNode} from '@lexical/code';
-import {$isListItemNode, $isListNode} from '@lexical/list';
-import {$isHeadingNode, $isQuoteNode} from '@lexical/rich-text';
+import { $isCodeNode } from '@lexical/code';
+import { $isListItemNode, $isListNode } from '@lexical/list';
+import { $isHeadingNode, $isQuoteNode } from '@lexical/rich-text';
 
 type MarkdownFormatKind =
   | 'noTransformation'
@@ -44,10 +39,7 @@ type MarkdownFormatKind =
   | 'link';
 
 type MarkdownCriteria = Readonly<{
-  export?: (
-    node: LexicalNode,
-    traverseChildren: (elementNode: ElementNode) => string,
-  ) => string | null;
+  export?: (node: LexicalNode, traverseChildren: (elementNode: ElementNode) => string) => string | null;
   exportFormat?: TextFormatType;
   exportTag?: string;
   exportTagClose?: string;
@@ -241,8 +233,7 @@ const markdownStrikethroughItalicBold: MarkdownCriteria = {
   ...autoFormatBase,
   markdownFormatKind: 'strikethrough_italic_bold',
   regEx: /(~~_\*\*)(\s*\b)([^~~_**][^**_~~]*)(\b\s*)(\*\*_~~)()/,
-  regExForAutoFormatting:
-    /(~~_\*\*)(\s*\b)([^~~_**][^**_~~]*)(\b\s*)(\*\*_~~)(\s)$/,
+  regExForAutoFormatting: /(~~_\*\*)(\s*\b)([^~~_**][^**_~~]*)(\b\s*)(\*\*_~~)(\s)$/,
 };
 
 const markdownItalicbold: MarkdownCriteria = {
@@ -263,8 +254,7 @@ const markdownStrikethroughBold: MarkdownCriteria = {
   ...autoFormatBase,
   markdownFormatKind: 'strikethrough_bold',
   regEx: /(~~\*\*)(\s*\b)([^~~**][^**~~]*)(\b\s*)(\*\*~~)/,
-  regExForAutoFormatting:
-    /(~~\*\*)(\s*\b)([^~~**][^**~~]*)(\b\s*)(\*\*~~)(\s)$/,
+  regExForAutoFormatting: /(~~\*\*)(\s*\b)([^~~**][^**~~]*)(\b\s*)(\*\*~~)(\s)$/,
 };
 
 const markdownLink: MarkdownCriteria = {
@@ -315,10 +305,7 @@ export function getAllMarkdownCriteriaForTextNodes(): MarkdownCriteriaArray {
   return allMarkdownCriteriaForTextNodes;
 }
 
-type Block = (
-  node: LexicalNode,
-  exportChildren: (elementNode: ElementNode) => string,
-) => string | null;
+type Block = (node: LexicalNode, exportChildren: (elementNode: ElementNode) => string) => string | null;
 
 function createHeadingExport(level: number): Block {
   return (node, exportChildren) => {
@@ -328,21 +315,14 @@ function createHeadingExport(level: number): Block {
   };
 }
 
-function listExport(
-  node: LexicalNode,
-  exportChildren: (_node: ElementNode) => string,
-) {
+function listExport(node: LexicalNode, exportChildren: (_node: ElementNode) => string) {
   return $isListNode(node) ? processNestedLists(node, exportChildren, 0) : null;
 }
 
 // TODO: should be param
 const LIST_INDENT_SIZE = 4;
 
-function processNestedLists(
-  listNode: ListNode,
-  exportChildren: (node: ElementNode) => string,
-  depth: number,
-): string {
+function processNestedLists(listNode: ListNode, exportChildren: (node: ElementNode) => string, depth: number): string {
   const output = [];
   const children = listNode.getChildren();
   let index = 0;
@@ -353,18 +333,13 @@ function processNestedLists(
         const firstChild = listItemNode.getFirstChild();
 
         if ($isListNode(firstChild)) {
-          output.push(
-            processNestedLists(firstChild, exportChildren, depth + 1),
-          );
+          output.push(processNestedLists(firstChild, exportChildren, depth + 1));
           continue;
         }
       }
 
       const indent = ' '.repeat(depth * LIST_INDENT_SIZE);
-      const prefix =
-        listNode.getListType() === 'bullet'
-          ? '- '
-          : `${listNode.getStart() + index}. `;
+      const prefix = listNode.getListType() === 'bullet' ? '- ' : `${listNode.getStart() + index}. `;
       output.push(indent + prefix + exportChildren(listItemNode));
       index++;
     }
@@ -373,10 +348,7 @@ function processNestedLists(
   return output.join('\n');
 }
 
-function blockQuoteExport(
-  node: LexicalNode,
-  exportChildren: (_node: ElementNode) => string,
-) {
+function blockQuoteExport(node: LexicalNode, exportChildren: (_node: ElementNode) => string) {
   return $isQuoteNode(node) ? '> ' + exportChildren(node) : null;
 }
 
@@ -386,19 +358,10 @@ function codeBlockExport(node: LexicalNode) {
   }
 
   const textContent = node.getTextContent();
-  return (
-    '```' +
-    (node.getLanguage() || '') +
-    (textContent ? '\n' + textContent : '') +
-    '\n' +
-    '```'
-  );
+  return '```' + (node.getLanguage() || '') + (textContent ? '\n' + textContent : '') + '\n' + '```';
 }
 
-export function indexBy<T>(
-  list: Array<T>,
-  callback: (arg0: T) => string,
-): Readonly<Record<string, Array<T>>> {
+export function indexBy<T>(list: Array<T>, callback: (arg0: T) => string): Readonly<Record<string, Array<T>>> {
   const index: Record<string, Array<T>> = {};
 
   for (const item of list) {

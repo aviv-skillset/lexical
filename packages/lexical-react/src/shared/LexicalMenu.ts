@@ -6,8 +6,8 @@
  *
  */
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {mergeRegister} from '@lexical/utils';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { mergeRegister } from '@lexical/utils';
 import {
   $getSelection,
   $isRangeSelection,
@@ -22,15 +22,7 @@ import {
   LexicalEditor,
   TextNode,
 } from 'lexical';
-import {
-  MutableRefObject,
-  ReactPortal,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { MutableRefObject, ReactPortal, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useLayoutEffect from 'shared/useLayoutEffect';
 
 export type MenuTextMatch = {
@@ -44,8 +36,7 @@ export type MenuResolution = {
   getRect: () => DOMRect;
 };
 
-export const PUNCTUATION =
-  '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;';
+export const PUNCTUATION = '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;';
 
 export class MenuOption {
   key: string;
@@ -53,12 +44,12 @@ export class MenuOption {
 
   constructor(key: string) {
     this.key = key;
-    this.ref = {current: null};
+    this.ref = { current: null };
     this.setRefElement = this.setRefElement.bind(this);
   }
 
   setRefElement(element: HTMLElement | null) {
-    this.ref = {current: element};
+    this.ref = { current: element };
   }
 }
 
@@ -91,18 +82,14 @@ const scrollIntoViewIfNeeded = (target: HTMLElement) => {
     });
   }
 
-  target.scrollIntoView({block: 'nearest'});
+  target.scrollIntoView({ block: 'nearest' });
 };
 
 /**
  * Walk backwards along user input and forward through entity title to try
  * and replace more of the user's text with entity.
  */
-function getFullMatchOffset(
-  documentText: string,
-  entryText: string,
-  offset: number,
-): number {
+function getFullMatchOffset(documentText: string, entryText: string, offset: number): number {
   let triggerOffset = offset;
   for (let i = triggerOffset; i <= entryText.length; i++) {
     if (documentText.substr(-i) === entryText.substr(0, i)) {
@@ -132,11 +119,7 @@ function $splitNodeContainingQuery(match: MenuTextMatch): TextNode | null {
   const selectionOffset = anchor.offset;
   const textContent = anchorNode.getTextContent().slice(0, selectionOffset);
   const characterOffset = match.replaceableString.length;
-  const queryOffset = getFullMatchOffset(
-    textContent,
-    match.matchingString,
-    characterOffset,
-  );
+  const queryOffset = getFullMatchOffset(textContent, match.matchingString, characterOffset);
   const startOffset = selectionOffset - queryOffset;
   if (startOffset < 0) {
     return null;
@@ -152,40 +135,26 @@ function $splitNodeContainingQuery(match: MenuTextMatch): TextNode | null {
 }
 
 // Got from https://stackoverflow.com/a/42543908/2013580
-export function getScrollParent(
-  element: HTMLElement,
-  includeHidden: boolean,
-): HTMLElement | HTMLBodyElement {
+export function getScrollParent(element: HTMLElement, includeHidden: boolean): HTMLElement | HTMLBodyElement {
   let style = getComputedStyle(element);
   const excludeStaticParent = style.position === 'absolute';
-  const overflowRegex = includeHidden
-    ? /(auto|scroll|hidden)/
-    : /(auto|scroll)/;
+  const overflowRegex = includeHidden ? /(auto|scroll|hidden)/ : /(auto|scroll)/;
   if (style.position === 'fixed') {
     return document.body;
   }
-  for (
-    let parent: HTMLElement | null = element;
-    (parent = parent.parentElement);
-
-  ) {
+  for (let parent: HTMLElement | null = element; (parent = parent.parentElement); ) {
     style = getComputedStyle(parent);
     if (excludeStaticParent && style.position === 'static') {
       continue;
     }
-    if (
-      overflowRegex.test(style.overflow + style.overflowY + style.overflowX)
-    ) {
+    if (overflowRegex.test(style.overflow + style.overflowY + style.overflowX)) {
       return parent;
     }
   }
   return document.body;
 }
 
-function isTriggerVisibleInNearestScrollContainer(
-  targetElement: HTMLElement,
-  containerElement: HTMLElement,
-): boolean {
+function isTriggerVisibleInNearestScrollContainer(targetElement: HTMLElement, containerElement: HTMLElement): boolean {
   const tRect = targetElement.getBoundingClientRect();
   const cRect = containerElement.getBoundingClientRect();
   return tRect.top > cRect.top && tRect.top < cRect.bottom;
@@ -202,15 +171,9 @@ export function useDynamicPositioning(
   useEffect(() => {
     if (targetElement != null && resolution != null) {
       const rootElement = editor.getRootElement();
-      const rootScrollParent =
-        rootElement != null
-          ? getScrollParent(rootElement, false)
-          : document.body;
+      const rootScrollParent = rootElement != null ? getScrollParent(rootElement, false) : document.body;
       let ticking = false;
-      let previousIsInView = isTriggerVisibleInNearestScrollContainer(
-        targetElement,
-        rootScrollParent,
-      );
+      let previousIsInView = isTriggerVisibleInNearestScrollContainer(targetElement, rootScrollParent);
       const handleScroll = function () {
         if (!ticking) {
           window.requestAnimationFrame(function () {
@@ -219,10 +182,7 @@ export function useDynamicPositioning(
           });
           ticking = true;
         }
-        const isInView = isTriggerVisibleInNearestScrollContainer(
-          targetElement,
-          rootScrollParent,
-        );
+        const isInView = isTriggerVisibleInNearestScrollContainer(targetElement, rootScrollParent);
         if (isInView !== previousIsInView) {
           previousIsInView = isInView;
           if (onVisibilityChange != null) {
@@ -287,9 +247,7 @@ export function LexicalMenu<TOption extends MenuOption>({
     (selectedEntry: TOption) => {
       editor.update(() => {
         const textNodeContainingQuery =
-          resolution.match != null && shouldSplitNodeWithQuery
-            ? $splitNodeContainingQuery(resolution.match)
-            : null;
+          resolution.match != null && shouldSplitNodeWithQuery ? $splitNodeContainingQuery(resolution.match) : null;
 
         onSelectOption(
           selectedEntry,
@@ -306,10 +264,7 @@ export function LexicalMenu<TOption extends MenuOption>({
     (index: number) => {
       const rootElem = editor.getRootElement();
       if (rootElem !== null) {
-        rootElem.setAttribute(
-          'aria-activedescendant',
-          'typeahead-item-' + index,
-        );
+        rootElem.setAttribute('aria-activedescendant', 'typeahead-item-' + index);
         setHighlightedIndex(index);
       }
     },
@@ -337,7 +292,7 @@ export function LexicalMenu<TOption extends MenuOption>({
     return mergeRegister(
       editor.registerCommand(
         SCROLL_TYPEAHEAD_OPTION_INTO_VIEW_COMMAND,
-        ({option}) => {
+        ({ option }) => {
           if (option.ref && option.ref.current != null) {
             scrollIntoViewIfNeeded(option.ref.current);
             return true;
@@ -357,18 +312,14 @@ export function LexicalMenu<TOption extends MenuOption>({
         (payload) => {
           const event = payload;
           if (options !== null && options.length && selectedIndex !== null) {
-            const newSelectedIndex =
-              selectedIndex !== options.length - 1 ? selectedIndex + 1 : 0;
+            const newSelectedIndex = selectedIndex !== options.length - 1 ? selectedIndex + 1 : 0;
             updateSelectedIndex(newSelectedIndex);
             const option = options[newSelectedIndex];
             if (option.ref != null && option.ref.current) {
-              editor.dispatchCommand(
-                SCROLL_TYPEAHEAD_OPTION_INTO_VIEW_COMMAND,
-                {
-                  index: newSelectedIndex,
-                  option,
-                },
-              );
+              editor.dispatchCommand(SCROLL_TYPEAHEAD_OPTION_INTO_VIEW_COMMAND, {
+                index: newSelectedIndex,
+                option,
+              });
             }
             event.preventDefault();
             event.stopImmediatePropagation();
@@ -382,8 +333,7 @@ export function LexicalMenu<TOption extends MenuOption>({
         (payload) => {
           const event = payload;
           if (options !== null && options.length && selectedIndex !== null) {
-            const newSelectedIndex =
-              selectedIndex !== 0 ? selectedIndex - 1 : options.length - 1;
+            const newSelectedIndex = selectedIndex !== 0 ? selectedIndex - 1 : options.length - 1;
             updateSelectedIndex(newSelectedIndex);
             const option = options[newSelectedIndex];
             if (option.ref != null && option.ref.current) {
@@ -411,11 +361,7 @@ export function LexicalMenu<TOption extends MenuOption>({
         KEY_TAB_COMMAND,
         (payload) => {
           const event = payload;
-          if (
-            options === null ||
-            selectedIndex === null ||
-            options[selectedIndex] == null
-          ) {
+          if (options === null || selectedIndex === null || options[selectedIndex] == null) {
             return false;
           }
           event.preventDefault();
@@ -428,11 +374,7 @@ export function LexicalMenu<TOption extends MenuOption>({
       editor.registerCommand(
         KEY_ENTER_COMMAND,
         (event: KeyboardEvent | null) => {
-          if (
-            options === null ||
-            selectedIndex === null ||
-            options[selectedIndex] == null
-          ) {
+          if (options === null || selectedIndex === null || options[selectedIndex] == null) {
             return false;
           }
           if (event !== null) {
@@ -445,14 +387,7 @@ export function LexicalMenu<TOption extends MenuOption>({
         COMMAND_PRIORITY_LOW,
       ),
     );
-  }, [
-    selectOptionAndCleanUp,
-    close,
-    editor,
-    options,
-    selectedIndex,
-    updateSelectedIndex,
-  ]);
+  }, [selectOptionAndCleanUp, close, editor, options, selectedIndex, updateSelectedIndex]);
 
   const listItemProps = useMemo(
     () => ({
@@ -464,11 +399,7 @@ export function LexicalMenu<TOption extends MenuOption>({
     [selectOptionAndCleanUp, selectedIndex, options],
   );
 
-  return menuRenderFn(
-    anchorElementRef,
-    listItemProps,
-    resolution.match ? resolution.match.matchingString : '',
-  );
+  return menuRenderFn(anchorElementRef, listItemProps, resolution.match ? resolution.match.matchingString : '');
 }
 
 export function useMenuAnchorRef(
@@ -483,7 +414,7 @@ export function useMenuAnchorRef(
     const containerDiv = anchorElementRef.current;
     const menuEle = containerDiv.firstChild as Element;
     if (rootElement !== null && resolution !== null) {
-      const {left, top, width, height} = resolution.getRect();
+      const { left, top, width, height } = resolution.getRect();
       containerDiv.style.top = `${top + window.pageYOffset}px`;
       containerDiv.style.left = `${left + window.pageXOffset}px`;
       containerDiv.style.height = `${height}px`;
@@ -496,19 +427,14 @@ export function useMenuAnchorRef(
         const rootElementRect = rootElement.getBoundingClientRect();
 
         if (left + menuWidth > rootElementRect.right) {
-          containerDiv.style.left = `${
-            left - menuWidth + window.pageXOffset
-          }px`;
+          containerDiv.style.left = `${left - menuWidth + window.pageXOffset}px`;
         }
         const margin = 10;
         if (
-          (top + menuHeight > window.innerHeight ||
-            top + menuHeight > rootElementRect.bottom) &&
+          (top + menuHeight > window.innerHeight || top + menuHeight > rootElementRect.bottom) &&
           top - rootElementRect.top > menuHeight
         ) {
-          containerDiv.style.top = `${
-            top - menuHeight + window.pageYOffset - (height + margin)
-          }px`;
+          containerDiv.style.top = `${top - menuHeight + window.pageYOffset - (height + margin)}px`;
         }
       }
 
@@ -556,17 +482,9 @@ export function useMenuAnchorRef(
     [resolution, setResolution],
   );
 
-  useDynamicPositioning(
-    resolution,
-    anchorElementRef.current,
-    positionMenu,
-    onVisibilityChange,
-  );
+  useDynamicPositioning(resolution, anchorElementRef.current, positionMenu, onVisibilityChange);
 
   return anchorElementRef;
 }
 
-export type TriggerFn = (
-  text: string,
-  editor: LexicalEditor,
-) => MenuTextMatch | null;
+export type TriggerFn = (text: string, editor: LexicalEditor) => MenuTextMatch | null;

@@ -6,9 +6,9 @@
  *
  */
 
-import {$isLinkNode} from '@lexical/link';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$findMatchingParent, isHTMLAnchorElement} from '@lexical/utils';
+import { $isLinkNode } from '@lexical/link';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $findMatchingParent, isHTMLAnchorElement } from '@lexical/utils';
 import {
   $getNearestNodeFromDOMNode,
   $getSelection,
@@ -16,12 +16,9 @@ import {
   $isRangeSelection,
   getNearestEditorFromDOMNode,
 } from 'lexical';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 
-function findMatchingDOM<T extends Node>(
-  startNode: Node,
-  predicate: (node: Node) => node is T,
-): T | null {
+function findMatchingDOM<T extends Node>(startNode: Node, predicate: (node: Node) => node is T): T | null {
   let node: Node | null = startNode;
   while (node != null) {
     if (predicate(node)) {
@@ -32,11 +29,7 @@ function findMatchingDOM<T extends Node>(
   return null;
 }
 
-export default function LexicalClickableLinkPlugin({
-  newTab = true,
-}: {
-  newTab?: boolean;
-}): null {
+export default function LexicalClickableLinkPlugin({ newTab = true }: { newTab?: boolean }): null {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
@@ -56,10 +49,7 @@ export default function LexicalClickableLinkPlugin({
       nearestEditor.update(() => {
         const clickedNode = $getNearestNodeFromDOMNode(target);
         if (clickedNode !== null) {
-          const maybeLinkNode = $findMatchingParent(
-            clickedNode,
-            $isElementNode,
-          );
+          const maybeLinkNode = $findMatchingParent(clickedNode, $isElementNode);
           if ($isLinkNode(maybeLinkNode)) {
             url = maybeLinkNode.getURL();
             urlTarget = maybeLinkNode.getTarget();
@@ -87,13 +77,7 @@ export default function LexicalClickableLinkPlugin({
       const isMiddle = event.type === 'auxclick' && event.button === 1;
       window.open(
         url,
-        newTab ||
-          isMiddle ||
-          event.metaKey ||
-          event.ctrlKey ||
-          urlTarget === '_blank'
-          ? '_blank'
-          : '_self',
+        newTab || isMiddle || event.metaKey || event.ctrlKey || urlTarget === '_blank' ? '_blank' : '_self',
       );
       event.preventDefault();
     };

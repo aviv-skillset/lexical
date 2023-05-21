@@ -8,7 +8,7 @@
 
 'use strict';
 
-const {spawn} = require('child_process');
+const { spawn } = require('child_process');
 
 async function runFlow(renderer, args) {
   return new Promise((resolve) => {

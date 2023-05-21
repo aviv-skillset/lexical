@@ -6,20 +6,11 @@
  *
  */
 
-import {
-  assertHTML,
-  focusEditor,
-  html,
-  initialize,
-  test,
-} from '../utils/index.mjs';
+import { assertHTML, focusEditor, html, initialize, test } from '../utils/index.mjs';
 
 test.describe('Regression test #3433', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test('can merge markdown lists created immediately before existing lists', async ({
-    page,
-    isPlainText,
-  }) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test('can merge markdown lists created immediately before existing lists', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await page.keyboard.press('Enter');
@@ -30,16 +21,10 @@ test.describe('Regression test #3433', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
         </ul>

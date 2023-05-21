@@ -6,14 +6,10 @@
  *
  */
 
-import {$createParagraphNode, $createTextNode, $getRoot} from 'lexical';
+import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
 
-import {$normalizeSelection} from '../../LexicalNormalization';
-import {
-  $createTestDecoratorNode,
-  $createTestElementNode,
-  initializeUnitTest,
-} from '../utils';
+import { $normalizeSelection } from '../../LexicalNormalization';
+import { $createTestDecoratorNode, $createTestElementNode, initializeUnitTest } from '../utils';
 
 describe('LexicalNormalization tests', () => {
   initializeUnitTest((testEnv) => {
@@ -24,7 +20,7 @@ describe('LexicalNormalization tests', () => {
         const reversedStr = reversed ? ' (reversed)' : '';
 
         test(`paragraph to text nodes${reversedStr}`, async () => {
-          const {editor} = testEnv;
+          const { editor } = testEnv;
           editor.update(() => {
             const root = $getRoot();
             const paragraph = $createParagraphNode();
@@ -39,20 +35,16 @@ describe('LexicalNormalization tests', () => {
 
             const normalizedSelection = $normalizeSelection(selection);
             expect(getAnchor(normalizedSelection).type).toBe('text');
-            expect(getAnchor(normalizedSelection).getNode().__key).toBe(
-              text1.__key,
-            );
+            expect(getAnchor(normalizedSelection).getNode().__key).toBe(text1.__key);
             expect(getAnchor(normalizedSelection).offset).toBe(0);
             expect(getFocus(normalizedSelection).type).toBe('text');
-            expect(getFocus(normalizedSelection).getNode().__key).toBe(
-              text2.__key,
-            );
+            expect(getFocus(normalizedSelection).getNode().__key).toBe(text2.__key);
             expect(getFocus(normalizedSelection).offset).toBe(1);
           });
         });
 
         test(`paragraph to text node + element${reversedStr}`, async () => {
-          const {editor} = testEnv;
+          const { editor } = testEnv;
           editor.update(() => {
             const root = $getRoot();
             const paragraph = $createParagraphNode();
@@ -67,20 +59,16 @@ describe('LexicalNormalization tests', () => {
 
             const normalizedSelection = $normalizeSelection(selection);
             expect(getAnchor(normalizedSelection).type).toBe('text');
-            expect(getAnchor(normalizedSelection).getNode().__key).toBe(
-              text1.__key,
-            );
+            expect(getAnchor(normalizedSelection).getNode().__key).toBe(text1.__key);
             expect(getAnchor(normalizedSelection).offset).toBe(0);
             expect(getFocus(normalizedSelection).type).toBe('element');
-            expect(getFocus(normalizedSelection).getNode().__key).toBe(
-              elementNode.__key,
-            );
+            expect(getFocus(normalizedSelection).getNode().__key).toBe(elementNode.__key);
             expect(getFocus(normalizedSelection).offset).toBe(0);
           });
         });
 
         test(`paragraph to text node + decorator${reversedStr}`, async () => {
-          const {editor} = testEnv;
+          const { editor } = testEnv;
           editor.update(() => {
             const root = $getRoot();
             const paragraph = $createParagraphNode();
@@ -95,20 +83,16 @@ describe('LexicalNormalization tests', () => {
 
             const normalizedSelection = $normalizeSelection(selection);
             expect(getAnchor(normalizedSelection).type).toBe('text');
-            expect(getAnchor(normalizedSelection).getNode().__key).toBe(
-              text1.__key,
-            );
+            expect(getAnchor(normalizedSelection).getNode().__key).toBe(text1.__key);
             expect(getAnchor(normalizedSelection).offset).toBe(0);
             expect(getFocus(normalizedSelection).type).toBe('element');
-            expect(getFocus(normalizedSelection).getNode().__key).toBe(
-              paragraph.__key,
-            );
+            expect(getFocus(normalizedSelection).getNode().__key).toBe(paragraph.__key);
             expect(getFocus(normalizedSelection).offset).toBe(2);
           });
         });
 
         test(`text + text node${reversedStr}`, async () => {
-          const {editor} = testEnv;
+          const { editor } = testEnv;
           editor.update(() => {
             const root = $getRoot();
             const paragraph = $createParagraphNode();
@@ -123,20 +107,16 @@ describe('LexicalNormalization tests', () => {
 
             const normalizedSelection = $normalizeSelection(selection);
             expect(getAnchor(normalizedSelection).type).toBe('text');
-            expect(getAnchor(normalizedSelection).getNode().__key).toBe(
-              text1.__key,
-            );
+            expect(getAnchor(normalizedSelection).getNode().__key).toBe(text1.__key);
             expect(getAnchor(normalizedSelection).offset).toBe(0);
             expect(getFocus(normalizedSelection).type).toBe('text');
-            expect(getFocus(normalizedSelection).getNode().__key).toBe(
-              text2.__key,
-            );
+            expect(getFocus(normalizedSelection).getNode().__key).toBe(text2.__key);
             expect(getFocus(normalizedSelection).offset).toBe(2);
           });
         });
 
         test(`paragraph to test element to text + text${reversedStr}`, async () => {
-          const {editor} = testEnv;
+          const { editor } = testEnv;
           editor.update(() => {
             const root = $getRoot();
             const paragraph = $createParagraphNode();
@@ -153,14 +133,10 @@ describe('LexicalNormalization tests', () => {
 
             const normalizedSelection = $normalizeSelection(selection);
             expect(getAnchor(normalizedSelection).type).toBe('text');
-            expect(getAnchor(normalizedSelection).getNode().__key).toBe(
-              text1.__key,
-            );
+            expect(getAnchor(normalizedSelection).getNode().__key).toBe(text1.__key);
             expect(getAnchor(normalizedSelection).offset).toBe(0);
             expect(getFocus(normalizedSelection).type).toBe('text');
-            expect(getFocus(normalizedSelection).getNode().__key).toBe(
-              text2.__key,
-            );
+            expect(getFocus(normalizedSelection).getNode().__key).toBe(text2.__key);
             expect(getFocus(normalizedSelection).offset).toBe(2);
           });
         });

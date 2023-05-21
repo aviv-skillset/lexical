@@ -7,7 +7,7 @@
  * @flow strict
  */
 
-import type {Doc} from 'yjs';
+import type { Doc } from 'yjs';
 
 type CollaborationContextType = {
   clientID: number,

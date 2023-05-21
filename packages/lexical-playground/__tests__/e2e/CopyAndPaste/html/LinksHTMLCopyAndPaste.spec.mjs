@@ -29,9 +29,9 @@ import {
 } from '../../../utils/index.mjs';
 
 test.describe('HTML Links CopyAndPaste', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
 
-  test('Copy + paste an anchor element', async ({page, isPlainText}) => {
+  test('Copy + paste an anchor element', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -46,10 +46,7 @@ test.describe('HTML Links CopyAndPaste', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <a
-            href="https://facebook.com"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://facebook.com" dir="ltr">
             <span data-lexical-text="true">Facebook!</span>
           </a>
         </p>
@@ -87,10 +84,11 @@ test.describe('HTML Links CopyAndPaste', () => {
       html`
         <p class="PlaygroundEditorTheme__paragraph">
           <a
+            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
             href="https://facebook.com"
             rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+            dir="ltr"
+          >
             <span data-lexical-text="true">Facebook!</span>
           </a>
         </p>
@@ -98,10 +96,7 @@ test.describe('HTML Links CopyAndPaste', () => {
     );
   });
 
-  test('Copy + paste in front of or after a link', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('Copy + paste in front of or after a link', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await pasteFromClipboard(page, {
@@ -118,14 +113,9 @@ test.describe('HTML Links CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">beforetext</span>
-          <a
-            href="https://test.com/1"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://test.com/1" dir="ltr">
             <span data-lexical-text="true">link</span>
           </a>
           <span data-lexical-text="true">textafter</span>
@@ -134,10 +124,7 @@ test.describe('HTML Links CopyAndPaste', () => {
     );
   });
 
-  test('Copy + paste link by selecting its (partial) content', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('Copy + paste link by selecting its (partial) content', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await pasteFromClipboard(page, {
@@ -154,21 +141,13 @@ test.describe('HTML Links CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">text</span>
-          <a
-            href="https://test.com/"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://test.com/" dir="ltr">
             <span data-lexical-text="true">link</span>
           </a>
           <span data-lexical-text="true">text</span>
-          <a
-            href="https://test.com/"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://test.com/" dir="ltr">
             <span data-lexical-text="true">in</span>
           </a>
         </p>
@@ -176,7 +155,7 @@ test.describe('HTML Links CopyAndPaste', () => {
     );
   });
 
-  test('Copy + paste empty link #3193', async ({page, isPlainText}) => {
+  test('Copy + paste empty link #3193', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -191,31 +170,24 @@ test.describe('HTML Links CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Line 0</span>
         </p>
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            value="1">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" dir="ltr" value="1">
             <span data-lexical-text="true">â..ï¸.Â&nbsp;Line 1Â&nbsp;</span>
             <a
               class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
               dir="ltr"
               href="https://www.internalfb.com/removed?entry_point=20"
               rel="nofollow noopener"
-              target="_blank">
+              target="_blank"
+            >
               <span data-lexical-text="true">Some link</span>
             </a>
             <span data-lexical-text="true">.</span>
           </li>
-          <li
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            value="2">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" dir="ltr" value="2">
             <span data-lexical-text="true">â..ï¸.Â&nbsp;Line 2.</span>
           </li>
         </ul>
@@ -223,7 +195,7 @@ test.describe('HTML Links CopyAndPaste', () => {
     );
   });
 
-  test('Paste a link into text', async ({page, isPlainText}) => {
+  test('Paste a link into text', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -243,15 +215,14 @@ test.describe('HTML Links CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">A</span>
           <a
             class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
             dir="ltr"
             href="https://lexical.dev"
-            rel="noopener">
+            rel="noopener"
+          >
             <span data-lexical-text="true">Lexical</span>
           </a>
           <span data-lexical-text="true">in the wild</span>

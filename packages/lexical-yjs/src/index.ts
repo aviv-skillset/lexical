@@ -7,12 +7,12 @@
  *
  */
 
-import type {Binding} from './Bindings';
-import type {LexicalCommand} from 'lexical';
-import type {Doc, RelativePosition, UndoManager, XmlText} from 'yjs';
+import type { Binding } from './Bindings';
+import type { LexicalCommand } from 'lexical';
+import type { Doc, RelativePosition, UndoManager, XmlText } from 'yjs';
 
-import {createCommand} from 'lexical';
-import {UndoManager as YjsUndoManager} from 'yjs';
+import { createCommand } from 'lexical';
+import { UndoManager as YjsUndoManager } from 'yjs';
 
 export type UserState = {
   anchorPos: null | RelativePosition;
@@ -22,11 +22,8 @@ export type UserState = {
   name: string;
   awarenessData: object;
 };
-export const CONNECTED_COMMAND: LexicalCommand<boolean> =
-  createCommand('CONNECTED_COMMAND');
-export const TOGGLE_CONNECT_COMMAND: LexicalCommand<boolean> = createCommand(
-  'TOGGLE_CONNECT_COMMAND',
-);
+export const CONNECTED_COMMAND: LexicalCommand<boolean> = createCommand('CONNECTED_COMMAND');
+export const TOGGLE_CONNECT_COMMAND: LexicalCommand<boolean> = createCommand('TOGGLE_CONNECT_COMMAND');
 export type ProviderAwareness = {
   getLocalState: () => UserState | null;
   getStates: () => Map<number, UserState>;
@@ -40,10 +37,10 @@ declare interface Provider {
   disconnect(): void;
   off(type: 'sync', cb: (isSynced: boolean) => void): void;
   off(type: 'update', cb: (arg0: unknown) => void): void;
-  off(type: 'status', cb: (arg0: {status: string}) => void): void;
+  off(type: 'status', cb: (arg0: { status: string }) => void): void;
   off(type: 'reload', cb: (doc: Doc) => void): void;
   on(type: 'sync', cb: (isSynced: boolean) => void): void;
-  on(type: 'status', cb: (arg0: {status: string}) => void): void;
+  on(type: 'status', cb: (arg0: { status: string }) => void): void;
   on(type: 'update', cb: (arg0: unknown) => void): void;
   on(type: 'reload', cb: (doc: Doc) => void): void;
 }
@@ -56,14 +53,11 @@ export type Operation = {
 export type Delta = Array<Operation>;
 export type YjsNode = Record<string, unknown>;
 export type YjsEvent = Record<string, unknown>;
-export type {Provider};
-export type {Binding, ClientID, ExcludedProperties} from './Bindings';
-export {createBinding} from './Bindings';
+export type { Provider };
+export type { Binding, ClientID, ExcludedProperties } from './Bindings';
+export { createBinding } from './Bindings';
 
-export function createUndoManager(
-  binding: Binding,
-  root: XmlText,
-): UndoManager {
+export function createUndoManager(binding: Binding, root: XmlText): UndoManager {
   return new YjsUndoManager(root, {
     trackedOrigins: new Set([binding, null]),
   });
@@ -93,7 +87,7 @@ export function setLocalStateFocus(
   focusing: boolean,
   awarenessData: object,
 ): void {
-  const {awareness} = provider;
+  const { awareness } = provider;
   let localState = awareness.getLocalState();
 
   if (localState === null) {
@@ -110,8 +104,5 @@ export function setLocalStateFocus(
   localState.focusing = focusing;
   awareness.setLocalState(localState);
 }
-export {syncCursorPositions} from './SyncCursors';
-export {
-  syncLexicalUpdateToYjs,
-  syncYjsChangesToLexical,
-} from './SyncEditorStates';
+export { syncCursorPositions } from './SyncCursors';
+export { syncLexicalUpdateToYjs, syncYjsChangesToLexical } from './SyncEditorStates';

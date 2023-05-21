@@ -34,20 +34,11 @@ import {
   TableNode,
   TableRowNode,
 } from '@lexical/table';
-import {
-  $createTextNode,
-  $isParagraphNode,
-  $isTextNode,
-  LexicalNode,
-} from 'lexical';
+import { $createTextNode, $isParagraphNode, $isTextNode, LexicalNode } from 'lexical';
 
-import {
-  $createEquationNode,
-  $isEquationNode,
-  EquationNode,
-} from '../../nodes/EquationNode';
-import {$createImageNode, $isImageNode, ImageNode} from '../../nodes/ImageNode';
-import {$createTweetNode, $isTweetNode, TweetNode} from '../../nodes/TweetNode';
+import { $createEquationNode, $isEquationNode, EquationNode } from '../../nodes/EquationNode';
+import { $createImageNode, $isImageNode, ImageNode } from '../../nodes/ImageNode';
+import { $createTweetNode, $isTweetNode, TweetNode } from '../../nodes/TweetNode';
 import emojiList from '../../utils/emoji-list';
 
 export const HR: ElementTransformer = {
@@ -171,12 +162,7 @@ export const TABLE: ElementTransformer = {
       for (const cell of row.getChildren()) {
         // It's TableCellNode so it's just to make flow happy
         if ($isTableCellNode(cell)) {
-          rowOutput.push(
-            $convertToMarkdownString(PLAYGROUND_TRANSFORMERS, cell).replace(
-              /\n/g,
-              '\\n',
-            ),
-          );
+          rowOutput.push($convertToMarkdownString(PLAYGROUND_TRANSFORMERS, cell).replace(/\n/g, '\\n'));
           if (cell.__headerState === TableCellHeaderStates.ROW) {
             isHeaderRow = true;
           }
@@ -269,10 +255,7 @@ export const TABLE: ElementTransformer = {
     }
 
     const previousSibling = parentNode.getPreviousSibling();
-    if (
-      $isTableNode(previousSibling) &&
-      getTableColumnsSize(previousSibling) === maxCells
-    ) {
+    if ($isTableNode(previousSibling) && getTableColumnsSize(previousSibling) === maxCells) {
       previousSibling.append(...table.getChildren());
       parentNode.remove();
     } else {

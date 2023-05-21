@@ -25,11 +25,7 @@ import {
   $shouldOverrideDefaultCharacterSelection,
   $wrapNodes,
 } from './range-selection';
-import {
-  createDOMRange,
-  createRectsFromDOMRange,
-  getStyleObjectFromCSS,
-} from './utils';
+import { createDOMRange, createRectsFromDOMRange, getStyleObjectFromCSS } from './utils';
 
 export {
   $addNodeStyle,
@@ -51,4 +47,4 @@ export {
   $wrapNodes,
 };
 
-export {createDOMRange, createRectsFromDOMRange, getStyleObjectFromCSS};
+export { createDOMRange, createRectsFromDOMRange, getStyleObjectFromCSS };

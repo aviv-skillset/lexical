@@ -6,22 +6,11 @@
  *
  */
 
-import {
-  moveToEditorBeginning,
-  moveToLineBeginning,
-  pressBackspace,
-} from '../keyboardShortcuts/index.mjs';
-import {
-  assertHTML,
-  assertSelection,
-  html,
-  initialize,
-  repeat,
-  test,
-} from '../utils/index.mjs';
+import { moveToEditorBeginning, moveToLineBeginning, pressBackspace } from '../keyboardShortcuts/index.mjs';
+import { assertHTML, assertSelection, html, initialize, repeat, test } from '../utils/index.mjs';
 
 function testSuite(charset) {
-  test('displays overflow on text', async ({page, isCollab}) => {
+  test('displays overflow on text', async ({ page, isCollab }) => {
     test.skip(isCollab);
     await page.focus('div[contenteditable="true"]');
 
@@ -79,7 +68,7 @@ function testSuite(charset) {
     });
   });
 
-  test('displays overflow on token nodes', async ({page, isCollab}) => {
+  test('displays overflow on token nodes', async ({ page, isCollab }) => {
     // The smile emoji (S) is length 2, so for 1234S56:
     // - 1234 is non-overflow text
     // - S takes characters 5 and 6, since it's a token and can't be split we count the whole
@@ -94,9 +83,7 @@ function testSuite(charset) {
       html`
         <p class="PlaygroundEditorTheme__paragraph">
           <span data-lexical-text="true">1234</span>
-          <span
-            class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <span class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr" dir="ltr">
             <span class="emoji happysmile" data-lexical-text="true">
               <span class="emoji-inner">🙂</span>
             </span>
@@ -117,11 +104,7 @@ function testSuite(charset) {
     );
   });
 
-  test('can type new lines inside overflow', async ({
-    page,
-    isRichText,
-    isCollab,
-  }) => {
+  test('can type new lines inside overflow', async ({ page, isRichText, isCollab }) => {
     test.skip(isCollab);
     await page.focus('div[contenteditable="true"]');
 
@@ -172,11 +155,7 @@ function testSuite(charset) {
     );
   });
 
-  test('can delete text in front and overflow is recomputed', async ({
-    page,
-    isRichText,
-    isCollab,
-  }) => {
+  test('can delete text in front and overflow is recomputed', async ({ page, isRichText, isCollab }) => {
     test.skip(isCollab);
     await page.focus('div[contenteditable="true"]');
 
@@ -244,10 +223,7 @@ function testSuite(charset) {
     }
   });
 
-  test('can delete text in front and overflow is recomputed (token nodes)', async ({
-    page,
-    isCollab,
-  }) => {
+  test('can delete text in front and overflow is recomputed (token nodes)', async ({ page, isCollab }) => {
     test.skip(isCollab);
     // See 'displays overflow on token nodes'
     await page.focus('div[contenteditable="true"]');
@@ -260,9 +236,7 @@ function testSuite(charset) {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">234</span>
             <span class="emoji happysmile" data-lexical-text="true">
               <span class="emoji-inner">🙂</span>
@@ -277,13 +251,9 @@ function testSuite(charset) {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">234</span>
-            <span
-              class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr"
-              dir="ltr">
+            <span class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr" dir="ltr">
               <span class="emoji happysmile" data-lexical-text="true">
                 <span class="emoji-inner">🙂</span>
               </span>
@@ -295,7 +265,7 @@ function testSuite(charset) {
     }
   });
 
-  test('can overflow in lists', async ({page, isCollab, isPlainText}) => {
+  test('can overflow in lists', async ({ page, isCollab, isPlainText }) => {
     test.skip(isCollab || isPlainText);
     await page.focus('div[contenteditable="true"]');
 
@@ -316,11 +286,7 @@ function testSuite(charset) {
     );
   });
 
-  test('can delete an overflowed paragraph', async ({
-    page,
-    isCollab,
-    isPlainText,
-  }) => {
+  test('can delete an overflowed paragraph', async ({ page, isCollab, isPlainText }) => {
     test.skip(isCollab || isPlainText);
     await page.focus('div[contenteditable="true"]');
 
@@ -356,7 +322,7 @@ function testSuite(charset) {
     );
   });
 
-  test('handles accented characters', async ({page, isCollab}) => {
+  test('handles accented characters', async ({ page, isCollab }) => {
     test.skip(isCollab);
     await page.focus('div[contenteditable="true"]');
 
@@ -366,13 +332,9 @@ function testSuite(charset) {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">ààààà</span>
-            <span
-              class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr"
-              dir="ltr">
+            <span class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr" dir="ltr">
               <span data-lexical-text="true">à</span>
             </span>
           </p>
@@ -382,13 +344,9 @@ function testSuite(charset) {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">àà</span>
-            <span
-              class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr"
-              dir="ltr">
+            <span class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr" dir="ltr">
               <span data-lexical-text="true">àààà</span>
             </span>
           </p>
@@ -397,7 +355,7 @@ function testSuite(charset) {
     }
   });
 
-  test('handles graphemes', async ({page, isCollab, browserName}) => {
+  test('handles graphemes', async ({ page, isCollab, browserName }) => {
     test.skip(isCollab);
     await page.focus('div[contenteditable="true"]');
 
@@ -406,12 +364,8 @@ function testSuite(charset) {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
-            <span
-              class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr"
-              dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+            <span class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr" dir="ltr">
               <span data-lexical-text="true">👨‍👩‍👦‍👦</span>
             </span>
           </p>
@@ -422,13 +376,9 @@ function testSuite(charset) {
         await assertHTML(
           page,
           html`
-            <p
-              class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-              dir="ltr">
+            <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
               <span data-lexical-text="true">👨‍👩</span>
-              <span
-                class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <span class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">‍👦‍👦</span>
               </span>
             </p>
@@ -438,13 +388,9 @@ function testSuite(charset) {
         await assertHTML(
           page,
           html`
-            <p
-              class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-              dir="ltr">
+            <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
               <span data-lexical-text="true">👨</span>
-              <span
-                class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <span class="PlaygroundEditorTheme__characterLimit PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">‍👩‍👦‍👦</span>
               </span>
             </p>
@@ -457,17 +403,17 @@ function testSuite(charset) {
 
 test.describe('CharacterLimit', () => {
   test.describe('UTF-16', () => {
-    test.use({isCharLimit: true});
-    test.beforeEach(({isCollab, page, isCharLimit, isCharLimitUtf8}) =>
-      initialize({isCharLimit, isCharLimitUtf8, isCollab, page}),
+    test.use({ isCharLimit: true });
+    test.beforeEach(({ isCollab, page, isCharLimit, isCharLimitUtf8 }) =>
+      initialize({ isCharLimit, isCharLimitUtf8, isCollab, page }),
     );
     testSuite('UTF-16');
   });
 
   test.describe('UTF-8', () => {
-    test.use({isCharLimitUtf8: true});
-    test.beforeEach(({isCollab, page, isCharLimit, isCharLimitUtf8}) =>
-      initialize({isCharLimit, isCharLimitUtf8, isCollab, page}),
+    test.use({ isCharLimitUtf8: true });
+    test.beforeEach(({ isCollab, page, isCharLimit, isCharLimitUtf8 }) =>
+      initialize({ isCharLimit, isCharLimitUtf8, isCollab, page }),
     );
     testSuite('UTF-8');
   });

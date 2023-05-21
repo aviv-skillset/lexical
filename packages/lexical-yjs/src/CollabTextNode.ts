@@ -6,21 +6,16 @@
  *
  */
 
-import type {Binding} from '.';
-import type {CollabElementNode} from './CollabElementNode';
-import type {NodeKey, NodeMap, TextNode} from 'lexical';
-import type {Map as YMap} from 'yjs';
+import type { Binding } from '.';
+import type { CollabElementNode } from './CollabElementNode';
+import type { NodeKey, NodeMap, TextNode } from 'lexical';
+import type { Map as YMap } from 'yjs';
 
-import {
-  $getNodeByKey,
-  $getSelection,
-  $isRangeSelection,
-  $isTextNode,
-} from 'lexical';
+import { $getNodeByKey, $getSelection, $isRangeSelection, $isTextNode } from 'lexical';
 import invariant from 'shared/invariant';
 import simpleDiffWithCursor from 'shared/simpleDiffWithCursor';
 
-import {syncPropertiesFromLexical, syncPropertiesFromYjs} from './Utils';
+import { syncPropertiesFromLexical, syncPropertiesFromYjs } from './Utils';
 
 function diffTextContentAndApplyDelta(
   collabNode: CollabTextNode,
@@ -51,12 +46,7 @@ export class CollabTextNode {
   _type: string;
   _normalized: boolean;
 
-  constructor(
-    map: YMap<unknown>,
-    text: string,
-    parent: CollabElementNode,
-    type: string,
-  ) {
+  constructor(map: YMap<unknown>, text: string, parent: CollabElementNode, type: string) {
     this._key = '';
     this._map = map;
     this._parent = parent;
@@ -114,20 +104,11 @@ export class CollabTextNode {
     }
   }
 
-  syncPropertiesAndTextFromLexical(
-    binding: Binding,
-    nextLexicalNode: TextNode,
-    prevNodeMap: null | NodeMap,
-  ): void {
+  syncPropertiesAndTextFromLexical(binding: Binding, nextLexicalNode: TextNode, prevNodeMap: null | NodeMap): void {
     const prevLexicalNode = this.getPrevNode(prevNodeMap);
     const nextText = nextLexicalNode.__text;
 
-    syncPropertiesFromLexical(
-      binding,
-      this._map,
-      prevLexicalNode,
-      nextLexicalNode,
-    );
+    syncPropertiesFromLexical(binding, this._map, prevLexicalNode, nextLexicalNode);
 
     if (prevLexicalNode !== null) {
       const prevText = prevLexicalNode.__text;
@@ -140,15 +121,9 @@ export class CollabTextNode {
     }
   }
 
-  syncPropertiesAndTextFromYjs(
-    binding: Binding,
-    keysChanged: null | Set<string>,
-  ): void {
+  syncPropertiesAndTextFromYjs(binding: Binding, keysChanged: null | Set<string>): void {
     const lexicalNode = this.getNode();
-    invariant(
-      lexicalNode !== null,
-      'syncPropertiesAndTextFromYjs: cound not find decorator node',
-    );
+    invariant(lexicalNode !== null, 'syncPropertiesAndTextFromYjs: cound not find decorator node');
 
     syncPropertiesFromYjs(binding, this._map, lexicalNode, keysChanged);
 

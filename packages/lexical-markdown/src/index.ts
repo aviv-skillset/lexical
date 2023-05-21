@@ -13,11 +13,11 @@ import type {
   TextMatchTransformer,
   Transformer,
 } from './MarkdownTransformers';
-import type {ElementNode} from 'lexical';
+import type { ElementNode } from 'lexical';
 
-import {createMarkdownExport} from './MarkdownExport';
-import {createMarkdownImport} from './MarkdownImport';
-import {registerMarkdownShortcuts} from './MarkdownShortcuts';
+import { createMarkdownExport } from './MarkdownExport';
+import { createMarkdownImport } from './MarkdownImport';
+import { registerMarkdownShortcuts } from './MarkdownShortcuts';
 import {
   BOLD_ITALIC_STAR,
   BOLD_ITALIC_UNDERSCORE,
@@ -37,13 +37,7 @@ import {
   UNORDERED_LIST,
 } from './MarkdownTransformers';
 
-const ELEMENT_TRANSFORMERS: Array<ElementTransformer> = [
-  HEADING,
-  QUOTE,
-  CODE,
-  UNORDERED_LIST,
-  ORDERED_LIST,
-];
+const ELEMENT_TRANSFORMERS: Array<ElementTransformer> = [HEADING, QUOTE, CODE, UNORDERED_LIST, ORDERED_LIST];
 
 // Order of text format transformers matters:
 //
@@ -78,10 +72,7 @@ function $convertFromMarkdownString(
   return importMarkdown(markdown, node);
 }
 
-function $convertToMarkdownString(
-  transformers: Array<Transformer> = TRANSFORMERS,
-  node?: ElementNode,
-): string {
+function $convertToMarkdownString(transformers: Array<Transformer> = TRANSFORMERS, node?: ElementNode): string {
   const exportMarkdown = createMarkdownExport(transformers);
   return exportMarkdown(node);
 }

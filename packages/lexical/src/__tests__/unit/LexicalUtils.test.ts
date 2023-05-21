@@ -19,12 +19,9 @@ import {
   resetRandomKey,
   scheduleMicroTask,
 } from '../../LexicalUtils';
-import {
-  $createParagraphNode,
-  ParagraphNode,
-} from '../../nodes/LexicalParagraphNode';
-import {$createTextNode, TextNode} from '../../nodes/LexicalTextNode';
-import {initializeUnitTest} from '../utils';
+import { $createParagraphNode, ParagraphNode } from '../../nodes/LexicalParagraphNode';
+import { $createTextNode, TextNode } from '../../nodes/LexicalTextNode';
+import { initializeUnitTest } from '../utils';
 
 describe('LexicalUtils tests', () => {
   initializeUnitTest((testEnv) => {
@@ -95,7 +92,7 @@ describe('LexicalUtils tests', () => {
     });
 
     test('isSelectionWithinEditor()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       let textNode;
 
       await editor.update(() => {
@@ -109,13 +106,7 @@ describe('LexicalUtils tests', () => {
       await editor.update(() => {
         const domSelection = window.getSelection();
 
-        expect(
-          isSelectionWithinEditor(
-            editor,
-            domSelection.anchorNode,
-            domSelection.focusNode,
-          ),
-        ).toBe(false);
+        expect(isSelectionWithinEditor(editor, domSelection.anchorNode, domSelection.focusNode)).toBe(false);
 
         textNode.select(0, 0);
       });
@@ -123,13 +114,7 @@ describe('LexicalUtils tests', () => {
       await editor.update(() => {
         const domSelection = window.getSelection();
 
-        expect(
-          isSelectionWithinEditor(
-            editor,
-            domSelection.anchorNode,
-            domSelection.focusNode,
-          ),
-        ).toBe(true);
+        expect(isSelectionWithinEditor(editor, domSelection.anchorNode, domSelection.focusNode)).toBe(true);
       });
     });
 
@@ -167,7 +152,7 @@ describe('LexicalUtils tests', () => {
     });
 
     test('isTokenOrSegmented()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const node = $createTextNode('foo');
@@ -182,7 +167,7 @@ describe('LexicalUtils tests', () => {
     });
 
     test('$getNodeByKey', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       let paragraphNode;
       let textNode;
 
@@ -205,11 +190,10 @@ describe('LexicalUtils tests', () => {
     });
 
     test('$nodesOfType', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       const paragraphKeys = [];
 
-      const $paragraphKeys = () =>
-        $nodesOfType(ParagraphNode).map((node) => node.getKey());
+      const $paragraphKeys = () => $nodesOfType(ParagraphNode).map((node) => node.getKey());
 
       await editor.update(() => {
         const root = $getRoot();
@@ -220,16 +204,12 @@ describe('LexicalUtils tests', () => {
         paragraphKeys.push(paragraph1.getKey(), paragraph2.getKey());
         const currentParagraphKeys = $paragraphKeys();
         expect(currentParagraphKeys).toHaveLength(paragraphKeys.length);
-        expect(currentParagraphKeys).toEqual(
-          expect.arrayContaining(paragraphKeys),
-        );
+        expect(currentParagraphKeys).toEqual(expect.arrayContaining(paragraphKeys));
       });
       editor.getEditorState().read(() => {
         const currentParagraphKeys = $paragraphKeys();
         expect(currentParagraphKeys).toHaveLength(paragraphKeys.length);
-        expect(currentParagraphKeys).toEqual(
-          expect.arrayContaining(paragraphKeys),
-        );
+        expect(currentParagraphKeys).toEqual(expect.arrayContaining(paragraphKeys));
       });
     });
   });

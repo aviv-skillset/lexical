@@ -7,13 +7,7 @@
  * @flow strict
  */
 
-import type {
-  ElementFormatType,
-  LexicalEditor,
-  EditorThemeClasses,
-  LexicalNode,
-  NodeKey,
-} from 'lexical';
+import type { ElementFormatType, LexicalEditor, EditorThemeClasses, LexicalNode, NodeKey } from 'lexical';
 
 type Props = $ReadOnly<{
   children: React$Node,

@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {expect} from '@playwright/test';
+import { expect } from '@playwright/test';
 
-import {moveToPrevWord} from '../../../keyboardShortcuts/index.mjs';
+import { moveToPrevWord } from '../../../keyboardShortcuts/index.mjs';
 import {
   assertHTML,
   assertSelection,
@@ -20,23 +20,21 @@ import {
 } from '../../../utils/index.mjs';
 
 test.describe('HTML CopyAndPaste', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
 
-  test('Copy + paste a plain DOM text node', async ({page, isPlainText}) => {
+  test('Copy + paste a plain DOM text node', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
 
-    const clipboard = {'text/html': 'Hello!'};
+    const clipboard = { 'text/html': 'Hello!' };
 
     await pasteFromClipboard(page, clipboard);
 
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello!</span>
         </p>
       `,
@@ -49,21 +47,19 @@ test.describe('HTML CopyAndPaste', () => {
     });
   });
 
-  test('Copy + paste a paragraph element', async ({page, isPlainText}) => {
+  test('Copy + paste a paragraph element', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
 
-    const clipboard = {'text/html': '<p>Hello!<p>'};
+    const clipboard = { 'text/html': '<p>Hello!<p>' };
 
     await pasteFromClipboard(page, clipboard);
 
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello!</span>
         </p>
         <p class="PlaygroundEditorTheme__paragraph"><br /></p>
@@ -78,11 +74,7 @@ test.describe('HTML CopyAndPaste', () => {
     });
   });
 
-  test('Copy + paste multi line html with extra newlines', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('Copy + paste multi line html with extra newlines', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText || isCollab);
 
     await focusEditor(page);
@@ -96,8 +88,8 @@ test.describe('HTML CopyAndPaste', () => {
 
     // Explicitly checking inner text, since regular assertHTML will prettify it and strip all
     // extra newlines, which makes this test less acurate
-    await expect(paragraphs.nth(0)).toHaveText('Hello', {useInnerText: true});
-    await expect(paragraphs.nth(1)).toHaveText('World', {useInnerText: true});
+    await expect(paragraphs.nth(0)).toHaveText('Hello', { useInnerText: true });
+    await expect(paragraphs.nth(1)).toHaveText('World', { useInnerText: true });
     await expect(paragraphs.nth(2)).toHaveText('Hello   World   !', {
       useInnerText: true,
     });
@@ -106,7 +98,7 @@ test.describe('HTML CopyAndPaste', () => {
     });
   });
 
-  test('Copy + paste a code block with BR', async ({page, isPlainText}) => {
+  test('Copy + paste a code block with BR', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -120,9 +112,7 @@ test.describe('HTML CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Code block</span>
         </p>
         <code
@@ -130,78 +120,37 @@ test.describe('HTML CopyAndPaste', () => {
           dir="ltr"
           spellcheck="false"
           data-gutter="123"
-          data-highlight-language="javascript">
-          <span
-            class="PlaygroundEditorTheme__tokenAttr"
-            data-lexical-text="true">
-            function
-          </span>
+          data-highlight-language="javascript"
+        >
+          <span class="PlaygroundEditorTheme__tokenAttr" data-lexical-text="true"> function </span>
           <span data-lexical-text="true"></span>
-          <span
-            class="PlaygroundEditorTheme__tokenFunction"
-            data-lexical-text="true">
-            foo
-          </span>
-          <span
-            class="PlaygroundEditorTheme__tokenPunctuation"
-            data-lexical-text="true">
-            (
-          </span>
-          <span
-            class="PlaygroundEditorTheme__tokenPunctuation"
-            data-lexical-text="true">
-            )
-          </span>
+          <span class="PlaygroundEditorTheme__tokenFunction" data-lexical-text="true"> foo </span>
+          <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> ( </span>
+          <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> ) </span>
           <span data-lexical-text="true"></span>
-          <span
-            class="PlaygroundEditorTheme__tokenPunctuation"
-            data-lexical-text="true">
-            {
-          </span>
+          <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> { </span>
           <br />
           <span data-lexical-text="true"></span>
-          <span
-            class="PlaygroundEditorTheme__tokenAttr"
-            data-lexical-text="true">
-            return
-          </span>
+          <span class="PlaygroundEditorTheme__tokenAttr" data-lexical-text="true"> return </span>
           <span data-lexical-text="true"></span>
-          <span
-            class="PlaygroundEditorTheme__tokenSelector"
-            data-lexical-text="true">
-            'Hey there'
-          </span>
-          <span
-            class="PlaygroundEditorTheme__tokenPunctuation"
-            data-lexical-text="true">
-            ;
-          </span>
+          <span class="PlaygroundEditorTheme__tokenSelector" data-lexical-text="true"> 'Hey there' </span>
+          <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> ; </span>
           <br />
-          <span
-            class="PlaygroundEditorTheme__tokenPunctuation"
-            data-lexical-text="true">
-            }
-          </span>
+          <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> } </span>
         </code>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">--end--</span>
         </p>
       `,
     );
   });
 
-  test('Copy + paste a paragraph element between horizontal rules', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('Copy + paste a paragraph element between horizontal rules', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
 
-    let clipboard = {'text/html': '<hr/><hr/>'};
+    let clipboard = { 'text/html': '<hr/><hr/>' };
 
     await pasteFromClipboard(page, clipboard);
     // Collab doesn't process the cursor correctly
@@ -212,10 +161,7 @@ test.describe('HTML CopyAndPaste', () => {
           <p class="PlaygroundEditorTheme__paragraph"><br /></p>
           <hr class="" contenteditable="false" data-lexical-decorator="true" />
           <hr class="" contenteditable="false" data-lexical-decorator="true" />
-          <div
-            class="PlaygroundEditorTheme__blockCursor"
-            contenteditable="false"
-            data-lexical-cursor="true"></div>
+          <div class="PlaygroundEditorTheme__blockCursor" contenteditable="false" data-lexical-cursor="true"></div>
         `,
       );
     }
@@ -224,7 +170,7 @@ test.describe('HTML CopyAndPaste', () => {
     // sets focus between HRs
     await page.keyboard.press('ArrowRight');
 
-    clipboard = {'text/html': '<p>Text between HRs</p>'};
+    clipboard = { 'text/html': '<p>Text between HRs</p>' };
 
     await pasteFromClipboard(page, clipboard);
     await assertHTML(
@@ -232,9 +178,7 @@ test.describe('HTML CopyAndPaste', () => {
       html`
         <p class="PlaygroundEditorTheme__paragraph"><br /></p>
         <hr class="" contenteditable="false" data-lexical-decorator="true" />
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Text between HRs</span>
         </p>
         <hr class="" contenteditable="false" data-lexical-decorator="true" />
@@ -248,11 +192,7 @@ test.describe('HTML CopyAndPaste', () => {
     });
   });
 
-  test('Paste top level element in the middle of paragraph', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('Paste top level element in the middle of paragraph', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText || isCollab);
     await focusEditor(page);
     await page.keyboard.type('Hello world');
@@ -264,15 +204,11 @@ test.describe('HTML CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
         </p>
         <hr class="" contenteditable="false" data-lexical-decorator="true" />
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">world</span>
         </p>
       `,

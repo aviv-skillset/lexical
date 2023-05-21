@@ -7,10 +7,10 @@
  */
 
 import * as React from 'react';
-import {useMemo, useState} from 'react';
+import { useMemo, useState } from 'react';
 
-import {isDevPlayground} from './appSettings';
-import {useSettings} from './context/SettingsContext';
+import { isDevPlayground } from './appSettings';
+import { useSettings } from './context/SettingsContext';
 import Switch from './ui/Switch';
 
 export default function Settings(): JSX.Element {
@@ -35,8 +35,7 @@ export default function Settings(): JSX.Element {
   const [isSplitScreen, search] = useMemo(() => {
     const parentWindow = window.parent;
     const _search = windowLocation.search;
-    const _isSplitScreen =
-      parentWindow && parentWindow.location.pathname === '/split/';
+    const _isSplitScreen = parentWindow && parentWindow.location.pathname === '/split/';
     return [_isSplitScreen, _search];
   }, [windowLocation]);
 
@@ -77,15 +76,9 @@ export default function Settings(): JSX.Element {
             checked={measureTypingPerf}
             text="Measure Perf"
           />
+          <Switch onClick={() => setOption('showTreeView', !showTreeView)} checked={showTreeView} text="Debug View" />
           <Switch
-            onClick={() => setOption('showTreeView', !showTreeView)}
-            checked={showTreeView}
-            text="Debug View"
-          />
-          <Switch
-            onClick={() =>
-              setOption('showNestedEditorTreeView', !showNestedEditorTreeView)
-            }
+            onClick={() => setOption('showNestedEditorTreeView', !showNestedEditorTreeView)}
             checked={showNestedEditorTreeView}
             text="Nested Editors Debug View"
           />
@@ -97,21 +90,13 @@ export default function Settings(): JSX.Element {
             checked={isRichText}
             text="Rich Text"
           />
-          <Switch
-            onClick={() => setOption('isCharLimit', !isCharLimit)}
-            checked={isCharLimit}
-            text="Char Limit"
-          />
+          <Switch onClick={() => setOption('isCharLimit', !isCharLimit)} checked={isCharLimit} text="Char Limit" />
           <Switch
             onClick={() => setOption('isCharLimitUtf8', !isCharLimitUtf8)}
             checked={isCharLimitUtf8}
             text="Char Limit (UTF-8)"
           />
-          <Switch
-            onClick={() => setOption('isMaxLength', !isMaxLength)}
-            checked={isMaxLength}
-            text="Max Length"
-          />
+          <Switch onClick={() => setOption('isMaxLength', !isMaxLength)} checked={isMaxLength} text="Max Length" />
           <Switch
             onClick={() => setOption('isAutocomplete', !isAutocomplete)}
             checked={isAutocomplete}

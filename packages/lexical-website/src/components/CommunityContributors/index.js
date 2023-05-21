@@ -61,9 +61,7 @@ export default function CommunityContributors() {
   return (
     <div>
       <h2>
-        <Translate
-          id="pages.community.contributors.subHeader"
-          description="Subtitle of section on contributors">
+        <Translate id="pages.community.contributors.subHeader" description="Subtitle of section on contributors">
           Contributors
         </Translate>
       </h2>
@@ -72,20 +70,18 @@ export default function CommunityContributors() {
           <p>
             <Translate
               id="pages.community.contributors.subtext"
-              description="The descriptive text of the header section of the community page">
-              Lexical development is led by small team at Meta. It also receives
-              contributions from people all over the world. Here are just a few
-              members.
+              description="The descriptive text of the header section of the community page"
+            >
+              Lexical development is led by small team at Meta. It also receives contributions from people all over the
+              world. Here are just a few members.
             </Translate>
           </p>
           <p>
-            <a
-              href="https://github.com/facebook/lexical/graphs/contributors"
-              target="_blank"
-              rel="noopener">
+            <a href="https://github.com/facebook/lexical/graphs/contributors" target="_blank" rel="noopener">
               <Translate
                 id="pages.community.contributors.gitHubLink"
-                description="Link to GitHub's contribute page for the repository">
+                description="Link to GitHub's contribute page for the repository"
+              >
                 See the rest of the contributors on Github.
               </Translate>
             </a>
@@ -93,22 +89,14 @@ export default function CommunityContributors() {
         </div>
       </div>
       <div className="row">
-        {CONTRIBUTORS.map(({name, imageUrl, link}, index) => (
+        {CONTRIBUTORS.map(({ name, imageUrl, link }, index) => (
           <div className="col col--3 margin-top--lg" key={index}>
             <div className="avatar avatar--vertical text--center">
               <div>
-                <img
-                  class="avatar__photo avatar__photo--xl"
-                  alt={name}
-                  src={imageUrl}
-                />
+                <img class="avatar__photo avatar__photo--xl" alt={name} src={imageUrl} />
               </div>
               <div className="margin-top--xs">
-                <a
-                  className="avatar__name"
-                  href={link}
-                  target="_blank"
-                  rel="noopener">
+                <a className="avatar__name" href={link} target="_blank" rel="noopener">
                   {name}
                 </a>
               </div>

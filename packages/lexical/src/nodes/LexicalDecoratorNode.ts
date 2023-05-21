@@ -6,13 +6,13 @@
  *
  */
 
-import type {LexicalEditor} from '../LexicalEditor';
-import type {NodeKey} from '../LexicalNode';
+import type { LexicalEditor } from '../LexicalEditor';
+import type { NodeKey } from '../LexicalNode';
 
-import {EditorConfig} from 'lexical';
+import { EditorConfig } from 'lexical';
 import invariant from 'shared/invariant';
 
-import {LexicalNode} from '../LexicalNode';
+import { LexicalNode } from '../LexicalNode';
 
 /** @noInheritDoc */
 export class DecoratorNode<T> extends LexicalNode {
@@ -37,8 +37,6 @@ export class DecoratorNode<T> extends LexicalNode {
   }
 }
 
-export function $isDecoratorNode<T>(
-  node: LexicalNode | null | undefined,
-): node is DecoratorNode<T> {
+export function $isDecoratorNode<T>(node: LexicalNode | null | undefined): node is DecoratorNode<T> {
   return node instanceof DecoratorNode;
 }

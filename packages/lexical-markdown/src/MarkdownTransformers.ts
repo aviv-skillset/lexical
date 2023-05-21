@@ -6,11 +6,11 @@
  *
  */
 
-import type {ListType} from '@lexical/list';
-import type {HeadingTagType} from '@lexical/rich-text';
+import type { ListType } from '@lexical/list';
+import type { HeadingTagType } from '@lexical/rich-text';
 
-import {$createCodeNode, $isCodeNode, CodeNode} from '@lexical/code';
-import {$createLinkNode, $isLinkNode, LinkNode} from '@lexical/link';
+import { $createCodeNode, $isCodeNode, CodeNode } from '@lexical/code';
+import { $createLinkNode, $isLinkNode, LinkNode } from '@lexical/link';
 import {
   $createListItemNode,
   $createListNode,
@@ -38,10 +38,7 @@ import {
   TextNode,
 } from 'lexical';
 
-export type Transformer =
-  | ElementTransformer
-  | TextFormatTransformer
-  | TextMatchTransformer;
+export type Transformer = ElementTransformer | TextFormatTransformer | TextMatchTransformer;
 
 export type ElementTransformer = {
   dependencies: Array<Klass<LexicalNode>>;
@@ -51,12 +48,7 @@ export type ElementTransformer = {
     traverseChildren: (node: ElementNode) => string,
   ) => string | null;
   regExp: RegExp;
-  replace: (
-    parentNode: ElementNode,
-    children: Array<LexicalNode>,
-    match: Array<string>,
-    isImport: boolean,
-  ) => void;
+  replace: (parentNode: ElementNode, children: Array<LexicalNode>, match: Array<string>, isImport: boolean) => void;
   type: 'element';
 };
 
@@ -83,9 +75,7 @@ export type TextMatchTransformer = Readonly<{
   type: 'text-match';
 }>;
 
-const createBlockNode = (
-  createNode: (match: Array<string>) => ElementNode,
-): ElementTransformer['replace'] => {
+const createBlockNode = (createNode: (match: Array<string>) => ElementNode): ElementTransformer['replace'] => {
   return (parentNode, children, match) => {
     const node = createNode(match);
     node.append(...children);
@@ -102,9 +92,7 @@ const listReplace = (listType: ListType): ElementTransformer['replace'] => {
   return (parentNode, children, match) => {
     const previousNode = parentNode.getPreviousSibling();
     const nextNode = parentNode.getNextSibling();
-    const listItem = $createListItemNode(
-      listType === 'check' ? match[3] === 'x' : undefined,
-    );
+    const listItem = $createListItemNode(listType === 'check' ? match[3] === 'x' : undefined);
     if ($isListNode(nextNode) && nextNode.getListType() === listType) {
       const firstChild = nextNode.getFirstChild();
       if (firstChild !== null) {
@@ -114,17 +102,11 @@ const listReplace = (listType: ListType): ElementTransformer['replace'] => {
         nextNode.append(listItem);
       }
       parentNode.remove();
-    } else if (
-      $isListNode(previousNode) &&
-      previousNode.getListType() === listType
-    ) {
+    } else if ($isListNode(previousNode) && previousNode.getListType() === listType) {
       previousNode.append(listItem);
       parentNode.remove();
     } else {
-      const list = $createListNode(
-        listType,
-        listType === 'number' ? Number(match[2]) : undefined,
-      );
+      const list = $createListNode(listType, listType === 'number' ? Number(match[2]) : undefined);
       list.append(listItem);
       parentNode.replace(list);
     }
@@ -137,11 +119,7 @@ const listReplace = (listType: ListType): ElementTransformer['replace'] => {
   };
 };
 
-const listExport = (
-  listNode: ListNode,
-  exportChildren: (node: ElementNode) => string,
-  depth: number,
-): string => {
+const listExport = (listNode: ListNode, exportChildren: (node: ElementNode) => string, depth: number): string => {
   const output = [];
   const children = listNode.getChildren();
   let index = 0;
@@ -206,10 +184,7 @@ export const QUOTE: ElementTransformer = {
     if (isImport) {
       const previousNode = parentNode.getPreviousSibling();
       if ($isQuoteNode(previousNode)) {
-        previousNode.splice(previousNode.getChildrenSize(), 0, [
-          $createLineBreakNode(),
-          ...children,
-        ]);
+        previousNode.splice(previousNode.getChildrenSize(), 0, [$createLineBreakNode(), ...children]);
         previousNode.select(0, 0);
         parentNode.remove();
         return;
@@ -231,13 +206,7 @@ export const CODE: ElementTransformer = {
       return null;
     }
     const textContent = node.getTextContent();
-    return (
-      '```' +
-      (node.getLanguage() || '') +
-      (textContent ? '\n' + textContent : '') +
-      '\n' +
-      '```'
-    );
+    return '```' + (node.getLanguage() || '') + (textContent ? '\n' + textContent : '') + '\n' + '```';
   },
   regExp: /^```(\w{1,10})?\s/,
   replace: createBlockNode((match) => {
@@ -356,13 +325,11 @@ export const LINK: TextMatchTransformer = {
       return linkContent;
     }
   },
-  importRegExp:
-    /(?:\[([^[]+)\])(?:\((?:([^()\s]+)(?:\s"((?:[^"]*\\")*[^"]*)"\s*)?)\))/,
-  regExp:
-    /(?:\[([^[]+)\])(?:\((?:([^()\s]+)(?:\s"((?:[^"]*\\")*[^"]*)"\s*)?)\))$/,
+  importRegExp: /(?:\[([^[]+)\])(?:\((?:([^()\s]+)(?:\s"((?:[^"]*\\")*[^"]*)"\s*)?)\))/,
+  regExp: /(?:\[([^[]+)\])(?:\((?:([^()\s]+)(?:\s"((?:[^"]*\\")*[^"]*)"\s*)?)\))$/,
   replace: (textNode, match) => {
     const [, linkText, linkUrl, linkTitle] = match;
-    const linkNode = $createLinkNode(linkUrl, {title: linkTitle});
+    const linkNode = $createLinkNode(linkUrl, { title: linkTitle });
     const linkTextNode = $createTextNode(linkText);
     linkTextNode.setFormat(textNode.getFormat());
     linkNode.append(linkTextNode);

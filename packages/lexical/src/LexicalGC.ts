@@ -6,18 +6,15 @@
  *
  */
 
-import type {ElementNode} from '.';
-import type {LexicalEditor} from './LexicalEditor';
-import type {EditorState} from './LexicalEditorState';
-import type {NodeKey, NodeMap} from './LexicalNode';
+import type { ElementNode } from '.';
+import type { LexicalEditor } from './LexicalEditor';
+import type { EditorState } from './LexicalEditorState';
+import type { NodeKey, NodeMap } from './LexicalNode';
 
-import {$isElementNode} from '.';
-import {cloneDecorators} from './LexicalUtils';
+import { $isElementNode } from '.';
+import { cloneDecorators } from './LexicalUtils';
 
-export function $garbageCollectDetachedDecorators(
-  editor: LexicalEditor,
-  pendingEditorState: EditorState,
-): void {
+export function $garbageCollectDetachedDecorators(editor: LexicalEditor, pendingEditorState: EditorState): void {
   const currentDecorators = editor._decorators;
   const pendingDecorators = editor._pendingDecorators;
   let decorators = pendingDecorators || currentDecorators;
@@ -52,14 +49,7 @@ function $garbageCollectDetachedDeepChildNodes(
     // TODO Revise condition below, redundant? LexicalNode already cleans up children when moving Nodes
     if (child.__parent === parentKey) {
       if ($isElementNode(child)) {
-        $garbageCollectDetachedDeepChildNodes(
-          child,
-          childKey,
-          prevNodeMap,
-          nodeMap,
-          nodeMapDelete,
-          dirtyNodes,
-        );
+        $garbageCollectDetachedDeepChildNodes(child, childKey, prevNodeMap, nodeMap, nodeMapDelete, dirtyNodes);
       }
 
       // If we have created a node and it was dereferenced, then also
@@ -91,14 +81,7 @@ export function $garbageCollectDetachedNodes(
       // Garbage collect node and its children if they exist
       if (!node.isAttached()) {
         if ($isElementNode(node)) {
-          $garbageCollectDetachedDeepChildNodes(
-            node,
-            nodeKey,
-            prevNodeMap,
-            nodeMap,
-            nodeMapDelete,
-            dirtyElements,
-          );
+          $garbageCollectDetachedDeepChildNodes(node, nodeKey, prevNodeMap, nodeMap, nodeMapDelete, dirtyElements);
         }
         // If we have created a node and it was dereferenced, then also
         // remove it from out dirty nodes Set.

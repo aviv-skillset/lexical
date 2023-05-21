@@ -6,12 +6,12 @@
  *
  */
 
-import type {Binding} from '.';
-import type {CollabElementNode} from './CollabElementNode';
-import type {LineBreakNode, NodeKey} from 'lexical';
-import type {Map as YMap} from 'yjs';
+import type { Binding } from '.';
+import type { CollabElementNode } from './CollabElementNode';
+import type { LineBreakNode, NodeKey } from 'lexical';
+import type { Map as YMap } from 'yjs';
 
-import {$getNodeByKey, $isLineBreakNode} from 'lexical';
+import { $getNodeByKey, $isLineBreakNode } from 'lexical';
 
 export class CollabLineBreakNode {
   _map: YMap<unknown>;
@@ -58,10 +58,7 @@ export class CollabLineBreakNode {
   }
 }
 
-export function $createCollabLineBreakNode(
-  map: YMap<unknown>,
-  parent: CollabElementNode,
-): CollabLineBreakNode {
+export function $createCollabLineBreakNode(map: YMap<unknown>, parent: CollabElementNode): CollabLineBreakNode {
   const collabNode = new CollabLineBreakNode(map, parent);
   // @ts-expect-error: internal field
   map._collabNode = collabNode;

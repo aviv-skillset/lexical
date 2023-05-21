@@ -6,14 +6,14 @@
  *
  */
 
-import {$createLineBreakNode, $isLineBreakNode} from 'lexical';
+import { $createLineBreakNode, $isLineBreakNode } from 'lexical';
 
-import {initializeUnitTest} from '../../../__tests__/utils';
+import { initializeUnitTest } from '../../../__tests__/utils';
 
 describe('LexicalLineBreakNode tests', () => {
   initializeUnitTest((testEnv) => {
     test('LineBreakNode.constructor', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const lineBreakNode = $createLineBreakNode();
@@ -24,7 +24,7 @@ describe('LexicalLineBreakNode tests', () => {
     });
 
     test('LineBreakNode.exportJSON() should return and object conforming to the expected schema', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const node = $createLineBreakNode();
@@ -41,7 +41,7 @@ describe('LexicalLineBreakNode tests', () => {
     });
 
     test('LineBreakNode.createDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const lineBreakNode = $createLineBreakNode();
@@ -52,7 +52,7 @@ describe('LexicalLineBreakNode tests', () => {
     });
 
     test('LineBreakNode.updateDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const lineBreakNode = $createLineBreakNode();
@@ -62,7 +62,7 @@ describe('LexicalLineBreakNode tests', () => {
     });
 
     test('LineBreakNode.$isLineBreakNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const lineBreakNode = $createLineBreakNode();

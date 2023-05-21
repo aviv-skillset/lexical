@@ -7,23 +7,13 @@
  */
 
 /* eslint-disable no-constant-condition */
-import type {EditorConfig, LexicalEditor} from './LexicalEditor';
-import type {
-  GridSelection,
-  NodeSelection,
-  RangeSelection,
-} from './LexicalSelection';
-import type {Klass} from 'lexical';
+import type { EditorConfig, LexicalEditor } from './LexicalEditor';
+import type { GridSelection, NodeSelection, RangeSelection } from './LexicalSelection';
+import type { Klass } from 'lexical';
 
 import invariant from 'shared/invariant';
 
-import {
-  $createParagraphNode,
-  $isElementNode,
-  $isRootNode,
-  $isTextNode,
-  ElementNode,
-} from '.';
+import { $createParagraphNode, $isElementNode, $isRootNode, $isTextNode, ElementNode } from '.';
 import {
   $getSelection,
   $isRangeSelection,
@@ -31,11 +21,7 @@ import {
   $updateElementSelectionOnCreateDeleteNode,
   moveSelectionPointToSibling,
 } from './LexicalSelection';
-import {
-  errorOnReadOnly,
-  getActiveEditor,
-  getActiveEditorState,
-} from './LexicalUpdates';
+import { errorOnReadOnly, getActiveEditor, getActiveEditorState } from './LexicalUpdates';
 import {
   $getCompositionKey,
   $getNodeByKey,
@@ -56,11 +42,7 @@ export type SerializedLexicalNode = {
   version: number;
 };
 
-export function removeNode(
-  nodeToRemove: LexicalNode,
-  restoreSelection: boolean,
-  preserveEmptyParent?: boolean,
-): void {
+export function removeNode(nodeToRemove: LexicalNode, restoreSelection: boolean, preserveEmptyParent?: boolean): void {
   errorOnReadOnly();
   const key = nodeToRemove.__key;
   const parent = nodeToRemove.getParent();
@@ -103,12 +85,7 @@ export function removeNode(
     removeFromParent(nodeToRemove);
   }
 
-  if (
-    !preserveEmptyParent &&
-    !$isRootOrShadowRoot(parent) &&
-    !parent.canBeEmpty() &&
-    parent.isEmpty()
-  ) {
+  if (!preserveEmptyParent && !$isRootOrShadowRoot(parent) && !parent.canBeEmpty() && parent.isEmpty()) {
     removeNode(parent, restoreSelection);
   }
   if (restoreSelection && $isRootNode(parent) && parent.isEmpty()) {
@@ -146,9 +123,7 @@ export type DOMConversionOutput = {
 };
 
 export type DOMExportOutput = {
-  after?: (
-    generatedElement: HTMLElement | null | undefined,
-  ) => HTMLElement | null | undefined;
+  after?: (generatedElement: HTMLElement | null | undefined) => HTMLElement | null | undefined;
   element: HTMLElement | null;
 };
 
@@ -181,11 +156,7 @@ export class LexicalNode {
    *
    */
   static getType(): string {
-    invariant(
-      false,
-      'LexicalNode: Node %s does not implement .getType().',
-      this.name,
-    );
+    invariant(false, 'LexicalNode: Node %s does not implement .getType().', this.name);
   }
 
   /**
@@ -195,11 +166,7 @@ export class LexicalNode {
    *
    */
   static clone(_data: unknown): LexicalNode {
-    invariant(
-      false,
-      'LexicalNode: Node %s does not implement .clone().',
-      this.name,
-    );
+    invariant(false, 'LexicalNode: Node %s does not implement .clone().', this.name);
   }
 
   constructor(key?: NodeKey) {
@@ -259,17 +226,13 @@ export class LexicalNode {
    *
    * @param selection - The selection that we want to determine if the node is in.
    */
-  isSelected(
-    selection?: null | RangeSelection | NodeSelection | GridSelection,
-  ): boolean {
+  isSelected(selection?: null | RangeSelection | NodeSelection | GridSelection): boolean {
     const targetSelection = selection || $getSelection();
     if (targetSelection == null) {
       return false;
     }
 
-    const isSelected = targetSelection
-      .getNodes()
-      .some((n) => n.__key === this.__key);
+    const isSelected = targetSelection.getNodes().some((n) => n.__key === this.__key);
 
     if ($isTextNode(this)) {
       return isSelected;
@@ -363,11 +326,7 @@ export class LexicalNode {
   getTopLevelElementOrThrow(): ElementNode | this {
     const parent = this.getTopLevelElement();
     if (parent === null) {
-      invariant(
-        false,
-        'Expected node %s to have a top parent element.',
-        this.__key,
-      );
+      invariant(false, 'Expected node %s to have a top parent element.', this.__key);
     }
     return parent;
   }
@@ -467,9 +426,7 @@ export class LexicalNode {
    *
    * @param node - the other node to find the common ancestor of.
    */
-  getCommonAncestor<T extends ElementNode = ElementNode>(
-    node: LexicalNode,
-  ): T | null {
+  getCommonAncestor<T extends ElementNode = ElementNode>(node: LexicalNode): T | null {
     const a = this.getParents();
     const b = node.getParents();
     if ($isElementNode(this)) {
@@ -586,18 +543,12 @@ export class LexicalNode {
       if (node === targetNode) {
         break;
       }
-      const child = $isElementNode(node)
-        ? isBefore
-          ? node.getFirstChild()
-          : node.getLastChild()
-        : null;
+      const child = $isElementNode(node) ? (isBefore ? node.getFirstChild() : node.getLastChild()) : null;
       if (child !== null) {
         node = child;
         continue;
       }
-      const nextSibling = isBefore
-        ? node.getNextSibling()
-        : node.getPreviousSibling();
+      const nextSibling = isBefore ? node.getNextSibling() : node.getPreviousSibling();
       if (nextSibling !== null) {
         node = nextSibling;
         continue;
@@ -615,9 +566,7 @@ export class LexicalNode {
         if (ancestor === null) {
           invariant(false, 'getNodesBetween: ancestor is null');
         }
-        parentSibling = isBefore
-          ? ancestor.getNextSibling()
-          : ancestor.getPreviousSibling();
+        parentSibling = isBefore ? ancestor.getNextSibling() : ancestor.getPreviousSibling();
         ancestor = ancestor.getParent();
         if (ancestor !== null) {
           if (parentSibling === null && !visited.has(ancestor.__key)) {
@@ -757,11 +706,7 @@ export class LexicalNode {
    * for instance.
    *
    * */
-  updateDOM(
-    _prevNode: unknown,
-    _dom: HTMLElement,
-    _config: EditorConfig,
-  ): boolean {
+  updateDOM(_prevNode: unknown, _dom: HTMLElement, _config: EditorConfig): boolean {
     invariant(false, 'updateDOM: base method not extended');
   }
 
@@ -775,7 +720,7 @@ export class LexicalNode {
    * */
   exportDOM(editor: LexicalEditor): DOMExportOutput {
     const element = this.createDOM(editor._config, editor);
-    return {element};
+    return { element };
   }
 
   /**
@@ -797,11 +742,7 @@ export class LexicalNode {
    *
    * */
   static importJSON(_serializedNode: SerializedLexicalNode): LexicalNode {
-    invariant(
-      false,
-      'LexicalNode: Node %s does not implement .importJSON().',
-      this.name,
-    );
+    invariant(false, 'LexicalNode: Node %s does not implement .importJSON().', this.name);
   }
   /**
    * @experimental
@@ -919,13 +860,9 @@ export class LexicalNode {
         const anchor = selection.anchor;
         const focus = selection.focus;
         elementAnchorSelectionOnNode =
-          anchor.type === 'element' &&
-          anchor.key === oldParentKey &&
-          anchor.offset === oldIndex + 1;
+          anchor.type === 'element' && anchor.key === oldParentKey && anchor.offset === oldIndex + 1;
         elementFocusSelectionOnNode =
-          focus.type === 'element' &&
-          focus.key === oldParentKey &&
-          focus.offset === oldIndex + 1;
+          focus.type === 'element' && focus.key === oldParentKey && focus.offset === oldIndex + 1;
       }
     }
     const nextSibling = this.getNextSibling();
@@ -945,11 +882,7 @@ export class LexicalNode {
     writableNodeToInsert.__parent = writableSelf.__parent;
     if (restoreSelection && $isRangeSelection(selection)) {
       const index = this.getIndexWithinParent();
-      $updateElementSelectionOnCreateDeleteNode(
-        selection,
-        writableParent,
-        index + 1,
-      );
+      $updateElementSelectionOnCreateDeleteNode(selection, writableParent, index + 1);
       const writableParentKey = writableParent.__key;
       if (elementAnchorSelectionOnNode) {
         selection.anchor.set(writableParentKey, index + 2, 'element');
@@ -968,10 +901,7 @@ export class LexicalNode {
    * @param restoreSelection - Whether or not to attempt to resolve the
    * selection to the appropriate place after the operation is complete.
    * */
-  insertBefore(
-    nodeToInsert: LexicalNode,
-    restoreSelection = true,
-  ): LexicalNode {
+  insertBefore(nodeToInsert: LexicalNode, restoreSelection = true): LexicalNode {
     errorOnReadOnly();
     errorOnInsertTextNodeOnRoot(this, nodeToInsert);
     const writableSelf = this.getWritable();
@@ -1074,10 +1004,7 @@ export class LexicalNode {
   }
 }
 
-function errorOnTypeKlassMismatch(
-  type: string,
-  klass: Klass<LexicalNode>,
-): void {
+function errorOnTypeKlassMismatch(type: string, klass: Klass<LexicalNode>): void {
   const registeredNode = getActiveEditor()._nodes.get(type);
   // Common error - split in its own invariant
   if (registeredNode === undefined) {

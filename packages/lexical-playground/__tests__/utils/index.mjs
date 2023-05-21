@@ -6,31 +6,26 @@
  *
  */
 
-import {expect, test as base} from '@playwright/test';
+import { expect, test as base } from '@playwright/test';
 import prettier from 'prettier';
-import {URLSearchParams} from 'url';
-import {v4 as uuidv4} from 'uuid';
+import { URLSearchParams } from 'url';
+import { v4 as uuidv4 } from 'uuid';
 
-import {selectAll} from '../keyboardShortcuts/index.mjs';
+import { selectAll } from '../keyboardShortcuts/index.mjs';
 
 export const E2E_PORT = process.env.E2E_PORT || 3000;
 export const E2E_BROWSER = process.env.E2E_BROWSER;
 export const IS_MAC = process.platform === 'darwin';
 export const IS_WINDOWS = process.platform === 'win32';
 export const IS_LINUX = !IS_MAC && !IS_WINDOWS;
-export const IS_COLLAB =
-  process.env.E2E_EDITOR_MODE === 'rich-text-with-collab';
+export const IS_COLLAB = process.env.E2E_EDITOR_MODE === 'rich-text-with-collab';
 const IS_RICH_TEXT = process.env.E2E_EDITOR_MODE !== 'plain-text';
 const IS_PLAIN_TEXT = process.env.E2E_EDITOR_MODE === 'plain-text';
 export const LEGACY_EVENTS = process.env.E2E_EVENTS_MODE === 'legacy-events';
 export const SAMPLE_IMAGE_URL =
-  E2E_PORT === 3000
-    ? '/src/images/yellow-flower.jpg'
-    : '/assets/yellow-flower.a2a7c7a2.jpg';
+  E2E_PORT === 3000 ? '/src/images/yellow-flower.jpg' : '/assets/yellow-flower.a2a7c7a2.jpg';
 export const SAMPLE_LANDSCAPE_IMAGE_URL =
-  E2E_PORT === 3000
-    ? '/src/images/landscape.jpg'
-    : '/assets/landscape.21352c66.jpg';
+  E2E_PORT === 3000 ? '/src/images/landscape.jpg' : '/assets/landscape.21352c66.jpg';
 export const LEXICAL_IMAGE_BASE64 =
   'data:image/png;base64,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';
 
@@ -68,13 +63,11 @@ export async function initialize({
   }
 
   const urlParams = appSettingsToURLParams(appSettings);
-  const url = `http://localhost:${E2E_PORT}/${
-    isCollab ? 'split/' : ''
-  }?${urlParams.toString()}`;
+  const url = `http://localhost:${E2E_PORT}/${isCollab ? 'split/' : ''}?${urlParams.toString()}`;
 
   // Having more horizontal space prevents redundant text wraps for tests
   // which affects CMD+ArrowRight/Left navigation
-  page.setViewportSize({height: 1000, width: isCollab ? 2500 : 1250});
+  page.setViewportSize({ height: 1000, width: isCollab ? 2500 : 1250 });
   await page.goto(url);
 
   await exposeLexicalEditor(page);
@@ -87,9 +80,7 @@ async function exposeLexicalEditor(page) {
   }
   await leftFrame.waitForSelector('.tree-view-output pre');
   await leftFrame.evaluate(() => {
-    window.lexicalEditor = document.querySelector(
-      '.tree-view-output pre',
-    ).__lexicalEditor;
+    window.lexicalEditor = document.querySelector('.tree-view-output pre').__lexicalEditor;
   });
 }
 
@@ -103,7 +94,7 @@ export const test = base.extend({
   legacyEvents: LEGACY_EVENTS,
 });
 
-export {expect} from '@playwright/test';
+export { expect } from '@playwright/test';
 
 function appSettingsToURLParams(appSettings) {
   const params = new URLSearchParams();
@@ -125,12 +116,7 @@ export async function clickSelectors(page, selectors) {
   }
 }
 
-async function assertHTMLOnPageOrFrame(
-  pageOrFrame,
-  expectedHtml,
-  ignoreClasses,
-  ignoreInlineStyles,
-) {
+async function assertHTMLOnPageOrFrame(pageOrFrame, expectedHtml, ignoreClasses, ignoreInlineStyles) {
   const actualHtml = await pageOrFrame.innerHTML('div[contenteditable="true"]');
   const actual = prettifyHTML(actualHtml.replace(/\n/gm, ''), {
     ignoreClasses,
@@ -147,37 +133,22 @@ export async function assertHTML(
   page,
   expectedHtml,
   expectedHtmlFrameRight = expectedHtml,
-  {ignoreClasses = false, ignoreInlineStyles = false} = {},
+  { ignoreClasses = false, ignoreInlineStyles = false } = {},
 ) {
   if (IS_COLLAB) {
     const withRetry = async (fn) => await retryAsync(page, fn, 5);
     await Promise.all([
       withRetry(async () => {
         const leftFrame = await page.frame('left');
-        return assertHTMLOnPageOrFrame(
-          leftFrame,
-          expectedHtml,
-          ignoreClasses,
-          ignoreInlineStyles,
-        );
+        return assertHTMLOnPageOrFrame(leftFrame, expectedHtml, ignoreClasses, ignoreInlineStyles);
       }),
       withRetry(async () => {
         const rightFrame = await page.frame('right');
-        return assertHTMLOnPageOrFrame(
-          rightFrame,
-          expectedHtmlFrameRight,
-          ignoreClasses,
-          ignoreInlineStyles,
-        );
+        return assertHTMLOnPageOrFrame(rightFrame, expectedHtmlFrameRight, ignoreClasses, ignoreInlineStyles);
       }),
     ]);
   } else {
-    await assertHTMLOnPageOrFrame(
-      page,
-      expectedHtml,
-      ignoreClasses,
-      ignoreInlineStyles,
-    );
+    await assertHTMLOnPageOrFrame(page, expectedHtml, ignoreClasses, ignoreInlineStyles);
   }
 }
 
@@ -221,8 +192,7 @@ async function assertSelectionOnPageOrFrame(page, expected) {
       return path.reverse();
     };
 
-    const {anchorNode, anchorOffset, focusNode, focusOffset} =
-      window.getSelection();
+    const { anchorNode, anchorOffset, focusNode, focusOffset } = window.getSelection();
 
     return {
       anchorOffset,
@@ -259,11 +229,7 @@ export async function assertSelection(page, expected) {
 }
 
 export async function isMac(page) {
-  return page.evaluate(
-    () =>
-      typeof window !== 'undefined' &&
-      /Mac|iPod|iPhone|iPad/.test(window.navigator.platform),
-  );
+  return page.evaluate(() => typeof window !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform));
 }
 
 export async function supportsBeforeInput(page) {
@@ -336,20 +302,15 @@ export async function copyToClipboard(page) {
 async function pasteFromClipboardPageOrFrame(pageOrFrame, clipboardData) {
   const canUseBeforeInput = supportsBeforeInput(pageOrFrame);
   await pageOrFrame.evaluate(
-    async ({
-      clipboardData: _clipboardData,
-      canUseBeforeInput: _canUseBeforeInput,
-    }) => {
+    async ({ clipboardData: _clipboardData, canUseBeforeInput: _canUseBeforeInput }) => {
       const files = [];
-      for (const [clipboardKey, clipboardValue] of Object.entries(
-        _clipboardData,
-      )) {
+      for (const [clipboardKey, clipboardValue] of Object.entries(_clipboardData)) {
         if (clipboardKey.startsWith('playwright/base64')) {
           delete _clipboardData[clipboardKey];
           const [base64, type] = clipboardValue;
           const res = await fetch(base64);
           const blob = await res.blob();
-          files.push(new File([blob], 'file', {type}));
+          files.push(new File([blob], 'file', { type }));
         }
       }
       let eventClipboardData;
@@ -396,7 +357,7 @@ async function pasteFromClipboardPageOrFrame(pageOrFrame, clipboardData) {
         }
       }
     },
-    {canUseBeforeInput, clipboardData},
+    { canUseBeforeInput, clipboardData },
   );
 }
 
@@ -551,10 +512,7 @@ export async function insertUploadImage(page, files, altText) {
   await click(page, 'button[data-test-id="image-modal-option-file"]');
 
   const frame = IS_COLLAB ? await page.frame('left') : page;
-  await frame.setInputFiles(
-    'input[data-test-id="image-modal-file-upload"]',
-    files,
-  );
+  await frame.setInputFiles('input[data-test-id="image-modal-file-upload"]', files);
 
   if (altText) {
     await focus(page, 'input[data-test-id="image-modal-alt-text-input"]');
@@ -567,10 +525,7 @@ export async function insertYouTubeEmbed(page, url) {
   await selectFromInsertDropdown(page, '.youtube');
   await focus(page, 'input[data-test-id="youtube-video-embed-modal-url"]');
   await page.keyboard.type(url);
-  await click(
-    page,
-    'button[data-test-id="youtube-video-embed-modal-submit-btn"]',
-  );
+  await click(page, 'button[data-test-id="youtube-video-embed-modal-submit-btn"]');
 }
 
 export async function insertHorizontalRule(page) {
@@ -588,7 +543,7 @@ export async function insertImageCaption(page, caption) {
 }
 
 export async function mouseMoveToSelector(page, selector) {
-  const {x, width, y, height} = await selectorBoundingBox(page, selector);
+  const { x, width, y, height } = await selectorBoundingBox(page, selector);
   await page.mouse.move(x + width / 2, y + height / 2);
 }
 
@@ -629,12 +584,7 @@ export async function dragMouse(
   }
 }
 
-export async function dragImage(
-  page,
-  toSelector,
-  positionStart = 'middle',
-  positionEnd = 'middle',
-) {
+export async function dragImage(page, toSelector, positionStart = 'middle', positionEnd = 'middle') {
   await dragMouse(
     page,
     await selectorBoundingBox(page, '.editor-image img'),
@@ -644,7 +594,7 @@ export async function dragImage(
   );
 }
 
-export function prettifyHTML(string, {ignoreClasses, ignoreInlineStyles} = {}) {
+export function prettifyHTML(string, { ignoreClasses, ignoreInlineStyles } = {}) {
   let output = string;
 
   if (ignoreClasses) {
@@ -680,10 +630,7 @@ export function html(partials, ...params) {
 }
 
 export async function selectFromAdditionalStylesDropdown(page, selector) {
-  await click(
-    page,
-    '.toolbar-item[aria-label="Formatting options for additional text styles"]',
-  );
+  await click(page, '.toolbar-item[aria-label="Formatting options for additional text styles"]');
   await click(page, '.dropdown ' + selector);
 }
 
@@ -697,26 +644,17 @@ export async function selectFromColorPicker(page) {
   await click(page, '.color-picker-basic-color button:first-child'); //Defaulted to red
 }
 export async function selectFromFormatDropdown(page, selector) {
-  await click(
-    page,
-    '.toolbar-item[aria-label="Formatting options for text style"]',
-  );
+  await click(page, '.toolbar-item[aria-label="Formatting options for text style"]');
   await click(page, '.dropdown ' + selector);
 }
 
 export async function selectFromInsertDropdown(page, selector) {
-  await click(
-    page,
-    '.toolbar-item[aria-label="Insert specialized editor node"]',
-  );
+  await click(page, '.toolbar-item[aria-label="Insert specialized editor node"]');
   await click(page, '.dropdown ' + selector);
 }
 
 export async function selectFromAlignDropdown(page, selector) {
-  await click(
-    page,
-    '.toolbar-item[aria-label="Formatting options for text alignment"]',
-  );
+  await click(page, '.toolbar-item[aria-label="Formatting options for text alignment"]');
   await click(page, '.dropdown ' + selector);
 }
 
@@ -732,19 +670,12 @@ export async function insertTable(page, rows = 2, columns = 3) {
   }
   await selectFromInsertDropdown(page, '.item .table');
   if (rows !== null) {
-    await leftFrame
-      .locator('input[data-test-id="table-modal-rows"]')
-      .fill(String(rows));
+    await leftFrame.locator('input[data-test-id="table-modal-rows"]').fill(String(rows));
   }
   if (columns !== null) {
-    await leftFrame
-      .locator('input[data-test-id="table-modal-columns"]')
-      .fill(String(columns));
+    await leftFrame.locator('input[data-test-id="table-modal-columns"]').fill(String(columns));
   }
-  await click(
-    page,
-    'div[data-test-id="table-model-confirm-insert"] > .Button__root',
-  );
+  await click(page, 'div[data-test-id="table-model-confirm-insert"] > .Button__root');
 }
 
 export async function insertCollapsible(page) {
@@ -765,28 +696,24 @@ export async function selectCellsFromTableCords(
   }
 
   const firstRowFirstColumnCell = await leftFrame.locator(
-    `table:first-of-type > tr:nth-child(${firstCords.y + 1}) > ${
-      isFirstHeader ? 'th' : 'td'
-    }:nth-child(${firstCords.x + 1})`,
+    `table:first-of-type > tr:nth-child(${firstCords.y + 1}) > ${isFirstHeader ? 'th' : 'td'}:nth-child(${
+      firstCords.x + 1
+    })`,
   );
   const secondRowSecondCell = await leftFrame.locator(
-    `table:first-of-type > tr:nth-child(${secondCords.y + 1}) > ${
-      isSecondHeader ? 'th' : 'td'
-    }:nth-child(${secondCords.x + 1})`,
+    `table:first-of-type > tr:nth-child(${secondCords.y + 1}) > ${isSecondHeader ? 'th' : 'td'}:nth-child(${
+      secondCords.x + 1
+    })`,
   );
 
   // Focus on inside the iFrame or the boundingBox() below returns null.
   await firstRowFirstColumnCell.click(
     // This is a test runner quirk. Chrome seems to need two clicks to focus on the
     // content editable cell before dragging, but Firefox treats it as a double click event.
-    E2E_BROWSER === 'chromium' ? {clickCount: 2} : {},
+    E2E_BROWSER === 'chromium' ? { clickCount: 2 } : {},
   );
 
-  await dragMouse(
-    page,
-    await firstRowFirstColumnCell.boundingBox(),
-    await secondRowSecondCell.boundingBox(),
-  );
+  await dragMouse(page, await firstRowFirstColumnCell.boundingBox(), await secondRowSecondCell.boundingBox());
 }
 
 export async function insertTableRowAbove(page) {
@@ -877,12 +804,7 @@ export async function pressToggleUnderline(page) {
   await keyUpCtrlOrMeta(page);
 }
 
-export async function dragDraggableMenuTo(
-  page,
-  toSelector,
-  positionStart = 'middle',
-  positionEnd = 'middle',
-) {
+export async function dragDraggableMenuTo(page, toSelector, positionStart = 'middle', positionEnd = 'middle') {
   await dragMouse(
     page,
     await selectorBoundingBox(page, '.draggable-block-menu'),

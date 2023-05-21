@@ -16,7 +16,7 @@ import type {
   LexicalEditor,
   LexicalCommand,
 } from 'lexical';
-import {ElementNode} from 'lexical';
+import { ElementNode } from 'lexical';
 
 declare export var DRAG_DROP_PASTE: LexicalCommand<Array<File>>;
 declare export class QuoteNode extends ElementNode {
@@ -29,9 +29,7 @@ declare export class QuoteNode extends ElementNode {
   collapseAtStart(): true;
 }
 declare export function $createQuoteNode(): QuoteNode;
-declare export function $isQuoteNode(
-  node: ?LexicalNode,
-): boolean %checks(node instanceof QuoteNode);
+declare export function $isQuoteNode(node: ?LexicalNode): boolean %checks(node instanceof QuoteNode);
 export type HeadingTagType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 declare export class HeadingNode extends ElementNode {
   __tag: HeadingTagType;
@@ -45,10 +43,6 @@ declare export class HeadingNode extends ElementNode {
   insertNewAfter(): ParagraphNode;
   collapseAtStart(): true;
 }
-declare export function $createHeadingNode(
-  headingTag: HeadingTagType,
-): HeadingNode;
-declare export function $isHeadingNode(
-  node: ?LexicalNode,
-): boolean %checks(node instanceof HeadingNode);
+declare export function $createHeadingNode(headingTag: HeadingTagType): HeadingNode;
+declare export function $isHeadingNode(node: ?LexicalNode): boolean %checks(node instanceof HeadingNode);
 declare export function registerRichText(editor: LexicalEditor): () => void;

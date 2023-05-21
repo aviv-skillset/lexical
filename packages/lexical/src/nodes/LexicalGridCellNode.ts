@@ -6,14 +6,9 @@
  *
  */
 
-import type {
-  LexicalNode,
-  NodeKey,
-  SerializedElementNode,
-  Spread,
-} from 'lexical';
+import type { LexicalNode, NodeKey, SerializedElementNode, Spread } from 'lexical';
 
-import {ElementNode} from './LexicalElementNode';
+import { ElementNode } from './LexicalElementNode';
 
 export type SerializedGridCellNode = Spread<
   {

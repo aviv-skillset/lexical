@@ -6,35 +6,19 @@
  *
  */
 
-import {
-  assertHTML,
-  assertSelection,
-  evaluate,
-  focusEditor,
-  html,
-  initialize,
-  test,
-} from '../utils/index.mjs';
+import { assertHTML, assertSelection, evaluate, focusEditor, html, initialize, test } from '../utils/index.mjs';
 
 async function validateContent(page) {
   await assertHTML(
     page,
     html`
-      <p
-        class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-        dir="ltr">
+      <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
         <span data-lexical-text="true">Hello</span>
-        <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-          #world
-        </span>
+        <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #world </span>
         <span data-lexical-text="true">. This content</span>
-        <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-          #should
-        </span>
+        <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #should </span>
         <span data-lexical-text="true">remain</span>
-        <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-          #intact
-        </span>
+        <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #intact </span>
         <span data-lexical-text="true">.</span>
       </p>
     `,
@@ -48,12 +32,10 @@ async function validateContent(page) {
 }
 
 test.describe('Mutations', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Can restore the DOM to the editor state state`, async ({page}) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Can restore the DOM to the editor state state`, async ({ page }) => {
     await focusEditor(page);
-    await page.keyboard.type(
-      'Hello #world. This content #should remain #intact.',
-    );
+    await page.keyboard.type('Hello #world. This content #should remain #intact.');
 
     await validateContent(page);
 
@@ -105,8 +87,7 @@ test.describe('Mutations', () => {
     // Remove the third text
     await await evaluate(page, () => {
       const rootElement = document.querySelector('div[contenteditable="true"]');
-      const thirdTextNode =
-        rootElement.firstChild.firstChild.nextSibling.nextSibling;
+      const thirdTextNode = rootElement.firstChild.firstChild.nextSibling.nextSibling;
 
       thirdTextNode.remove();
     });
@@ -115,8 +96,7 @@ test.describe('Mutations', () => {
     // Remove the forth text
     await await evaluate(page, () => {
       const rootElement = document.querySelector('div[contenteditable="true"]');
-      const forthTextNode =
-        rootElement.firstChild.firstChild.nextSibling.nextSibling.nextSibling;
+      const forthTextNode = rootElement.firstChild.firstChild.nextSibling.nextSibling.nextSibling;
 
       forthTextNode.remove();
     });
@@ -127,8 +107,7 @@ test.describe('Mutations', () => {
       const rootElement = document.querySelector('div[contenteditable="true"]');
       const paragraph = rootElement.firstChild;
       const firstTextNode = paragraph.firstChild;
-      const forthTextNode =
-        paragraph.firstChild.nextSibling.nextSibling.nextSibling;
+      const forthTextNode = paragraph.firstChild.nextSibling.nextSibling.nextSibling;
 
       paragraph.insertBefore(forthTextNode, firstTextNode);
     });
@@ -141,8 +120,7 @@ test.describe('Mutations', () => {
       const firstTextNode = paragraph.firstChild;
       const secondTextNode = paragraph.firstChild.nextSibling;
       const thirdTextNode = paragraph.firstChild.nextSibling.nextSibling;
-      const forthTextNode =
-        paragraph.firstChild.nextSibling.nextSibling.nextSibling;
+      const forthTextNode = paragraph.firstChild.nextSibling.nextSibling.nextSibling;
 
       paragraph.insertBefore(forthTextNode, firstTextNode);
       paragraph.insertBefore(thirdTextNode, firstTextNode);
@@ -218,21 +196,13 @@ test.describe('Mutations', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Bonjour</span>
-          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-            #world
-          </span>
+          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #world </span>
           <span data-lexical-text="true">. This content</span>
-          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-            #should
-          </span>
+          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #should </span>
           <span data-lexical-text="true">remain</span>
-          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-            #intact
-          </span>
+          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #intact </span>
           <span data-lexical-text="true">.</span>
         </p>
       `,

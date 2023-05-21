@@ -7,12 +7,7 @@
  * @flow strict
  */
 
-import type {
-  LexicalEditor,
-  LexicalNode,
-  EditorState,
-  EditorThemeClasses,
-} from 'lexical';
+import type { LexicalEditor, LexicalNode, EditorState, EditorThemeClasses } from 'lexical';
 
 declare export function createHeadlessEditor(editorConfig?: {
   editorState?: EditorState,

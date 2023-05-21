@@ -7,13 +7,8 @@
  * @flow strict
  */
 
-import type {
-  NodeKey,
-  RangeSelection,
-  TextNode,
-  SerializedElementNode,
-} from 'lexical';
-import {ElementNode, LexicalNode} from 'lexical';
+import type { NodeKey, RangeSelection, TextNode, SerializedElementNode } from 'lexical';
+import { ElementNode, LexicalNode } from 'lexical';
 
 export type SerializedMarkNode = SerializedElementNode & {
   ids: Array<string>,
@@ -34,16 +29,11 @@ declare export class MarkNode extends ElementNode {
   isInline(): true;
 }
 
-declare export function $isMarkNode(
-  node: ?LexicalNode,
-): boolean %checks(node instanceof MarkNode);
+declare export function $isMarkNode(node: ?LexicalNode): boolean %checks(node instanceof MarkNode);
 
 declare export function $createMarkNode(ids: Array<string>): MarkNode;
 
-declare export function $getMarkIDs(
-  node: TextNode,
-  offset: number,
-): null | Array<string>;
+declare export function $getMarkIDs(node: TextNode, offset: number): null | Array<string>;
 
 declare export function $wrapSelectionInMarkNode(
   selection: RangeSelection,

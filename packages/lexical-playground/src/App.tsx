@@ -6,23 +6,23 @@
  *
  */
 
-import {$createLinkNode} from '@lexical/link';
-import {$createListItemNode, $createListNode} from '@lexical/list';
-import {LexicalComposer} from '@lexical/react/LexicalComposer';
-import {$createHeadingNode, $createQuoteNode} from '@lexical/rich-text';
-import {$createParagraphNode, $createTextNode, $getRoot} from 'lexical';
+import { $createLinkNode } from '@lexical/link';
+import { $createListItemNode, $createListNode } from '@lexical/list';
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { $createHeadingNode, $createQuoteNode } from '@lexical/rich-text';
+import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
 import * as React from 'react';
 
-import {isDevPlayground} from './appSettings';
-import {SettingsContext, useSettings} from './context/SettingsContext';
-import {SharedAutocompleteContext} from './context/SharedAutocompleteContext';
-import {SharedHistoryContext} from './context/SharedHistoryContext';
+import { isDevPlayground } from './appSettings';
+import { SettingsContext, useSettings } from './context/SettingsContext';
+import { SharedAutocompleteContext } from './context/SharedAutocompleteContext';
+import { SharedHistoryContext } from './context/SharedHistoryContext';
 import Editor from './Editor';
 import logo from './images/logo.svg';
 import PlaygroundNodes from './nodes/PlaygroundNodes';
 import DocsPlugin from './plugins/DocsPlugin';
 import PasteLogPlugin from './plugins/PasteLogPlugin';
-import {TableContext} from './plugins/TablePlugin';
+import { TableContext } from './plugins/TablePlugin';
 import TestRecorderPlugin from './plugins/TestRecorderPlugin';
 import TypingPerfPlugin from './plugins/TypingPerfPlugin';
 import Settings from './Settings';
@@ -66,38 +66,30 @@ function prepopulatedRichText() {
     );
     root.append(paragraph2);
     const paragraph3 = $createParagraphNode();
-    paragraph3.append(
-      $createTextNode(`If you'd like to find out more about Lexical, you can:`),
-    );
+    paragraph3.append($createTextNode(`If you'd like to find out more about Lexical, you can:`));
     root.append(paragraph3);
     const list = $createListNode('bullet');
     list.append(
       $createListItemNode().append(
         $createTextNode(`Visit the `),
-        $createLinkNode('https://lexical.dev/').append(
-          $createTextNode('Lexical website'),
-        ),
+        $createLinkNode('https://lexical.dev/').append($createTextNode('Lexical website')),
         $createTextNode(` for documentation and more information.`),
       ),
       $createListItemNode().append(
         $createTextNode(`Check out the code on our `),
-        $createLinkNode('https://github.com/facebook/lexical').append(
-          $createTextNode('GitHub repository'),
-        ),
+        $createLinkNode('https://github.com/facebook/lexical').append($createTextNode('GitHub repository')),
         $createTextNode(`.`),
       ),
       $createListItemNode().append(
         $createTextNode(`Playground code can be found `),
-        $createLinkNode(
-          'https://github.com/facebook/lexical/tree/main/packages/lexical-playground',
-        ).append($createTextNode('here')),
+        $createLinkNode('https://github.com/facebook/lexical/tree/main/packages/lexical-playground').append(
+          $createTextNode('here'),
+        ),
         $createTextNode(`.`),
       ),
       $createListItemNode().append(
         $createTextNode(`Join our `),
-        $createLinkNode('https://discord.com/invite/KmG4wQnnD9').append(
-          $createTextNode('Discord Server'),
-        ),
+        $createLinkNode('https://discord.com/invite/KmG4wQnnD9').append($createTextNode('Discord Server')),
         $createTextNode(` and chat with the team.`),
       ),
     );
@@ -114,15 +106,11 @@ function prepopulatedRichText() {
 
 function App(): JSX.Element {
   const {
-    settings: {isCollab, emptyEditor, measureTypingPerf},
+    settings: { isCollab, emptyEditor, measureTypingPerf },
   } = useSettings();
 
   const initialConfig = {
-    editorState: isCollab
-      ? null
-      : emptyEditor
-      ? undefined
-      : prepopulatedRichText,
+    editorState: isCollab ? null : emptyEditor ? undefined : prepopulatedRichText,
     namespace: 'Playground',
     nodes: [...PlaygroundNodes],
     onError: (error: Error) => {
@@ -164,7 +152,8 @@ export default function PlaygroundApp(): JSX.Element {
       <a
         href="https://github.com/facebook/lexical/tree/main/packages/lexical-playground"
         className="github-corner"
-        aria-label="View source on GitHub">
+        aria-label="View source on GitHub"
+      >
         <svg
           width="80"
           height="80"
@@ -178,7 +167,8 @@ export default function PlaygroundApp(): JSX.Element {
             top: '0',
             transform: 'scale(-1,1)',
           }}
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" />
           <path
             d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"

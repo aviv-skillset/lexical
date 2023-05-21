@@ -21,7 +21,7 @@ module.exports = function (babel) {
       CallExpression(path, file) {
         const node = path.node;
         const noMinify = file.opts.noMinify;
-        if (path.get('callee').isIdentifier({name: 'invariant'})) {
+        if (path.get('callee').isIdentifier({ name: 'invariant' })) {
           // Turns this code:
           //
           // invariant(condition, 'A %s message that contains %s', adj, noun);
@@ -44,20 +44,16 @@ module.exports = function (babel) {
           const errorMsgExpressions = Array.from(node.arguments.slice(2));
           const errorMsgQuasis = errorMsgLiteral
             .split('%s')
-            .map((raw) => t.templateElement({cooked: String.raw({raw}), raw}));
+            .map((raw) => t.templateElement({ cooked: String.raw({ raw }), raw }));
 
           // Outputs:
           //   `A ${adj} message that contains ${noun}`;
-          const devMessage = t.templateLiteral(
-            errorMsgQuasis,
-            errorMsgExpressions,
-          );
+          const devMessage = t.templateLiteral(errorMsgQuasis, errorMsgExpressions);
 
           const parentStatementPath = path.parentPath;
           if (parentStatementPath.type !== 'ExpressionStatement') {
             throw path.buildCodeFrameError(
-              'invariant() cannot be called from expression context. Move ' +
-                'the call to its own statement.',
+              'invariant() cannot be called from expression context. Move ' + 'the call to its own statement.',
             );
           }
 
@@ -71,20 +67,14 @@ module.exports = function (babel) {
             parentStatementPath.replaceWith(
               t.ifStatement(
                 t.unaryExpression('!', condition),
-                t.blockStatement([
-                  t.throwStatement(
-                    t.callExpression(t.identifier('Error'), [devMessage]),
-                  ),
-                ]),
+                t.blockStatement([t.throwStatement(t.callExpression(t.identifier('Error'), [devMessage]))]),
               ),
             );
             return;
           }
 
           // Avoid caching because we write it as we go.
-          const existingErrorMap = JSON.parse(
-            fs.readFileSync(__dirname + '/codes.json', 'utf-8'),
-          );
+          const existingErrorMap = JSON.parse(fs.readFileSync(__dirname + '/codes.json', 'utf-8'));
           const errorMap = invertObject(existingErrorMap);
 
           let prodErrorId = errorMap[errorMsgLiteral];
@@ -102,11 +92,7 @@ module.exports = function (babel) {
             parentStatementPath.replaceWith(
               t.ifStatement(
                 t.unaryExpression('!', condition),
-                t.blockStatement([
-                  t.throwStatement(
-                    t.callExpression(t.identifier('Error'), [devMessage]),
-                  ),
-                ]),
+                t.blockStatement([t.throwStatement(t.callExpression(t.identifier('Error'), [devMessage]))]),
               ),
             );
             parentStatementPath.addComment(
@@ -118,17 +104,16 @@ module.exports = function (babel) {
           prodErrorId = parseInt(prodErrorId, 10);
 
           // Import ReactErrorProd
-          const formatProdErrorMessageIdentifier =
-            helperModuleImports.addDefault(path, 'formatProdErrorMessage', {
-              nameHint: 'formatProdErrorMessage',
-            });
+          const formatProdErrorMessageIdentifier = helperModuleImports.addDefault(path, 'formatProdErrorMessage', {
+            nameHint: 'formatProdErrorMessage',
+          });
 
           // Outputs:
           //   formatProdErrorMessage(ERR_CODE, adj, noun);
-          const prodMessage = t.callExpression(
-            formatProdErrorMessageIdentifier,
-            [t.numericLiteral(prodErrorId), ...errorMsgExpressions],
-          );
+          const prodMessage = t.callExpression(formatProdErrorMessageIdentifier, [
+            t.numericLiteral(prodErrorId),
+            ...errorMsgExpressions,
+          ]);
 
           // Outputs:
           // if (!condition) {
@@ -137,9 +122,7 @@ module.exports = function (babel) {
           parentStatementPath.replaceWith(
             t.ifStatement(
               t.unaryExpression('!', condition),
-              t.blockStatement([
-                t.blockStatement([t.expressionStatement(prodMessage)]),
-              ]),
+              t.blockStatement([t.blockStatement([t.expressionStatement(prodMessage)])]),
             ),
           );
         }

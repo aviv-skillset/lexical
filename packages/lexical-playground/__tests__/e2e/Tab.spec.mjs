@@ -6,17 +6,11 @@
  *
  */
 
-import {
-  assertHTML,
-  focusEditor,
-  html,
-  initialize,
-  test,
-} from '../utils/index.mjs';
+import { assertHTML, focusEditor, html, initialize, test } from '../utils/index.mjs';
 
 test.describe('Tab', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`can tab + IME`, async ({page, isPlainText, browserName}) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`can tab + IME`, async ({ page, isPlainText, browserName }) => {
     test.skip(isPlainText || browserName === 'firefox');
 
     async function imeType() {
@@ -41,7 +35,8 @@ test.describe('Tab', () => {
         <p
           class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__indent PlaygroundEditorTheme__ltr"
           dir="ltr"
-          style="padding-inline-start: calc(40px)">
+          style="padding-inline-start: calc(40px)"
+        >
           <span data-lexical-text="true">すし</span>
           <span data-lexical-text="true"></span>
           <span data-lexical-text="true">すし</span>
@@ -50,7 +45,7 @@ test.describe('Tab', () => {
     );
   });
 
-  test('can tab inside code block #4399', async ({page, isPlainText}) => {
+  test('can tab inside code block #4399', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
 
@@ -65,13 +60,10 @@ test.describe('Tab', () => {
           dir="ltr"
           spellcheck="false"
           data-gutter="1"
-          data-highlight-language="javascript">
+          data-highlight-language="javascript"
+        >
           <span data-lexical-text="true"></span>
-          <span
-            class="PlaygroundEditorTheme__tokenAttr"
-            data-lexical-text="true">
-            function
-          </span>
+          <span class="PlaygroundEditorTheme__tokenAttr" data-lexical-text="true"> function </span>
         </code>
       `,
     );

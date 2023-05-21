@@ -6,8 +6,8 @@
  *
  */
 
-import type {TableNode} from './LexicalTableNode';
-import type {Cell, Cells, Grid} from './LexicalTableSelection';
+import type { TableNode } from './LexicalTableNode';
+import type { Cell, Cells, Grid } from './LexicalTableSelection';
 import type {
   GridSelection,
   LexicalCommand,
@@ -18,8 +18,8 @@ import type {
   TextFormatType,
 } from 'lexical';
 
-import {TableCellNode} from '@lexical/table';
-import {$findMatchingParent} from '@lexical/utils';
+import { TableCellNode } from '@lexical/table';
+import { $findMatchingParent } from '@lexical/utils';
 import {
   $createParagraphNode,
   $createRangeSelection,
@@ -52,8 +52,8 @@ import {
 } from 'lexical';
 import invariant from 'shared/invariant';
 
-import {$isTableCellNode} from './LexicalTableCellNode';
-import {TableSelection} from './LexicalTableSelection';
+import { $isTableCellNode } from './LexicalTableCellNode';
+import { TableSelection } from './LexicalTableSelection';
 
 const LEXICAL_ELEMENT_KEY = '__lexicalTableSelection';
 
@@ -123,9 +123,7 @@ export function applyTableHandlers(
 
         if (
           isMouseDown &&
-          (tableSelection.anchorX !== cellX ||
-            tableSelection.anchorY !== cellY ||
-            tableSelection.isHighlightingCells)
+          (tableSelection.anchorX !== cellX || tableSelection.anchorY !== cellY || tableSelection.isHighlightingCells)
         ) {
           event.preventDefault();
           tableSelection.setFocusCellForSelection(cell);
@@ -160,10 +158,7 @@ export function applyTableHandlers(
         }
         // TODO Revise this logic; the UX selection boundaries and nested editors
         const node = $getNearestNodeFromDOMNode(target);
-        if (
-          node !== null &&
-          $findMatchingParent(node, DEPRECATED_$isGridNode)
-        ) {
+        if (node !== null && $findMatchingParent(node, DEPRECATED_$isGridNode)) {
           isMouseDown = true;
         }
       }
@@ -172,9 +167,7 @@ export function applyTableHandlers(
 
   window.addEventListener('mousedown', mouseDownCallback);
 
-  tableSelection.listenersToRemove.add(() =>
-    window.removeEventListener('mousedown', mouseDownCallback),
-  );
+  tableSelection.listenersToRemove.add(() => window.removeEventListener('mousedown', mouseDownCallback));
 
   const mouseUpCallback = (event: MouseEvent) => {
     if (isMouseDown && !doesTargetContainText(event.target as Node)) {
@@ -186,14 +179,10 @@ export function applyTableHandlers(
   };
 
   window.addEventListener('mouseup', mouseUpCallback);
-  tableSelection.listenersToRemove.add(() =>
-    window.removeEventListener('mouseup', mouseUpCallback),
-  );
+  tableSelection.listenersToRemove.add(() => window.removeEventListener('mouseup', mouseUpCallback));
 
   tableElement.addEventListener('mouseup', mouseUpCallback);
-  tableSelection.listenersToRemove.add(() =>
-    tableElement.removeEventListener('mouseup', mouseUpCallback),
-  );
+  tableSelection.listenersToRemove.add(() => tableElement.removeEventListener('mouseup', mouseUpCallback));
 
   tableSelection.listenersToRemove.add(
     editor.registerCommand<KeyboardEvent>(
@@ -209,23 +198,14 @@ export function applyTableHandlers(
 
         if ($isRangeSelection(selection)) {
           if (selection.isCollapsed()) {
-            const tableCellNode = $findMatchingParent(
-              selection.anchor.getNode(),
-              (n) => $isTableCellNode(n),
-            );
+            const tableCellNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isTableCellNode(n));
 
             if (!$isTableCellNode(tableCellNode)) {
               return false;
             }
 
-            const currentCords = tableNode.getCordsFromCellNode(
-              tableCellNode,
-              tableSelection.grid,
-            );
-            const elementParentNode = $findMatchingParent(
-              selection.anchor.getNode(),
-              (n) => $isElementNode(n),
-            );
+            const currentCords = tableNode.getCordsFromCellNode(tableCellNode, tableSelection.grid);
+            const elementParentNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isElementNode(n));
 
             if (elementParentNode == null) {
               throw new Error('Expected BlockNode Parent');
@@ -233,8 +213,7 @@ export function applyTableHandlers(
 
             const lastChild = tableCellNode.getLastChild();
             const isSelectionInLastBlock =
-              (lastChild && elementParentNode.isParentOf(lastChild)) ||
-              elementParentNode === lastChild;
+              (lastChild && elementParentNode.isParentOf(lastChild)) || elementParentNode === lastChild;
 
             if (isSelectionInLastBlock || event.shiftKey) {
               event.preventDefault();
@@ -244,29 +223,13 @@ export function applyTableHandlers(
               // Start Selection
               if (event.shiftKey) {
                 tableSelection.setAnchorCellForSelection(
-                  tableNode.getCellFromCordsOrThrow(
-                    currentCords.x,
-                    currentCords.y,
-                    tableSelection.grid,
-                  ),
+                  tableNode.getCellFromCordsOrThrow(currentCords.x, currentCords.y, tableSelection.grid),
                 );
 
-                return adjustFocusNodeInDirection(
-                  tableSelection,
-                  tableNode,
-                  currentCords.x,
-                  currentCords.y,
-                  direction,
-                );
+                return adjustFocusNodeInDirection(tableSelection, tableNode, currentCords.x, currentCords.y, direction);
               }
 
-              return selectGridNodeInDirection(
-                tableSelection,
-                tableNode,
-                currentCords.x,
-                currentCords.y,
-                direction,
-              );
+              return selectGridNodeInDirection(tableSelection, tableNode, currentCords.x, currentCords.y, direction);
             }
           }
         } else if (DEPRECATED_$isGridSelection(selection) && event.shiftKey) {
@@ -276,22 +239,13 @@ export function applyTableHandlers(
             return false;
           }
 
-          const currentCords = tableNode.getCordsFromCellNode(
-            tableCellNode,
-            tableSelection.grid,
-          );
+          const currentCords = tableNode.getCordsFromCellNode(tableCellNode, tableSelection.grid);
 
           event.preventDefault();
           event.stopImmediatePropagation();
           event.stopPropagation();
 
-          return adjustFocusNodeInDirection(
-            tableSelection,
-            tableNode,
-            currentCords.x,
-            currentCords.y,
-            direction,
-          );
+          return adjustFocusNodeInDirection(tableSelection, tableNode, currentCords.x, currentCords.y, direction);
         }
 
         return false;
@@ -314,23 +268,14 @@ export function applyTableHandlers(
 
         if ($isRangeSelection(selection)) {
           if (selection.isCollapsed()) {
-            const tableCellNode = $findMatchingParent(
-              selection.anchor.getNode(),
-              (n) => $isTableCellNode(n),
-            );
+            const tableCellNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isTableCellNode(n));
 
             if (!$isTableCellNode(tableCellNode)) {
               return false;
             }
 
-            const currentCords = tableNode.getCordsFromCellNode(
-              tableCellNode,
-              tableSelection.grid,
-            );
-            const elementParentNode = $findMatchingParent(
-              selection.anchor.getNode(),
-              (n) => $isElementNode(n),
-            );
+            const currentCords = tableNode.getCordsFromCellNode(tableCellNode, tableSelection.grid);
+            const elementParentNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isElementNode(n));
 
             if (elementParentNode == null) {
               throw new Error('Expected BlockNode Parent');
@@ -338,8 +283,7 @@ export function applyTableHandlers(
 
             const lastChild = tableCellNode.getLastChild();
             const isSelectionInLastBlock =
-              (lastChild && elementParentNode.isParentOf(lastChild)) ||
-              elementParentNode === lastChild;
+              (lastChild && elementParentNode.isParentOf(lastChild)) || elementParentNode === lastChild;
 
             if (isSelectionInLastBlock || event.shiftKey) {
               event.preventDefault();
@@ -349,29 +293,13 @@ export function applyTableHandlers(
               // Start Selection
               if (event.shiftKey) {
                 tableSelection.setAnchorCellForSelection(
-                  tableNode.getCellFromCordsOrThrow(
-                    currentCords.x,
-                    currentCords.y,
-                    tableSelection.grid,
-                  ),
+                  tableNode.getCellFromCordsOrThrow(currentCords.x, currentCords.y, tableSelection.grid),
                 );
 
-                return adjustFocusNodeInDirection(
-                  tableSelection,
-                  tableNode,
-                  currentCords.x,
-                  currentCords.y,
-                  direction,
-                );
+                return adjustFocusNodeInDirection(tableSelection, tableNode, currentCords.x, currentCords.y, direction);
               }
 
-              return selectGridNodeInDirection(
-                tableSelection,
-                tableNode,
-                currentCords.x,
-                currentCords.y,
-                direction,
-              );
+              return selectGridNodeInDirection(tableSelection, tableNode, currentCords.x, currentCords.y, direction);
             }
           }
         } else if (DEPRECATED_$isGridSelection(selection) && event.shiftKey) {
@@ -381,22 +309,13 @@ export function applyTableHandlers(
             return false;
           }
 
-          const currentCords = tableNode.getCordsFromCellNode(
-            tableCellNode,
-            tableSelection.grid,
-          );
+          const currentCords = tableNode.getCordsFromCellNode(tableCellNode, tableSelection.grid);
 
           event.preventDefault();
           event.stopImmediatePropagation();
           event.stopPropagation();
 
-          return adjustFocusNodeInDirection(
-            tableSelection,
-            tableNode,
-            currentCords.x,
-            currentCords.y,
-            direction,
-          );
+          return adjustFocusNodeInDirection(tableSelection, tableNode, currentCords.x, currentCords.y, direction);
         }
 
         return false;
@@ -419,23 +338,14 @@ export function applyTableHandlers(
 
         if ($isRangeSelection(selection)) {
           if (selection.isCollapsed()) {
-            const tableCellNode = $findMatchingParent(
-              selection.anchor.getNode(),
-              (n) => $isTableCellNode(n),
-            );
+            const tableCellNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isTableCellNode(n));
 
             if (!$isTableCellNode(tableCellNode)) {
               return false;
             }
 
-            const currentCords = tableNode.getCordsFromCellNode(
-              tableCellNode,
-              tableSelection.grid,
-            );
-            const elementParentNode = $findMatchingParent(
-              selection.anchor.getNode(),
-              (n) => $isElementNode(n),
-            );
+            const currentCords = tableNode.getCordsFromCellNode(tableCellNode, tableSelection.grid);
+            const elementParentNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isElementNode(n));
 
             if (elementParentNode == null) {
               throw new Error('Expected BlockNode Parent');
@@ -449,29 +359,13 @@ export function applyTableHandlers(
               // Start Selection
               if (event.shiftKey) {
                 tableSelection.setAnchorCellForSelection(
-                  tableNode.getCellFromCordsOrThrow(
-                    currentCords.x,
-                    currentCords.y,
-                    tableSelection.grid,
-                  ),
+                  tableNode.getCellFromCordsOrThrow(currentCords.x, currentCords.y, tableSelection.grid),
                 );
 
-                return adjustFocusNodeInDirection(
-                  tableSelection,
-                  tableNode,
-                  currentCords.x,
-                  currentCords.y,
-                  direction,
-                );
+                return adjustFocusNodeInDirection(tableSelection, tableNode, currentCords.x, currentCords.y, direction);
               }
 
-              return selectGridNodeInDirection(
-                tableSelection,
-                tableNode,
-                currentCords.x,
-                currentCords.y,
-                direction,
-              );
+              return selectGridNodeInDirection(tableSelection, tableNode, currentCords.x, currentCords.y, direction);
             }
           }
         } else if (DEPRECATED_$isGridSelection(selection) && event.shiftKey) {
@@ -481,22 +375,13 @@ export function applyTableHandlers(
             return false;
           }
 
-          const currentCords = tableNode.getCordsFromCellNode(
-            tableCellNode,
-            tableSelection.grid,
-          );
+          const currentCords = tableNode.getCordsFromCellNode(tableCellNode, tableSelection.grid);
 
           event.preventDefault();
           event.stopImmediatePropagation();
           event.stopPropagation();
 
-          return adjustFocusNodeInDirection(
-            tableSelection,
-            tableNode,
-            currentCords.x,
-            currentCords.y,
-            direction,
-          );
+          return adjustFocusNodeInDirection(tableSelection, tableNode, currentCords.x, currentCords.y, direction);
         }
 
         return false;
@@ -519,33 +404,20 @@ export function applyTableHandlers(
 
         if ($isRangeSelection(selection)) {
           if (selection.isCollapsed()) {
-            const tableCellNode = $findMatchingParent(
-              selection.anchor.getNode(),
-              (n) => $isTableCellNode(n),
-            );
+            const tableCellNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isTableCellNode(n));
 
             if (!$isTableCellNode(tableCellNode)) {
               return false;
             }
 
-            const currentCords = tableNode.getCordsFromCellNode(
-              tableCellNode,
-              tableSelection.grid,
-            );
-            const elementParentNode = $findMatchingParent(
-              selection.anchor.getNode(),
-              (n) => $isElementNode(n),
-            );
+            const currentCords = tableNode.getCordsFromCellNode(tableCellNode, tableSelection.grid);
+            const elementParentNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isElementNode(n));
 
             if (elementParentNode == null) {
               throw new Error('Expected BlockNode Parent');
             }
 
-            if (
-              selection.anchor.offset ===
-                selection.anchor.getNode().getTextContentSize() ||
-              event.shiftKey
-            ) {
+            if (selection.anchor.offset === selection.anchor.getNode().getTextContentSize() || event.shiftKey) {
               event.preventDefault();
               event.stopImmediatePropagation();
               event.stopPropagation();
@@ -553,29 +425,13 @@ export function applyTableHandlers(
               // Start Selection
               if (event.shiftKey) {
                 tableSelection.setAnchorCellForSelection(
-                  tableNode.getCellFromCordsOrThrow(
-                    currentCords.x,
-                    currentCords.y,
-                    tableSelection.grid,
-                  ),
+                  tableNode.getCellFromCordsOrThrow(currentCords.x, currentCords.y, tableSelection.grid),
                 );
 
-                return adjustFocusNodeInDirection(
-                  tableSelection,
-                  tableNode,
-                  currentCords.x,
-                  currentCords.y,
-                  direction,
-                );
+                return adjustFocusNodeInDirection(tableSelection, tableNode, currentCords.x, currentCords.y, direction);
               }
 
-              return selectGridNodeInDirection(
-                tableSelection,
-                tableNode,
-                currentCords.x,
-                currentCords.y,
-                direction,
-              );
+              return selectGridNodeInDirection(tableSelection, tableNode, currentCords.x, currentCords.y, direction);
             }
           }
         } else if (DEPRECATED_$isGridSelection(selection) && event.shiftKey) {
@@ -585,22 +441,13 @@ export function applyTableHandlers(
             return false;
           }
 
-          const currentCords = tableNode.getCordsFromCellNode(
-            tableCellNode,
-            tableSelection.grid,
-          );
+          const currentCords = tableNode.getCordsFromCellNode(tableCellNode, tableSelection.grid);
 
           event.preventDefault();
           event.stopImmediatePropagation();
           event.stopPropagation();
 
-          return adjustFocusNodeInDirection(
-            tableSelection,
-            tableNode,
-            currentCords.x,
-            currentCords.y,
-            direction,
-          );
+          return adjustFocusNodeInDirection(tableSelection, tableNode, currentCords.x, currentCords.y, direction);
         }
 
         return false;
@@ -621,10 +468,7 @@ export function applyTableHandlers(
 
       return true;
     } else if ($isRangeSelection(selection)) {
-      const tableCellNode = $findMatchingParent(
-        selection.anchor.getNode(),
-        (n) => $isTableCellNode(n),
-      );
+      const tableCellNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isTableCellNode(n));
 
       if (!$isTableCellNode(tableCellNode)) {
         return false;
@@ -635,46 +479,29 @@ export function applyTableHandlers(
       const isAnchorInside = tableNode.isParentOf(anchorNode);
       const isFocusInside = tableNode.isParentOf(focusNode);
 
-      const selectionContainsPartialTable =
-        (isAnchorInside && !isFocusInside) ||
-        (isFocusInside && !isAnchorInside);
+      const selectionContainsPartialTable = (isAnchorInside && !isFocusInside) || (isFocusInside && !isAnchorInside);
 
       if (selectionContainsPartialTable) {
         tableSelection.clearText();
         return true;
       }
 
-      const nearestElementNode = $findMatchingParent(
-        selection.anchor.getNode(),
-        (n) => $isElementNode(n),
-      );
+      const nearestElementNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isElementNode(n));
 
       const topLevelCellElementNode =
         nearestElementNode &&
-        $findMatchingParent(
-          nearestElementNode,
-          (n) => $isElementNode(n) && $isTableCellNode(n.getParent()),
-        );
+        $findMatchingParent(nearestElementNode, (n) => $isElementNode(n) && $isTableCellNode(n.getParent()));
 
-      if (
-        !$isElementNode(topLevelCellElementNode) ||
-        !$isElementNode(nearestElementNode)
-      ) {
+      if (!$isElementNode(topLevelCellElementNode) || !$isElementNode(nearestElementNode)) {
         return false;
       }
 
-      if (
-        command === DELETE_LINE_COMMAND &&
-        topLevelCellElementNode.getPreviousSibling() === null
-      ) {
+      if (command === DELETE_LINE_COMMAND && topLevelCellElementNode.getPreviousSibling() === null) {
         // TODO: Fix Delete Line in Table Cells.
         return true;
       }
 
-      if (
-        command === DELETE_CHARACTER_COMMAND ||
-        command === DELETE_WORD_COMMAND
-      ) {
+      if (command === DELETE_CHARACTER_COMMAND || command === DELETE_WORD_COMMAND) {
         if (selection.isCollapsed() && selection.anchor.offset === 0) {
           if (nearestElementNode !== topLevelCellElementNode) {
             const children = nearestElementNode.getChildren();
@@ -691,17 +518,11 @@ export function applyTableHandlers(
     return false;
   };
 
-  [DELETE_WORD_COMMAND, DELETE_LINE_COMMAND, DELETE_CHARACTER_COMMAND].forEach(
-    (command) => {
-      tableSelection.listenersToRemove.add(
-        editor.registerCommand(
-          command,
-          deleteTextHandler(command),
-          COMMAND_PRIORITY_CRITICAL,
-        ),
-      );
-    },
-  );
+  [DELETE_WORD_COMMAND, DELETE_LINE_COMMAND, DELETE_CHARACTER_COMMAND].forEach((command) => {
+    tableSelection.listenersToRemove.add(
+      editor.registerCommand(command, deleteTextHandler(command), COMMAND_PRIORITY_CRITICAL),
+    );
+  });
 
   const deleteCellHandler = (event: KeyboardEvent): boolean => {
     const selection = $getSelection();
@@ -717,10 +538,7 @@ export function applyTableHandlers(
 
       return true;
     } else if ($isRangeSelection(selection)) {
-      const tableCellNode = $findMatchingParent(
-        selection.anchor.getNode(),
-        (n) => $isTableCellNode(n),
-      );
+      const tableCellNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isTableCellNode(n));
 
       if (!$isTableCellNode(tableCellNode)) {
         return false;
@@ -731,19 +549,11 @@ export function applyTableHandlers(
   };
 
   tableSelection.listenersToRemove.add(
-    editor.registerCommand<KeyboardEvent>(
-      KEY_BACKSPACE_COMMAND,
-      deleteCellHandler,
-      COMMAND_PRIORITY_CRITICAL,
-    ),
+    editor.registerCommand<KeyboardEvent>(KEY_BACKSPACE_COMMAND, deleteCellHandler, COMMAND_PRIORITY_CRITICAL),
   );
 
   tableSelection.listenersToRemove.add(
-    editor.registerCommand<KeyboardEvent>(
-      KEY_DELETE_COMMAND,
-      deleteCellHandler,
-      COMMAND_PRIORITY_CRITICAL,
-    ),
+    editor.registerCommand<KeyboardEvent>(KEY_DELETE_COMMAND, deleteCellHandler, COMMAND_PRIORITY_CRITICAL),
   );
 
   tableSelection.listenersToRemove.add(
@@ -761,10 +571,7 @@ export function applyTableHandlers(
 
           return true;
         } else if ($isRangeSelection(selection)) {
-          const tableCellNode = $findMatchingParent(
-            selection.anchor.getNode(),
-            (n) => $isTableCellNode(n),
-          );
+          const tableCellNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isTableCellNode(n));
 
           if (!$isTableCellNode(tableCellNode)) {
             return false;
@@ -792,10 +599,7 @@ export function applyTableHandlers(
 
           return false;
         } else if ($isRangeSelection(selection)) {
-          const tableCellNode = $findMatchingParent(
-            selection.anchor.getNode(),
-            (n) => $isTableCellNode(n),
-          );
+          const tableCellNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isTableCellNode(n));
 
           if (!$isTableCellNode(tableCellNode)) {
             return false;
@@ -819,20 +623,14 @@ export function applyTableHandlers(
         }
 
         if ($isRangeSelection(selection)) {
-          const tableCellNode = $findMatchingParent(
-            selection.anchor.getNode(),
-            (n) => $isTableCellNode(n),
-          );
+          const tableCellNode = $findMatchingParent(selection.anchor.getNode(), (n) => $isTableCellNode(n));
 
           if (!$isTableCellNode(tableCellNode)) {
             return false;
           }
 
           if (selection.isCollapsed()) {
-            const currentCords = tableNode.getCordsFromCellNode(
-              tableCellNode,
-              tableSelection.grid,
-            );
+            const currentCords = tableNode.getCordsFromCellNode(tableCellNode, tableSelection.grid);
 
             event.preventDefault();
             selectGridNodeInDirection(
@@ -870,39 +668,25 @@ export function applyTableHandlers(
         const selection = $getSelection();
         const prevSelection = $getPreviousSelection();
 
-        if (
-          selection &&
-          $isRangeSelection(selection) &&
-          !selection.isCollapsed()
-        ) {
+        if (selection && $isRangeSelection(selection) && !selection.isCollapsed()) {
           const anchorNode = selection.anchor.getNode();
           const focusNode = selection.focus.getNode();
           const isAnchorInside = tableNode.isParentOf(anchorNode);
           const isFocusInside = tableNode.isParentOf(focusNode);
 
           const selectionContainsPartialTable =
-            (isAnchorInside && !isFocusInside) ||
-            (isFocusInside && !isAnchorInside);
+            (isAnchorInside && !isFocusInside) || (isFocusInside && !isAnchorInside);
 
-          const selectionIsInsideTable =
-            isAnchorInside && isFocusInside && !tableNode.isSelected();
+          const selectionIsInsideTable = isAnchorInside && isFocusInside && !tableNode.isSelected();
 
           if (selectionContainsPartialTable) {
             const isBackward = selection.isBackward();
             const modifiedSelection = $createRangeSelection();
             const tableKey = tableNode.getKey();
 
-            modifiedSelection.anchor.set(
-              selection.anchor.key,
-              selection.anchor.offset,
-              selection.anchor.type,
-            );
+            modifiedSelection.anchor.set(selection.anchor.key, selection.anchor.offset, selection.anchor.type);
 
-            modifiedSelection.focus.set(
-              tableKey,
-              isBackward ? 0 : tableNode.getChildrenSize(),
-              'element',
-            );
+            modifiedSelection.focus.set(tableKey, isBackward ? 0 : tableNode.getChildrenSize(), 'element');
 
             isRangeSelectionHijacked = true;
             $setSelection(modifiedSelection);
@@ -910,27 +694,18 @@ export function applyTableHandlers(
 
             return true;
           } else if (selectionIsInsideTable) {
-            const {grid} = tableSelection;
+            const { grid } = tableSelection;
 
-            if (
-              selection.getNodes().filter($isTableCellNode).length ===
-              grid.rows * grid.columns
-            ) {
+            if (selection.getNodes().filter($isTableCellNode).length === grid.rows * grid.columns) {
               const gridSelection = DEPRECATED_$createGridSelection();
               const tableKey = tableNode.getKey();
 
-              const firstCell = tableNode
-                .getFirstChildOrThrow()
-                .getFirstChild();
+              const firstCell = tableNode.getFirstChildOrThrow().getFirstChild();
 
               const lastCell = tableNode.getLastChildOrThrow().getLastChild();
 
               if (firstCell != null && lastCell != null) {
-                gridSelection.set(
-                  tableKey,
-                  firstCell.getKey(),
-                  lastCell.getKey(),
-                );
+                gridSelection.set(tableKey, firstCell.getKey(), lastCell.getKey());
 
                 $setSelection(gridSelection);
                 tableSelection.updateTableGridSelection(gridSelection);
@@ -944,15 +719,11 @@ export function applyTableHandlers(
         if (
           selection &&
           !selection.is(prevSelection) &&
-          (DEPRECATED_$isGridSelection(selection) ||
-            DEPRECATED_$isGridSelection(prevSelection)) &&
+          (DEPRECATED_$isGridSelection(selection) || DEPRECATED_$isGridSelection(prevSelection)) &&
           tableSelection.gridSelection &&
           !tableSelection.gridSelection.is(prevSelection)
         ) {
-          if (
-            DEPRECATED_$isGridSelection(selection) &&
-            selection.gridKey === tableSelection.tableNodeKey
-          ) {
+          if (DEPRECATED_$isGridSelection(selection) && selection.gridKey === tableSelection.tableNodeKey) {
             tableSelection.updateTableGridSelection(selection);
           } else if (
             !DEPRECATED_$isGridSelection(selection) &&
@@ -964,16 +735,10 @@ export function applyTableHandlers(
           return false;
         }
 
-        if (
-          tableSelection.hasHijackedSelectionStyles &&
-          !tableNode.isSelected()
-        ) {
+        if (tableSelection.hasHijackedSelectionStyles && !tableNode.isSelected()) {
           $removeHighlightStyleToTable(editor, tableSelection);
           isRangeSelectionHijacked = false;
-        } else if (
-          !tableSelection.hasHijackedSelectionStyles &&
-          tableNode.isSelected()
-        ) {
+        } else if (!tableSelection.hasHijackedSelectionStyles && tableNode.isSelected()) {
           $addHighlightStyleToTable(editor, tableSelection);
         }
 
@@ -1146,7 +911,7 @@ export function $forEachGridCell(
     },
   ) => void,
 ) {
-  const {cells} = grid;
+  const { cells } = grid;
 
   for (let y = 0; y < cells.length; y++) {
     const row = cells[y];
@@ -1165,10 +930,7 @@ export function $forEachGridCell(
   }
 }
 
-export function $addHighlightStyleToTable(
-  editor: LexicalEditor,
-  tableSelection: TableSelection,
-) {
+export function $addHighlightStyleToTable(editor: LexicalEditor, tableSelection: TableSelection) {
   tableSelection.disableHighlightStyle();
   $forEachGridCell(tableSelection.grid, (cell) => {
     cell.highlighted = true;
@@ -1176,10 +938,7 @@ export function $addHighlightStyleToTable(
   });
 }
 
-export function $removeHighlightStyleToTable(
-  editor: LexicalEditor,
-  tableSelection: TableSelection,
-) {
+export function $removeHighlightStyleToTable(editor: LexicalEditor, tableSelection: TableSelection) {
   tableSelection.enableHighlightStyle();
   $forEachGridCell(tableSelection.grid, (cell) => {
     const elem = cell.elem;
@@ -1205,13 +964,7 @@ const selectGridNodeInDirection = (
     case 'backward':
     case 'forward':
       if (x !== (isForward ? tableSelection.grid.columns - 1 : 0)) {
-        selectTableCellNode(
-          tableNode.getCellNodeFromCordsOrThrow(
-            x + (isForward ? 1 : -1),
-            y,
-            tableSelection.grid,
-          ),
-        );
+        selectTableCellNode(tableNode.getCellNodeFromCordsOrThrow(x + (isForward ? 1 : -1), y, tableSelection.grid));
       } else {
         if (y !== (isForward ? tableSelection.grid.rows - 1 : 0)) {
           selectTableCellNode(
@@ -1232,9 +985,7 @@ const selectGridNodeInDirection = (
 
     case 'up':
       if (y !== 0) {
-        selectTableCellNode(
-          tableNode.getCellNodeFromCordsOrThrow(x, y - 1, tableSelection.grid),
-        );
+        selectTableCellNode(tableNode.getCellNodeFromCordsOrThrow(x, y - 1, tableSelection.grid));
       } else {
         tableNode.selectPrevious();
       }
@@ -1243,9 +994,7 @@ const selectGridNodeInDirection = (
 
     case 'down':
       if (y !== tableSelection.grid.rows - 1) {
-        selectTableCellNode(
-          tableNode.getCellNodeFromCordsOrThrow(x, y + 1, tableSelection.grid),
-        );
+        selectTableCellNode(tableNode.getCellNodeFromCordsOrThrow(x, y + 1, tableSelection.grid));
       } else {
         tableNode.selectNext();
       }
@@ -1270,20 +1019,14 @@ const adjustFocusNodeInDirection = (
     case 'forward':
       if (x !== (isForward ? tableSelection.grid.columns - 1 : 0)) {
         tableSelection.setFocusCellForSelection(
-          tableNode.getCellFromCordsOrThrow(
-            x + (isForward ? 1 : -1),
-            y,
-            tableSelection.grid,
-          ),
+          tableNode.getCellFromCordsOrThrow(x + (isForward ? 1 : -1), y, tableSelection.grid),
         );
       }
 
       return true;
     case 'up':
       if (y !== 0) {
-        tableSelection.setFocusCellForSelection(
-          tableNode.getCellFromCordsOrThrow(x, y - 1, tableSelection.grid),
-        );
+        tableSelection.setFocusCellForSelection(tableNode.getCellFromCordsOrThrow(x, y - 1, tableSelection.grid));
 
         return true;
       } else {
@@ -1291,9 +1034,7 @@ const adjustFocusNodeInDirection = (
       }
     case 'down':
       if (y !== tableSelection.grid.rows - 1) {
-        tableSelection.setFocusCellForSelection(
-          tableNode.getCellFromCordsOrThrow(x, y + 1, tableSelection.grid),
-        );
+        tableSelection.setFocusCellForSelection(tableNode.getCellFromCordsOrThrow(x, y + 1, tableSelection.grid));
 
         return true;
       } else {
@@ -1319,9 +1060,7 @@ function $isSelectionInTable(
 }
 
 function selectTableCellNode(tableCell: TableCellNode) {
-  const possibleParagraph = tableCell
-    .getChildren()
-    .find((n) => $isParagraphNode(n));
+  const possibleParagraph = tableCell.getChildren().find((n) => $isParagraphNode(n));
 
   if ($isParagraphNode(possibleParagraph)) {
     possibleParagraph.selectEnd();
@@ -1334,10 +1073,7 @@ const BROWSER_BLUE_RGB = '172,206,247';
 function $addHighlightToDOM(editor: LexicalEditor, cell: Cell): void {
   const element = cell.elem;
   const node = $getNearestNodeFromDOMNode(element);
-  invariant(
-    $isTableCellNode(node),
-    'Expected to find LexicalNode from Table Cell DOMNode',
-  );
+  invariant($isTableCellNode(node), 'Expected to find LexicalNode from Table Cell DOMNode');
   const backgroundColor = node.getBackgroundColor();
   if (backgroundColor === null) {
     element.style.setProperty('background-color', `rgb(${BROWSER_BLUE_RGB})`);
@@ -1353,10 +1089,7 @@ function $addHighlightToDOM(editor: LexicalEditor, cell: Cell): void {
 function $removeHighlightFromDOM(editor: LexicalEditor, cell: Cell): void {
   const element = cell.elem;
   const node = $getNearestNodeFromDOMNode(element);
-  invariant(
-    $isTableCellNode(node),
-    'Expected to find LexicalNode from Table Cell DOMNode',
-  );
+  invariant($isTableCellNode(node), 'Expected to find LexicalNode from Table Cell DOMNode');
   const backgroundColor = node.getBackgroundColor();
   if (backgroundColor === null) {
     element.style.removeProperty('background-color');

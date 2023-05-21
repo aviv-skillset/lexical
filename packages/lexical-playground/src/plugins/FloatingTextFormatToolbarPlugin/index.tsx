@@ -8,10 +8,10 @@
 
 import './index.css';
 
-import {$isCodeHighlightNode} from '@lexical/code';
-import {$isLinkNode, TOGGLE_LINK_COMMAND} from '@lexical/link';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {mergeRegister} from '@lexical/utils';
+import { $isCodeHighlightNode } from '@lexical/code';
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { mergeRegister } from '@lexical/utils';
 import {
   $getSelection,
   $isRangeSelection,
@@ -21,14 +21,14 @@ import {
   LexicalEditor,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import {useCallback, useEffect, useRef, useState} from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
-import {createPortal} from 'react-dom';
+import { createPortal } from 'react-dom';
 
-import {getDOMRangeRect} from '../../utils/getDOMRangeRect';
-import {getSelectedNode} from '../../utils/getSelectedNode';
-import {setFloatingElemPosition} from '../../utils/setFloatingElemPosition';
-import {INSERT_INLINE_COMMAND} from '../CommentPlugin';
+import { getDOMRangeRect } from '../../utils/getDOMRangeRect';
+import { getSelectedNode } from '../../utils/getSelectedNode';
+import { setFloatingElemPosition } from '../../utils/setFloatingElemPosition';
+import { INSERT_INLINE_COMMAND } from '../CommentPlugin';
 
 function TextFormatFloatingToolbar({
   editor,
@@ -68,10 +68,7 @@ function TextFormatFloatingToolbar({
   };
 
   function mouseMoveListener(e: MouseEvent) {
-    if (
-      popupCharStylesEditorRef?.current &&
-      (e.buttons === 1 || e.buttons === 3)
-    ) {
+    if (popupCharStylesEditorRef?.current && (e.buttons === 1 || e.buttons === 3)) {
       if (popupCharStylesEditorRef.current.style.pointerEvents !== 'none') {
         const x = e.clientX;
         const y = e.clientY;
@@ -155,7 +152,7 @@ function TextFormatFloatingToolbar({
       updateTextFormatFloatingToolbar();
     });
     return mergeRegister(
-      editor.registerUpdateListener(({editorState}) => {
+      editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
           updateTextFormatFloatingToolbar();
         });
@@ -181,7 +178,8 @@ function TextFormatFloatingToolbar({
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
             }}
             className={'popup-item spaced ' + (isBold ? 'active' : '')}
-            aria-label="Format text as bold">
+            aria-label="Format text as bold"
+          >
             <i className="format bold" />
           </button>
           <button
@@ -189,7 +187,8 @@ function TextFormatFloatingToolbar({
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
             }}
             className={'popup-item spaced ' + (isItalic ? 'active' : '')}
-            aria-label="Format text as italics">
+            aria-label="Format text as italics"
+          >
             <i className="format italic" />
           </button>
           <button
@@ -197,7 +196,8 @@ function TextFormatFloatingToolbar({
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
             }}
             className={'popup-item spaced ' + (isUnderline ? 'active' : '')}
-            aria-label="Format text to underlined">
+            aria-label="Format text to underlined"
+          >
             <i className="format underline" />
           </button>
           <button
@@ -205,7 +205,8 @@ function TextFormatFloatingToolbar({
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
             }}
             className={'popup-item spaced ' + (isStrikethrough ? 'active' : '')}
-            aria-label="Format text with a strikethrough">
+            aria-label="Format text with a strikethrough"
+          >
             <i className="format strikethrough" />
           </button>
           <button
@@ -214,7 +215,8 @@ function TextFormatFloatingToolbar({
             }}
             className={'popup-item spaced ' + (isSubscript ? 'active' : '')}
             title="Subscript"
-            aria-label="Format Subscript">
+            aria-label="Format Subscript"
+          >
             <i className="format subscript" />
           </button>
           <button
@@ -223,7 +225,8 @@ function TextFormatFloatingToolbar({
             }}
             className={'popup-item spaced ' + (isSuperscript ? 'active' : '')}
             title="Superscript"
-            aria-label="Format Superscript">
+            aria-label="Format Superscript"
+          >
             <i className="format superscript" />
           </button>
           <button
@@ -231,31 +234,27 @@ function TextFormatFloatingToolbar({
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code');
             }}
             className={'popup-item spaced ' + (isCode ? 'active' : '')}
-            aria-label="Insert code block">
+            aria-label="Insert code block"
+          >
             <i className="format code" />
           </button>
           <button
             onClick={insertLink}
             className={'popup-item spaced ' + (isLink ? 'active' : '')}
-            aria-label="Insert link">
+            aria-label="Insert link"
+          >
             <i className="format link" />
           </button>
         </>
       )}
-      <button
-        onClick={insertComment}
-        className={'popup-item spaced insert-comment'}
-        aria-label="Insert comment">
+      <button onClick={insertComment} className={'popup-item spaced insert-comment'} aria-label="Insert comment">
         <i className="format add-comment" />
       </button>
     </div>
   );
 }
 
-function useFloatingTextFormatToolbar(
-  editor: LexicalEditor,
-  anchorElem: HTMLElement,
-): JSX.Element | null {
+function useFloatingTextFormatToolbar(editor: LexicalEditor, anchorElem: HTMLElement): JSX.Element | null {
   const [isText, setIsText] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isBold, setIsBold] = useState(false);
@@ -278,9 +277,7 @@ function useFloatingTextFormatToolbar(
 
       if (
         nativeSelection !== null &&
-        (!$isRangeSelection(selection) ||
-          rootElement === null ||
-          !rootElement.contains(nativeSelection.anchorNode))
+        (!$isRangeSelection(selection) || rootElement === null || !rootElement.contains(nativeSelection.anchorNode))
       ) {
         setIsText(false);
         return;
@@ -309,10 +306,7 @@ function useFloatingTextFormatToolbar(
         setIsLink(false);
       }
 
-      if (
-        !$isCodeHighlightNode(selection.anchor.getNode()) &&
-        selection.getTextContent() !== ''
-      ) {
+      if (!$isCodeHighlightNode(selection.anchor.getNode()) && selection.getTextContent() !== '') {
         setIsText($isTextNode(node));
       } else {
         setIsText(false);

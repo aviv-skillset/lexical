@@ -16,10 +16,10 @@ import type {
   RangeSelection,
 } from 'lexical';
 
-import {$generateHtmlFromNodes} from '@lexical/html';
-import {$isLinkNode, LinkNode} from '@lexical/link';
-import {$isMarkNode} from '@lexical/mark';
-import {mergeRegister} from '@lexical/utils';
+import { $generateHtmlFromNodes } from '@lexical/html';
+import { $isLinkNode, LinkNode } from '@lexical/link';
+import { $isMarkNode } from '@lexical/mark';
+import { mergeRegister } from '@lexical/utils';
 import {
   $getRoot,
   $getSelection,
@@ -31,17 +31,13 @@ import {
   LexicalCommand,
 } from 'lexical';
 import * as React from 'react';
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-const NON_SINGLE_WIDTH_CHARS_REPLACEMENT: Readonly<Record<string, string>> =
-  Object.freeze({
-    '\t': '\\t',
-    '\n': '\\n',
-  });
-const NON_SINGLE_WIDTH_CHARS_REGEX = new RegExp(
-  Object.keys(NON_SINGLE_WIDTH_CHARS_REPLACEMENT).join('|'),
-  'g',
-);
+const NON_SINGLE_WIDTH_CHARS_REPLACEMENT: Readonly<Record<string, string>> = Object.freeze({
+  '\t': '\\t',
+  '\n': '\\n',
+});
+const NON_SINGLE_WIDTH_CHARS_REGEX = new RegExp(Object.keys(NON_SINGLE_WIDTH_CHARS_REPLACEMENT).join('|'), 'g');
 const SYMBOLS: Record<string, string> = Object.freeze({
   ancestorHasNextSibling: '|',
   ancestorIsLastChild: ' ',
@@ -68,9 +64,7 @@ export function TreeView({
   timeTravelPanelSliderClassName: string;
   viewClassName: string;
 }): JSX.Element {
-  const [timeStampedEditorStates, setTimeStampedEditorStates] = useState<
-    Array<[number, EditorState]>
-  >([]);
+  const [timeStampedEditorStates, setTimeStampedEditorStates] = useState<Array<[number, EditorState]>>([]);
   const [content, setContent] = useState<string>('');
   const [timeTravelEnabled, setTimeTravelEnabled] = useState(false);
   const [showExportDOM, setShowExportDOM] = useState(false);
@@ -91,10 +85,7 @@ export function TreeView({
       setContent(treeText);
 
       if (!timeTravelEnabled) {
-        setTimeStampedEditorStates((currentEditorStates) => [
-          ...currentEditorStates,
-          [Date.now(), editorState],
-        ]);
+        setTimeStampedEditorStates((currentEditorStates) => [...currentEditorStates, [Date.now(), editorState]]);
       }
     },
     [commandsLog, editor, timeTravelEnabled, showExportDOM],
@@ -110,7 +101,7 @@ export function TreeView({
 
   useEffect(() => {
     return mergeRegister(
-      editor.registerUpdateListener(({editorState}) => {
+      editor.registerUpdateListener(({ editorState }) => {
         if (!showLimited && editorState._nodeMap.size > 1000) {
           lastEditorStateRef.current = editorState;
           setIsLimited(true);
@@ -125,14 +116,7 @@ export function TreeView({
         setContent(treeText);
       }),
     );
-  }, [
-    commandsLog,
-    editor,
-    showExportDOM,
-    isLimited,
-    generateTree,
-    showLimited,
-  ]);
+  }, [commandsLog, editor, showExportDOM, isLimited, generateTree, showLimited]);
 
   const totalEditorStates = timeStampedEditorStates.length;
 
@@ -190,10 +174,8 @@ export function TreeView({
   return (
     <div className={viewClassName}>
       {!showLimited && isLimited ? (
-        <div style={{padding: 20}}>
-          <span style={{marginRight: 20}}>
-            Detected large EditorState, this can impact debugging performance.
-          </span>
+        <div style={{ padding: 20 }}>
+          <span style={{ marginRight: 20 }}>Detected large EditorState, this can impact debugging performance.</span>
           <button
             onClick={() => {
               setShowLimited(true);
@@ -209,37 +191,34 @@ export function TreeView({
               color: 'white',
               cursor: 'pointer',
               padding: 5,
-            }}>
+            }}
+          >
             Show full tree
           </button>
         </div>
       ) : null}
       {!showLimited ? (
-        <button
-          onClick={() => setShowExportDOM(!showExportDOM)}
-          className={treeTypeButtonClassName}
-          type="button">
+        <button onClick={() => setShowExportDOM(!showExportDOM)} className={treeTypeButtonClassName} type="button">
           {showExportDOM ? 'Tree' : 'Export DOM'}
         </button>
       ) : null}
-      {!timeTravelEnabled &&
-        (showLimited || !isLimited) &&
-        totalEditorStates > 2 && (
-          <button
-            onClick={() => {
-              const rootElement = editor.getRootElement();
+      {!timeTravelEnabled && (showLimited || !isLimited) && totalEditorStates > 2 && (
+        <button
+          onClick={() => {
+            const rootElement = editor.getRootElement();
 
-              if (rootElement !== null) {
-                rootElement.contentEditable = 'false';
-                playingIndexRef.current = totalEditorStates - 1;
-                setTimeTravelEnabled(true);
-              }
-            }}
-            className={timeTravelButtonClassName}
-            type="button">
-            Time Travel
-          </button>
-        )}
+            if (rootElement !== null) {
+              rootElement.contentEditable = 'false';
+              playingIndexRef.current = totalEditorStates - 1;
+              setTimeTravelEnabled(true);
+            }
+          }}
+          className={timeTravelButtonClassName}
+          type="button"
+        >
+          Time Travel
+        </button>
+      )}
       {(showLimited || !isLimited) && <pre ref={treeElementRef}>{content}</pre>}
       {timeTravelEnabled && (showLimited || !isLimited) && (
         <div className={timeTravelPanelClassName}>
@@ -251,7 +230,8 @@ export function TreeView({
               }
               setIsPlaying(!isPlaying);
             }}
-            type="button">
+            type="button"
+          >
             {isPlaying ? 'Pause' : 'Play'}
           </button>
           <input
@@ -259,8 +239,7 @@ export function TreeView({
             ref={inputRef}
             onChange={(event) => {
               const editorStateIndex = Number(event.target.value);
-              const timeStampedEditorState =
-                timeStampedEditorStates[editorStateIndex];
+              const timeStampedEditorState = timeStampedEditorStates[editorStateIndex];
 
               if (timeStampedEditorState) {
                 playingIndexRef.current = editorStateIndex;
@@ -291,7 +270,8 @@ export function TreeView({
                 setIsPlaying(false);
               }
             }}
-            type="button">
+            type="button"
+          >
             Exit
           </button>
         </div>
@@ -300,12 +280,10 @@ export function TreeView({
   );
 }
 
-function useLexicalCommandsLog(
-  editor: LexicalEditor,
-): ReadonlyArray<LexicalCommand<unknown> & {payload: unknown}> {
-  const [loggedCommands, setLoggedCommands] = useState<
-    ReadonlyArray<LexicalCommand<unknown> & {payload: unknown}>
-  >([]);
+function useLexicalCommandsLog(editor: LexicalEditor): ReadonlyArray<LexicalCommand<unknown> & { payload: unknown }> {
+  const [loggedCommands, setLoggedCommands] = useState<ReadonlyArray<LexicalCommand<unknown> & { payload: unknown }>>(
+    [],
+  );
 
   useEffect(() => {
     const unregisterCommandListeners = new Set<() => void>();
@@ -336,8 +314,7 @@ function useLexicalCommandsLog(
       );
     }
 
-    return () =>
-      unregisterCommandListeners.forEach((unregister) => unregister());
+    return () => unregisterCommandListeners.forEach((unregister) => unregister());
   }, [editor]);
 
   return useMemo(() => loggedCommands, [loggedCommands]);
@@ -357,12 +334,12 @@ function printRangeSelection(selection: RangeSelection): string {
   const anchorOffset = anchor.offset;
   const focusOffset = focus.offset;
 
-  res += `\n  ├ anchor { key: ${anchor.key}, offset: ${
-    anchorOffset === null ? 'null' : anchorOffset
-  }, type: ${anchor.type} }`;
-  res += `\n  └ focus { key: ${focus.key}, offset: ${
-    focusOffset === null ? 'null' : focusOffset
-  }, type: ${focus.type} }`;
+  res += `\n  ├ anchor { key: ${anchor.key}, offset: ${anchorOffset === null ? 'null' : anchorOffset}, type: ${
+    anchor.type
+  } }`;
+  res += `\n  └ focus { key: ${focus.key}, offset: ${focusOffset === null ? 'null' : focusOffset}, type: ${
+    focus.type
+  } }`;
 
   return res;
 }
@@ -377,7 +354,7 @@ function printGridSelection(selection: GridSelection): string {
 
 function generateContent(
   editor: LexicalEditor,
-  commandsLog: ReadonlyArray<LexicalCommand<unknown> & {payload: unknown}>,
+  commandsLog: ReadonlyArray<LexicalCommand<unknown> & { payload: unknown }>,
   exportDOM: boolean,
 ): string {
   const editorState = editor.getEditorState();
@@ -403,9 +380,7 @@ function generateContent(
       const nodeKeyDisplay = `(${nodeKey})`;
       const typeDisplay = node.getType() || '';
       const isSelected = node.isSelected();
-      const idsDisplay = $isMarkNode(node)
-        ? ` id: [ ${node.getIDs().join(', ')} ] `
-        : '';
+      const idsDisplay = $isMarkNode(node) ? ` id: [ ${node.getIDs().join(', ')} ] ` : '';
 
       res += `${isSelected ? SYMBOLS.selectedLine : ' '} ${indent.join(
         ' ',
@@ -435,10 +410,8 @@ function generateContent(
   res += '\n\n commands:';
 
   if (commandsLog.length) {
-    for (const {type, payload} of commandsLog) {
-      res += `\n  └ { type: ${type}, payload: ${
-        payload instanceof Event ? payload.constructor.name : payload
-      } }`;
+    for (const { type, payload } of commandsLog) {
+      res += `\n  └ { type: ${type}, payload: ${payload instanceof Event ? payload.constructor.name : payload} }`;
     }
   } else {
     res += '\n  └ None dispatched.';
@@ -463,24 +436,13 @@ function visitTree(
   const childNodesLength = childNodes.length;
 
   childNodes.forEach((childNode, i) => {
-    visitor(
-      childNode,
-      indent.concat(
-        i === childNodesLength - 1
-          ? SYMBOLS.isLastChild
-          : SYMBOLS.hasNextSibling,
-      ),
-    );
+    visitor(childNode, indent.concat(i === childNodesLength - 1 ? SYMBOLS.isLastChild : SYMBOLS.hasNextSibling));
 
     if ($isElementNode(childNode)) {
       visitTree(
         childNode,
         visitor,
-        indent.concat(
-          i === childNodesLength - 1
-            ? SYMBOLS.ancestorIsLastChild
-            : SYMBOLS.ancestorHasNextSibling,
-        ),
+        indent.concat(i === childNodesLength - 1 ? SYMBOLS.ancestorIsLastChild : SYMBOLS.ancestorHasNextSibling),
       );
     }
   });
@@ -499,18 +461,12 @@ function printNode(node: LexicalNode) {
     const text = node.getTextContent();
     const title = text.length === 0 ? '(empty)' : `"${normalize(text)}"`;
     const properties = printAllTextNodeProperties(node);
-    return [title, properties.length !== 0 ? `{ ${properties} }` : null]
-      .filter(Boolean)
-      .join(' ')
-      .trim();
+    return [title, properties.length !== 0 ? `{ ${properties} }` : null].filter(Boolean).join(' ').trim();
   } else if ($isLinkNode(node)) {
     const link = node.getURL();
     const title = link.length === 0 ? '(empty)' : `"${normalize(link)}"`;
     const properties = printAllLinkNodeProperties(node);
-    return [title, properties.length !== 0 ? `{ ${properties} }` : null]
-      .filter(Boolean)
-      .join(' ')
-      .trim();
+    return [title, properties.length !== 0 ? `{ ${properties} }` : null].filter(Boolean).join(' ').trim();
   } else {
     return '';
   }
@@ -520,14 +476,10 @@ const FORMAT_PREDICATES = [
   (node: LexicalNode | RangeSelection) => node.hasFormat('bold') && 'Bold',
   (node: LexicalNode | RangeSelection) => node.hasFormat('code') && 'Code',
   (node: LexicalNode | RangeSelection) => node.hasFormat('italic') && 'Italic',
-  (node: LexicalNode | RangeSelection) =>
-    node.hasFormat('strikethrough') && 'Strikethrough',
-  (node: LexicalNode | RangeSelection) =>
-    node.hasFormat('subscript') && 'Subscript',
-  (node: LexicalNode | RangeSelection) =>
-    node.hasFormat('superscript') && 'Superscript',
-  (node: LexicalNode | RangeSelection) =>
-    node.hasFormat('underline') && 'Underline',
+  (node: LexicalNode | RangeSelection) => node.hasFormat('strikethrough') && 'Strikethrough',
+  (node: LexicalNode | RangeSelection) => node.hasFormat('subscript') && 'Subscript',
+  (node: LexicalNode | RangeSelection) => node.hasFormat('superscript') && 'Superscript',
+  (node: LexicalNode | RangeSelection) => node.hasFormat('underline') && 'Underline',
 ];
 
 const DETAIL_PREDICATES = [
@@ -541,23 +493,13 @@ const MODE_PREDICATES = [
 ];
 
 function printAllTextNodeProperties(node: LexicalNode) {
-  return [
-    printFormatProperties(node),
-    printDetailProperties(node),
-    printModeProperties(node),
-  ]
+  return [printFormatProperties(node), printDetailProperties(node), printModeProperties(node)]
     .filter(Boolean)
     .join(', ');
 }
 
 function printAllLinkNodeProperties(node: LinkNode) {
-  return [
-    printTargetProperties(node),
-    printRelProperties(node),
-    printTitleProperties(node),
-  ]
-    .filter(Boolean)
-    .join(', ');
+  return [printTargetProperties(node), printRelProperties(node), printTitleProperties(node)].filter(Boolean).join(', ');
 }
 
 function printDetailProperties(nodeOrSelection: LexicalNode) {
@@ -642,12 +584,7 @@ function printSelectedCharsLine({
   typeDisplay: string;
 }) {
   // No selection or node is not selected.
-  if (
-    !$isTextNode(node) ||
-    !$isRangeSelection(selection) ||
-    !isSelected ||
-    $isElementNode(node)
-  ) {
+  if (!$isTextNode(node) || !$isRangeSelection(selection) || !isSelected || $isElementNode(node)) {
     return '';
   }
 
@@ -657,8 +594,7 @@ function printSelectedCharsLine({
 
   if (
     node.getTextContent() === '' ||
-    (anchor.getNode() === selection.focus.getNode() &&
-      anchor.offset === focus.offset)
+    (anchor.getNode() === selection.focus.getNode() && anchor.offset === focus.offset)
   ) {
     return '';
   }
@@ -670,21 +606,14 @@ function printSelectedCharsLine({
   }
 
   const selectionLastIndent =
-    indent[indent.length - 1] === SYMBOLS.hasNextSibling
-      ? SYMBOLS.ancestorHasNextSibling
-      : SYMBOLS.ancestorIsLastChild;
+    indent[indent.length - 1] === SYMBOLS.hasNextSibling ? SYMBOLS.ancestorHasNextSibling : SYMBOLS.ancestorIsLastChild;
 
-  const indentionChars = [
-    ...indent.slice(0, indent.length - 1),
-    selectionLastIndent,
-  ];
+  const indentionChars = [...indent.slice(0, indent.length - 1), selectionLastIndent];
   const unselectedChars = Array(start + 1).fill(' ');
   const selectedChars = Array(end - start).fill(SYMBOLS.selectedChar);
   const paddingLength = typeDisplay.length + 3; // 2 for the spaces around + 1 for the double quote.
 
-  const nodePrintSpaces = Array(nodeKeyDisplay.length + paddingLength).fill(
-    ' ',
-  );
+  const nodePrintSpaces = Array(nodeKeyDisplay.length + paddingLength).fill(' ');
 
   return (
     [
@@ -719,10 +648,7 @@ function prettifyHTML(node: Element, level: number) {
   return node;
 }
 
-function $getSelectionStartEnd(
-  node: LexicalNode,
-  selection: RangeSelection | GridSelection,
-): [number, number] {
+function $getSelectionStartEnd(node: LexicalNode, selection: RangeSelection | GridSelection): [number, number] {
   const anchor = selection.anchor;
   const focus = selection.focus;
   const textContent = node.getTextContent();
@@ -736,23 +662,12 @@ function $getSelectionStartEnd(
     const anchorNode = anchor.getNode();
     const focusNode = focus.getNode();
 
-    if (
-      anchorNode === focusNode &&
-      node === anchorNode &&
-      anchor.offset !== focus.offset
-    ) {
-      [start, end] =
-        anchor.offset < focus.offset
-          ? [anchor.offset, focus.offset]
-          : [focus.offset, anchor.offset];
+    if (anchorNode === focusNode && node === anchorNode && anchor.offset !== focus.offset) {
+      [start, end] = anchor.offset < focus.offset ? [anchor.offset, focus.offset] : [focus.offset, anchor.offset];
     } else if (node === anchorNode) {
-      [start, end] = anchorNode.isBefore(focusNode)
-        ? [anchor.offset, textLength]
-        : [0, anchor.offset];
+      [start, end] = anchorNode.isBefore(focusNode) ? [anchor.offset, textLength] : [0, anchor.offset];
     } else if (node === focusNode) {
-      [start, end] = focusNode.isBefore(anchorNode)
-        ? [focus.offset, textLength]
-        : [0, focus.offset];
+      [start, end] = focusNode.isBefore(anchorNode) ? [focus.offset, textLength] : [0, focus.offset];
     } else {
       // Node is within selection but not the anchor nor focus.
       [start, end] = [0, textLength];
@@ -760,17 +675,13 @@ function $getSelectionStartEnd(
   }
 
   // Account for non-single width characters.
-  const numNonSingleWidthCharBeforeSelection = (
-    textContent.slice(0, start).match(NON_SINGLE_WIDTH_CHARS_REGEX) || []
-  ).length;
-  const numNonSingleWidthCharInSelection = (
-    textContent.slice(start, end).match(NON_SINGLE_WIDTH_CHARS_REGEX) || []
-  ).length;
+  const numNonSingleWidthCharBeforeSelection = (textContent.slice(0, start).match(NON_SINGLE_WIDTH_CHARS_REGEX) || [])
+    .length;
+  const numNonSingleWidthCharInSelection = (textContent.slice(start, end).match(NON_SINGLE_WIDTH_CHARS_REGEX) || [])
+    .length;
 
   return [
     start + numNonSingleWidthCharBeforeSelection,
-    end +
-      numNonSingleWidthCharBeforeSelection +
-      numNonSingleWidthCharInSelection,
+    end + numNonSingleWidthCharBeforeSelection + numNonSingleWidthCharInSelection,
   ];
 }

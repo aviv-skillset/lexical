@@ -6,14 +6,14 @@
  *
  */
 
-import type {MenuRenderFn, MenuResolution} from './shared/LexicalMenu';
+import type { MenuRenderFn, MenuResolution } from './shared/LexicalMenu';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$getNodeByKey, NodeKey, TextNode} from 'lexical';
-import {useCallback, useEffect, useState} from 'react';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $getNodeByKey, NodeKey, TextNode } from 'lexical';
+import { useCallback, useEffect, useState } from 'react';
 import * as React from 'react';
 
-import {LexicalMenu, MenuOption, useMenuAnchorRef} from './shared/LexicalMenu';
+import { LexicalMenu, MenuOption, useMenuAnchorRef } from './shared/LexicalMenu';
 
 function startTransition(callback: () => void) {
   if (React.startTransition) {
@@ -49,11 +49,7 @@ export function LexicalNodeMenuPlugin<TOption extends MenuOption>({
 }: NodeMenuPluginProps<TOption>): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
   const [resolution, setResolution] = useState<MenuResolution | null>(null);
-  const anchorElementRef = useMenuAnchorRef(
-    resolution,
-    setResolution,
-    anchorClassName,
-  );
+  const anchorElementRef = useMenuAnchorRef(resolution, setResolution, anchorClassName);
 
   const closeNodeMenu = useCallback(() => {
     setResolution(null);
@@ -98,7 +94,7 @@ export function LexicalNodeMenuPlugin<TOption extends MenuOption>({
 
   useEffect(() => {
     if (nodeKey != null) {
-      return editor.registerUpdateListener(({dirtyElements}) => {
+      return editor.registerUpdateListener(({ dirtyElements }) => {
         if (dirtyElements.get(nodeKey)) {
           positionOrCloseMenu();
         }
@@ -119,4 +115,4 @@ export function LexicalNodeMenuPlugin<TOption extends MenuOption>({
   );
 }
 
-export {MenuOption, MenuRenderFn, MenuResolution};
+export { MenuOption, MenuRenderFn, MenuResolution };

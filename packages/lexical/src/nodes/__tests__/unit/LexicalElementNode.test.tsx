@@ -16,14 +16,11 @@ import {
   TextNode,
 } from 'lexical';
 import * as React from 'react';
-import {createRef, useEffect} from 'react';
-import {createRoot} from 'react-dom/client';
+import { createRef, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
 import * as ReactTestUtils from 'react-dom/test-utils';
 
-import {
-  $createTestElementNode,
-  createTestEditor,
-} from '../../../__tests__/utils';
+import { $createTestElementNode, createTestEditor } from '../../../__tests__/utils';
 
 describe('LexicalElementNode tests', () => {
   let container = null;
@@ -130,9 +127,7 @@ describe('LexicalElementNode tests', () => {
   describe('getAllTextNodes()', () => {
     test('basic', async () => {
       await update(() => {
-        const textNodes = $getRoot()
-          .getFirstChild<ElementNode>()
-          .getAllTextNodes();
+        const textNodes = $getRoot().getFirstChild<ElementNode>().getAllTextNodes();
         expect(textNodes).toHaveLength(3);
       });
     });
@@ -171,12 +166,7 @@ describe('LexicalElementNode tests', () => {
   describe('getFirstChild()', () => {
     test('basic', async () => {
       await update(() => {
-        expect(
-          $getRoot()
-            .getFirstChild<ElementNode>()
-            .getFirstChild()
-            .getTextContent(),
-        ).toBe('Foo');
+        expect($getRoot().getFirstChild<ElementNode>().getFirstChild().getTextContent()).toBe('Foo');
       });
     });
 
@@ -191,12 +181,7 @@ describe('LexicalElementNode tests', () => {
   describe('getLastChild()', () => {
     test('basic', async () => {
       await update(() => {
-        expect(
-          $getRoot()
-            .getFirstChild<ElementNode>()
-            .getLastChild()
-            .getTextContent(),
-        ).toBe('Baz');
+        expect($getRoot().getFirstChild<ElementNode>().getLastChild().getTextContent()).toBe('Baz');
       });
     });
 
@@ -384,9 +369,7 @@ describe('LexicalElementNode tests', () => {
           block.splice(
             testCase.start,
             testCase.deleteCount,
-            testCase.deleteOnly
-              ? []
-              : [$createTextNode('Qux'), $createTextNode('Quuz')],
+            testCase.deleteOnly ? [] : [$createTextNode('Qux'), $createTextNode('Quuz')],
           );
 
           expect(block.getTextContent()).toEqual(testCase.expectedText);
@@ -555,9 +538,7 @@ describe('LexicalElementNode tests', () => {
           block.splice(
             testCase.start,
             testCase.deleteCount,
-            testCase.deleteOnly
-              ? []
-              : [$createTextNode('Qux'), $createTextNode('Quuz')],
+            testCase.deleteOnly ? [] : [$createTextNode('Qux'), $createTextNode('Quuz')],
           );
         });
 
@@ -615,9 +596,7 @@ describe('LexicalElementNode tests', () => {
       });
 
       await update(() => {
-        block.splice(1, 0, [
-          $getRoot().getLastChild<ElementNode>().getChildAtIndex(1),
-        ]);
+        block.splice(1, 0, [$getRoot().getLastChild<ElementNode>().getChildAtIndex(1)]);
       });
 
       removeTransform();

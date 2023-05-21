@@ -20,7 +20,7 @@ const json = require('@rollup/plugin-json');
 const extractErrorCodes = require('./error-codes/extract-errors');
 const alias = require('@rollup/plugin-alias');
 const compiler = require('@ampproject/rollup-plugin-closure-compiler');
-const {exec} = require('child-process-promise');
+const { exec } = require('child-process-promise');
 
 const license = ` * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -74,12 +74,7 @@ const wwwMappings = {
 
 const lexicalReactModules = fs
   .readdirSync(path.resolve('./packages/lexical-react/src'))
-  .filter(
-    (str) =>
-      !str.includes('__tests__') &&
-      !str.includes('shared') &&
-      !str.includes('test-utils'),
-  );
+  .filter((str) => !str.includes('__tests__') && !str.includes('shared') && !str.includes('test-utils'));
 
 const lexicalReactModuleExternals = lexicalReactModules.map((module) => {
   const basename = path.basename(path.basename(module, '.ts'), '.tsx');
@@ -178,9 +173,7 @@ async function build(name, inputFile, outputPath, outputFile, isProd) {
     },
     plugins: [
       alias({
-        entries: [
-          {find: 'shared', replacement: path.resolve('packages/shared/src')},
-        ],
+        entries: [{ find: 'shared', replacement: path.resolve('packages/shared/src') }],
       }),
       // Extract error codes from invariant() messages into a file.
       {
@@ -199,12 +192,7 @@ async function build(name, inputFile, outputPath, outputFile, isProd) {
         configFile: false,
         exclude: '/**/node_modules/**',
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        plugins: [
-          [
-            require('./error-codes/transform-error-messages'),
-            {noMinify: !isProd},
-          ],
-        ],
+        plugins: [[require('./error-codes/transform-error-messages'), { noMinify: !isProd }]],
         presets: [
           [
             '@babel/preset-typescript',
@@ -218,9 +206,7 @@ async function build(name, inputFile, outputPath, outputFile, isProd) {
       {
         resolveId(importee, importer) {
           if (importee === 'formatProdErrorMessage') {
-            return path.resolve(
-              './scripts/error-codes/formatProdErrorMessage.js',
-            );
+            return path.resolve('./scripts/error-codes/formatProdErrorMessage.js');
           }
         },
       },
@@ -241,9 +227,7 @@ async function build(name, inputFile, outputPath, outputFile, isProd) {
         renderChunk(source) {
           // Assets pipeline might use "export" word in the beginning of the line
           // as a dependency, avoiding it with empty comment in front
-          const patchedSource = isWWW
-            ? source.replace(/^(export(?!s))/gm, '/**/$1')
-            : source;
+          const patchedSource = isWWW ? source.replace(/^(export(?!s))/gm, '/**/$1') : source;
           return `${getComment()}\n${patchedSource}`;
         },
       },
@@ -600,10 +584,7 @@ function buildForkModule(outputPath, outputFileName) {
     `module.exports = ${outputFileName};`,
   ];
   const fileContent = lines.join('\n');
-  fs.outputFileSync(
-    path.resolve(path.join(`${outputPath}${outputFileName}.js`)),
-    fileContent,
-  );
+  fs.outputFileSync(path.resolve(path.join(`${outputPath}${outputFileName}.js`)), fileContent);
 }
 
 async function buildAll() {
@@ -612,21 +593,17 @@ async function buildAll() {
   }
 
   for (const pkg of packages) {
-    const {name, sourcePath, outputPath, packageName, modules} = pkg;
+    const { name, sourcePath, outputPath, packageName, modules } = pkg;
 
     for (const module of modules) {
-      const {sourceFileName, outputFileName} = module;
+      const { sourceFileName, outputFileName } = module;
       let inputFile = path.resolve(path.join(`${sourcePath}${sourceFileName}`));
 
       await build(
         `${name}${module.name ? '-' + module.name : ''}`,
         inputFile,
         outputPath,
-        path.resolve(
-          path.join(
-            `${outputPath}${getFileName(outputFileName, isProduction)}`,
-          ),
-        ),
+        path.resolve(path.join(`${outputPath}${getFileName(outputFileName, isProduction)}`)),
         isProduction,
       );
 
@@ -635,9 +612,7 @@ async function buildAll() {
           name,
           inputFile,
           outputPath,
-          path.resolve(
-            path.join(`${outputPath}${getFileName(outputFileName, false)}`),
-          ),
+          path.resolve(path.join(`${outputPath}${getFileName(outputFileName, false)}`)),
           false,
         );
         buildForkModule(outputPath, outputFileName);

@@ -32,19 +32,11 @@ import 'prismjs/components/prism-typescript';
 import 'prismjs/components/prism-java';
 import 'prismjs/components/prism-cpp';
 
-import {
-  addClassNamesToElement,
-  removeClassNamesFromElement,
-} from '@lexical/utils';
-import {
-  $applyNodeReplacement,
-  $isTabNode,
-  ElementNode,
-  TextNode,
-} from 'lexical';
+import { addClassNamesToElement, removeClassNamesFromElement } from '@lexical/utils';
+import { $applyNodeReplacement, $isTabNode, ElementNode, TextNode } from 'lexical';
 import * as Prism from 'prismjs';
 
-import {$createCodeNode} from './CodeNode';
+import { $createCodeNode } from './CodeNode';
 
 export const DEFAULT_CODE_LANGUAGE = 'javascript';
 
@@ -110,11 +102,7 @@ export class CodeHighlightNode extends TextNode {
   /** @internal */
   __highlightType: string | null | undefined;
 
-  constructor(
-    text: string,
-    highlightType?: string | null | undefined,
-    key?: NodeKey,
-  ) {
+  constructor(text: string, highlightType?: string | null | undefined, key?: NodeKey) {
     super(text, key);
     this.__highlightType = highlightType;
   }
@@ -124,11 +112,7 @@ export class CodeHighlightNode extends TextNode {
   }
 
   static clone(node: CodeHighlightNode): CodeHighlightNode {
-    return new CodeHighlightNode(
-      node.__text,
-      node.__highlightType || undefined,
-      node.__key,
-    );
+    return new CodeHighlightNode(node.__text, node.__highlightType || undefined, node.__key);
   }
 
   getHighlightType(): string | null | undefined {
@@ -138,28 +122,15 @@ export class CodeHighlightNode extends TextNode {
 
   createDOM(config: EditorConfig): HTMLElement {
     const element = super.createDOM(config);
-    const className = getHighlightThemeClass(
-      config.theme,
-      this.__highlightType,
-    );
+    const className = getHighlightThemeClass(config.theme, this.__highlightType);
     addClassNamesToElement(element, className);
     return element;
   }
 
-  updateDOM(
-    prevNode: CodeHighlightNode,
-    dom: HTMLElement,
-    config: EditorConfig,
-  ): boolean {
+  updateDOM(prevNode: CodeHighlightNode, dom: HTMLElement, config: EditorConfig): boolean {
     const update = super.updateDOM(prevNode, dom, config);
-    const prevClassName = getHighlightThemeClass(
-      config.theme,
-      prevNode.__highlightType,
-    );
-    const nextClassName = getHighlightThemeClass(
-      config.theme,
-      this.__highlightType,
-    );
+    const prevClassName = getHighlightThemeClass(config.theme, prevNode.__highlightType);
+    const nextClassName = getHighlightThemeClass(config.theme, this.__highlightType);
     if (prevClassName !== nextClassName) {
       if (prevClassName) {
         removeClassNamesFromElement(dom, prevClassName);
@@ -171,13 +142,8 @@ export class CodeHighlightNode extends TextNode {
     return update;
   }
 
-  static importJSON(
-    serializedNode: SerializedCodeHighlightNode,
-  ): CodeHighlightNode {
-    const node = $createCodeHighlightNode(
-      serializedNode.text,
-      serializedNode.highlightType,
-    );
+  static importJSON(serializedNode: SerializedCodeHighlightNode): CodeHighlightNode {
+    const node = $createCodeHighlightNode(serializedNode.text, serializedNode.highlightType);
     node.setFormat(serializedNode.format);
     node.setDetail(serializedNode.detail);
     node.setMode(serializedNode.mode);
@@ -212,18 +178,10 @@ function getHighlightThemeClass(
   theme: EditorThemeClasses,
   highlightType: string | null | undefined,
 ): string | null | undefined {
-  return (
-    highlightType &&
-    theme &&
-    theme.codeHighlight &&
-    theme.codeHighlight[highlightType]
-  );
+  return highlightType && theme && theme.codeHighlight && theme.codeHighlight[highlightType];
 }
 
-export function $createCodeHighlightNode(
-  text: string,
-  highlightType?: string | null | undefined,
-): CodeHighlightNode {
+export function $createCodeHighlightNode(text: string, highlightType?: string | null | undefined): CodeHighlightNode {
   return $applyNodeReplacement(new CodeHighlightNode(text, highlightType));
 }
 

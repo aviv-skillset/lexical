@@ -6,13 +6,7 @@
  *
  */
 
-import {
-  selectAll,
-  selectCharacters,
-  toggleBold,
-  toggleItalic,
-  toggleUnderline,
-} from '../keyboardShortcuts/index.mjs';
+import { selectAll, selectCharacters, toggleBold, toggleItalic, toggleUnderline } from '../keyboardShortcuts/index.mjs';
 import {
   assertHTML,
   click,
@@ -30,11 +24,9 @@ import {
 } from '../utils/index.mjs';
 
 test.describe('Toolbar', () => {
-  test.beforeEach(({isCollab, page}) =>
-    initialize({isCollab, page, showNestedEditorTreeView: false}),
-  );
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page, showNestedEditorTreeView: false }));
 
-  test('Insert image caption + table', async ({page, isPlainText}) => {
+  test('Insert image caption + table', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
 
@@ -50,21 +42,12 @@ test.describe('Toolbar', () => {
         <p>
           <span contenteditable="false" data-lexical-decorator="true">
             <div draggable="false">
-              <img
-                alt="Yellow flower in tilt shift lens"
-                draggable="false"
-                src="${SAMPLE_IMAGE_URL}" />
+              <img alt="Yellow flower in tilt shift lens" draggable="false" src="${SAMPLE_IMAGE_URL}" />
             </div>
             <div>
-              <div
-                contenteditable="true"
-                role="textbox"
-                spellcheck="true"
-                data-lexical-editor="true">
+              <div contenteditable="true" role="textbox" spellcheck="true" data-lexical-editor="true">
                 <p dir="ltr">
-                  <span data-lexical-text="true">
-                    Yellow flower in tilt shift lens
-                  </span>
+                  <span data-lexical-text="true"> Yellow flower in tilt shift lens </span>
                 </p>
               </div>
             </div>
@@ -87,17 +70,10 @@ test.describe('Toolbar', () => {
     });
     await selectAll(page);
     await page.keyboard.press('Delete');
-    await assertHTML(
-      page,
-      html`
-        <p><br /></p>
-      `,
-      undefined,
-      {
-        ignoreClasses: true,
-        ignoreInlineStyles: true,
-      },
-    );
+    await assertHTML(page, html` <p><br /></p> `, undefined, {
+      ignoreClasses: true,
+      ignoreInlineStyles: true,
+    });
 
     // Add table
     await selectFromInsertDropdown(page, '.table');
@@ -206,7 +182,7 @@ test.describe('Toolbar', () => {
     );
   });
 
-  test('Center align image', async ({page, isPlainText, isCollab}) => {
+  test('Center align image', async ({ page, isPlainText, isCollab }) => {
     // Image selection can't be synced in collab
     test.skip(isPlainText || isCollab);
     await focusEditor(page);
@@ -217,17 +193,15 @@ test.describe('Toolbar', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="editor-image"
-            contenteditable="false"
-            data-lexical-decorator="true">
+          <span class="editor-image" contenteditable="false" data-lexical-decorator="true">
             <div draggable="true">
               <img
-                alt="Yellow flower in tilt shift lens"
                 class="focused draggable"
+                alt="Yellow flower in tilt shift lens"
                 draggable="false"
                 src="${SAMPLE_IMAGE_URL}"
-                style="height: inherit; max-width: 500px; width: inherit" />
+                style="height: inherit; max-width: 500px; width: inherit"
+              />
             </div>
             <div>
               <button class="image-caption-button">Add Caption</button>
@@ -253,17 +227,15 @@ test.describe('Toolbar', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph" style="text-align: center">
-          <span
-            class="editor-image"
-            contenteditable="false"
-            data-lexical-decorator="true">
+          <span class="editor-image" contenteditable="false" data-lexical-decorator="true">
             <div draggable="true">
               <img
-                alt="Yellow flower in tilt shift lens"
                 class="focused draggable"
+                alt="Yellow flower in tilt shift lens"
                 draggable="false"
                 src="${SAMPLE_IMAGE_URL}"
-                style="height: inherit; max-width: 500px; width: inherit" />
+                style="height: inherit; max-width: 500px; width: inherit"
+              />
             </div>
             <div>
               <button class="image-caption-button">Add Caption</button>
@@ -305,11 +277,7 @@ test.describe('Toolbar', () => {
     expect(actives.length).toEqual(0);
   });
 
-  test('Selecting empty paragraphs has empty selection format', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('Selecting empty paragraphs has empty selection format', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText || isCollab);
     await focusEditor(page);
     await page.keyboard.press('Enter');

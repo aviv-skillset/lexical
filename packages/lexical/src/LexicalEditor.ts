@@ -6,17 +6,17 @@
  *
  */
 
-import type {EditorState, SerializedEditorState} from './LexicalEditorState';
-import type {DOMConversion, NodeKey} from './LexicalNode';
+import type { EditorState, SerializedEditorState } from './LexicalEditorState';
+import type { DOMConversion, NodeKey } from './LexicalNode';
 
 import invariant from 'shared/invariant';
 
-import {$getRoot, $getSelection, TextNode} from '.';
-import {FULL_RECONCILE, NO_DIRTY_NODES} from './LexicalConstants';
-import {createEmptyEditorState} from './LexicalEditorState';
-import {addRootElementEvents, removeRootElementEvents} from './LexicalEvents';
-import {flushRootMutations, initMutationObserver} from './LexicalMutations';
-import {LexicalNode} from './LexicalNode';
+import { $getRoot, $getSelection, TextNode } from '.';
+import { FULL_RECONCILE, NO_DIRTY_NODES } from './LexicalConstants';
+import { createEmptyEditorState } from './LexicalEditorState';
+import { addRootElementEvents, removeRootElementEvents } from './LexicalEvents';
+import { flushRootMutations, initMutationObserver } from './LexicalMutations';
+import { LexicalNode } from './LexicalNode';
 import {
   commitPendingUpdates,
   internalGetActiveEditor,
@@ -32,11 +32,11 @@ import {
   getDOMSelection,
   markAllNodesAsDirty,
 } from './LexicalUtils';
-import {DecoratorNode} from './nodes/LexicalDecoratorNode';
-import {LineBreakNode} from './nodes/LexicalLineBreakNode';
-import {ParagraphNode} from './nodes/LexicalParagraphNode';
-import {RootNode} from './nodes/LexicalRootNode';
-import {TabNode} from './nodes/LexicalTabNode';
+import { DecoratorNode } from './nodes/LexicalDecoratorNode';
+import { LineBreakNode } from './nodes/LexicalLineBreakNode';
+import { ParagraphNode } from './nodes/LexicalParagraphNode';
+import { RootNode } from './nodes/LexicalRootNode';
+import { TabNode } from './nodes/LexicalTabNode';
 
 export type Spread<T1, T2> = Omit<T2, keyof T1> & T1;
 
@@ -151,9 +151,7 @@ export type CreateEditorArgs = {
     | {
         replace: Klass<LexicalNode>;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        with: <T extends {new (...args: any): any}>(
-          node: InstanceType<T>,
-        ) => LexicalNode;
+        with: <T extends { new (...args: any): any }>(node: InstanceType<T>) => LexicalNode;
 
         withKlass?: Klass<LexicalNode>;
       }
@@ -192,20 +190,15 @@ export type UpdateListener = (arg0: {
   tags: Set<string>;
 }) => void;
 
-export type DecoratorListener<T = never> = (
-  decorator: Record<NodeKey, T>,
-) => void;
+export type DecoratorListener<T = never> = (decorator: Record<NodeKey, T>) => void;
 
-export type RootListener = (
-  rootElement: null | HTMLElement,
-  prevRootElement: null | HTMLElement,
-) => void;
+export type RootListener = (rootElement: null | HTMLElement, prevRootElement: null | HTMLElement) => void;
 
 export type TextContentListener = (text: string) => void;
 
 export type MutationListener = (
   nodes: Map<NodeKey, NodeMutation>,
-  payload: {updateTags: Set<string>; dirtyLeaves: Set<string>},
+  payload: { updateTags: Set<string>; dirtyLeaves: Set<string> },
 ) => void;
 
 export type CommandListener<P> = (payload: P, editor: LexicalEditor) => boolean;
@@ -245,13 +238,13 @@ export type LexicalCommand<TPayload> = {
  * }
  * ```
  */
-export type CommandPayloadType<TCommand extends LexicalCommand<unknown>> =
-  TCommand extends LexicalCommand<infer TPayload> ? TPayload : never;
+export type CommandPayloadType<TCommand extends LexicalCommand<unknown>> = TCommand extends LexicalCommand<
+  infer TPayload
+>
+  ? TPayload
+  : never;
 
-type Commands = Map<
-  LexicalCommand<unknown>,
-  Array<Set<CommandListener<unknown>>>
->;
+type Commands = Map<LexicalCommand<unknown>, Array<Set<CommandListener<unknown>>>>;
 type Listeners = {
   decorator: Set<DecoratorListener>;
   mutation: MutationListeners;
@@ -269,22 +262,13 @@ export type Listener =
   | TextContentListener
   | UpdateListener;
 
-export type ListenerType =
-  | 'update'
-  | 'root'
-  | 'decorator'
-  | 'textcontent'
-  | 'mutation'
-  | 'editable';
+export type ListenerType = 'update' | 'root' | 'decorator' | 'textcontent' | 'mutation' | 'editable';
 
 export type TransformerType = 'text' | 'decorator' | 'element' | 'root';
 
 type IntentionallyMarkedAsDirtyElement = boolean;
 
-type DOMConversionCache = Map<
-  string,
-  Array<(node: Node) => DOMConversion | null>
->;
+type DOMConversionCache = Map<string, Array<(node: Node) => DOMConversion | null>>;
 
 export type SerializedEditor = {
   editorState: SerializedEditorState;
@@ -332,10 +316,7 @@ function initializeConversionCache(nodes: RegisteredNodes): DOMConversionCache {
   const conversionCache = new Map();
   const handledConversions = new Set();
   nodes.forEach((node) => {
-    const importDOM =
-      node.klass.importDOM != null
-        ? node.klass.importDOM.bind(node.klass)
-        : null;
+    const importDOM = node.klass.importDOM != null ? node.klass.importDOM.bind(node.klass) : null;
 
     if (importDOM == null || handledConversions.has(importDOM)) {
       return;
@@ -371,22 +352,12 @@ export function createEditor(editorConfig?: CreateEditorArgs): LexicalEditor {
   const config = editorConfig || {};
   const activeEditor = internalGetActiveEditor();
   const theme = config.theme || {};
-  const parentEditor =
-    editorConfig === undefined ? activeEditor : config.parentEditor || null;
+  const parentEditor = editorConfig === undefined ? activeEditor : config.parentEditor || null;
   const disableEvents = config.disableEvents || false;
   const editorState = createEmptyEditorState();
-  const namespace =
-    config.namespace ||
-    (parentEditor !== null ? parentEditor._config.namespace : createUID());
+  const namespace = config.namespace || (parentEditor !== null ? parentEditor._config.namespace : createUID());
   const initialEditorState = config.editorState;
-  const nodes = [
-    RootNode,
-    TextNode,
-    LineBreakNode,
-    TabNode,
-    ParagraphNode,
-    ...(config.nodes || []),
-  ];
+  const nodes = [RootNode, TextNode, LineBreakNode, TabNode, ParagraphNode, ...(config.nodes || [])];
   const onError = config.onError;
   const isEditable = config.editable !== undefined ? config.editable : true;
   let registeredNodes;
@@ -430,9 +401,7 @@ export function createEditor(editorConfig?: CreateEditorArgs): LexicalEditor {
           if (proto instanceof DecoratorNode) {
             // eslint-disable-next-line no-prototype-builtins
             if (!proto.hasOwnProperty('decorate')) {
-              console.warn(
-                `${proto.constructor.name} must implement "decorate" method`,
-              );
+              console.warn(`${proto.constructor.name} must implement "decorate" method`);
             }
           }
           if (
@@ -724,23 +693,13 @@ export class LexicalEditor {
     const commandsMap = this._commands;
 
     if (!commandsMap.has(command)) {
-      commandsMap.set(command, [
-        new Set(),
-        new Set(),
-        new Set(),
-        new Set(),
-        new Set(),
-      ]);
+      commandsMap.set(command, [new Set(), new Set(), new Set(), new Set(), new Set()]);
     }
 
     const listenersInPriorityOrder = commandsMap.get(command);
 
     if (listenersInPriorityOrder === undefined) {
-      invariant(
-        false,
-        'registerCommand: Command %s not found in command map',
-        String(command),
-      );
+      invariant(false, 'registerCommand: Command %s not found in command map', String(command));
     }
 
     const listeners = listenersInPriorityOrder[priority];
@@ -748,11 +707,7 @@ export class LexicalEditor {
     return () => {
       listeners.delete(listener as CommandListener<unknown>);
 
-      if (
-        listenersInPriorityOrder.every(
-          (listenersSet) => listenersSet.size === 0,
-        )
-      ) {
+      if (listenersInPriorityOrder.every((listenersSet) => listenersSet.size === 0)) {
         commandsMap.delete(command);
       }
     };
@@ -770,18 +725,11 @@ export class LexicalEditor {
    * @param listener - The logic you want to run when the node is mutated.
    * @returns a teardown function that can be used to cleanup the listener.
    */
-  registerMutationListener(
-    klass: Klass<LexicalNode>,
-    listener: MutationListener,
-  ): () => void {
+  registerMutationListener(klass: Klass<LexicalNode>, listener: MutationListener): () => void {
     const registeredNode = this._nodes.get(klass.getType());
 
     if (registeredNode === undefined) {
-      invariant(
-        false,
-        'Node %s has not been registered. Ensure node has been passed to createEditor.',
-        klass.name,
-      );
+      invariant(false, 'Node %s has not been registered. Ensure node has been passed to createEditor.', klass.name);
     }
 
     const mutations = this._listeners.mutation;
@@ -792,20 +740,13 @@ export class LexicalEditor {
   }
 
   /** @internal */
-  private registerNodeTransformToKlass<T extends LexicalNode>(
-    klass: Klass<T>,
-    listener: Transform<T>,
-  ): RegisteredNode {
+  private registerNodeTransformToKlass<T extends LexicalNode>(klass: Klass<T>, listener: Transform<T>): RegisteredNode {
     const type = klass.getType();
 
     const registeredNode = this._nodes.get(type);
 
     if (registeredNode === undefined) {
-      invariant(
-        false,
-        'Node %s has not been registered. Ensure node has been passed to createEditor.',
-        klass.name,
-      );
+      invariant(false, 'Node %s has not been registered. Ensure node has been passed to createEditor.', klass.name);
     }
     const transforms = registeredNode.transforms;
     transforms.add(listener as Transform<LexicalNode>);
@@ -823,10 +764,7 @@ export class LexicalEditor {
    * @param listener - The logic you want to run when the node is updated.
    * @returns a teardown function that can be used to cleanup the listener.
    */
-  registerNodeTransform<T extends LexicalNode>(
-    klass: Klass<T>,
-    listener: Transform<T>,
-  ): () => void {
+  registerNodeTransform<T extends LexicalNode>(klass: Klass<T>, listener: Transform<T>): () => void {
     const registeredNode = this.registerNodeTransformToKlass(klass, listener);
     const registeredNodes = [registeredNode];
 
@@ -841,9 +779,7 @@ export class LexicalEditor {
 
     markAllNodesAsDirty(this, klass.getType());
     return () => {
-      registeredNodes.forEach((node) =>
-        node.transforms.delete(listener as Transform<LexicalNode>),
-      );
+      registeredNodes.forEach((node) => node.transforms.delete(listener as Transform<LexicalNode>));
     };
   }
 
@@ -1021,10 +957,7 @@ export class LexicalEditor {
    * @param updateFn
    * @returns
    */
-  parseEditorState(
-    maybeStringifiedEditorState: string | SerializedEditorState,
-    updateFn?: () => void,
-  ): EditorState {
+  parseEditorState(maybeStringifiedEditorState: string | SerializedEditorState, updateFn?: () => void): EditorState {
     const serializedEditorState =
       typeof maybeStringifiedEditorState === 'string'
         ? JSON.parse(maybeStringifiedEditorState)

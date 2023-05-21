@@ -6,18 +6,8 @@
  *
  */
 
-import {
-  moveRight,
-  moveToEditorBeginning,
-} from '../../keyboardShortcuts/index.mjs';
-import {
-  assertHTML,
-  click,
-  focusEditor,
-  html,
-  initialize,
-  test,
-} from '../../utils/index.mjs';
+import { moveRight, moveToEditorBeginning } from '../../keyboardShortcuts/index.mjs';
+import { assertHTML, click, focusEditor, html, initialize, test } from '../../utils/index.mjs';
 
 test(`Headings - stays as a heading when you press enter in the middle of a heading`, async ({
   page,
@@ -25,7 +15,7 @@ test(`Headings - stays as a heading when you press enter in the middle of a head
   isPlainText,
 }) => {
   test.skip(isPlainText);
-  await initialize({isCollab, page});
+  await initialize({ isCollab, page });
   await focusEditor(page);
 
   await click(page, '.block-controls');
@@ -36,9 +26,7 @@ test(`Headings - stays as a heading when you press enter in the middle of a head
   await assertHTML(
     page,
     html`
-      <h1
-        class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-        dir="ltr">
+      <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
         <span data-lexical-text="true">Welcome to the playground</span>
       </h1>
     `,
@@ -53,14 +41,10 @@ test(`Headings - stays as a heading when you press enter in the middle of a head
   await assertHTML(
     page,
     html`
-      <h1
-        class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-        dir="ltr">
+      <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
         <span data-lexical-text="true">Welco</span>
       </h1>
-      <h1
-        class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-        dir="ltr">
+      <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
         <span data-lexical-text="true">me to the playground</span>
       </h1>
     `,

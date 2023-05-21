@@ -7,9 +7,9 @@
  */
 
 'use strict';
-const {devices} = require('@playwright/test');
+const { devices } = require('@playwright/test');
 
-const {CI} = process.env;
+const { CI } = process.env;
 const IS_CI = CI === 'true';
 
 const config = {
@@ -18,17 +18,17 @@ const config = {
     {
       name: 'chromium',
       testDir: './packages/lexical-playground/__tests__/',
-      use: {...devices['Desktop Chrome']},
+      use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'firefox',
       testDir: './packages/lexical-playground/__tests__/',
-      use: {...devices['Desktop Firefox']},
+      use: { ...devices['Desktop Firefox'] },
     },
     {
       name: 'webkit',
       testDir: './packages/lexical-playground/__tests__/',
-      use: {...devices['Desktop Safari']},
+      use: { ...devices['Desktop Safari'] },
     },
   ],
   retries: IS_CI ? 4 : 1,

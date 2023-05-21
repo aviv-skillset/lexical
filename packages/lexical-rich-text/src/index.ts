@@ -26,19 +26,9 @@ import type {
   TextFormatType,
 } from 'lexical';
 
-import {
-  $insertDataTransferForRichText,
-  copyToClipboard,
-} from '@lexical/clipboard';
-import {
-  $moveCharacter,
-  $shouldOverrideDefaultCharacterSelection,
-} from '@lexical/selection';
-import {
-  $getNearestBlockElementAncestorOrThrow,
-  addClassNamesToElement,
-  mergeRegister,
-} from '@lexical/utils';
+import { $insertDataTransferForRichText, copyToClipboard } from '@lexical/clipboard';
+import { $moveCharacter, $shouldOverrideDefaultCharacterSelection } from '@lexical/selection';
+import { $getNearestBlockElementAncestorOrThrow, addClassNamesToElement, mergeRegister } from '@lexical/utils';
 import {
   $applyNodeReplacement,
   $createParagraphNode,
@@ -91,12 +81,7 @@ import {
   REMOVE_TEXT_COMMAND,
 } from 'lexical';
 import caretFromPoint from 'shared/caretFromPoint';
-import {
-  CAN_USE_BEFORE_INPUT,
-  IS_APPLE_WEBKIT,
-  IS_IOS,
-  IS_SAFARI,
-} from 'shared/environment';
+import { CAN_USE_BEFORE_INPUT, IS_APPLE_WEBKIT, IS_IOS, IS_SAFARI } from 'shared/environment';
 
 export type SerializedHeadingNode = Spread<
   {
@@ -105,9 +90,7 @@ export type SerializedHeadingNode = Spread<
   SerializedElementNode
 >;
 
-export const DRAG_DROP_PASTE: LexicalCommand<Array<File>> = createCommand(
-  'DRAG_DROP_PASTE_FILE',
-);
+export const DRAG_DROP_PASTE: LexicalCommand<Array<File>> = createCommand('DRAG_DROP_PASTE_FILE');
 
 export type SerializedQuoteNode = SerializedElementNode;
 
@@ -146,7 +129,7 @@ export class QuoteNode extends ElementNode {
   }
 
   exportDOM(editor: LexicalEditor): DOMExportOutput {
-    const {element} = super.exportDOM(editor);
+    const { element } = super.exportDOM(editor);
 
     if (element && this.isEmpty()) {
       element.append(document.createElement('br'));
@@ -204,9 +187,7 @@ export function $createQuoteNode(): QuoteNode {
   return $applyNodeReplacement(new QuoteNode());
 }
 
-export function $isQuoteNode(
-  node: LexicalNode | null | undefined,
-): node is QuoteNode {
+export function $isQuoteNode(node: LexicalNode | null | undefined): node is QuoteNode {
   return node instanceof QuoteNode;
 }
 
@@ -284,7 +265,7 @@ export class HeadingNode extends ElementNode {
         const firstChild = paragraph.firstChild;
         if (firstChild !== null && isGoogleDocsTitle(firstChild)) {
           return {
-            conversion: () => ({node: null}),
+            conversion: () => ({ node: null }),
             priority: 3,
           };
         }
@@ -307,7 +288,7 @@ export class HeadingNode extends ElementNode {
   }
 
   exportDOM(editor: LexicalEditor): DOMExportOutput {
-    const {element} = super.exportDOM(editor);
+    const { element } = super.exportDOM(editor);
 
     if (element && this.isEmpty()) {
       element.append(document.createElement('br'));
@@ -345,10 +326,7 @@ export class HeadingNode extends ElementNode {
   }
 
   // Mutation
-  insertNewAfter(
-    selection?: RangeSelection,
-    restoreSelection = true,
-  ): ParagraphNode | HeadingNode {
+  insertNewAfter(selection?: RangeSelection, restoreSelection = true): ParagraphNode | HeadingNode {
     const anchorOffet = selection ? selection.anchor.offset : 0;
     const newElement =
       anchorOffet > 0 && anchorOffet < this.getTextContentSize()
@@ -361,9 +339,7 @@ export class HeadingNode extends ElementNode {
   }
 
   collapseAtStart(): true {
-    const newElement = !this.isEmpty()
-      ? $createHeadingNode(this.getTag())
-      : $createParagraphNode();
+    const newElement = !this.isEmpty() ? $createHeadingNode(this.getTag()) : $createParagraphNode();
     const children = this.getChildren();
     children.forEach((child) => newElement.append(child));
     this.replace(newElement);
@@ -395,40 +371,29 @@ function convertHeadingElement(domNode: Node): DOMConversionOutput {
   ) {
     node = $createHeadingNode(nodeName);
   }
-  return {node};
+  return { node };
 }
 
 function convertBlockquoteElement(): DOMConversionOutput {
   const node = $createQuoteNode();
-  return {node};
+  return { node };
 }
 
 export function $createHeadingNode(headingTag: HeadingTagType): HeadingNode {
   return $applyNodeReplacement(new HeadingNode(headingTag));
 }
 
-export function $isHeadingNode(
-  node: LexicalNode | null | undefined,
-): node is HeadingNode {
+export function $isHeadingNode(node: LexicalNode | null | undefined): node is HeadingNode {
   return node instanceof HeadingNode;
 }
 
-function onPasteForRichText(
-  event: CommandPayloadType<typeof PASTE_COMMAND>,
-  editor: LexicalEditor,
-): void {
+function onPasteForRichText(event: CommandPayloadType<typeof PASTE_COMMAND>, editor: LexicalEditor): void {
   event.preventDefault();
   editor.update(
     () => {
       const selection = $getSelection();
-      const clipboardData =
-        event instanceof InputEvent || event instanceof KeyboardEvent
-          ? null
-          : event.clipboardData;
-      if (
-        clipboardData != null &&
-        ($isRangeSelection(selection) || DEPRECATED_$isGridSelection(selection))
-      ) {
+      const clipboardData = event instanceof InputEvent || event instanceof KeyboardEvent ? null : event.clipboardData;
+      if (clipboardData != null && ($isRangeSelection(selection) || DEPRECATED_$isGridSelection(selection))) {
         $insertDataTransferForRichText(clipboardData, selection, editor);
       }
     },
@@ -438,10 +403,7 @@ function onPasteForRichText(
   );
 }
 
-async function onCutForRichText(
-  event: CommandPayloadType<typeof CUT_COMMAND>,
-  editor: LexicalEditor,
-): Promise<void> {
+async function onCutForRichText(event: CommandPayloadType<typeof CUT_COMMAND>, editor: LexicalEditor): Promise<void> {
   await copyToClipboard(editor, event instanceof ClipboardEvent ? event : null);
   editor.update(() => {
     const selection = $getSelection();
@@ -456,9 +418,7 @@ async function onCutForRichText(
 // Clipboard may contain files that we aren't allowed to read. While the event is arguably useless,
 // in certain ocassions, we want to know whether it was a file transfer, as opposed to text. We
 // control this with the first boolean flag.
-export function eventFiles(
-  event: DragEvent | PasteCommandType,
-): [boolean, Array<File>, boolean] {
+export function eventFiles(event: DragEvent | PasteCommandType): [boolean, Array<File>, boolean] {
   let dataTransfer: null | DataTransfer = null;
   if (event instanceof DragEvent) {
     dataTransfer = event.dataTransfer;
@@ -472,14 +432,11 @@ export function eventFiles(
 
   const types = dataTransfer.types;
   const hasFiles = types.includes('Files');
-  const hasContent =
-    types.includes('text/html') || types.includes('text/plain');
+  const hasContent = types.includes('text/html') || types.includes('text/plain');
   return [hasFiles, Array.from(dataTransfer.files), hasContent];
 }
 
-function handleIndentAndOutdent(
-  indentOrOutdent: (block: ElementNode) => void,
-): boolean {
+function handleIndentAndOutdent(indentOrOutdent: (block: ElementNode) => void): boolean {
   const selection = $getSelection();
   if (!$isRangeSelection(selection)) {
     return false;
@@ -574,10 +531,7 @@ export function registerRichText(editor: LexicalEditor): () => void {
             // TODO: Insert into the first cell & clear selection.
           }
         } else {
-          if (
-            !$isRangeSelection(selection) &&
-            !DEPRECATED_$isGridSelection(selection)
-          ) {
+          if (!$isRangeSelection(selection) && !DEPRECATED_$isGridSelection(selection)) {
             return false;
           }
 
@@ -694,10 +648,7 @@ export function registerRichText(editor: LexicalEditor): () => void {
       KEY_ARROW_UP_COMMAND,
       (event) => {
         const selection = $getSelection();
-        if (
-          $isNodeSelection(selection) &&
-          !$isTargetWithinDecorator(event.target as HTMLElement)
-        ) {
+        if ($isNodeSelection(selection) && !$isTargetWithinDecorator(event.target as HTMLElement)) {
           // If selection is on a node, let's try and move selection
           // back to being a range selection.
           const nodes = selection.getNodes();
@@ -707,19 +658,11 @@ export function registerRichText(editor: LexicalEditor): () => void {
           }
         } else if ($isRangeSelection(selection)) {
           const possibleNode = $getAdjacentNode(selection.focus, true);
-          if (
-            $isDecoratorNode(possibleNode) &&
-            !possibleNode.isIsolated() &&
-            !possibleNode.isInline()
-          ) {
+          if ($isDecoratorNode(possibleNode) && !possibleNode.isIsolated() && !possibleNode.isInline()) {
             possibleNode.selectPrevious();
             event.preventDefault();
             return true;
-          } else if (
-            $isElementNode(possibleNode) &&
-            !possibleNode.isInline() &&
-            !possibleNode.canBeEmpty()
-          ) {
+          } else if ($isElementNode(possibleNode) && !possibleNode.isInline() && !possibleNode.canBeEmpty()) {
             possibleNode.select();
             event.preventDefault();
             return true;
@@ -747,11 +690,7 @@ export function registerRichText(editor: LexicalEditor): () => void {
             return true;
           }
           const possibleNode = $getAdjacentNode(selection.focus, false);
-          if (
-            $isDecoratorNode(possibleNode) &&
-            !possibleNode.isIsolated() &&
-            !possibleNode.isInline()
-          ) {
+          if ($isDecoratorNode(possibleNode) && !possibleNode.isIsolated() && !possibleNode.isInline()) {
             possibleNode.selectNext();
             event.preventDefault();
             return true;
@@ -792,10 +731,7 @@ export function registerRichText(editor: LexicalEditor): () => void {
       KEY_ARROW_RIGHT_COMMAND,
       (event) => {
         const selection = $getSelection();
-        if (
-          $isNodeSelection(selection) &&
-          !$isTargetWithinDecorator(event.target as HTMLElement)
-        ) {
+        if ($isNodeSelection(selection) && !$isTargetWithinDecorator(event.target as HTMLElement)) {
           // If selection is on a node, let's try and move selection
           // back to being a range selection.
           const nodes = selection.getNodes();
@@ -829,14 +765,10 @@ export function registerRichText(editor: LexicalEditor): () => void {
           return false;
         }
         event.preventDefault();
-        const {anchor} = selection;
+        const { anchor } = selection;
         const anchorNode = anchor.getNode();
 
-        if (
-          selection.isCollapsed() &&
-          anchor.offset === 0 &&
-          !$isRootNode(anchorNode)
-        ) {
+        if (selection.isCollapsed() && anchor.offset === 0 && !$isRootNode(anchorNode)) {
           const element = $getNearestBlockElementAncestorOrThrow(anchorNode);
           if (element.getIndent() > 0) {
             return editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
@@ -876,10 +808,7 @@ export function registerRichText(editor: LexicalEditor): () => void {
           // This can also cause a strange performance issue in
           // Safari, where there is a noticeable pause due to
           // preventing the key down of enter.
-          if (
-            (IS_IOS || IS_SAFARI || IS_APPLE_WEBKIT) &&
-            CAN_USE_BEFORE_INPUT
-          ) {
+          if ((IS_IOS || IS_SAFARI || IS_APPLE_WEBKIT) && CAN_USE_BEFORE_INPUT) {
             return false;
           }
           event.preventDefault();
@@ -912,7 +841,7 @@ export function registerRichText(editor: LexicalEditor): () => void {
           const y = event.clientY;
           const eventRange = caretFromPoint(x, y);
           if (eventRange !== null) {
-            const {offset: domOffset, node: domNode} = eventRange;
+            const { offset: domOffset, node: domNode } = eventRange;
             const node = $getNearestNodeFromDOMNode(domNode);
             if (node !== null) {
               const selection = $createRangeSelection();
@@ -925,8 +854,7 @@ export function registerRichText(editor: LexicalEditor): () => void {
                 selection.anchor.set(parentKey, offset, 'element');
                 selection.focus.set(parentKey, offset, 'element');
               }
-              const normalizedSelection =
-                $normalizeSelection__EXPERIMENTAL(selection);
+              const normalizedSelection = $normalizeSelection__EXPERIMENTAL(selection);
               $setSelection(normalizedSelection);
             }
             editor.dispatchCommand(DRAG_DROP_PASTE, files);
@@ -1010,10 +938,7 @@ export function registerRichText(editor: LexicalEditor): () => void {
         }
 
         const selection = $getSelection();
-        if (
-          $isRangeSelection(selection) ||
-          DEPRECATED_$isGridSelection(selection)
-        ) {
+        if ($isRangeSelection(selection) || DEPRECATED_$isGridSelection(selection)) {
           onPasteForRichText(event, editor);
           return true;
         }

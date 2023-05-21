@@ -6,17 +6,11 @@
  *
  */
 
-import type {LexicalEditor, NodeKey} from 'lexical';
+import type { LexicalEditor, NodeKey } from 'lexical';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {
-  $createNodeSelection,
-  $getNodeByKey,
-  $getSelection,
-  $isNodeSelection,
-  $setSelection,
-} from 'lexical';
-import {useCallback, useEffect, useState} from 'react';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $createNodeSelection, $getNodeByKey, $getSelection, $isNodeSelection, $setSelection } from 'lexical';
+import { useCallback, useEffect, useState } from 'react';
 
 function isNodeSelected(editor: LexicalEditor, key: NodeKey): boolean {
   return editor.getEditorState().read(() => {
@@ -30,14 +24,10 @@ function isNodeSelected(editor: LexicalEditor, key: NodeKey): boolean {
   });
 }
 
-export function useLexicalNodeSelection(
-  key: NodeKey,
-): [boolean, (arg0: boolean) => void, () => void] {
+export function useLexicalNodeSelection(key: NodeKey): [boolean, (arg0: boolean) => void, () => void] {
   const [editor] = useLexicalComposerContext();
 
-  const [isSelected, setIsSelected] = useState(() =>
-    isNodeSelected(editor, key),
-  );
+  const [isSelected, setIsSelected] = useState(() => isNodeSelected(editor, key));
 
   useEffect(() => {
     let isMounted = true;

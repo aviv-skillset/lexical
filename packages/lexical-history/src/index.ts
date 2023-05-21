@@ -7,9 +7,9 @@
  *
  */
 
-import type {EditorState, LexicalEditor, LexicalNode, NodeKey} from 'lexical';
+import type { EditorState, LexicalEditor, LexicalNode, NodeKey } from 'lexical';
 
-import {mergeRegister} from '@lexical/utils';
+import { mergeRegister } from '@lexical/utils';
 import {
   $isRangeSelection,
   $isRootNode,
@@ -85,10 +85,7 @@ function getChangeType(
   dirtyElementsSet: Map<NodeKey, IntentionallyMarkedAsDirtyElement>,
   isComposing: boolean,
 ): ChangeType {
-  if (
-    prevEditorState === null ||
-    (dirtyLeavesSet.size === 0 && dirtyElementsSet.size === 0 && !isComposing)
-  ) {
+  if (prevEditorState === null || (dirtyLeavesSet.size === 0 && dirtyElementsSet.size === 0 && !isComposing)) {
     return OTHER;
   }
 
@@ -108,11 +105,7 @@ function getChangeType(
     return OTHER;
   }
 
-  const dirtyNodes = getDirtyNodes(
-    nextEditorState,
-    dirtyLeavesSet,
-    dirtyElementsSet,
-  );
+  const dirtyNodes = getDirtyNodes(nextEditorState, dirtyLeavesSet, dirtyElementsSet);
 
   if (dirtyNodes.length === 0) {
     return OTHER;
@@ -143,11 +136,7 @@ function getChangeType(
 
   const prevDirtyNode = prevEditorState._nodeMap.get(nextDirtyNode.__key);
 
-  if (
-    !$isTextNode(prevDirtyNode) ||
-    !$isTextNode(nextDirtyNode) ||
-    prevDirtyNode.__mode !== nextDirtyNode.__mode
-  ) {
+  if (!$isTextNode(prevDirtyNode) || !$isTextNode(nextDirtyNode) || prevDirtyNode.__mode !== nextDirtyNode.__mode) {
     return OTHER;
   }
 
@@ -184,11 +173,7 @@ function getChangeType(
   return OTHER;
 }
 
-function isTextNodeUnchanged(
-  key: NodeKey,
-  prevEditorState: EditorState,
-  nextEditorState: EditorState,
-): boolean {
+function isTextNodeUnchanged(key: NodeKey, prevEditorState: EditorState, nextEditorState: EditorState): boolean {
   const prevNode = prevEditorState._nodeMap.get(key);
   const nextNode = nextEditorState._nodeMap.get(key);
 
@@ -232,14 +217,7 @@ function createMergeActionGetter(
   let prevChangeTime = Date.now();
   let prevChangeType = OTHER;
 
-  return (
-    prevEditorState,
-    nextEditorState,
-    currentHistoryEntry,
-    dirtyLeaves,
-    dirtyElements,
-    tags,
-  ) => {
+  return (prevEditorState, nextEditorState, currentHistoryEntry, dirtyLeaves, dirtyElements, tags) => {
     const changeTime = Date.now();
 
     // If applying changes from history stack there's no need
@@ -259,11 +237,9 @@ function createMergeActionGetter(
     );
 
     const mergeAction = (() => {
-      const isSameEditor =
-        currentHistoryEntry === null || currentHistoryEntry.editor === editor;
+      const isSameEditor = currentHistoryEntry === null || currentHistoryEntry.editor === editor;
       const shouldPushHistory = tags.has('history-push');
-      const shouldMergeHistory =
-        !shouldPushHistory && isSameEditor && tags.has('history-merge');
+      const shouldMergeHistory = !shouldPushHistory && isSameEditor && tags.has('history-merge');
 
       if (shouldMergeHistory) {
         return HISTORY_MERGE;
@@ -298,9 +274,7 @@ function createMergeActionGetter(
       // due to some node transform reverting the change.
       if (dirtyLeaves.size === 1) {
         const dirtyLeafKey = Array.from(dirtyLeaves)[0];
-        if (
-          isTextNodeUnchanged(dirtyLeafKey, prevEditorState, nextEditorState)
-        ) {
+        if (isTextNodeUnchanged(dirtyLeafKey, prevEditorState, nextEditorState)) {
           return HISTORY_MERGE;
         }
       }
@@ -386,11 +360,7 @@ function clearHistory(historyState: HistoryState) {
  * instead of merging the current changes with the current stack.
  * @returns The listeners cleanup callback function.
  */
-export function registerHistory(
-  editor: LexicalEditor,
-  historyState: HistoryState,
-  delay: number,
-): () => void {
+export function registerHistory(editor: LexicalEditor, historyState: HistoryState, delay: number): () => void {
   const getMergeAction = createMergeActionGetter(editor, delay);
 
   const applyChange = ({
@@ -415,14 +385,7 @@ export function registerHistory(
       return;
     }
 
-    const mergeAction = getMergeAction(
-      prevEditorState,
-      editorState,
-      current,
-      dirtyLeaves,
-      dirtyElements,
-      tags,
-    );
+    const mergeAction = getMergeAction(prevEditorState, editorState, current, dirtyLeaves, dirtyElements, tags);
 
     if (mergeAction === HISTORY_PUSH) {
       if (redoStack.length !== 0) {

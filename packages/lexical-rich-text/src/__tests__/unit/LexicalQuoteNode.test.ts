@@ -6,9 +6,9 @@
  *
  */
 
-import {$createQuoteNode} from '@lexical/rich-text';
-import {$getRoot, ParagraphNode} from 'lexical';
-import {initializeUnitTest} from 'lexical/src/__tests__/utils';
+import { $createQuoteNode } from '@lexical/rich-text';
+import { $getRoot, ParagraphNode } from 'lexical';
+import { initializeUnitTest } from 'lexical/src/__tests__/utils';
 
 const editorConfig = Object.freeze({
   namespace: '',
@@ -20,7 +20,7 @@ const editorConfig = Object.freeze({
 describe('LexicalQuoteNode tests', () => {
   initializeUnitTest((testEnv) => {
     test('QuoteNode.constructor', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const quoteNode = $createQuoteNode();
         expect(quoteNode.getType()).toBe('quote');
@@ -30,12 +30,10 @@ describe('LexicalQuoteNode tests', () => {
     });
 
     test('QuoteNode.createDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const quoteNode = $createQuoteNode();
-        expect(quoteNode.createDOM(editorConfig).outerHTML).toBe(
-          '<blockquote class="my-quote-class"></blockquote>',
-        );
+        expect(quoteNode.createDOM(editorConfig).outerHTML).toBe('<blockquote class="my-quote-class"></blockquote>');
         expect(
           quoteNode.createDOM({
             namespace: '',
@@ -46,24 +44,20 @@ describe('LexicalQuoteNode tests', () => {
     });
 
     test('QuoteNode.updateDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const quoteNode = $createQuoteNode();
         const domElement = quoteNode.createDOM(editorConfig);
-        expect(domElement.outerHTML).toBe(
-          '<blockquote class="my-quote-class"></blockquote>',
-        );
+        expect(domElement.outerHTML).toBe('<blockquote class="my-quote-class"></blockquote>');
         const newQuoteNode = $createQuoteNode();
         const result = newQuoteNode.updateDOM(quoteNode, domElement);
         expect(result).toBe(false);
-        expect(domElement.outerHTML).toBe(
-          '<blockquote class="my-quote-class"></blockquote>',
-        );
+        expect(domElement.outerHTML).toBe('<blockquote class="my-quote-class"></blockquote>');
       });
     });
 
     test('QuoteNode.insertNewAfter()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       let quoteNode;
       await editor.update(() => {
         const root = $getRoot();
@@ -84,7 +78,7 @@ describe('LexicalQuoteNode tests', () => {
     });
 
     test('$createQuoteNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const quoteNode = $createQuoteNode();
         const createdQuoteNode = $createQuoteNode();

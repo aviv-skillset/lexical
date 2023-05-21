@@ -18,7 +18,7 @@ import type {
   Spread,
 } from 'lexical';
 
-import {addClassNamesToElement} from '@lexical/utils';
+import { addClassNamesToElement } from '@lexical/utils';
 import {
   $applyNodeReplacement,
   $createParagraphNode,
@@ -34,8 +34,7 @@ export const TableCellHeaderStates = {
   ROW: 1,
 };
 
-export type TableCellHeaderState =
-  typeof TableCellHeaderStates[keyof typeof TableCellHeaderStates];
+export type TableCellHeaderState = typeof TableCellHeaderStates[keyof typeof TableCellHeaderStates];
 
 export type SerializedTableCellNode = Spread<
   {
@@ -60,12 +59,7 @@ export class TableCellNode extends DEPRECATED_GridCellNode {
   }
 
   static clone(node: TableCellNode): TableCellNode {
-    const cellNode = new TableCellNode(
-      node.__headerState,
-      node.__colSpan,
-      node.__width,
-      node.__key,
-    );
+    const cellNode = new TableCellNode(node.__headerState, node.__colSpan, node.__width, node.__key);
     cellNode.__rowSpan = node.__rowSpan;
     cellNode.__backgroundColor = node.__backgroundColor;
     return cellNode;
@@ -87,22 +81,13 @@ export class TableCellNode extends DEPRECATED_GridCellNode {
   static importJSON(serializedNode: SerializedTableCellNode): TableCellNode {
     const colSpan = serializedNode.colSpan || 1;
     const rowSpan = serializedNode.rowSpan || 1;
-    const cellNode = $createTableCellNode(
-      serializedNode.headerState,
-      colSpan,
-      serializedNode.width || undefined,
-    );
+    const cellNode = $createTableCellNode(serializedNode.headerState, colSpan, serializedNode.width || undefined);
     cellNode.__rowSpan = rowSpan;
     cellNode.__backgroundColor = serializedNode.backgroundColor || null;
     return cellNode;
   }
 
-  constructor(
-    headerState = TableCellHeaderStates.NO_STATUS,
-    colSpan = 1,
-    width?: number,
-    key?: NodeKey,
-  ) {
+  constructor(headerState = TableCellHeaderStates.NO_STATUS, colSpan = 1, width?: number, key?: NodeKey) {
     super(colSpan, key);
     this.__headerState = headerState;
     this.__width = width;
@@ -110,9 +95,7 @@ export class TableCellNode extends DEPRECATED_GridCellNode {
   }
 
   createDOM(config: EditorConfig): HTMLElement {
-    const element = document.createElement(
-      this.getTag(),
-    ) as HTMLTableCellElement;
+    const element = document.createElement(this.getTag()) as HTMLTableCellElement;
 
     if (this.__width) {
       element.style.width = `${this.__width}px`;
@@ -127,17 +110,13 @@ export class TableCellNode extends DEPRECATED_GridCellNode {
       element.style.backgroundColor = this.__backgroundColor;
     }
 
-    addClassNamesToElement(
-      element,
-      config.theme.tableCell,
-      this.hasHeader() && config.theme.tableCellHeader,
-    );
+    addClassNamesToElement(element, config.theme.tableCell, this.hasHeader() && config.theme.tableCellHeader);
 
     return element;
   }
 
   exportDOM(editor: LexicalEditor): DOMExportOutput {
-    const {element} = super.exportDOM(editor);
+    const { element } = super.exportDOM(editor);
 
     if (element) {
       const element_ = element as HTMLTableCellElement;
@@ -150,9 +129,7 @@ export class TableCellNode extends DEPRECATED_GridCellNode {
       if (this.__rowSpan > 1) {
         element_.rowSpan = this.__rowSpan;
       }
-      element_.style.width = `${
-        this.getWidth() || Math.max(90, maxWidth / colCount)
-      }px`;
+      element_.style.width = `${this.getWidth() || Math.max(90, maxWidth / colCount)}px`;
 
       element_.style.verticalAlign = 'top';
       element_.style.textAlign = 'start';
@@ -259,16 +236,12 @@ export class TableCellNode extends DEPRECATED_GridCellNode {
   }
 }
 
-export function convertTableCellNodeElement(
-  domNode: Node,
-): DOMConversionOutput {
+export function convertTableCellNodeElement(domNode: Node): DOMConversionOutput {
   const domNode_ = domNode as HTMLTableCellElement;
   const nodeName = domNode.nodeName.toLowerCase();
 
   const tableCellNode = $createTableCellNode(
-    nodeName === 'th'
-      ? TableCellHeaderStates.ROW
-      : TableCellHeaderStates.NO_STATUS,
+    nodeName === 'th' ? TableCellHeaderStates.ROW : TableCellHeaderStates.NO_STATUS,
   );
   tableCellNode.__colSpan = domNode_.colSpan;
   tableCellNode.__rowSpan = domNode_.rowSpan;
@@ -281,10 +254,7 @@ export function convertTableCellNodeElement(
     forChild: (lexicalNode, parentLexicalNode) => {
       if ($isTableCellNode(parentLexicalNode) && !$isElementNode(lexicalNode)) {
         const paragraphNode = $createParagraphNode();
-        if (
-          $isLineBreakNode(lexicalNode) &&
-          lexicalNode.getTextContent() === '\n'
-        ) {
+        if ($isLineBreakNode(lexicalNode) && lexicalNode.getTextContent() === '\n') {
           return null;
         }
         paragraphNode.append(lexicalNode);
@@ -297,16 +267,10 @@ export function convertTableCellNodeElement(
   };
 }
 
-export function $createTableCellNode(
-  headerState: TableCellHeaderState,
-  colSpan = 1,
-  width?: number,
-): TableCellNode {
+export function $createTableCellNode(headerState: TableCellHeaderState, colSpan = 1, width?: number): TableCellNode {
   return $applyNodeReplacement(new TableCellNode(headerState, colSpan, width));
 }
 
-export function $isTableCellNode(
-  node: LexicalNode | null | undefined,
-): node is TableCellNode {
+export function $isTableCellNode(node: LexicalNode | null | undefined): node is TableCellNode {
   return node instanceof TableCellNode;
 }

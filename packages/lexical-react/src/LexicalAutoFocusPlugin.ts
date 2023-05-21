@@ -6,14 +6,14 @@
  *
  */
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {useEffect} from 'react';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useEffect } from 'react';
 
 type Props = {
   defaultSelection?: 'rootStart' | 'rootEnd';
 };
 
-export function AutoFocusPlugin({defaultSelection}: Props): null {
+export function AutoFocusPlugin({ defaultSelection }: Props): null {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
@@ -25,15 +25,12 @@ export function AutoFocusPlugin({defaultSelection}: Props): null {
         // of this plugin, which should preserve focus too.
         const activeElement = document.activeElement;
         const rootElement = editor.getRootElement() as HTMLDivElement;
-        if (
-          rootElement !== null &&
-          (activeElement === null || !rootElement.contains(activeElement))
-        ) {
+        if (rootElement !== null && (activeElement === null || !rootElement.contains(activeElement))) {
           // Note: preventScroll won't work in Webkit.
-          rootElement.focus({preventScroll: true});
+          rootElement.focus({ preventScroll: true });
         }
       },
-      {defaultSelection},
+      { defaultSelection },
     );
   }, [defaultSelection, editor]);
 

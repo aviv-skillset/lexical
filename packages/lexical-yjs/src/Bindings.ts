@@ -6,31 +6,25 @@
  *
  */
 
-import type {CollabDecoratorNode} from './CollabDecoratorNode';
-import type {CollabElementNode} from './CollabElementNode';
-import type {CollabLineBreakNode} from './CollabLineBreakNode';
-import type {CollabTextNode} from './CollabTextNode';
-import type {Cursor} from './SyncCursors';
-import type {LexicalEditor, NodeKey} from 'lexical';
-import type {Doc} from 'yjs';
+import type { CollabDecoratorNode } from './CollabDecoratorNode';
+import type { CollabElementNode } from './CollabElementNode';
+import type { CollabLineBreakNode } from './CollabLineBreakNode';
+import type { CollabTextNode } from './CollabTextNode';
+import type { Cursor } from './SyncCursors';
+import type { LexicalEditor, NodeKey } from 'lexical';
+import type { Doc } from 'yjs';
 
-import {Klass, LexicalNode} from 'lexical';
+import { Klass, LexicalNode } from 'lexical';
 import invariant from 'shared/invariant';
-import {XmlText} from 'yjs';
+import { XmlText } from 'yjs';
 
-import {Provider} from '.';
-import {$createCollabElementNode} from './CollabElementNode';
+import { Provider } from '.';
+import { $createCollabElementNode } from './CollabElementNode';
 
 export type ClientID = number;
 export type Binding = {
   clientID: number;
-  collabNodeMap: Map<
-    NodeKey,
-    | CollabElementNode
-    | CollabTextNode
-    | CollabDecoratorNode
-    | CollabLineBreakNode
-  >;
+  collabNodeMap: Map<NodeKey, CollabElementNode | CollabTextNode | CollabDecoratorNode | CollabLineBreakNode>;
   cursors: Map<ClientID, Cursor>;
   cursorsContainer: null | HTMLElement;
   doc: Doc;
@@ -51,16 +45,9 @@ export function createBinding(
   docMap: Map<string, Doc>,
   excludedProperties?: ExcludedProperties,
 ): Binding {
-  invariant(
-    doc !== undefined && doc !== null,
-    'createBinding: doc is null or undefined',
-  );
+  invariant(doc !== undefined && doc !== null, 'createBinding: doc is null or undefined');
   const rootXmlText = doc.get('root', XmlText) as XmlText;
-  const root: CollabElementNode = $createCollabElementNode(
-    rootXmlText,
-    null,
-    'root',
-  );
+  const root: CollabElementNode = $createCollabElementNode(rootXmlText, null, 'root');
   root._key = 'root';
   return {
     clientID: doc.clientID,

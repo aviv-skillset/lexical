@@ -7,7 +7,7 @@
  *
  */
 
-import type {Klass, LexicalEditor, LexicalNode, RootNode} from 'lexical';
+import type { Klass, LexicalEditor, LexicalNode, RootNode } from 'lexical';
 
 import {
   $createTextNode,
@@ -34,7 +34,7 @@ export type TextNodeWithOffset = {
 export function $findTextIntersectionFromCharacters(
   root: RootNode,
   targetCharacters: number,
-): null | {node: TextNode; offset: number} {
+): null | { node: TextNode; offset: number } {
   let node = root.getFirstChild();
   let currentCharacters = 0;
 
@@ -50,7 +50,7 @@ export function $findTextIntersectionFromCharacters(
       const characters = node.getTextContentSize();
 
       if (currentCharacters + characters > targetCharacters) {
-        return {node, offset: targetCharacters - currentCharacters};
+        return { node, offset: targetCharacters - currentCharacters };
       }
       currentCharacters += characters;
     }
@@ -82,10 +82,7 @@ export function $findTextIntersectionFromCharacters(
  * @param trim - Should the root text have its whitespaced trimmed? Defaults to true.
  * @returns true if text content is empty, false if there is text or isEditorComposing is true.
  */
-export function $isRootTextContentEmpty(
-  isEditorComposing: boolean,
-  trim = true,
-): boolean {
+export function $isRootTextContentEmpty(isEditorComposing: boolean, trim = true): boolean {
   if (isEditorComposing) {
     return false;
   }
@@ -105,10 +102,7 @@ export function $isRootTextContentEmpty(
  * @param trim - Should the root text have its whitespaced trimmed? Defaults to true.
  * @returns A function that executes $isRootTextContentEmpty based on arguments.
  */
-export function $isRootTextContentEmptyCurry(
-  isEditorComposing: boolean,
-  trim?: boolean,
-): () => boolean {
+export function $isRootTextContentEmptyCurry(isEditorComposing: boolean, trim?: boolean): () => boolean {
   return () => $isRootTextContentEmpty(isEditorComposing, trim);
 }
 
@@ -178,13 +172,11 @@ export function $canShowPlaceholder(isComposing: boolean): boolean {
  * @param isEditorComposing - Is the editor in composition mode due to an active Input Method Editor?
  * @returns A function that executes $canShowPlaceholder with arguments.
  */
-export function $canShowPlaceholderCurry(
-  isEditorComposing: boolean,
-): () => boolean {
+export function $canShowPlaceholderCurry(isEditorComposing: boolean): () => boolean {
   return () => $canShowPlaceholder(isEditorComposing);
 }
 
-export type EntityMatch = {end: number; start: number};
+export type EntityMatch = { end: number; start: number };
 
 /**
  * Returns a touple that can be rested (...) into mergeRegister to clean up
@@ -279,8 +271,7 @@ export function registerLexicalTextEntity<T extends TextNode>(
         const nextSibling = currentNode.getNextSibling();
 
         if ($isTextNode(nextSibling)) {
-          nextText =
-            currentNode.getTextContent() + nextSibling.getTextContent();
+          nextText = currentNode.getTextContent() + nextSibling.getTextContent();
           const nextMatch = getMatch(nextText);
 
           if (nextMatch === null) {
@@ -307,11 +298,7 @@ export function registerLexicalTextEntity<T extends TextNode>(
         return;
       }
 
-      if (
-        match.start === 0 &&
-        $isTextNode(prevSibling) &&
-        prevSibling.isTextEntity()
-      ) {
+      if (match.start === 0 && $isTextNode(prevSibling) && prevSibling.isTextEntity()) {
         continue;
       }
 
@@ -320,10 +307,7 @@ export function registerLexicalTextEntity<T extends TextNode>(
       if (match.start === 0) {
         [nodeToReplace, currentNode] = currentNode.splitText(match.end);
       } else {
-        [, nodeToReplace, currentNode] = currentNode.splitText(
-          match.start,
-          match.end,
-        );
+        [, nodeToReplace, currentNode] = currentNode.splitText(match.start, match.end);
       }
 
       const replacementNode = createNode(nodeToReplace);
@@ -372,14 +356,8 @@ export function registerLexicalTextEntity<T extends TextNode>(
     }
   };
 
-  const removePlainTextTransform = editor.registerNodeTransform(
-    TextNode,
-    textNodeTransform,
-  );
-  const removeReverseNodeTransform = editor.registerNodeTransform<T>(
-    targetNode,
-    reverseNodeTransform,
-  );
+  const removePlainTextTransform = editor.registerNodeTransform(TextNode, textNodeTransform);
+  const removeReverseNodeTransform = editor.registerNodeTransform<T>(targetNode, reverseNodeTransform);
 
   return [removePlainTextTransform, removeReverseNodeTransform];
 }

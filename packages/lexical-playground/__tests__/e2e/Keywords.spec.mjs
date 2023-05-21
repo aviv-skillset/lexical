@@ -6,27 +6,12 @@
  *
  */
 
-import {
-  moveLeft,
-  moveToPrevWord,
-  toggleBold,
-} from '../keyboardShortcuts/index.mjs';
-import {
-  assertHTML,
-  assertSelection,
-  focusEditor,
-  html,
-  initialize,
-  test,
-  waitForSelector,
-} from '../utils/index.mjs';
+import { moveLeft, moveToPrevWord, toggleBold } from '../keyboardShortcuts/index.mjs';
+import { assertHTML, assertSelection, focusEditor, html, initialize, test, waitForSelector } from '../utils/index.mjs';
 
 test.describe('Keywords', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Can create a decorator and move selection around it`, async ({
-    page,
-    browserName,
-  }) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Can create a decorator and move selection around it`, async ({ page, browserName }) => {
     await focusEditor(page);
     await page.keyboard.type('congrats');
 
@@ -35,15 +20,8 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
         </p>
       `,
     );
@@ -59,9 +37,7 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">congratsc</span>
         </p>
       `,
@@ -79,15 +55,8 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
           <span data-lexical-text="true">c</span>
         </p>
       `,
@@ -105,22 +74,10 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
           <span data-lexical-text="true"></span>
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
         </p>
       `,
     );
@@ -153,9 +110,7 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">congratscongrats</span>
         </p>
       `,
@@ -172,22 +127,10 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
           <span data-lexical-text="true"></span>
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
         </p>
       `,
     );
@@ -199,22 +142,15 @@ test.describe('Keywords', () => {
     });
   });
 
-  test('Can type congrats[Team]!', async ({page}) => {
+  test('Can type congrats[Team]!', async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('congrats[Team]!');
 
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
           <span data-lexical-text="true">[Team]!</span>
         </p>
       `,
@@ -244,15 +180,8 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
         </p>
       `,
     );
@@ -270,20 +199,9 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            Bob!
-          </strong>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> Bob! </strong>
         </p>
       `,
     );
@@ -308,15 +226,9 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">congrats</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            Bob!
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> Bob! </strong>
         </p>
       `,
     );
@@ -332,21 +244,10 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
           <span data-lexical-text="true"></span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            Bob!
-          </strong>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> Bob! </strong>
         </p>
       `,
     );
@@ -367,10 +268,7 @@ test.describe('Keywords', () => {
     }
   });
 
-  test('Can type "Everyone congrats!" where "Everyone " and "!" are bold', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('Can type "Everyone congrats!" where "Everyone " and "!" are bold', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
 
@@ -380,14 +278,8 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            Everyone
-          </strong>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> Everyone </strong>
         </p>
       `,
     );
@@ -405,20 +297,9 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            Everyone
-          </strong>
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> Everyone </strong>
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
         </p>
       `,
     );
@@ -434,20 +315,9 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            Everyone
-          </strong>
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> Everyone </strong>
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
           <span data-lexical-text="true">!</span>
         </p>
       `,
@@ -464,20 +334,9 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            Everyone
-          </strong>
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> Everyone </strong>
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
         </p>
       `,
     );
@@ -495,25 +354,10 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            Everyone
-          </strong>
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            !
-          </strong>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> Everyone </strong>
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> ! </strong>
         </p>
       `,
     );
@@ -529,20 +373,9 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            Everyone
-          </strong>
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> Everyone </strong>
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
         </p>
       `,
     );
@@ -560,14 +393,8 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            Everyone
-          </strong>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> Everyone </strong>
           <span data-lexical-text="true">congrats</span>
         </p>
       `,
@@ -584,20 +411,9 @@ test.describe('Keywords', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            Everyone
-          </strong>
-          <span
-            class="keyword"
-            style="cursor: default;"
-            data-lexical-text="true">
-            congrats
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> Everyone </strong>
+          <span class="keyword" style="cursor: default;" data-lexical-text="true"> congrats </span>
         </p>
       `,
     );

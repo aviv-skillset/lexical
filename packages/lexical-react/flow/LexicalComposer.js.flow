@@ -7,26 +7,16 @@
  * @flow strict
  */
 
-import type {
-  EditorThemeClasses,
-  LexicalEditor,
-  LexicalNode,
-  EditorState,
-} from 'lexical';
+import type { EditorThemeClasses, LexicalEditor, LexicalNode, EditorState } from 'lexical';
 
-export type InitialEditorStateType =
-  | null
-  | string
-  | EditorState
-  | ((editor: LexicalEditor) => void);
+export type InitialEditorStateType = null | string | EditorState | ((editor: LexicalEditor) => void);
 
 export type InitialConfigType = $ReadOnly<{
   editor__DEPRECATED?: LexicalEditor | null,
   editable?: boolean,
   namespace: string,
   nodes?: $ReadOnlyArray<
-    | Class<LexicalNode>
-    | {replace: Class<LexicalNode>, with: (node: LexicalNode) => LexicalNode},
+    Class<LexicalNode> | { replace: Class<LexicalNode>, with: (node: LexicalNode) => LexicalNode },
   >,
   theme?: EditorThemeClasses,
   editorState?: InitialEditorStateType,

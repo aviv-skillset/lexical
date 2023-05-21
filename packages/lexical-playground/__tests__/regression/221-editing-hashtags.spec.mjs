@@ -6,32 +6,20 @@
  *
  */
 
-import {moveLeft} from '../keyboardShortcuts/index.mjs';
-import {
-  assertHTML,
-  assertSelection,
-  focusEditor,
-  html,
-  initialize,
-  test,
-  waitForSelector,
-} from '../utils/index.mjs';
+import { moveLeft } from '../keyboardShortcuts/index.mjs';
+import { assertHTML, assertSelection, focusEditor, html, initialize, test, waitForSelector } from '../utils/index.mjs';
 
 test.describe('Regression test #221', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Can handle space in hashtag`, async ({page}) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Can handle space in hashtag`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('#yolo');
     await waitForSelector(page, '.PlaygroundEditorTheme__hashtag');
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-            #yolo
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #yolo </span>
         </p>
       `,
     );
@@ -47,12 +35,8 @@ test.describe('Regression test #221', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-            #yo
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #yo </span>
           <span data-lexical-text="true">lo</span>
         </p>
       `,
@@ -65,19 +49,15 @@ test.describe('Regression test #221', () => {
     });
   });
 
-  test(`Can handle delete in hashtag`, async ({page}) => {
+  test(`Can handle delete in hashtag`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('#yolo ');
     await waitForSelector(page, '.PlaygroundEditorTheme__hashtag');
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-            #yolo
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #yolo </span>
           <span data-lexical-text="true"></span>
         </p>
       `,
@@ -94,12 +74,8 @@ test.describe('Regression test #221', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-            #yolo
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #yolo </span>
         </p>
       `,
     );
@@ -111,19 +87,15 @@ test.describe('Regression test #221', () => {
     });
   });
 
-  test(`Can handle backspace into hashtag`, async ({page}) => {
+  test(`Can handle backspace into hashtag`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('#yolo ');
     await waitForSelector(page, '.PlaygroundEditorTheme__hashtag');
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-            #yolo
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #yolo </span>
           <span data-lexical-text="true"></span>
         </p>
       `,
@@ -140,12 +112,8 @@ test.describe('Regression test #221', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-            #yol
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #yol </span>
         </p>
       `,
     );

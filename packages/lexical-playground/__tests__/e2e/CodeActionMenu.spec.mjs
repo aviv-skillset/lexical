@@ -6,7 +6,7 @@
  *
  */
 
-import {paste} from '../keyboardShortcuts/index.mjs';
+import { paste } from '../keyboardShortcuts/index.mjs';
 import {
   assertHTML,
   click,
@@ -21,13 +21,8 @@ import {
 } from '../utils/index.mjs';
 
 test.describe('CodeActionMenu', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test('Can copy code, when click `Copy` button', async ({
-    page,
-    context,
-    isPlainText,
-    browserName,
-  }) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test('Can copy code, when click `Copy` button', async ({ page, context, isPlainText, browserName }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await page.keyboard.type('``` ');
@@ -298,10 +293,6 @@ test.describe('CodeActionMenu', () => {
       return document.querySelector('pre.code-error-tips').innerText;
     });
 
-    expect(tips).toBe(
-      'Missing semicolon. (1:6)\n' +
-        "> 1 |  cons  luci  =  'Hello World'\n" +
-        '    |      ^',
-    );
+    expect(tips).toBe('Missing semicolon. (1:6)\n' + "> 1 |  cons  luci  =  'Hello World'\n" + '    |      ^');
   });
 });

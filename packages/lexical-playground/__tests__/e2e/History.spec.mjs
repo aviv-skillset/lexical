@@ -6,13 +6,7 @@
  *
  */
 
-import {
-  moveLeft,
-  pressBackspace,
-  redo,
-  toggleBold,
-  undo,
-} from '../keyboardShortcuts/index.mjs';
+import { moveLeft, pressBackspace, redo, toggleBold, undo } from '../keyboardShortcuts/index.mjs';
 import {
   assertHTML,
   assertSelection,
@@ -25,12 +19,8 @@ import {
 } from '../utils/index.mjs';
 
 test.describe('History', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Can type two paragraphs of text and correctly undo and redo`, async ({
-    isRichText,
-    page,
-    isCollab,
-  }) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Can type two paragraphs of text and correctly undo and redo`, async ({ isRichText, page, isCollab }) => {
     test.skip(isCollab);
     await page.focus('div[contenteditable="true"]');
     await page.keyboard.type('hello');
@@ -45,14 +35,10 @@ test.describe('History', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world, again and again</span>
           </p>
         `,
@@ -67,9 +53,7 @@ test.describe('History', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
             <br />
             <span data-lexical-text="true">hello world, again and again</span>
@@ -90,14 +74,10 @@ test.describe('History', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world again</span>
           </p>
         `,
@@ -112,9 +92,7 @@ test.describe('History', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
             <br />
             <span data-lexical-text="true">hello world again</span>
@@ -135,14 +113,10 @@ test.describe('History', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <br />
           </p>
         `,
@@ -157,9 +131,7 @@ test.describe('History', () => {
       assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
             <br />
             <br />
@@ -179,9 +151,7 @@ test.describe('History', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">hello world</span>
         </p>
       `,
@@ -198,9 +168,7 @@ test.describe('History', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">hello</span>
         </p>
       `,
@@ -214,12 +182,7 @@ test.describe('History', () => {
 
     await undo(page);
 
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     await assertSelection(page, {
       anchorOffset: 0,
       anchorPath: [0],
@@ -232,9 +195,7 @@ test.describe('History', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">hello</span>
         </p>
       `,
@@ -251,9 +212,7 @@ test.describe('History', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">hello world</span>
         </p>
       `,
@@ -271,9 +230,7 @@ test.describe('History', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
           </p>
           <p class="PlaygroundEditorTheme__paragraph"><br /></p>
@@ -289,9 +246,7 @@ test.describe('History', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
             <br />
             <br />
@@ -312,14 +267,10 @@ test.describe('History', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world again</span>
           </p>
         `,
@@ -334,9 +285,7 @@ test.describe('History', () => {
       assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
             <br />
             <span data-lexical-text="true">hello world again</span>
@@ -357,14 +306,10 @@ test.describe('History', () => {
       assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world, again and again</span>
           </p>
         `,
@@ -379,9 +324,7 @@ test.describe('History', () => {
       assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
             <br />
             <span data-lexical-text="true">hello world, again and again</span>
@@ -402,14 +345,10 @@ test.describe('History', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world, again again</span>
           </p>
         `,
@@ -424,9 +363,7 @@ test.describe('History', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
             <br />
             <span data-lexical-text="true">hello world, again again</span>
@@ -447,14 +384,10 @@ test.describe('History', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world, again and again</span>
           </p>
         `,
@@ -469,9 +402,7 @@ test.describe('History', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">hello world</span>
             <br />
             <span data-lexical-text="true">hello world, again and again</span>
@@ -487,11 +418,7 @@ test.describe('History', () => {
     }
   });
 
-  test('Can coalesce when switching inline styles (#1151)', async ({
-    page,
-    isCollab,
-    isPlainText,
-  }) => {
+  test('Can coalesce when switching inline styles (#1151)', async ({ page, isCollab, isPlainText }) => {
     test.skip(isCollab || isPlainText);
 
     await focusEditor(page);
@@ -503,48 +430,24 @@ test.describe('History', () => {
     await page.keyboard.type('baz');
 
     const step1HTML = html`
-      <p
-        class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-        dir="ltr">
-        <strong
-          class="PlaygroundEditorTheme__textBold"
-          data-lexical-text="true">
-          foo
-        </strong>
+      <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+        <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> foo </strong>
         <span data-lexical-text="true">bar</span>
-        <strong
-          class="PlaygroundEditorTheme__textBold"
-          data-lexical-text="true">
-          baz
-        </strong>
+        <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> baz </strong>
       </p>
     `;
     const step2HTML = html`
-      <p
-        class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-        dir="ltr">
-        <strong
-          class="PlaygroundEditorTheme__textBold"
-          data-lexical-text="true">
-          foo
-        </strong>
+      <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+        <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> foo </strong>
         <span data-lexical-text="true">bar</span>
       </p>
     `;
     const step3HTML = html`
-      <p
-        class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-        dir="ltr">
-        <strong
-          class="PlaygroundEditorTheme__textBold"
-          data-lexical-text="true">
-          foo
-        </strong>
+      <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+        <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> foo </strong>
       </p>
     `;
-    const step4HTML = html`
-      <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-    `;
+    const step4HTML = html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `;
 
     await assertHTML(page, step1HTML);
     await undo(page);
@@ -563,7 +466,7 @@ test.describe('History', () => {
 });
 
 test.describe('History - IME', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
   test('Can undo composed Hirigana via IME after composition ends (#2479)', async ({
     page,
     browserName,
@@ -600,9 +503,7 @@ test.describe('History - IME', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">すし もじあ</span>
         </p>
       `,
@@ -622,9 +523,7 @@ test.describe('History - IME', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">すし${WHITESPACE_TOKEN}</span>
         </p>
       `,
@@ -642,9 +541,7 @@ test.describe('History - IME', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">すし</span>
         </p>
       `,
@@ -672,20 +569,13 @@ test.describe('History - IME', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">すし</span>
           </p>
         `,
       );
     } else {
-      await assertHTML(
-        page,
-        html`
-          <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-        `,
-      );
+      await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     }
 
     if (browserName === 'webkit' && !legacyEvents) {
@@ -709,9 +599,7 @@ test.describe('History - IME', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">すし</span>
         </p>
       `,

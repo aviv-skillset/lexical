@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import type {LexicalEditor, LexicalNode} from 'lexical';
+import type { LexicalEditor, LexicalNode } from 'lexical';
 
-import {$isTextNode} from 'lexical';
+import { $isTextNode } from 'lexical';
 
-import {CSS_TO_STYLES} from './constants';
+import { CSS_TO_STYLES } from './constants';
 
 function getDOMTextNode(element: Node | null): Text | null {
   let node = element;
@@ -67,12 +67,7 @@ export function createDOMRange(
     focusDOM = getDOMTextNode(focusDOM);
   }
 
-  if (
-    anchorNode === undefined ||
-    focusNode === undefined ||
-    anchorDOM === null ||
-    focusDOM === null
-  ) {
+  if (anchorNode === undefined || focusNode === undefined || anchorDOM === null || focusDOM === null) {
     return null;
   }
 
@@ -103,10 +98,7 @@ export function createDOMRange(
     return null;
   }
 
-  if (
-    range.collapsed &&
-    (anchorOffset !== focusOffset || anchorKey !== focusKey)
-  ) {
+  if (range.collapsed && (anchorOffset !== focusOffset || anchorKey !== focusKey)) {
     // Range is backwards, we need to reverse it
     range.setStart(focusDOM, focusOffset);
     range.setEnd(anchorDOM, anchorOffset);
@@ -121,10 +113,7 @@ export function createDOMRange(
  * @param range - A fragment of a document that can contain nodes and parts of text nodes.
  * @returns The selectionRects as an array.
  */
-export function createRectsFromDOMRange(
-  editor: LexicalEditor,
-  range: Range,
-): Array<ClientRect> {
+export function createRectsFromDOMRange(editor: LexicalEditor, range: Range): Array<ClientRect> {
   const rootElement = editor.getRootElement();
 
   if (rootElement === null) {
@@ -132,9 +121,7 @@ export function createRectsFromDOMRange(
   }
   const rootRect = rootElement.getBoundingClientRect();
   const computedStyle = getComputedStyle(rootElement);
-  const rootPadding =
-    parseFloat(computedStyle.paddingLeft) +
-    parseFloat(computedStyle.paddingRight);
+  const rootPadding = parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight);
   const selectionRects = Array.from(range.getClientRects());
   let selectionRectsLength = selectionRects.length;
   //sort rects from top left to bottom right.
@@ -157,8 +144,7 @@ export function createRectsFromDOMRange(
       prevRect.top + prevRect.height > selectionRect.top &&
       prevRect.left + prevRect.width > selectionRect.left;
     // Exclude selections that span the entire element
-    const selectionSpansElement =
-      selectionRect.width + rootPadding === rootRect.width;
+    const selectionSpansElement = selectionRect.width + rootPadding === rootRect.width;
     if (isOverlappingRect || selectionSpansElement) {
       selectionRects.splice(i--, 1);
       selectionRectsLength--;

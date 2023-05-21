@@ -6,9 +6,9 @@
  *
  */
 
-import type {EditorState, NodeKey} from 'lexical';
+import type { EditorState, NodeKey } from 'lexical';
 
-import {$createOffsetView} from '@lexical/offset';
+import { $createOffsetView } from '@lexical/offset';
 import {
   $createParagraphNode,
   $getNodeByKey,
@@ -19,31 +19,23 @@ import {
   $setSelection,
 } from 'lexical';
 import invariant from 'shared/invariant';
-import {Text as YText, YEvent, YMapEvent, YTextEvent, YXmlEvent} from 'yjs';
+import { Text as YText, YEvent, YMapEvent, YTextEvent, YXmlEvent } from 'yjs';
 
-import {Binding, Provider} from '.';
-import {CollabDecoratorNode} from './CollabDecoratorNode';
-import {CollabElementNode} from './CollabElementNode';
-import {CollabTextNode} from './CollabTextNode';
-import {
-  syncCursorPositions,
-  syncLexicalSelectionToYjs,
-  syncLocalCursorPosition,
-} from './SyncCursors';
-import {
-  doesSelectionNeedRecovering,
-  getOrInitCollabNodeFromSharedType,
-  syncWithTransaction,
-} from './Utils';
+import { Binding, Provider } from '.';
+import { CollabDecoratorNode } from './CollabDecoratorNode';
+import { CollabElementNode } from './CollabElementNode';
+import { CollabTextNode } from './CollabTextNode';
+import { syncCursorPositions, syncLexicalSelectionToYjs, syncLocalCursorPosition } from './SyncCursors';
+import { doesSelectionNeedRecovering, getOrInitCollabNodeFromSharedType, syncWithTransaction } from './Utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function syncEvent(binding: Binding, event: any): void {
-  const {target} = event;
+  const { target } = event;
   const collabNode = getOrInitCollabNodeFromSharedType(binding, target);
 
   if (collabNode instanceof CollabElementNode && event instanceof YTextEvent) {
     // @ts-expect-error We need to access the private property of the class
-    const {keysChanged, childListChanged, delta} = event;
+    const { keysChanged, childListChanged, delta } = event;
 
     // Update
     if (keysChanged.size > 0) {
@@ -54,21 +46,15 @@ function syncEvent(binding: Binding, event: any): void {
       collabNode.applyChildrenYjsDelta(binding, delta);
       collabNode.syncChildrenFromYjs(binding);
     }
-  } else if (
-    collabNode instanceof CollabTextNode &&
-    event instanceof YMapEvent
-  ) {
-    const {keysChanged} = event;
+  } else if (collabNode instanceof CollabTextNode && event instanceof YMapEvent) {
+    const { keysChanged } = event;
 
     // Update
     if (keysChanged.size > 0) {
       collabNode.syncPropertiesAndTextFromYjs(binding, keysChanged);
     }
-  } else if (
-    collabNode instanceof CollabDecoratorNode &&
-    event instanceof YXmlEvent
-  ) {
-    const {attributesChanged} = event;
+  } else if (collabNode instanceof CollabDecoratorNode && event instanceof YXmlEvent) {
+    const { attributesChanged } = event;
 
     // Update
     if (attributesChanged.size > 0) {
@@ -106,23 +92,10 @@ export function syncYjsChangesToLexical(
           const prevSelection = currentEditorState._selection;
 
           if ($isRangeSelection(prevSelection)) {
-            const prevOffsetView = $createOffsetView(
-              editor,
-              0,
-              currentEditorState,
-            );
-            const nextOffsetView = $createOffsetView(
-              editor,
-              0,
-              pendingEditorState,
-            );
-            const [start, end] =
-              prevOffsetView.getOffsetsFromSelection(prevSelection);
-            const nextSelection = nextOffsetView.createSelectionFromOffsets(
-              start,
-              end,
-              prevOffsetView,
-            );
+            const prevOffsetView = $createOffsetView(editor, 0, currentEditorState);
+            const nextOffsetView = $createOffsetView(editor, 0, pendingEditorState);
+            const [start, end] = prevOffsetView.getOffsetsFromSelection(prevSelection);
+            const nextSelection = nextOffsetView.createSelectionFromOffsets(start, end, prevOffsetView);
 
             if (nextSelection !== null) {
               $setSelection(nextSelection);
@@ -145,12 +118,7 @@ export function syncYjsChangesToLexical(
             }
           }
 
-          syncLexicalSelectionToYjs(
-            binding,
-            provider,
-            prevSelection,
-            $getSelection(),
-          );
+          syncLexicalSelectionToYjs(binding, provider, prevSelection, $getSelection());
         } else {
           syncLocalCursorPosition(binding, provider);
         }
@@ -166,10 +134,7 @@ export function syncYjsChangesToLexical(
   );
 }
 
-function handleNormalizationMergeConflicts(
-  binding: Binding,
-  normalizedNodes: Set<NodeKey>,
-): void {
+function handleNormalizationMergeConflicts(binding: Binding, normalizedNodes: Set<NodeKey>): void {
   // We handle the merge operations here
   const normalizedNodesKeys = Array.from(normalizedNodes);
   const collabNodeMap = binding.collabNodeMap;
@@ -246,18 +211,8 @@ export function syncLexicalUpdateToYjs(
         const prevNodeMap = prevEditorState._nodeMap;
         const nextLexicalRoot = $getRoot();
         const collabRoot = binding.root;
-        collabRoot.syncPropertiesFromLexical(
-          binding,
-          nextLexicalRoot,
-          prevNodeMap,
-        );
-        collabRoot.syncChildrenFromLexical(
-          binding,
-          nextLexicalRoot,
-          prevNodeMap,
-          dirtyElements,
-          dirtyLeaves,
-        );
+        collabRoot.syncPropertiesFromLexical(binding, nextLexicalRoot, prevNodeMap);
+        collabRoot.syncChildrenFromLexical(binding, nextLexicalRoot, prevNodeMap, dirtyElements, dirtyLeaves);
       }
 
       const selection = $getSelection();

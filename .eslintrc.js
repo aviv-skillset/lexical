@@ -15,12 +15,7 @@ const ERROR = 2;
 
 module.exports = {
   // Prettier must be last so it can override other configs (https://github.com/prettier/eslint-config-prettier#installation)
-  extends: [
-    'fbjs',
-    'plugin:react-hooks/recommended',
-    'plugin:lexical/all',
-    'prettier',
-  ],
+  extends: ['fbjs', 'plugin:react-hooks/recommended', 'plugin:lexical/all', 'prettier'],
 
   globals: {
     JSX: true,
@@ -31,11 +26,7 @@ module.exports = {
     {
       // We apply these settings to the source files that get compiled.
       // They can use all features including JSX (but shouldn't use `var`).
-      files: [
-        'packages/*/src/**/*.js',
-        'packages/*/__tests__/**/*.?(m)js',
-        'packages/*/src/**/*.jsx',
-      ],
+      files: ['packages/*/src/**/*.js', 'packages/*/__tests__/**/*.?(m)js', 'packages/*/src/**/*.jsx'],
       parser: 'babel-eslint',
       parserOptions: {
         allowImportExportEverywhere: true,
@@ -72,7 +63,7 @@ module.exports = {
       rules: {
         '@typescript-eslint/ban-ts-comment': OFF,
         '@typescript-eslint/no-this-alias': OFF,
-        '@typescript-eslint/no-unused-vars': [ERROR, {args: 'none'}],
+        '@typescript-eslint/no-unused-vars': [ERROR, { args: 'none' }],
         'header/header': [2, 'scripts/www/headerTemplate.js'],
       },
     },
@@ -84,11 +75,7 @@ module.exports = {
       },
     },
     {
-      files: [
-        'packages/**/src/__tests__/**',
-        'packages/lexical-playground/**',
-        'packages/lexical-devtools/**',
-      ],
+      files: ['packages/**/src/__tests__/**', 'packages/lexical-playground/**', 'packages/lexical-devtools/**'],
       rules: {
         'lexical/no-optional-chaining': OFF,
       },
@@ -130,7 +117,7 @@ module.exports = {
     'consistent-return': OFF,
     'dot-location': [ERROR, 'property'],
     // We use console['error']() as a signal to not transform it:
-    'dot-notation': [ERROR, {allowPattern: '^(error|warn)$'}],
+    'dot-notation': [ERROR, { allowPattern: '^(error|warn)$' }],
 
     'eol-last': ERROR,
     eqeqeq: [ERROR, 'allow-null'],
@@ -154,7 +141,7 @@ module.exports = {
 
     'jsx-quotes': [ERROR, 'prefer-double'],
 
-    'keyword-spacing': [ERROR, {after: true, before: true}],
+    'keyword-spacing': [ERROR, { after: true, before: true }],
 
     // Enforced by Prettier
     // TODO: Prettier doesn't handle long strings or long comments. Not a big
@@ -185,7 +172,7 @@ module.exports = {
 
     'no-unused-expressions': ERROR,
 
-    'no-unused-vars': [ERROR, {args: 'none'}],
+    'no-unused-vars': [ERROR, { args: 'none' }],
 
     'no-use-before-define': OFF,
 
@@ -200,7 +187,7 @@ module.exports = {
     // (Note these rules are overridden later for source files.)
     'no-var': ERROR,
 
-    quotes: [ERROR, 'single', {allowTemplateLiterals: true, avoidEscape: true}],
+    quotes: [ERROR, 'single', { allowTemplateLiterals: true, avoidEscape: true }],
 
     // React & JSX
     // Our transforms set this automatically
@@ -216,10 +203,7 @@ module.exports = {
     'react/jsx-uses-react': ERROR,
 
     // We don't care to do this
-    'react/jsx-wrap-multilines': [
-      ERROR,
-      {assignment: false, declaration: false},
-    ],
+    'react/jsx-wrap-multilines': [ERROR, { assignment: false, declaration: false }],
 
     'react/no-is-mounted': OFF,
 
@@ -248,6 +232,6 @@ module.exports = {
 
     strict: ERROR,
 
-    'valid-typeof': [ERROR, {requireStringLiterals: true}],
+    'valid-typeof': [ERROR, { requireStringLiterals: true }],
   },
 };

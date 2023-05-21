@@ -6,31 +6,25 @@
  *
  */
 
-import {CodeHighlightNode, CodeNode} from '@lexical/code';
-import {HashtagNode} from '@lexical/hashtag';
-import {AutoLinkNode, LinkNode} from '@lexical/link';
-import {ListItemNode, ListNode} from '@lexical/list';
-import {OverflowNode} from '@lexical/overflow';
-import {useLexicalComposerContext} from '@lexical/react/src/LexicalComposerContext';
+import { CodeHighlightNode, CodeNode } from '@lexical/code';
+import { HashtagNode } from '@lexical/hashtag';
+import { AutoLinkNode, LinkNode } from '@lexical/link';
+import { ListItemNode, ListNode } from '@lexical/list';
+import { OverflowNode } from '@lexical/overflow';
+import { useLexicalComposerContext } from '@lexical/react/src/LexicalComposerContext';
 import LexicalErrorBoundary from '@lexical/react/src/LexicalErrorBoundary';
-import {HeadingNode, QuoteNode} from '@lexical/rich-text';
-import {TableCellNode, TableNode, TableRowNode} from '@lexical/table';
-import {$rootTextContent} from '@lexical/text';
-import {
-  $createParagraphNode,
-  $createTextNode,
-  $getRoot,
-  $getSelection,
-  $isNodeSelection,
-} from 'lexical';
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
+import { $rootTextContent } from '@lexical/text';
+import { $createParagraphNode, $createTextNode, $getRoot, $getSelection, $isNodeSelection } from 'lexical';
 import * as React from 'react';
-import {createRoot} from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import * as ReactTestUtils from 'react-dom/test-utils';
 
-import {LexicalComposer} from '../../LexicalComposer';
-import {ContentEditable} from '../../LexicalContentEditable';
-import {PlainTextPlugin} from '../../LexicalPlainTextPlugin';
-import {RichTextPlugin} from '../../LexicalRichTextPlugin';
+import { LexicalComposer } from '../../LexicalComposer';
+import { ContentEditable } from '../../LexicalContentEditable';
+import { PlainTextPlugin } from '../../LexicalPlainTextPlugin';
+import { RichTextPlugin } from '../../LexicalRichTextPlugin';
 
 const RICH_TEXT_NODES = [
   HeadingNode,
@@ -75,9 +69,7 @@ describe('LexicalNodeHelpers tests', () => {
       }
 
       const $initialEditorState = () => {
-        $getRoot().append(
-          $createParagraphNode().append($createTextNode('foo')),
-        );
+        $getRoot().append($createParagraphNode().append($createTextNode('foo')));
       };
 
       function App() {
@@ -91,7 +83,8 @@ describe('LexicalNodeHelpers tests', () => {
                 throw Error();
               },
               theme: {},
-            }}>
+            }}
+          >
             <GrabEditor />
             {plugin === 'PlainTextPlugin' ? (
               <PlainTextPlugin
@@ -142,7 +135,8 @@ describe('LexicalNodeHelpers tests', () => {
                 throw Error();
               },
               theme: {},
-            }}>
+            }}
+          >
             <GrabEditor />
             {plugin === 'PlainTextPlugin' ? (
               <PlainTextPlugin
@@ -201,26 +195,19 @@ describe('LexicalNodeHelpers tests', () => {
                 throw Error();
               },
               theme: {},
-            }}>
+            }}
+          >
             <GrabEditor />
             {plugin === 'PlainTextPlugin' ? (
               <PlainTextPlugin
                 contentEditable={<ContentEditable />}
-                placeholder={(isEditable) =>
-                  isEditable ? (
-                    <span className="placeholder">My placeholder</span>
-                  ) : null
-                }
+                placeholder={(isEditable) => (isEditable ? <span className="placeholder">My placeholder</span> : null)}
                 ErrorBoundary={LexicalErrorBoundary}
               />
             ) : (
               <RichTextPlugin
                 contentEditable={<ContentEditable />}
-                placeholder={(isEditable) =>
-                  isEditable ? (
-                    <span className="placeholder">My placeholder</span>
-                  ) : null
-                }
+                placeholder={(isEditable) => (isEditable ? <span className="placeholder">My placeholder</span> : null)}
                 ErrorBoundary={LexicalErrorBoundary}
               />
             )}

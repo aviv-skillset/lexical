@@ -6,27 +6,16 @@
  *
  */
 
-import {
-  $createParagraphNode,
-  $createTextNode,
-  $getNodeByKey,
-  $getRoot,
-} from 'lexical';
+import { $createParagraphNode, $createTextNode, $getNodeByKey, $getRoot } from 'lexical';
 
-import {
-  $createTestElementNode,
-  generatePermutations,
-  initializeUnitTest,
-} from '../../../__tests__/utils';
+import { $createTestElementNode, generatePermutations, initializeUnitTest } from '../../../__tests__/utils';
 
 describe('LexicalGC tests', () => {
   initializeUnitTest((testEnv) => {
     test('RootNode.clear() with a child and subchild', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
-        $getRoot().append(
-          $createParagraphNode().append($createTextNode('foo')),
-        );
+        $getRoot().append($createParagraphNode().append($createTextNode('foo')));
       });
       expect(editor.getEditorState()._nodeMap.size).toBe(3);
       await editor.update(() => {
@@ -36,7 +25,7 @@ describe('LexicalGC tests', () => {
     });
 
     test('RootNode.clear() with a child and three subchildren', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const text1 = $createTextNode('foo');
         const text2 = $createTextNode('bar').toggleUnmergeable();
@@ -54,7 +43,7 @@ describe('LexicalGC tests', () => {
 
     for (let i = 0; i < 3; i++) {
       test(`RootNode.clear() with a child and three subchildren, subchild ${i} removed first`, async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
         await editor.update(() => {
           const text1 = $createTextNode('foo'); // 1
           const text2 = $createTextNode('bar').toggleUnmergeable(); // 2
@@ -75,10 +64,7 @@ describe('LexicalGC tests', () => {
       });
     }
 
-    const permutations2 = generatePermutations<string>(
-      ['1', '2', '3', '4', '5', '6'],
-      2,
-    );
+    const permutations2 = generatePermutations<string>(['1', '2', '3', '4', '5', '6'], 2);
     for (let i = 0; i < permutations2.length; i++) {
       const removeKeys = permutations2[i];
       /**
@@ -88,7 +74,7 @@ describe('LexicalGC tests', () => {
        *        T  T
        */
       test(`RootNode.clear() with a complex tree, nodes ${removeKeys.toString()} removed first`, async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
         await editor.update(() => {
           const testElement = $createTestElementNode(); // 1
           const testElementText1 = $createTextNode('te1').toggleUnmergeable(); // 2

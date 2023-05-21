@@ -6,23 +6,12 @@
  *
  */
 
-import {moveLeft} from '../keyboardShortcuts/index.mjs';
-import {
-  assertHTML,
-  assertSelection,
-  focusEditor,
-  html,
-  initialize,
-  IS_MAC,
-  test,
-} from '../utils/index.mjs';
+import { moveLeft } from '../keyboardShortcuts/index.mjs';
+import { assertHTML, assertSelection, focusEditor, html, initialize, IS_MAC, test } from '../utils/index.mjs';
 
 test.describe('Regression test #399', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Supports Ctrl-O as an open line command`, async ({
-    page,
-    isRichText,
-  }) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Supports Ctrl-O as an open line command`, async ({ page, isRichText }) => {
     // This is a Mac only command
     if (!IS_MAC) {
       return;
@@ -36,14 +25,10 @@ test.describe('Regression test #399', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">foo</span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">bar</span>
           </p>
         `,
@@ -58,9 +43,7 @@ test.describe('Regression test #399', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">foo</span>
             <br />
             <span data-lexical-text="true">bar</span>
@@ -81,14 +64,10 @@ test.describe('Regression test #399', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">foo</span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <br />
             <span data-lexical-text="true">bar</span>
           </p>
@@ -104,9 +83,7 @@ test.describe('Regression test #399', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">foo</span>
             <br />
             <br />

@@ -6,10 +6,10 @@
  *
  */
 
-import type {Binding, ExcludedProperties, Provider} from '@lexical/yjs';
-import type {LexicalEditor} from 'lexical';
+import type { Binding, ExcludedProperties, Provider } from '@lexical/yjs';
+import type { LexicalEditor } from 'lexical';
 
-import {mergeRegister} from '@lexical/utils';
+import { mergeRegister } from '@lexical/utils';
 import {
   CONNECTED_COMMAND,
   createBinding,
@@ -32,11 +32,11 @@ import {
   UNDO_COMMAND,
 } from 'lexical';
 import * as React from 'react';
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {createPortal} from 'react-dom';
-import {Doc, Transaction, UndoManager, YEvent} from 'yjs';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { Doc, Transaction, UndoManager, YEvent } from 'yjs';
 
-import {InitialEditorStateType} from '../LexicalComposer';
+import { InitialEditorStateType } from '../LexicalComposer';
 
 export type CursorsContainerRef = React.MutableRefObject<HTMLElement | null>;
 
@@ -74,10 +74,10 @@ export function useYjsCollaboration(
   }, [provider]);
 
   useEffect(() => {
-    const {root} = binding;
-    const {awareness} = provider;
+    const { root } = binding;
+    const { awareness } = provider;
 
-    const onStatus = ({status}: {status: string}) => {
+    const onStatus = ({ status }: { status: string }) => {
       editor.dispatchCommand(CONNECTED_COMMAND, status === 'connected');
     };
 
@@ -112,13 +112,7 @@ export function useYjsCollaboration(
       }
     };
 
-    initLocalState(
-      provider,
-      name,
-      color,
-      document.activeElement === editor.getRootElement(),
-      awarenessData || {},
-    );
+    initLocalState(provider, name, color, document.activeElement === editor.getRootElement(), awarenessData || {});
 
     const onProviderDocReload = (ydoc: Doc) => {
       clearEditorSkipCollab(editor, binding);
@@ -134,14 +128,7 @@ export function useYjsCollaboration(
     // This updates the local editor state when we recieve updates from other clients
     root.getSharedType().observeDeep(onYjsTreeChanges);
     const removeListener = editor.registerUpdateListener(
-      ({
-        prevEditorState,
-        editorState,
-        dirtyLeaves,
-        dirtyElements,
-        normalizedNodes,
-        tags,
-      }) => {
+      ({ prevEditorState, editorState, dirtyLeaves, dirtyElements, normalizedNodes, tags }) => {
         if (tags.has('skip-collab') === false) {
           syncLexicalUpdateToYjs(
             binding,
@@ -190,10 +177,7 @@ export function useYjsCollaboration(
       binding.cursorsContainer = element;
     };
 
-    return createPortal(
-      <div ref={ref} />,
-      (cursorsContainerRef && cursorsContainerRef.current) || document.body,
-    );
+    return createPortal(<div ref={ref} />, (cursorsContainerRef && cursorsContainerRef.current) || document.body);
   }, [binding, cursorsContainerRef]);
 
   useEffect(() => {
@@ -252,14 +236,8 @@ export function useYjsFocusTracking(
   }, [color, editor, name, provider, awarenessData]);
 }
 
-export function useYjsHistory(
-  editor: LexicalEditor,
-  binding: Binding,
-): () => void {
-  const undoManager = useMemo(
-    () => createUndoManager(binding, binding.root.getSharedType()),
-    [binding],
-  );
+export function useYjsHistory(editor: LexicalEditor, binding: Binding): () => void {
+  const undoManager = useMemo(() => createUndoManager(binding, binding.root.getSharedType()), [binding]);
 
   useEffect(() => {
     const undo = () => {
@@ -295,10 +273,7 @@ export function useYjsHistory(
   return clearHistory;
 }
 
-function initializeEditor(
-  editor: LexicalEditor,
-  initialEditorState?: InitialEditorStateType,
-): void {
+function initializeEditor(editor: LexicalEditor, initialEditorState?: InitialEditorStateType): void {
   editor.update(
     () => {
       const root = $getRoot();
@@ -307,13 +282,12 @@ function initializeEditor(
         if (initialEditorState) {
           switch (typeof initialEditorState) {
             case 'string': {
-              const parsedEditorState =
-                editor.parseEditorState(initialEditorState);
-              editor.setEditorState(parsedEditorState, {tag: 'history-merge'});
+              const parsedEditorState = editor.parseEditorState(initialEditorState);
+              editor.setEditorState(parsedEditorState, { tag: 'history-merge' });
               break;
             }
             case 'object': {
-              editor.setEditorState(initialEditorState, {tag: 'history-merge'});
+              editor.setEditorState(initialEditorState, { tag: 'history-merge' });
               break;
             }
             case 'function': {
@@ -324,7 +298,7 @@ function initializeEditor(
                     initialEditorState(editor);
                   }
                 },
-                {tag: 'history-merge'},
+                { tag: 'history-merge' },
               );
               break;
             }
@@ -332,13 +306,9 @@ function initializeEditor(
         } else {
           const paragraph = $createParagraphNode();
           root.append(paragraph);
-          const {activeElement} = document;
+          const { activeElement } = document;
 
-          if (
-            $getSelection() !== null ||
-            (activeElement !== null &&
-              activeElement === editor.getRootElement())
-          ) {
+          if ($getSelection() !== null || (activeElement !== null && activeElement === editor.getRootElement())) {
             paragraph.select();
           }
         }

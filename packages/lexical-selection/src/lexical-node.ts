@@ -27,17 +27,10 @@ import {
   DEPRECATED_$isGridSelection,
 } from 'lexical';
 
-import {CSS_TO_STYLES} from './constants';
-import {
-  getCSSFromStyleObject,
-  getStyleObjectFromCSS,
-  getStyleObjectFromRawCSS,
-} from './utils';
+import { CSS_TO_STYLES } from './constants';
+import { getCSSFromStyleObject, getStyleObjectFromCSS, getStyleObjectFromRawCSS } from './utils';
 
-function $updateElementNodeProperties<T extends ElementNode>(
-  target: T,
-  source: ElementNode,
-): T {
+function $updateElementNodeProperties<T extends ElementNode>(target: T, source: ElementNode): T {
   target.__first = source.__first;
   target.__last = source.__last;
   target.__size = source.__size;
@@ -47,10 +40,7 @@ function $updateElementNodeProperties<T extends ElementNode>(
   return target;
 }
 
-function $updateTextNodeProperties<T extends TextNode>(
-  target: T,
-  source: TextNode,
-): T {
+function $updateTextNodeProperties<T extends TextNode>(target: T, source: TextNode): T {
   target.__format = source.__format;
   target.__style = source.__style;
   target.__mode = source.__mode;
@@ -155,11 +145,7 @@ export function $isAtNodeEnd(point: Point): boolean {
  * @param anchor - The anchor of the current selection, where the selection should be pointing.
  * @param delCount - The amount of characters to delete. Useful as a dynamic variable eg. textContentSize - maxLength;
  */
-export function trimTextContentFromAnchor(
-  editor: LexicalEditor,
-  anchor: Point,
-  delCount: number,
-): void {
+export function trimTextContentFromAnchor(editor: LexicalEditor, anchor: Point, delCount: number): void {
   // Work from the current selection anchor point
   let currentNode: LexicalNode | null = anchor.getNode();
   let remaining: number = delCount;
@@ -207,11 +193,7 @@ export function trimTextContentFromAnchor(
     if (!$isTextNode(currentNode) || remaining >= currentNodeSize) {
       const parent = currentNode.getParent();
       currentNode.remove();
-      if (
-        parent != null &&
-        parent.getChildrenSize() === 0 &&
-        !$isRootNode(parent)
-      ) {
+      if (parent != null && parent.getChildrenSize() === 0 && !$isRootNode(parent)) {
         parent.remove();
       }
       remaining -= currentNodeSize + additionalElementWhitespace;
@@ -219,15 +201,13 @@ export function trimTextContentFromAnchor(
     } else {
       const key = currentNode.getKey();
       // See if we can just revert it to what was in the last editor state
-      const prevTextContent: string | null = editor
-        .getEditorState()
-        .read(() => {
-          const prevNode = $getNodeByKey(key);
-          if ($isTextNode(prevNode) && prevNode.isSimpleText()) {
-            return prevNode.getTextContent();
-          }
-          return null;
-        });
+      const prevTextContent: string | null = editor.getEditorState().read(() => {
+        const prevNode = $getNodeByKey(key);
+        if ($isTextNode(prevNode) && prevNode.isSimpleText()) {
+          return prevNode.getTextContent();
+        }
+        return null;
+      });
       const offset = currentNodeSize - remaining;
       const slicedText = text.slice(0, offset);
       if (prevTextContent !== null && prevTextContent !== text) {
@@ -281,24 +261,16 @@ export function $addNodeStyle(node: TextNode): void {
   CSS_TO_STYLES.set(CSSText, styles);
 }
 
-function $patchStyle(
-  target: TextNode | RangeSelection,
-  patch: Record<string, string | null>,
-): void {
-  const prevStyles = getStyleObjectFromCSS(
-    'getStyle' in target ? target.getStyle() : target.style,
-  );
-  const newStyles = Object.entries(patch).reduce<Record<string, string>>(
-    (styles, [key, value]) => {
-      if (value === null) {
-        delete styles[key];
-      } else {
-        styles[key] = value;
-      }
-      return styles;
-    },
-    {...prevStyles} || {},
-  );
+function $patchStyle(target: TextNode | RangeSelection, patch: Record<string, string | null>): void {
+  const prevStyles = getStyleObjectFromCSS('getStyle' in target ? target.getStyle() : target.style);
+  const newStyles = Object.entries(patch).reduce<Record<string, string>>((styles, [key, value]) => {
+    if (value === null) {
+      delete styles[key];
+    } else {
+      styles[key] = value;
+    }
+    return styles;
+  }, { ...prevStyles } || {});
   const newCSSText = getCSSFromStyleObject(newStyles);
   target.setStyle(newCSSText);
   CSS_TO_STYLES.set(newCSSText, newStyles);
@@ -311,10 +283,7 @@ function $patchStyle(
  * @param selection - The selected node(s) to update.
  * @param patch - The patch to apply, which can include multiple styles. { CSSProperty: value }
  */
-export function $patchStyleText(
-  selection: RangeSelection,
-  patch: Record<string, string | null>,
-): void {
+export function $patchStyleText(selection: RangeSelection, patch: Record<string, string | null>): void {
   const selectedNodes = selection.getNodes();
   const selectedNodesLength = selectedNodes.length;
   const lastIndex = selectedNodesLength - 1;
@@ -355,18 +324,8 @@ export function $patchStyleText(
   // This is the case where we only selected a single node
   if (selectedNodes.length === 1) {
     if ($isTextNode(firstNode)) {
-      startOffset =
-        startType === 'element'
-          ? 0
-          : anchorOffset > focusOffset
-          ? focusOffset
-          : anchorOffset;
-      endOffset =
-        endType === 'element'
-          ? firstNodeTextLength
-          : anchorOffset > focusOffset
-          ? anchorOffset
-          : focusOffset;
+      startOffset = startType === 'element' ? 0 : anchorOffset > focusOffset ? focusOffset : anchorOffset;
+      endOffset = endType === 'element' ? firstNodeTextLength : anchorOffset > focusOffset ? anchorOffset : focusOffset;
 
       // No actual text is selected, so do nothing.
       if (startOffset === endOffset) {
@@ -387,10 +346,7 @@ export function $patchStyleText(
       }
     } // multiple nodes selected.
   } else {
-    if (
-      $isTextNode(firstNode) &&
-      startOffset < firstNode.getTextContentSize()
-    ) {
+    if ($isTextNode(firstNode) && startOffset < firstNode.getTextContentSize()) {
       if (startOffset !== 0) {
         // the entire first node isn't selected, so split it
         firstNode = firstNode.splitText(startOffset)[1];

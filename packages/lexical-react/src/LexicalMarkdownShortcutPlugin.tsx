@@ -6,17 +6,17 @@
  *
  */
 
-import type {ElementTransformer, Transformer} from '@lexical/markdown';
-import type {LexicalNode} from 'lexical';
+import type { ElementTransformer, Transformer } from '@lexical/markdown';
+import type { LexicalNode } from 'lexical';
 
-import {registerMarkdownShortcuts, TRANSFORMERS} from '@lexical/markdown';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import { registerMarkdownShortcuts, TRANSFORMERS } from '@lexical/markdown';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   $createHorizontalRuleNode,
   $isHorizontalRuleNode,
   HorizontalRuleNode,
 } from '@lexical/react/LexicalHorizontalRuleNode';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 
 const HR: ElementTransformer = {
   dependencies: [HorizontalRuleNode],

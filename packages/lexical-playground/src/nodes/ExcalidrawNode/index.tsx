@@ -18,9 +18,9 @@ import type {
   Spread,
 } from 'lexical';
 
-import {DecoratorNode} from 'lexical';
+import { DecoratorNode } from 'lexical';
 import * as React from 'react';
-import {Suspense} from 'react';
+import { Suspense } from 'react';
 
 const ExcalidrawComponent = React.lazy(
   // @ts-ignore
@@ -34,9 +34,7 @@ export type SerializedExcalidrawNode = Spread<
   SerializedLexicalNode
 >;
 
-function convertExcalidrawElement(
-  domNode: HTMLElement,
-): DOMConversionOutput | null {
+function convertExcalidrawElement(domNode: HTMLElement): DOMConversionOutput | null {
   const excalidrawData = domNode.getAttribute('data-lexical-excalidraw-json');
   if (excalidrawData) {
     const node = $createExcalidrawNode();
@@ -115,7 +113,7 @@ export class ExcalidrawNode extends DecoratorNode<JSX.Element> {
       }
     }
     element.setAttribute('data-lexical-excalidraw-json', this.__data);
-    return {element};
+    return { element };
   }
 
   setData(data: string): void {
@@ -136,8 +134,6 @@ export function $createExcalidrawNode(): ExcalidrawNode {
   return new ExcalidrawNode();
 }
 
-export function $isExcalidrawNode(
-  node: LexicalNode | null,
-): node is ExcalidrawNode {
+export function $isExcalidrawNode(node: LexicalNode | null): node is ExcalidrawNode {
   return node instanceof ExcalidrawNode;
 }

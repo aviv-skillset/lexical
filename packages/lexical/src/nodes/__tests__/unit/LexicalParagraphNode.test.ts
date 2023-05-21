@@ -6,14 +6,9 @@
  *
  */
 
-import {
-  $createParagraphNode,
-  $getRoot,
-  $isParagraphNode,
-  ParagraphNode,
-} from 'lexical';
+import { $createParagraphNode, $getRoot, $isParagraphNode, ParagraphNode } from 'lexical';
 
-import {initializeUnitTest} from '../../../__tests__/utils';
+import { initializeUnitTest } from '../../../__tests__/utils';
 
 const editorConfig = Object.freeze({
   namespace: '',
@@ -25,7 +20,7 @@ const editorConfig = Object.freeze({
 describe('LexicalParagraphNode tests', () => {
   initializeUnitTest((testEnv) => {
     test('ParagraphNode.constructor', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const paragraphNode = new ParagraphNode();
@@ -37,7 +32,7 @@ describe('LexicalParagraphNode tests', () => {
     });
 
     test('ParagraphNode.exportJSON() should return and object conforming to the expected schema', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const node = $createParagraphNode();
@@ -58,14 +53,12 @@ describe('LexicalParagraphNode tests', () => {
     });
 
     test('ParagraphNode.createDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const paragraphNode = new ParagraphNode();
 
-        expect(paragraphNode.createDOM(editorConfig).outerHTML).toBe(
-          '<p class="my-paragraph-class"></p>',
-        );
+        expect(paragraphNode.createDOM(editorConfig).outerHTML).toBe('<p class="my-paragraph-class"></p>');
         expect(
           paragraphNode.createDOM({
             namespace: '',
@@ -76,7 +69,7 @@ describe('LexicalParagraphNode tests', () => {
     });
 
     test('ParagraphNode.updateDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const paragraphNode = new ParagraphNode();
@@ -85,11 +78,7 @@ describe('LexicalParagraphNode tests', () => {
         expect(domElement.outerHTML).toBe('<p class="my-paragraph-class"></p>');
 
         const newParagraphNode = new ParagraphNode();
-        const result = newParagraphNode.updateDOM(
-          paragraphNode,
-          domElement,
-          editorConfig,
-        );
+        const result = newParagraphNode.updateDOM(paragraphNode, domElement, editorConfig);
 
         expect(result).toBe(false);
         expect(domElement.outerHTML).toBe('<p class="my-paragraph-class"></p>');
@@ -97,7 +86,7 @@ describe('LexicalParagraphNode tests', () => {
     });
 
     test('ParagraphNode.insertNewAfter()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       let paragraphNode;
 
       await editor.update(() => {
@@ -122,7 +111,7 @@ describe('LexicalParagraphNode tests', () => {
     });
 
     test('$createParagraphNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const paragraphNode = new ParagraphNode();
@@ -135,7 +124,7 @@ describe('LexicalParagraphNode tests', () => {
     });
 
     test('$isParagraphNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const paragraphNode = new ParagraphNode();

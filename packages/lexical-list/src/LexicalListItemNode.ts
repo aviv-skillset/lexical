@@ -6,7 +6,7 @@
  *
  */
 
-import type {ListNode} from './';
+import type { ListNode } from './';
 import type {
   DOMConversionMap,
   DOMConversionOutput,
@@ -22,11 +22,7 @@ import type {
   Spread,
 } from 'lexical';
 
-import {
-  addClassNamesToElement,
-  isHTMLElement,
-  removeClassNamesFromElement,
-} from '@lexical/utils';
+import { addClassNamesToElement, isHTMLElement, removeClassNamesFromElement } from '@lexical/utils';
 import {
   $applyNodeReplacement,
   $createParagraphNode,
@@ -37,14 +33,9 @@ import {
 } from 'lexical';
 import invariant from 'shared/invariant';
 
-import {$createListNode, $isListNode} from './';
-import {
-  $handleIndent,
-  $handleOutdent,
-  mergeLists,
-  updateChildrenListItemValue,
-} from './formatList';
-import {isNestedListNode} from './utils';
+import { $createListNode, $isListNode } from './';
+import { $handleIndent, $handleOutdent, mergeLists, updateChildrenListItemValue } from './formatList';
+import { isNestedListNode } from './utils';
 
 export type SerializedListItemNode = Spread<
   {
@@ -86,11 +77,7 @@ export class ListItemNode extends ElementNode {
     return element;
   }
 
-  updateDOM(
-    prevNode: ListItemNode,
-    dom: HTMLElement,
-    config: EditorConfig,
-  ): boolean {
+  updateDOM(prevNode: ListItemNode, dom: HTMLElement, config: EditorConfig): boolean {
     const parent = this.getParent();
     if ($isListNode(parent) && parent.getListType() === 'check') {
       updateListItemChecked(dom, this, prevNode, parent);
@@ -156,10 +143,7 @@ export class ListItemNode extends ElementNode {
     return this;
   }
 
-  replace<N extends LexicalNode>(
-    replaceWithNode: N,
-    includeChildren?: boolean,
-  ): N {
+  replace<N extends LexicalNode>(replaceWithNode: N, includeChildren?: boolean): N {
     if ($isListItemNode(replaceWithNode)) {
       return super.replace(replaceWithNode);
     }
@@ -198,10 +182,7 @@ export class ListItemNode extends ElementNode {
     const listNode = this.getParentOrThrow();
 
     if (!$isListNode(listNode)) {
-      invariant(
-        false,
-        'insertAfter: list node is not parent of list item node',
-      );
+      invariant(false, 'insertAfter: list node is not parent of list item node');
     }
 
     const siblings = this.getNextSiblings();
@@ -252,12 +233,7 @@ export class ListItemNode extends ElementNode {
     const nextSibling = this.getNextSibling();
     super.remove(preserveEmptyParent);
 
-    if (
-      prevSibling &&
-      nextSibling &&
-      isNestedListNode(prevSibling) &&
-      isNestedListNode(nextSibling)
-    ) {
+    if (prevSibling && nextSibling && isNestedListNode(prevSibling) && isNestedListNode(nextSibling)) {
       mergeLists(prevSibling.getFirstChild(), nextSibling.getFirstChild());
       nextSibling.remove();
     } else if (nextSibling) {
@@ -269,13 +245,8 @@ export class ListItemNode extends ElementNode {
     }
   }
 
-  insertNewAfter(
-    _: RangeSelection,
-    restoreSelection = true,
-  ): ListItemNode | ParagraphNode {
-    const newElement = $createListItemNode(
-      this.__checked == null ? undefined : false,
-    );
+  insertNewAfter(_: RangeSelection, restoreSelection = true): ListItemNode | ParagraphNode {
+    const newElement = $createListItemNode(this.__checked == null ? undefined : false);
     this.insertAfter(newElement, restoreSelection);
 
     return newElement;
@@ -364,10 +335,7 @@ export class ListItemNode extends ElementNode {
   }
 
   setIndent(indent: number): this {
-    invariant(
-      typeof indent === 'number' && indent > -1,
-      'Invalid indent value.',
-    );
+    invariant(typeof indent === 'number' && indent > -1, 'Invalid indent value.');
     let currentIndent = this.getIndent();
     while (currentIndent !== indent) {
       if (currentIndent < indent) {
@@ -407,10 +375,7 @@ export class ListItemNode extends ElementNode {
     return $isParagraphNode(node) || $isListItemNode(node);
   }
 
-  extractWithChild(
-    child: LexicalNode,
-    selection: RangeSelection | NodeSelection | GridSelection,
-  ): boolean {
+  extractWithChild(child: LexicalNode, selection: RangeSelection | NodeSelection | GridSelection): boolean {
     if (!$isRangeSelection(selection)) {
       return false;
     }
@@ -456,8 +421,7 @@ function $setListItemThemeClassNames(
 
   if (listTheme) {
     const parentNode = node.getParent();
-    const isCheckList =
-      $isListNode(parentNode) && parentNode.getListType() === 'check';
+    const isCheckList = $isListNode(parentNode) && parentNode.getListType() === 'check';
     const checked = node.getChecked();
 
     if (!isCheckList || checked) {
@@ -469,9 +433,7 @@ function $setListItemThemeClassNames(
     }
 
     if (isCheckList) {
-      classesToAdd.push(
-        checked ? listTheme.listitemChecked : listTheme.listitemUnchecked,
-      );
+      classesToAdd.push(checked ? listTheme.listitemChecked : listTheme.listitemUnchecked);
     }
   }
 
@@ -509,22 +471,15 @@ function updateListItemChecked(
     dom.setAttribute('role', 'checkbox');
     dom.setAttribute('tabIndex', '-1');
 
-    if (
-      !prevListItemNode ||
-      listItemNode.__checked !== prevListItemNode.__checked
-    ) {
-      dom.setAttribute(
-        'aria-checked',
-        listItemNode.getChecked() ? 'true' : 'false',
-      );
+    if (!prevListItemNode || listItemNode.__checked !== prevListItemNode.__checked) {
+      dom.setAttribute('aria-checked', listItemNode.getChecked() ? 'true' : 'false');
     }
   }
 }
 
 function convertListItemElement(domNode: Node): DOMConversionOutput {
-  const checked =
-    isHTMLElement(domNode) && domNode.getAttribute('aria-checked') === 'true';
-  return {node: $createListItemNode(checked)};
+  const checked = isHTMLElement(domNode) && domNode.getAttribute('aria-checked') === 'true';
+  return { node: $createListItemNode(checked) };
 }
 
 /**
@@ -541,8 +496,6 @@ export function $createListItemNode(checked?: boolean): ListItemNode {
  * @param node - The node to be checked.
  * @returns true if the node is a ListItemNode, false otherwise.
  */
-export function $isListItemNode(
-  node: LexicalNode | null | undefined,
-): node is ListItemNode {
+export function $isListItemNode(node: LexicalNode | null | undefined): node is ListItemNode {
   return node instanceof ListItemNode;
 }

@@ -6,13 +6,9 @@
  *
  */
 
-import {$generateHtmlFromNodes, $generateNodesFromDOM} from '@lexical/html';
-import {
-  $addNodeStyle,
-  $cloneWithProperties,
-  $sliceSelectedTextNodeContent,
-} from '@lexical/selection';
-import {$findMatchingParent} from '@lexical/utils';
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html';
+import { $addNodeStyle, $cloneWithProperties, $sliceSelectedTextNodeContent } from '@lexical/selection';
+import { $findMatchingParent } from '@lexical/utils';
 import {
   $createParagraphNode,
   $createTabNode,
@@ -52,10 +48,7 @@ export function $getHtmlContent(editor: LexicalEditor): string {
   }
 
   // If we haven't selected anything
-  if (
-    ($isRangeSelection(selection) && selection.isCollapsed()) ||
-    selection.getNodes().length === 0
-  ) {
+  if (($isRangeSelection(selection) && selection.isCollapsed()) || selection.getNodes().length === 0) {
     return '';
   }
 
@@ -72,10 +65,7 @@ export function $getLexicalContent(editor: LexicalEditor): null | string {
   }
 
   // If we haven't selected anything
-  if (
-    ($isRangeSelection(selection) && selection.isCollapsed()) ||
-    selection.getNodes().length === 0
-  ) {
+  if (($isRangeSelection(selection) && selection.isCollapsed()) || selection.getNodes().length === 0) {
     return null;
   }
 
@@ -86,8 +76,7 @@ export function $insertDataTransferForPlainText(
   dataTransfer: DataTransfer,
   selection: RangeSelection | GridSelection,
 ): void {
-  const text =
-    dataTransfer.getData('text/plain') || dataTransfer.getData('text/uri-list');
+  const text = dataTransfer.getData('text/plain') || dataTransfer.getData('text/uri-list');
 
   if (text != null) {
     selection.insertRawText(text);
@@ -103,10 +92,7 @@ export function $insertDataTransferForRichText(
   if (lexicalString) {
     try {
       const payload = JSON.parse(lexicalString);
-      if (
-        payload.namespace === editor._config.namespace &&
-        Array.isArray(payload.nodes)
-      ) {
+      if (payload.namespace === editor._config.namespace && Array.isArray(payload.nodes)) {
         const nodes = $generateNodesFromSerializedNodes(payload.nodes);
         return $insertGeneratedNodes(editor, nodes, selection);
       }
@@ -130,8 +116,7 @@ export function $insertDataTransferForRichText(
   // Multi-line plain text in rich text mode pasted as separate paragraphs
   // instead of single paragraph with linebreaks.
   // Webkit-specific: Supports read 'text/uri-list' in clipboard.
-  const text =
-    dataTransfer.getData('text/plain') || dataTransfer.getData('text/uri-list');
+  const text = dataTransfer.getData('text/plain') || dataTransfer.getData('text/uri-list');
   if (text != null) {
     if ($isRangeSelection(selection)) {
       const parts = text.split(/(\r?\n|\t)/);
@@ -159,18 +144,10 @@ export function $insertGeneratedNodes(
 ) {
   const isSelectionInsideOfGrid =
     DEPRECATED_$isGridSelection(selection) ||
-    ($findMatchingParent(selection.anchor.getNode(), (n) =>
-      DEPRECATED_$isGridCellNode(n),
-    ) !== null &&
-      $findMatchingParent(selection.focus.getNode(), (n) =>
-        DEPRECATED_$isGridCellNode(n),
-      ) !== null);
+    ($findMatchingParent(selection.anchor.getNode(), (n) => DEPRECATED_$isGridCellNode(n)) !== null &&
+      $findMatchingParent(selection.focus.getNode(), (n) => DEPRECATED_$isGridCellNode(n)) !== null);
 
-  if (
-    isSelectionInsideOfGrid &&
-    nodes.length === 1 &&
-    DEPRECATED_$isGridNode(nodes[0])
-  ) {
+  if (isSelectionInsideOfGrid && nodes.length === 1 && DEPRECATED_$isGridNode(nodes[0])) {
     $mergeGridNodesStrategy(nodes, selection, false, editor);
     return;
   }
@@ -179,10 +156,7 @@ export function $insertGeneratedNodes(
   return;
 }
 
-function $basicInsertStrategy(
-  nodes: LexicalNode[],
-  selection: RangeSelection | GridSelection,
-) {
+function $basicInsertStrategy(nodes: LexicalNode[], selection: RangeSelection | GridSelection) {
   // Wrap text and inline nodes in paragraph nodes so we have all blocks at the top-level
   const topLevelBlocks = [];
   let currentBlock = null;
@@ -243,41 +217,24 @@ function $mergeGridNodesStrategy(
 
   const newGrid = nodes[0];
   const newGridRows = newGrid.getChildren();
-  const newColumnCount = newGrid
-    .getFirstChildOrThrow<DEPRECATED_GridNode>()
-    .getChildrenSize();
+  const newColumnCount = newGrid.getFirstChildOrThrow<DEPRECATED_GridNode>().getChildrenSize();
   const newRowCount = newGrid.getChildrenSize();
-  const gridCellNode = $findMatchingParent(selection.anchor.getNode(), (n) =>
-    DEPRECATED_$isGridCellNode(n),
-  );
-  const gridRowNode =
-    gridCellNode &&
-    $findMatchingParent(gridCellNode, (n) => DEPRECATED_$isGridRowNode(n));
-  const gridNode =
-    gridRowNode &&
-    $findMatchingParent(gridRowNode, (n) => DEPRECATED_$isGridNode(n));
+  const gridCellNode = $findMatchingParent(selection.anchor.getNode(), (n) => DEPRECATED_$isGridCellNode(n));
+  const gridRowNode = gridCellNode && $findMatchingParent(gridCellNode, (n) => DEPRECATED_$isGridRowNode(n));
+  const gridNode = gridRowNode && $findMatchingParent(gridRowNode, (n) => DEPRECATED_$isGridNode(n));
 
   if (
     !DEPRECATED_$isGridCellNode(gridCellNode) ||
     !DEPRECATED_$isGridRowNode(gridRowNode) ||
     !DEPRECATED_$isGridNode(gridNode)
   ) {
-    invariant(
-      false,
-      '$mergeGridNodesStrategy: Expected selection to be inside of a Grid.',
-    );
+    invariant(false, '$mergeGridNodesStrategy: Expected selection to be inside of a Grid.');
   }
 
   const startY = gridRowNode.getIndexWithinParent();
-  const stopY = Math.min(
-    gridNode.getChildrenSize() - 1,
-    startY + newRowCount - 1,
-  );
+  const stopY = Math.min(gridNode.getChildrenSize() - 1, startY + newRowCount - 1);
   const startX = gridCellNode.getIndexWithinParent();
-  const stopX = Math.min(
-    gridRowNode.getChildrenSize() - 1,
-    startX + newColumnCount - 1,
-  );
+  const stopX = Math.min(gridRowNode.getChildrenSize() - 1, startX + newColumnCount - 1);
   const fromX = Math.min(startX, stopX);
   const fromY = Math.min(startY, stopY);
   const toX = Math.max(startX, stopX);
@@ -360,11 +317,7 @@ function exportNodeToJSON<T extends LexicalNode>(node: T): BaseSerializedNode {
 
   // @ts-expect-error TODO Replace Class utility type with InstanceType
   if (serializedNode.type !== nodeClass.getType()) {
-    invariant(
-      false,
-      'LexicalNode: Node %s does not implement .exportJSON().',
-      nodeClass.name,
-    );
+    invariant(false, 'LexicalNode: Node %s does not implement .exportJSON().', nodeClass.name);
   }
 
   // @ts-expect-error TODO Replace Class utility type with InstanceType
@@ -389,18 +342,13 @@ function $appendNodesToJSON(
   currentNode: LexicalNode,
   targetArray: Array<BaseSerializedNode> = [],
 ): boolean {
-  let shouldInclude =
-    selection != null ? currentNode.isSelected(selection) : true;
-  const shouldExclude =
-    $isElementNode(currentNode) && currentNode.excludeFromCopy('html');
+  let shouldInclude = selection != null ? currentNode.isSelected(selection) : true;
+  const shouldExclude = $isElementNode(currentNode) && currentNode.excludeFromCopy('html');
   let target = currentNode;
 
   if (selection !== null) {
     let clone = $cloneWithProperties<LexicalNode>(currentNode);
-    clone =
-      $isTextNode(clone) && selection != null
-        ? $sliceSelectedTextNodeContent(selection, clone)
-        : clone;
+    clone = $isTextNode(clone) && selection != null ? $sliceSelectedTextNodeContent(selection, clone) : clone;
     target = clone;
   }
   const children = $isElementNode(target) ? target.getChildren() : [];
@@ -427,12 +375,7 @@ function $appendNodesToJSON(
 
   for (let i = 0; i < children.length; i++) {
     const childNode = children[i];
-    const shouldIncludeChild = $appendNodesToJSON(
-      editor,
-      selection,
-      childNode,
-      serializedNode.children,
-    );
+    const shouldIncludeChild = $appendNodesToJSON(editor, selection, childNode, serializedNode.children);
 
     if (
       !shouldInclude &&
@@ -457,9 +400,7 @@ function $appendNodesToJSON(
 }
 
 // TODO why $ function with Editor instance?
-export function $generateJSONFromSelectedNodes<
-  SerializedNode extends BaseSerializedNode,
->(
+export function $generateJSONFromSelectedNodes<SerializedNode extends BaseSerializedNode>(
   editor: LexicalEditor,
   selection: RangeSelection | NodeSelection | GridSelection | null,
 ): {
@@ -479,9 +420,7 @@ export function $generateJSONFromSelectedNodes<
   };
 }
 
-export function $generateNodesFromSerializedNodes(
-  serializedNodes: Array<BaseSerializedNode>,
-): Array<LexicalNode> {
+export function $generateNodesFromSerializedNodes(serializedNodes: Array<BaseSerializedNode>): Array<LexicalNode> {
   const nodes = [];
   for (let i = 0; i < serializedNodes.length; i++) {
     const serializedNode = serializedNodes[i];
@@ -499,10 +438,7 @@ let clipboardEventTimeout: null | number = null;
 
 // TODO custom selection
 // TODO potentially have a node customizable version for plain text
-export async function copyToClipboard(
-  editor: LexicalEditor,
-  event: null | ClipboardEvent,
-): Promise<boolean> {
+export async function copyToClipboard(editor: LexicalEditor, event: null | ClipboardEvent): Promise<boolean> {
   if (clipboardEventTimeout !== null) {
     // Prevent weird race conditions that can happen when this function is run multiple times
     // synchronously. In the future, we can do better, we can cancel/override the previously running job.
@@ -560,21 +496,14 @@ export async function copyToClipboard(
 }
 
 // TODO shouldn't pass editor (pass namespace directly)
-function $copyToClipboardEvent(
-  editor: LexicalEditor,
-  event: ClipboardEvent,
-): boolean {
+function $copyToClipboardEvent(editor: LexicalEditor, event: ClipboardEvent): boolean {
   const domSelection = window.getSelection();
   if (!domSelection) {
     return false;
   }
   const anchorDOM = domSelection.anchorNode;
   const focusDOM = domSelection.focusNode;
-  if (
-    anchorDOM !== null &&
-    focusDOM !== null &&
-    !isSelectionWithinEditor(editor, anchorDOM, focusDOM)
-  ) {
+  if (anchorDOM !== null && focusDOM !== null && !isSelectionWithinEditor(editor, anchorDOM, focusDOM)) {
     return false;
   }
   event.preventDefault();

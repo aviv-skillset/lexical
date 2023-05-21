@@ -6,7 +6,7 @@
  *
  */
 
-import {useCallback, useEffect, useRef} from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 const getElement = (): HTMLElement => {
   let element = document.getElementById('report-container');
@@ -31,9 +31,7 @@ const getElement = (): HTMLElement => {
   return element;
 };
 
-export default function useReport(): (
-  arg0: string,
-) => ReturnType<typeof setTimeout> {
+export default function useReport(): (arg0: string) => ReturnType<typeof setTimeout> {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cleanup = useCallback(() => {
     if (timer !== null) {

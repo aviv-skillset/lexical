@@ -6,21 +6,11 @@
  *
  */
 
-import {
-  assertHTML,
-  assertSelection,
-  focusEditor,
-  html,
-  initialize,
-  test,
-} from '../utils/index.mjs';
+import { assertHTML, assertSelection, focusEditor, html, initialize, test } from '../utils/index.mjs';
 
 test.describe('Regression test #1113', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Selects new line when inserting a new line at the end of a link`, async ({
-    isRichText,
-    page,
-  }) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Selects new line when inserting a new line at the end of a link`, async ({ isRichText, page }) => {
     test.skip(isRichText);
     await focusEditor(page);
 
@@ -30,13 +20,8 @@ test.describe('Regression test #1113', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <a
-            href="https://www.example.com"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://www.example.com" dir="ltr">
             <span data-lexical-text="true">https://www.example.com</span>
           </a>
           <br />

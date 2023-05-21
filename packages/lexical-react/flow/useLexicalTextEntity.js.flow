@@ -7,9 +7,9 @@
  * @flow strict
  */
 
-import type {TextNode} from 'lexical';
+import type { TextNode } from 'lexical';
 
-export type EntityMatch = {end: number, start: number};
+export type EntityMatch = { end: number, start: number };
 
 declare export function useLexicalTextEntity<N: TextNode>(
   getMatch: (text: string) => null | EntityMatch,

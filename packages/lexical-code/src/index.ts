@@ -8,12 +8,7 @@
  *
  */
 
-export {
-  getEndOfCodeInLine,
-  getStartOfCodeInLine,
-  PrismTokenizer,
-  registerCodeHighlighting,
-} from './CodeHighlighter';
+export { getEndOfCodeInLine, getStartOfCodeInLine, PrismTokenizer, registerCodeHighlighting } from './CodeHighlighter';
 export {
   $createCodeHighlightNode,
   $isCodeHighlightNode,
@@ -28,5 +23,5 @@ export {
   getLastCodeNodeOfLine,
   normalizeCodeLang,
 } from './CodeHighlightNode';
-export type {SerializedCodeNode} from './CodeNode';
-export {$createCodeNode, $isCodeNode, CodeNode} from './CodeNode';
+export type { SerializedCodeNode } from './CodeNode';
+export { $createCodeNode, $isCodeNode, CodeNode } from './CodeNode';

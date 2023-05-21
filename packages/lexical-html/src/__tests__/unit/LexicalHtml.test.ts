@@ -7,20 +7,15 @@
  */
 
 //@ts-ignore-next-line
-import type {RangeSelection} from 'lexical';
+import type { RangeSelection } from 'lexical';
 
-import {CodeNode} from '@lexical/code';
-import {createHeadlessEditor} from '@lexical/headless';
-import {$generateHtmlFromNodes} from '@lexical/html';
-import {LinkNode} from '@lexical/link';
-import {ListItemNode, ListNode} from '@lexical/list';
-import {HeadingNode, QuoteNode} from '@lexical/rich-text';
-import {
-  $createParagraphNode,
-  $createRangeSelection,
-  $createTextNode,
-  $getRoot,
-} from 'lexical';
+import { CodeNode } from '@lexical/code';
+import { createHeadlessEditor } from '@lexical/headless';
+import { $generateHtmlFromNodes } from '@lexical/html';
+import { LinkNode } from '@lexical/link';
+import { ListItemNode, ListNode } from '@lexical/list';
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { $createParagraphNode, $createRangeSelection, $createTextNode, $getRoot } from 'lexical';
 
 describe('HTML', () => {
   type Input = Array<{
@@ -38,39 +33,23 @@ describe('HTML', () => {
       name: 'Empty editor state',
     },
   ];
-  for (const {name, html, initializeEditorState} of HTML_SERIALIZE) {
+  for (const { name, html, initializeEditorState } of HTML_SERIALIZE) {
     test(`[Lexical -> HTML]: ${name}`, () => {
       const editor = createHeadlessEditor({
-        nodes: [
-          HeadingNode,
-          ListNode,
-          ListItemNode,
-          QuoteNode,
-          CodeNode,
-          LinkNode,
-        ],
+        nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode, CodeNode, LinkNode],
       });
 
       editor.update(initializeEditorState, {
         discrete: true,
       });
 
-      expect(
-        editor.getEditorState().read(() => $generateHtmlFromNodes(editor)),
-      ).toBe(html);
+      expect(editor.getEditorState().read(() => $generateHtmlFromNodes(editor))).toBe(html);
     });
   }
 
   test(`[Lexical -> HTML]: Use provided selection`, () => {
     const editor = createHeadlessEditor({
-      nodes: [
-        HeadingNode,
-        ListNode,
-        ListItemNode,
-        QuoteNode,
-        CodeNode,
-        LinkNode,
-      ],
+      nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode, CodeNode, LinkNode],
     });
 
     let selection: RangeSelection | null = null;
@@ -110,14 +89,7 @@ describe('HTML', () => {
 
   test(`[Lexical -> HTML]: Default selection (undefined) should serialize entire editor state`, () => {
     const editor = createHeadlessEditor({
-      nodes: [
-        HeadingNode,
-        ListNode,
-        ListItemNode,
-        QuoteNode,
-        CodeNode,
-        LinkNode,
-      ],
+      nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode, CodeNode, LinkNode],
     });
 
     editor.update(

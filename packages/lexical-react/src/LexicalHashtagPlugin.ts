@@ -6,12 +6,12 @@
  *
  */
 
-import type {TextNode} from 'lexical';
+import type { TextNode } from 'lexical';
 
-import {$createHashtagNode, HashtagNode} from '@lexical/hashtag';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {useLexicalTextEntity} from '@lexical/react/useLexicalTextEntity';
-import {useCallback, useEffect} from 'react';
+import { $createHashtagNode, HashtagNode } from '@lexical/hashtag';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useLexicalTextEntity } from '@lexical/react/useLexicalTextEntity';
+import { useCallback, useEffect } from 'react';
 
 function getHashtagRegexStringChars(): Readonly<{
   alpha: string;
@@ -222,7 +222,7 @@ function getHashtagRegexStringChars(): Readonly<{
 }
 
 function getHashtagRegexString(): string {
-  const {alpha, alphanumeric, hashChars} = getHashtagRegexStringChars();
+  const { alpha, alphanumeric, hashChars } = getHashtagRegexStringChars();
 
   const hashtagAlpha = '[' + alpha + ']';
   const hashtagAlphanumeric = '[' + alphanumeric + ']';
@@ -277,11 +277,7 @@ export function HashtagPlugin(): JSX.Element | null {
     };
   }, []);
 
-  useLexicalTextEntity<HashtagNode>(
-    getHashtagMatch,
-    HashtagNode,
-    createHashtagNode,
-  );
+  useLexicalTextEntity<HashtagNode>(getHashtagMatch, HashtagNode, createHashtagNode);
 
   return null;
 }

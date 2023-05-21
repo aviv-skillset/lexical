@@ -6,23 +6,13 @@
  *
  */
 
-import type {LexicalEditor, LexicalNode} from 'lexical';
+import type { LexicalEditor, LexicalNode } from 'lexical';
 
-import {
-  $createOverflowNode,
-  $isOverflowNode,
-  OverflowNode,
-} from '@lexical/overflow';
-import {$rootTextContent} from '@lexical/text';
-import {$dfs, mergeRegister} from '@lexical/utils';
-import {
-  $getSelection,
-  $isLeafNode,
-  $isRangeSelection,
-  $isTextNode,
-  $setSelection,
-} from 'lexical';
-import {useEffect} from 'react';
+import { $createOverflowNode, $isOverflowNode, OverflowNode } from '@lexical/overflow';
+import { $rootTextContent } from '@lexical/text';
+import { $dfs, mergeRegister } from '@lexical/utils';
+import { $getSelection, $isLeafNode, $isRangeSelection, $isTextNode, $setSelection } from 'lexical';
+import { useEffect } from 'react';
 import invariant from 'shared/invariant';
 
 type OptionalProps = {
@@ -45,10 +35,7 @@ export function useCharacterLimit(
 
   useEffect(() => {
     if (!editor.hasNodes([OverflowNode])) {
-      invariant(
-        false,
-        'useCharacterLimit: OverflowNode not registered on editor',
-      );
+      invariant(false, 'useCharacterLimit: OverflowNode not registered on editor');
     }
   }, [editor]);
 
@@ -60,7 +47,7 @@ export function useCharacterLimit(
       editor.registerTextContentListener((currentText: string) => {
         text = currentText;
       }),
-      editor.registerUpdateListener(({dirtyLeaves}) => {
+      editor.registerUpdateListener(({ dirtyLeaves }) => {
         const isComposing = editor.isComposing();
         const hasDirtyLeaves = dirtyLeaves.size > 0;
 
@@ -70,9 +57,7 @@ export function useCharacterLimit(
 
         const textLength = strlen(text);
         const textLengthAboveThreshold =
-          textLength > maxCharacters ||
-          (lastComputedTextLength !== null &&
-            lastComputedTextLength > maxCharacters);
+          textLength > maxCharacters || (lastComputedTextLength !== null && lastComputedTextLength > maxCharacters);
         const diff = maxCharacters - textLength;
 
         remainingCharacters(diff);
@@ -95,11 +80,7 @@ export function useCharacterLimit(
   }, [editor, maxCharacters, remainingCharacters, strlen]);
 }
 
-function findOffset(
-  text: string,
-  maxCharacters: number,
-  strlen: (input: string) => number,
-): number {
+function findOffset(text: string, maxCharacters: number, strlen: (input: string) => number): number {
   // @ts-ignore This is due to be added in a later version of TS
   const Segmenter = Intl.Segmenter;
   let offsetUtf16 = 0;
@@ -109,7 +90,7 @@ function findOffset(
     const segmenter = new Segmenter();
     const graphemes = segmenter.segment(text);
 
-    for (const {segment: grapheme} of graphemes) {
+    for (const { segment: grapheme } of graphemes) {
       const nextOffset = offset + strlen(grapheme);
 
       if (nextOffset > maxCharacters) {
@@ -145,7 +126,7 @@ function $wrapOverflowedNodes(offset: number): void {
   let accumulatedLength = 0;
 
   for (let i = 0; i < dfsNodesLength; i += 1) {
-    const {node} = dfsNodes[i];
+    const { node } = dfsNodes[i];
 
     if ($isOverflowNode(node)) {
       const previousLength = accumulatedLength;
@@ -161,8 +142,7 @@ function $wrapOverflowedNodes(offset: number): void {
         // Restore selection when the overflow children are removed
         if (
           $isRangeSelection(selection) &&
-          (!selection.anchor.getNode().isAttached() ||
-            !selection.focus.getNode().isAttached())
+          (!selection.anchor.getNode().isAttached() || !selection.focus.getNode().isAttached())
         ) {
           if ($isTextNode(previousSibling)) {
             previousSibling.select();
@@ -174,15 +154,12 @@ function $wrapOverflowedNodes(offset: number): void {
         }
       } else if (previousLength < offset) {
         const descendant = node.getFirstDescendant();
-        const descendantLength =
-          descendant !== null ? descendant.getTextContentSize() : 0;
+        const descendantLength = descendant !== null ? descendant.getTextContentSize() : 0;
         const previousPlusDescendantLength = previousLength + descendantLength;
         // For simple text we can redimension the overflow into a smaller and more accurate
         // container
-        const firstDescendantIsSimpleText =
-          $isTextNode(descendant) && descendant.isSimpleText();
-        const firstDescendantDoesNotOverflow =
-          previousPlusDescendantLength <= offset;
+        const firstDescendantIsSimpleText = $isTextNode(descendant) && descendant.isSimpleText();
+        const firstDescendantDoesNotOverflow = previousPlusDescendantLength <= offset;
 
         if (firstDescendantIsSimpleText || firstDescendantDoesNotOverflow) {
           $unwrapNode(node);
@@ -198,14 +175,8 @@ function $wrapOverflowedNodes(offset: number): void {
 
         // For simple text we can improve the limit accuracy by splitting the TextNode
         // on the split point
-        if (
-          previousAccumulatedLength < offset &&
-          $isTextNode(node) &&
-          node.isSimpleText()
-        ) {
-          const [, overflowedText] = node.splitText(
-            offset - previousAccumulatedLength,
-          );
+        if (previousAccumulatedLength < offset && $isTextNode(node) && node.isSimpleText()) {
+          const [, overflowedText] = node.splitText(offset - previousAccumulatedLength);
           overflowNode = $wrapNode(overflowedText);
         } else {
           overflowNode = $wrapNode(node);
@@ -270,21 +241,13 @@ export function mergePrevious(overflowNode: OverflowNode): void {
     if (anchorNode.is(previousNode)) {
       anchor.set(overflowNode.getKey(), anchor.offset, 'element');
     } else if (anchorNode.is(overflowNode)) {
-      anchor.set(
-        overflowNode.getKey(),
-        previousNodeChildrenLength + anchor.offset,
-        'element',
-      );
+      anchor.set(overflowNode.getKey(), previousNodeChildrenLength + anchor.offset, 'element');
     }
 
     if (focusNode.is(previousNode)) {
       focus.set(overflowNode.getKey(), focus.offset, 'element');
     } else if (focusNode.is(overflowNode)) {
-      focus.set(
-        overflowNode.getKey(),
-        previousNodeChildrenLength + focus.offset,
-        'element',
-      );
+      focus.set(overflowNode.getKey(), previousNodeChildrenLength + focus.offset, 'element');
     }
   }
 
