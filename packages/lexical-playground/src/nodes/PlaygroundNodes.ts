@@ -27,7 +27,6 @@ import { FigmaNode } from './FigmaNode';
 import { ImageNode } from './ImageNode';
 import { KeywordNode } from './KeywordNode';
 import { MentionNode } from './MentionNode';
-import { StickyNode } from './StickyNode';
 import { TableNode as NewTableNode } from './TableNode';
 import { YouTubeNode } from './YouTubeNode';
 
@@ -46,7 +45,6 @@ const PlaygroundNodes: Array<Klass<LexicalNode>> = [
   AutoLinkNode,
   LinkNode,
   OverflowNode,
-  StickyNode,
   ImageNode,
   MentionNode,
   EmojiNode,
