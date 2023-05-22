@@ -36,7 +36,6 @@ import {
 } from '@lexical/table';
 import { $createTextNode, $isParagraphNode, $isTextNode, LexicalNode } from 'lexical';
 
-import { $createEquationNode, $isEquationNode, EquationNode } from '../../nodes/EquationNode';
 import { $createImageNode, $isImageNode, ImageNode } from '../../nodes/ImageNode';
 import emojiList from '../../utils/emoji-list';
 
@@ -97,26 +96,6 @@ export const EMOJI: TextMatchTransformer = {
     }
   },
   trigger: ':',
-  type: 'text-match',
-};
-
-export const EQUATION: TextMatchTransformer = {
-  dependencies: [EquationNode],
-  export: (node) => {
-    if (!$isEquationNode(node)) {
-      return null;
-    }
-
-    return `$${node.getEquation()}$`;
-  },
-  importRegExp: /\$([^$]+?)\$/,
-  regExp: /\$([^$]+?)\$$/,
-  replace: (textNode, match) => {
-    const [, equation] = match;
-    const equationNode = $createEquationNode(equation, true);
-    textNode.replace(equationNode);
-  },
-  trigger: '$',
   type: 'text-match',
 };
 
@@ -273,7 +252,6 @@ export const PLAYGROUND_TRANSFORMERS: Array<Transformer> = [
   HR,
   IMAGE,
   EMOJI,
-  EQUATION,
   CHECK_LIST,
   ...ELEMENT_TRANSFORMERS,
   ...TEXT_FORMAT_TRANSFORMERS,

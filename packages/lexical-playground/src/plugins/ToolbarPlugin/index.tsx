@@ -77,7 +77,6 @@ import { getSelectedNode } from '../../utils/getSelectedNode';
 import { sanitizeUrl } from '../../utils/url';
 import { EmbedConfigs } from '../AutoEmbedPlugin';
 import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin';
-import { InsertEquationDialog } from '../EquationsPlugin';
 import { INSERT_IMAGE_COMMAND, InsertImageDialog, InsertImagePayload } from '../ImagesPlugin';
 import { InsertNewTableDialog, InsertTableDialog } from '../TablePlugin';
 
@@ -838,17 +837,6 @@ export default function ToolbarPlugin(): JSX.Element {
             >
               <i className="icon table" />
               <span className="text">Table (Experimental)</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                showModal('Insert Equation', (onClose) => (
-                  <InsertEquationDialog activeEditor={activeEditor} onClose={onClose} />
-                ));
-              }}
-              className="item"
-            >
-              <i className="icon equation" />
-              <span className="text">Equation</span>
             </DropDownItem>
             <DropDownItem
               onClick={() => {
