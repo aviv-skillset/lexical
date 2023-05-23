@@ -18,7 +18,6 @@ export type SettingName =
   | 'showTreeView'
   | 'showNestedEditorTreeView'
   | 'emptyEditor'
-  | 'showTableOfContents'
   | 'tableCellMerge'
   | 'tableCellBackgroundColor';
 
@@ -39,7 +38,6 @@ export const DEFAULT_SETTINGS: Settings = {
   isRichText: true,
   measureTypingPerf: false,
   showNestedEditorTreeView: false,
-  showTableOfContents: false,
   showTreeView: true,
   tableCellBackgroundColor: true,
   tableCellMerge: true,
