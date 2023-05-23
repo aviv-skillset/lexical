@@ -18,7 +18,6 @@ import {
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import {
   $isListNode,
-  INSERT_CHECK_LIST_COMMAND,
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
   ListNode,
@@ -177,14 +176,6 @@ function BlockFormatDropDown({
     }
   };
 
-  const formatCheckList = () => {
-    if (blockType !== 'check') {
-      editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
-    } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
-    }
-  };
-
   const formatNumberedList = () => {
     if (blockType !== 'number') {
       editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
@@ -255,10 +246,6 @@ function BlockFormatDropDown({
       <DropDownItem className={'item ' + dropDownActiveClass(blockType === 'number')} onClick={formatNumberedList}>
         <i className="icon numbered-list" />
         <span className="text">Numbered List</span>
-      </DropDownItem>
-      <DropDownItem className={'item ' + dropDownActiveClass(blockType === 'check')} onClick={formatCheckList}>
-        <i className="icon check-list" />
-        <span className="text">Check List</span>
       </DropDownItem>
       <DropDownItem className={'item ' + dropDownActiveClass(blockType === 'quote')} onClick={formatQuote}>
         <i className="icon quote" />
