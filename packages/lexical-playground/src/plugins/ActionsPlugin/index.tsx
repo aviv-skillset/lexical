@@ -22,7 +22,6 @@ import { useCallback, useEffect, useState } from 'react';
 import useModal from '../../hooks/useModal';
 import Button from '../../ui/Button';
 import { PLAYGROUND_TRANSFORMERS } from '../MarkdownTransformers';
-import { SPEECH_TO_TEXT_COMMAND, SUPPORT_SPEECH_RECOGNITION } from '../SpeechToTextPlugin';
 
 async function sendEditorState(editor: LexicalEditor): Promise<void> {
   const stringifiedEditorState = JSON.stringify(editor.getEditorState());
@@ -63,7 +62,6 @@ async function validateEditorState(editor: LexicalEditor): Promise<void> {
 export default function ActionsPlugin({ isRichText }: { isRichText: boolean }): JSX.Element {
   const [editor] = useLexicalComposerContext();
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
-  const [isSpeechToText, setIsSpeechToText] = useState(false);
   const [connected, setConnected] = useState(false);
   const [isEditorEmpty, setIsEditorEmpty] = useState(true);
   const [modal, showModal] = useModal();
@@ -127,19 +125,6 @@ export default function ActionsPlugin({ isRichText }: { isRichText: boolean }): 
 
   return (
     <div className="actions">
-      {SUPPORT_SPEECH_RECOGNITION && (
-        <button
-          onClick={() => {
-            editor.dispatchCommand(SPEECH_TO_TEXT_COMMAND, !isSpeechToText);
-            setIsSpeechToText(!isSpeechToText);
-          }}
-          className={'action-button action-button-mic ' + (isSpeechToText ? 'active' : '')}
-          title="Speech To Text"
-          aria-label={`${isSpeechToText ? 'Enable' : 'Disable'} speech to text`}
-        >
-          <i className="mic" />
-        </button>
-      )}
       <button
         className="action-button import"
         onClick={() => importFile(editor)}
