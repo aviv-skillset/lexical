@@ -321,7 +321,6 @@ export default function ToolbarPlugin(): JSX.Element {
   const [fontSize, setFontSize] = useState<string>('15px');
   const [fontColor, setFontColor] = useState<string>('#000');
   const [bgColor, setBgColor] = useState<string>('#fff');
-  const [fontFamily, setFontFamily] = useState<string>('Arial');
   const [isLink, setIsLink] = useState(false);
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
@@ -404,7 +403,6 @@ export default function ToolbarPlugin(): JSX.Element {
       setFontSize($getSelectionStyleValueForProperty(selection, 'font-size', '15px'));
       setFontColor($getSelectionStyleValueForProperty(selection, 'color', '#000'));
       setBgColor($getSelectionStyleValueForProperty(selection, 'background-color', '#fff'));
-      setFontFamily($getSelectionStyleValueForProperty(selection, 'font-family', 'Arial'));
     }
   }, [activeEditor]);
 
@@ -611,7 +609,6 @@ export default function ToolbarPlugin(): JSX.Element {
         </DropDown>
       ) : (
         <>
-          <FontDropDown disabled={!isEditable} style={'font-family'} value={fontFamily} editor={editor} />
           <FontDropDown disabled={!isEditable} style={'font-size'} value={fontSize} editor={editor} />
           <Divider />
           <button
