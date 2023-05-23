@@ -34,7 +34,6 @@ import ActionsPlugin from './plugins/ActionsPlugin';
 import AutocompletePlugin from './plugins/AutocompletePlugin';
 import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
 import AutoLinkPlugin from './plugins/AutoLinkPlugin';
-import CodeActionMenuPlugin from './plugins/CodeActionMenuPlugin';
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin';
 import CollapsiblePlugin from './plugins/CollapsiblePlugin';
 import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
@@ -192,7 +191,6 @@ export default function Editor(): JSX.Element {
             {floatingAnchorElem && !isSmallWidthViewport && (
               <>
                 <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
-                <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
                 <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
                 <TableCellActionMenuPlugin anchorElem={floatingAnchorElem} cellMerge={true} />
                 <FloatingTextFormatToolbarPlugin anchorElem={floatingAnchorElem} />
