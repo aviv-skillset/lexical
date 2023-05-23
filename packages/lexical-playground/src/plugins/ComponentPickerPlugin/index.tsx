@@ -7,7 +7,7 @@
  */
 
 import { $createCodeNode } from '@lexical/code';
-import { INSERT_CHECK_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from '@lexical/list';
+import { INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from '@lexical/list';
 import { INSERT_EMBED_COMMAND } from '@lexical/react/LexicalAutoEmbedPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { INSERT_HORIZONTAL_RULE_COMMAND } from '@lexical/react/LexicalHorizontalRuleNode';
@@ -201,11 +201,6 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
         icon: <i className="icon bullet" />,
         keywords: ['bulleted list', 'unordered list', 'ul'],
         onSelect: () => editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined),
-      }),
-      new ComponentPickerOption('Check List', {
-        icon: <i className="icon check" />,
-        keywords: ['check list', 'todo list'],
-        onSelect: () => editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined),
       }),
       new ComponentPickerOption('Quote', {
         icon: <i className="icon quote" />,
