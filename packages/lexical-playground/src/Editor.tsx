@@ -42,7 +42,6 @@ import DragDropPaste from './plugins/DragDropPastePlugin';
 import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
 import EmojiPickerPlugin from './plugins/EmojiPickerPlugin';
 import EmojisPlugin from './plugins/EmojisPlugin';
-import FigmaPlugin from './plugins/FigmaPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
 import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin';
 import ImagesPlugin from './plugins/ImagesPlugin';
@@ -187,7 +186,6 @@ export default function Editor(): JSX.Element {
             <ImagesPlugin />
             <LinkPlugin />
             <YouTubePlugin />
-            <FigmaPlugin />
             {!isEditable && <LexicalClickableLinkPlugin />}
             <HorizontalRulePlugin />
             <TabFocusPlugin />
