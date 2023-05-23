@@ -24,8 +24,8 @@ declare module 'yjs' {
     delete(offset: number, delCount: number): void;
     doc: null | YDoc;
     getAttribute(string): string | Object | void;
-    getAttributes(): {...};
-    insert(offset: number, string: string, attributes?: {...}): void;
+    getAttributes(): { ... };
+    insert(offset: number, string: string, attributes?: { ... }): void;
     insertEmbed(offset: number, Object): void;
     observe(fn: Function): void;
     observeDeep(fn: Function): void;
@@ -52,7 +52,7 @@ declare module 'yjs' {
     +doc: ?YDoc;
     firstChild: null | YDoc;
     getAttribute(string): string | void;
-    getAttributes(): {...};
+    getAttributes(): { ... };
     insert(offset: number, entry: any): void;
     observe(fn: Function): void;
     observeDeep(fn: Function): void;
@@ -69,8 +69,8 @@ declare module 'yjs' {
   declare type YMapEventKeyChanges = any;
 
   declare type Operation = {
-    attributes: {__type: string, ...},
-    insert: string | {...},
+    attributes: { __type: string, ... },
+    insert: string | { ... },
   };
 
   declare type Delta = Array<Operation>;
@@ -236,26 +236,17 @@ declare module 'yjs' {
     /**
      * Unregister an event handler.
      */
-    off<TEvent: $Keys<YDocEvents>>(
-      name: TEvent,
-      listener: (...args: YDocEvents[TEvent]) => void,
-    ): void;
+    off<TEvent: $Keys<YDocEvents>>(name: TEvent, listener: (...args: YDocEvents[TEvent]) => void): void;
 
     /**
      * Register an event handler.
      */
-    on<TEvent: $Keys<YDocEvents>>(
-      name: TEvent,
-      listener: (...args: YDocEvents[TEvent]) => void,
-    ): void;
+    on<TEvent: $Keys<YDocEvents>>(name: TEvent, listener: (...args: YDocEvents[TEvent]) => void): void;
 
     /**
      * Register an event handler. But only call it once.
      */
-    once<TEvent: $Keys<YDocEvents>>(
-      name: TEvent,
-      listener: (...args: YDocEvents[TEvent]) => void,
-    ): void;
+    once<TEvent: $Keys<YDocEvents>>(name: TEvent, listener: (...args: YDocEvents[TEvent]) => void): void;
 
     toJSON<T>(): T;
 
@@ -347,9 +338,7 @@ declare module 'yjs' {
      * after the current event listener returns. The event listener receives all
      * Events created by itself or any of its children.
      */
-    observeDeep(
-      observer: (events: Array<YEvent>, transaction?: Transaction) => void,
-    ): void;
+    observeDeep(observer: (events: Array<YEvent>, transaction?: Transaction) => void): void;
 
     /**
      * The parent that holds this type. Is null if this yarray is a top-level
@@ -385,17 +374,13 @@ declare module 'yjs' {
     /**
      * Unregisters a change observer that has been registered with yarray.observe.
      */
-    unobserve(
-      observer: (event: YEvent, transaction?: Transaction) => void,
-    ): void;
+    unobserve(observer: (event: YEvent, transaction?: Transaction) => void): void;
 
     /**
      * Unregisters a change observer that has been registered with
      * yarray.observeDeep.
      */
-    unobserveDeep(
-      observer: (events: Array<YEvent>, transaction?: Transaction) => void,
-    ): void;
+    unobserveDeep(observer: (events: Array<YEvent>, transaction?: Transaction) => void): void;
 
     /**
      * Prepend content to the beginning of the Y.Array. Same as yarray.insert(0,
@@ -465,9 +450,7 @@ declare module 'yjs' {
      * Clone all values into a fresh Y.Map instance. The returned type can be
      * included into the Yjs document.
      */
-    observe(
-      observer: (event: YMapEvent, transaction?: Transaction) => void,
-    ): void;
+    observe(observer: (event: YMapEvent, transaction?: Transaction) => void): void;
 
     /**
      * Registers a change observer that will be called synchronously every time
@@ -476,9 +459,7 @@ declare module 'yjs' {
      * after the current event listener returns. The event listener receives all
      * Events created by itself or any of its children.
      */
-    observeDeep(
-      observer: (events: Array<YEvent>, transaction?: Transaction) => void,
-    ): void;
+    observeDeep(observer: (events: Array<YEvent>, transaction?: Transaction) => void): void;
 
     /**
      * The parent that holds this type. Is null if this ymap is a top-level type.
@@ -506,17 +487,13 @@ declare module 'yjs' {
     /**
      * Unregisters a change observer that has been registered with ymap.observe.
      */
-    unobserve(
-      observer: (event: YMapEvent, transaction?: Transaction) => void,
-    ): void;
+    unobserve(observer: (event: YMapEvent, transaction?: Transaction) => void): void;
 
     /**
      * Unregisters a change observer that has been registered with
      * ymap.observeDeep.
      */
-    unobserveDeep(
-      observer: (events: Array<YEvent>, transaction?: Transaction) => void,
-    ): void;
+    unobserveDeep(observer: (events: Array<YEvent>, transaction?: Transaction) => void): void;
 
     /**
      * Returns an Iterator of values only. This allows you to iterate through the
@@ -557,17 +534,13 @@ declare module 'yjs' {
     /**
      * Assign formatting attributes to a range of text.
      */
-    format(
-      index: number,
-      length: number,
-      format?: {[key: string]: mixed},
-    ): void;
+    format(index: number, length: number, format?: { [key: string]: mixed }): void;
 
     /**
      * Insert content at a specified index. Optionally, you may specify formatting
      * attributes that are applied to the inserted string.
      */
-    insert(index: number, text: string, format?: {[key: string]: mixed}): void;
+    insert(index: number, text: string, format?: { [key: string]: mixed }): void;
 
     /**
      * The length of the string in UTF-16 code units. Since JavaScripts' String
@@ -582,9 +555,7 @@ declare module 'yjs' {
      * observer call, the event listener will be called again after the current
      * event listener returns.
      */
-    observe(
-      observer: (event: YTextEvent, transaction?: Transaction) => void,
-    ): void;
+    observe(observer: (event: YTextEvent, transaction?: Transaction) => void): void;
 
     /**
      * Registers a change observer that will be called synchronously every time
@@ -593,9 +564,7 @@ declare module 'yjs' {
      * after the current event listener returns. The event listener receives all
      * Events created by itself or any of its children.
      */
-    observeDeep(
-      observer: (events: Array<YEvent>, transaction?: Transaction) => void,
-    ): void;
+    observeDeep(observer: (events: Array<YEvent>, transaction?: Transaction) => void): void;
 
     /**
      * The parent that holds this type. Is null if this ytext is a top-level type.
@@ -622,17 +591,13 @@ declare module 'yjs' {
     /**
      * Unregisters a change observer that has been registered with ytext.observe.
      */
-    unobserve(
-      observer: (event: YTextEvent, transaction?: Transaction) => void,
-    ): void;
+    unobserve(observer: (event: YTextEvent, transaction?: Transaction) => void): void;
 
     /**
      * Unregisters a change observer that has been registered with
      * ytext.observeDeep.
      */
-    unobserveDeep(
-      observer: (events: Array<YEvent>, transaction?: Transaction) => void,
-    ): void;
+    unobserveDeep(observer: (events: Array<YEvent>, transaction?: Transaction) => void): void;
   }
 
   declare interface Item {}
@@ -716,10 +681,7 @@ declare module 'yjs' {
 
   declare export function applyUpdate(doc: YDoc, update: Uint8Array): void;
 
-  declare export function encodeStateAsUpdate(
-    doc: YDoc,
-    encodedTargetStateVector?: Uint8Array,
-  ): Uint8Array;
+  declare export function encodeStateAsUpdate(doc: YDoc, encodedTargetStateVector?: Uint8Array): Uint8Array;
 
   declare export function encodeStateVector(doc: YDoc): Uint8Array;
 
@@ -728,24 +690,14 @@ declare module 'yjs' {
     index: number,
   ): RelativePosition;
 
-  declare export function createRelativePositionFromJSON(
-    json: mixed,
-  ): RelativePosition;
+  declare export function createRelativePositionFromJSON(json: mixed): RelativePosition;
 
   declare export function createAbsolutePositionFromRelativePosition(
     rpos: RelativePosition,
     doc: YDoc,
   ): AbsolutePosition;
 
-  declare export function compareRelativePositions(
-    position1: RelativePosition,
-    position2: RelativePosition,
-  ): boolean;
+  declare export function compareRelativePositions(position1: RelativePosition, position2: RelativePosition): boolean;
 
-  declare export {
-    YDoc as Doc,
-    YArray as Array,
-    YText as Text,
-    YUndoManager as UndoManager,
-  };
+  declare export { YDoc as Doc, YArray as Array, YText as Text, YUndoManager as UndoManager };
 }

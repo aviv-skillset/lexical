@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {expect} from '@playwright/test';
+import { expect } from '@playwright/test';
 
 import {
   extendToNextWord,
@@ -42,8 +42,8 @@ import {
 } from '../utils/index.mjs';
 
 test.describe('CopyAndPaste', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test('Basic copy + paste', async ({isRichText, page, browserName}) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test('Basic copy + paste', async ({ isRichText, page, browserName }) => {
     await focusEditor(page);
 
     // Add paragraph
@@ -55,15 +55,11 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Copy + pasting?</span>
           </p>
           <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Sounds good!</span>
           </p>
         `,
@@ -78,9 +74,7 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Copy + pasting?</span>
             <br />
             <br />
@@ -102,15 +96,11 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Copy + pasting?</span>
           </p>
           <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Sounds good!</span>
           </p>
         `,
@@ -134,9 +124,7 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Copy + pasting?</span>
             <br />
             <br />
@@ -167,15 +155,11 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Copy + pasting?</span>
           </p>
           <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Sounds good!</span>
           </p>
         `,
@@ -184,9 +168,7 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Copy + pasting?</span>
             <br />
             <br />
@@ -203,21 +185,15 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Copy + pasting?</span>
           </p>
           <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Sounds good!Copy + pasting?</span>
           </p>
           <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Sounds good!</span>
           </p>
         `,
@@ -232,9 +208,7 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Copy + pasting?</span>
             <br />
             <br />
@@ -254,7 +228,7 @@ test.describe('CopyAndPaste', () => {
     }
   });
 
-  test(`Copy and paste heading`, async ({isPlainText, page, browserName}) => {
+  test(`Copy and paste heading`, async ({ isPlainText, page, browserName }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -278,19 +252,13 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Heading</span>
         </h1>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Some text</span>
         </p>
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Heading</span>
         </h1>
       `,
@@ -304,11 +272,7 @@ test.describe('CopyAndPaste', () => {
     });
   });
 
-  test(`Copy and paste between sections`, async ({
-    isRichText,
-    page,
-    browserName,
-  }) => {
+  test(`Copy and paste between sections`, async ({ isRichText, page, browserName }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello world #foobar test #foobar2 when #not');
 
@@ -319,49 +283,21 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Hello world</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foobar
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foobar </span>
             <span data-lexical-text="true">test</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foobar2
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foobar2 </span>
             <span data-lexical-text="true">when</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #not
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #not </span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Next</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #line
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #line </span>
             <span data-lexical-text="true">of</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #text
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #text </span>
             <span data-lexical-text="true">test</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foo
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foo </span>
           </p>
         `,
       );
@@ -376,46 +312,20 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Hello world</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foobar
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foobar </span>
             <span data-lexical-text="true">test</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foobar2
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foobar2 </span>
             <span data-lexical-text="true">when</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #not
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #not </span>
             <br />
             <span data-lexical-text="true">Next</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #line
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #line </span>
             <span data-lexical-text="true">of</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #text
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #text </span>
             <span data-lexical-text="true">test</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foo
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foo </span>
           </p>
         `,
       );
@@ -474,49 +384,21 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Hello world</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foobar
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foobar </span>
             <span data-lexical-text="true">test</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foobar2
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foobar2 </span>
             <span data-lexical-text="true">when</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #not
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #not </span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Next</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #line
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #line </span>
             <span data-lexical-text="true">of</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #text
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #text </span>
             <span data-lexical-text="true">test</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foo
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foo </span>
           </p>
         `,
       );
@@ -530,46 +412,20 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Hello world</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foobar
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foobar </span>
             <span data-lexical-text="true">test</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foobar2
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foobar2 </span>
             <span data-lexical-text="true">when</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #not
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #not </span>
             <br />
             <span data-lexical-text="true">Next</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #line
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #line </span>
             <span data-lexical-text="true">of</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #text
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #text </span>
             <span data-lexical-text="true">test</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foo
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foo </span>
           </p>
         `,
       );
@@ -617,49 +473,21 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Hello world</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foobar
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foobar </span>
             <span data-lexical-text="true">test</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foobar2
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foobar2 </span>
             <span data-lexical-text="true">when</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #not
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #not </span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Next</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #line
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #line </span>
             <span data-lexical-text="true">of</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #text
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #text </span>
             <span data-lexical-text="true">test</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foo
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foo </span>
           </p>
         `,
       );
@@ -673,46 +501,20 @@ test.describe('CopyAndPaste', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Hello world</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foobar
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foobar </span>
             <span data-lexical-text="true">test</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foobar2
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foobar2 </span>
             <span data-lexical-text="true">when</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #not
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #not </span>
             <br />
             <span data-lexical-text="true">Next</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #line
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #line </span>
             <span data-lexical-text="true">of</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #text
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #text </span>
             <span data-lexical-text="true">test</span>
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #foo
-            </span>
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foo </span>
           </p>
         `,
       );
@@ -771,12 +573,7 @@ test.describe('CopyAndPaste', () => {
     }
 
     await page.keyboard.press('Delete');
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     await assertSelection(page, {
       anchorOffset: 0,
       anchorPath: [0],
@@ -785,10 +582,7 @@ test.describe('CopyAndPaste', () => {
     });
   });
 
-  test('Copy and paste of partial list items into an empty editor', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('Copy and paste of partial list items into an empty editor', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
 
@@ -836,12 +630,7 @@ test.describe('CopyAndPaste', () => {
     await page.keyboard.press('Backspace');
     await page.keyboard.press('Backspace');
 
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     await assertSelection(page, {
       anchorOffset: 0,
       anchorPath: [0],
@@ -865,12 +654,7 @@ test.describe('CopyAndPaste', () => {
     });
   });
 
-  test('Copy and paste of partial list items into the list', async ({
-    page,
-    isPlainText,
-    isCollab,
-    browserName,
-  }) => {
+  test('Copy and paste of partial list items into the list', async ({ page, isPlainText, isCollab, browserName }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -892,28 +676,17 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="3"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="3" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
         </ul>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Some text.</span>
         </p>
       `,
@@ -954,31 +727,20 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li value="2" class="PlaygroundEditorTheme__listItem">
+          <li class="PlaygroundEditorTheme__listItem" value="2">
             <br />
           </li>
-          <li
-            value="3"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="3" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="4"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="4" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
         </ul>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Some text.</span>
         </p>
       `,
@@ -996,41 +758,25 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">ee</span>
           </li>
         </ul>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Some text.</span>
         </p>
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
         </ul>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Some text.</span>
         </p>
       `,
@@ -1043,11 +789,7 @@ test.describe('CopyAndPaste', () => {
     });
   });
 
-  test('Copy list items and paste back into list', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('Copy list items and paste back into list', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -1111,11 +853,7 @@ test.describe('CopyAndPaste', () => {
     });
   });
 
-  test('Copy list items and paste into list', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('Copy list items and paste into list', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -1136,34 +874,19 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="3"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="3" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
-          <li
-            value="4"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="4" dir="ltr">
             <span data-lexical-text="true">four</span>
           </li>
-          <li
-            value="5"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="5" dir="ltr">
             <span data-lexical-text="true">five</span>
           </li>
         </ul>
@@ -1182,34 +905,19 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="3"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="3" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
-          <li
-            value="4"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="4" dir="ltr">
             <span data-lexical-text="true">four</span>
           </li>
-          <li
-            value="5"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="5" dir="ltr">
             <span data-lexical-text="true">five</span>
           </li>
         </ul>
@@ -1229,68 +937,39 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="3"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="3" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
-          <li
-            value="4"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="4" dir="ltr">
             <span data-lexical-text="true">four</span>
           </li>
-          <li
-            value="5"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="5" dir="ltr">
             <span data-lexical-text="true">five</span>
           </li>
         </ul>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">12one</span>
         </p>
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
-          <li
-            value="3"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="3" dir="ltr">
             <span data-lexical-text="true">four</span>
           </li>
-          <li
-            value="4"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="4" dir="ltr">
             <span data-lexical-text="true">five</span>
           </li>
-          <li value="5" class="PlaygroundEditorTheme__listItem">
+          <li class="PlaygroundEditorTheme__listItem" value="5">
             <span data-lexical-text="true">45</span>
           </li>
         </ul>
@@ -1366,10 +1045,7 @@ test.describe('CopyAndPaste', () => {
     });
   });
 
-  test('Copy and paste two paragraphs into list on an existing item', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('Copy and paste two paragraphs into list on an existing item', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
 
@@ -1426,10 +1102,7 @@ test.describe('CopyAndPaste', () => {
     });
   });
 
-  test('Copy and paste two paragraphs at the end of a list', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('Copy and paste two paragraphs at the end of a list', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -1482,10 +1155,7 @@ test.describe('CopyAndPaste', () => {
     });
   });
 
-  test('Copy and paste an inline element into a leaf node', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('Copy and paste an inline element into a leaf node', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
 
@@ -1512,22 +1182,12 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <a
-            href="https://"
-            rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://" rel="noopener" dir="ltr">
             <span data-lexical-text="true">Hello</span>
           </a>
           <span data-lexical-text="true">World</span>
-          <a
-            href="https://"
-            rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://" rel="noopener" dir="ltr">
             <span data-lexical-text="true">Hello</span>
           </a>
           <span data-lexical-text="true">World</span>
@@ -1536,24 +1196,19 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste a plain DOM text node', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('HTML Copy + paste a plain DOM text node', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
 
-    const clipboard = {'text/html': 'Hello!'};
+    const clipboard = { 'text/html': 'Hello!' };
 
     await pasteFromClipboard(page, clipboard);
 
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello!</span>
         </p>
       `,
@@ -1566,21 +1221,19 @@ test.describe('CopyAndPaste', () => {
     });
   });
 
-  test('HTML Copy + paste a paragraph element', async ({page, isPlainText}) => {
+  test('HTML Copy + paste a paragraph element', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
 
-    const clipboard = {'text/html': '<p>Hello!<p>'};
+    const clipboard = { 'text/html': '<p>Hello!<p>' };
 
     await pasteFromClipboard(page, clipboard);
 
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello!</span>
         </p>
         <p class="PlaygroundEditorTheme__paragraph"><br /></p>
@@ -1595,7 +1248,7 @@ test.describe('CopyAndPaste', () => {
     });
   });
 
-  test('HTML Copy + paste an anchor element', async ({page, isPlainText}) => {
+  test('HTML Copy + paste an anchor element', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -1610,10 +1263,7 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <a
-            href="https://facebook.com"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://facebook.com" dir="ltr">
             <span data-lexical-text="true">Facebook!</span>
           </a>
         </p>
@@ -1651,10 +1301,11 @@ test.describe('CopyAndPaste', () => {
       html`
         <p class="PlaygroundEditorTheme__paragraph">
           <a
+            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
             href="https://facebook.com"
             rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+            dir="ltr"
+          >
             <span data-lexical-text="true">Facebook!</span>
           </a>
         </p>
@@ -1662,12 +1313,12 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste a list element', async ({page, isPlainText}) => {
+  test('HTML Copy + paste a list element', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
 
-    const clipboard = {'text/html': '<ul><li>Hello</li><li>world!</li></ul>'};
+    const clipboard = { 'text/html': '<ul><li>Hello</li><li>world!</li></ul>' };
 
     await pasteFromClipboard(page, clipboard);
 
@@ -1698,17 +1349,13 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste a Lexical nested list', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('HTML Copy + paste a Lexical nested list', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
 
     const clipboard = {
-      'text/html':
-        '<ul><li>Hello</li><li><ul><li>awesome</li></ul></li><li>world!</li></ul>',
+      'text/html': '<ul><li>Hello</li><li><ul><li>awesome</li></ul></li><li>world!</li></ul>',
     };
 
     await pasteFromClipboard(page, clipboard);
@@ -1719,10 +1366,7 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste (Nested List - directly nested ul)', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('HTML Copy + paste (Nested List - directly nested ul)', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -1737,22 +1381,14 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem" value="1">
             <ul class="PlaygroundEditorTheme__ul">
-              <li
-                value="1"
-                class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
                 <span data-lexical-text="true">Hello</span>
               </li>
             </ul>
           </li>
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">world!</span>
           </li>
         </ul>
@@ -1772,20 +1408,12 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem" value="1">
             <ul class="PlaygroundEditorTheme__ul">
-              <li
-                value="1"
-                class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
                 <span data-lexical-text="true">Hello</span>
               </li>
-              <li
-                value="2"
-                class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
                 <span data-lexical-text="true">world!</span>
               </li>
             </ul>
@@ -1802,20 +1430,12 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">Hello</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem" value="2">
             <ul class="PlaygroundEditorTheme__ul">
-              <li
-                value="1"
-                class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
                 <span data-lexical-text="true">world!</span>
               </li>
             </ul>
@@ -1825,10 +1445,7 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste (Nested List - li with non-list content plus ul child)', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('HTML Copy + paste (Nested List - li with non-list content plus ul child)', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -1843,20 +1460,12 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">Hello</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem" value="2">
             <ul class="PlaygroundEditorTheme__ul">
-              <li
-                value="1"
-                class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
                 <span data-lexical-text="true">world!</span>
               </li>
             </ul>
@@ -1878,16 +1487,10 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">Hello</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">world!</span>
           </li>
         </ul>
@@ -1902,22 +1505,14 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__nestedListItem" value="1">
             <ul class="PlaygroundEditorTheme__ul">
-              <li
-                value="1"
-                class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
                 <span data-lexical-text="true">Hello</span>
               </li>
             </ul>
           </li>
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">world!</span>
           </li>
         </ul>
@@ -1925,17 +1520,10 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste (Table - Google Docs)', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('HTML Copy + paste (Table - Google Docs)', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText);
 
-    test.fixme(
-      isCollab,
-      'Table selection styles are not properly synced to the right hand frame',
-    );
+    test.fixme(isCollab, 'Table selection styles are not properly synced to the right hand frame');
 
     await focusEditor(page);
 
@@ -1951,51 +1539,37 @@ test.describe('CopyAndPaste', () => {
         <table class="PlaygroundEditorTheme__table">
           <tr>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">a</span>
               </p>
             </td>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">b</span>
               </p>
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">b</span>
               </p>
             </td>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">c</span>
               </p>
             </td>
           </tr>
           <tr>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">d</span>
               </p>
             </td>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">e</span>
               </p>
             </td>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">f</span>
               </p>
             </td>
@@ -2005,7 +1579,7 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste (Table - Quip)', async ({page, isPlainText}) => {
+  test('HTML Copy + paste (Table - Quip)', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -2022,51 +1596,37 @@ test.describe('CopyAndPaste', () => {
         <table class="PlaygroundEditorTheme__table">
           <tr>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">a</span>
               </p>
             </td>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">b</span>
               </p>
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">b</span>
               </p>
             </td>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">c</span>
               </p>
             </td>
           </tr>
           <tr>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">d</span>
               </p>
             </td>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">e</span>
               </p>
             </td>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">f</span>
               </p>
             </td>
@@ -2076,10 +1636,7 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste (Table - Google Sheets)', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('HTML Copy + paste (Table - Google Sheets)', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -2096,51 +1653,37 @@ test.describe('CopyAndPaste', () => {
         <table class="PlaygroundEditorTheme__table">
           <tr>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">a</span>
               </p>
             </td>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">b</span>
               </p>
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">b</span>
               </p>
             </td>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">c</span>
               </p>
             </td>
           </tr>
           <tr>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">d</span>
               </p>
             </td>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">e</span>
               </p>
             </td>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">f</span>
               </p>
             </td>
@@ -2150,7 +1693,7 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('Merge Grids on Copy + paste', async ({page, isPlainText, isCollab}) => {
+  test('Merge Grids on Copy + paste', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -2160,13 +1703,7 @@ test.describe('CopyAndPaste', () => {
       'text/html': `<meta charset='utf-8'><table class="PlaygroundEditorTheme__table"><colgroup><col><col><col><col><col></colgroup><tbody><tr><th class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader" style="border: 1px solid black; width: 140px; vertical-align: top; text-align: start; background-color: rgb(242, 243, 245);"><p class="PlaygroundEditorTheme__paragraph"><span>a</span></p></th><th class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader" style="border: 1px solid black; width: 140px; vertical-align: top; text-align: start; background-color: rgb(242, 243, 245);"><p class="PlaygroundEditorTheme__paragraph"><span>b</span></p></th></tr><tr><th class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader" style="border: 1px solid black; width: 140px; vertical-align: top; text-align: start; background-color: rgb(242, 243, 245);"><p class="PlaygroundEditorTheme__paragraph"><span>c</span></p></th><td class="PlaygroundEditorTheme__tableCell" style="border: 1px solid black; width: 140px; vertical-align: top; text-align: start;"><p class="PlaygroundEditorTheme__paragraph"><span>d</span></p></td></tr></tbody></table>`,
     };
 
-    await selectCellsFromTableCords(
-      page,
-      {x: 0, y: 0},
-      {x: 3, y: 3},
-      true,
-      false,
-    );
+    await selectCellsFromTableCords(page, { x: 0, y: 0 }, { x: 3, y: 3 }, true, false);
 
     await pasteFromClipboard(page, clipboard);
 
@@ -2178,104 +1715,112 @@ test.describe('CopyAndPaste', () => {
           <tr>
             <th
               class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">a</span>
               </p>
             </th>
             <th
               class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">b</span>
               </p>
             </th>
             <th
               class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </th>
             <th
               class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </th>
           </tr>
           <tr>
             <th
               class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">c</span>
               </p>
             </th>
             <td
               class="PlaygroundEditorTheme__tableCell"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">d</span>
               </p>
             </td>
             <td
               class="PlaygroundEditorTheme__tableCell"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </td>
             <td
               class="PlaygroundEditorTheme__tableCell"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
-              <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-            </td>
-          </tr>
-          <tr>
-            <th
-              class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
-              <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-            </th>
-            <td
-              class="PlaygroundEditorTheme__tableCell"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
-              <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-            </td>
-            <td
-              class="PlaygroundEditorTheme__tableCell"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
-              <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-            </td>
-            <td
-              class="PlaygroundEditorTheme__tableCell"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </td>
           </tr>
           <tr>
             <th
               class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </th>
             <td
               class="PlaygroundEditorTheme__tableCell"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </td>
             <td
               class="PlaygroundEditorTheme__tableCell"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </td>
             <td
               class="PlaygroundEditorTheme__tableCell"
-              style="background-color: rgb(172, 206, 247); caret-color: transparent">
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
+              <p class="PlaygroundEditorTheme__paragraph"><br /></p>
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader"
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
+              <p class="PlaygroundEditorTheme__paragraph"><br /></p>
+            </th>
+            <td
+              class="PlaygroundEditorTheme__tableCell"
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
+              <p class="PlaygroundEditorTheme__paragraph"><br /></p>
+            </td>
+            <td
+              class="PlaygroundEditorTheme__tableCell"
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
+              <p class="PlaygroundEditorTheme__paragraph"><br /></p>
+            </td>
+            <td
+              class="PlaygroundEditorTheme__tableCell"
+              style="background-color: rgb(172, 206, 247); caret-color: transparent"
+            >
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </td>
           </tr>
@@ -2286,44 +1831,31 @@ test.describe('CopyAndPaste', () => {
         <p class="PlaygroundEditorTheme__paragraph"><br /></p>
         <table class="PlaygroundEditorTheme__table">
           <tr>
-            <th
-              class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+            <th class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">a</span>
               </p>
             </th>
-            <th
-              class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+            <th class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">b</span>
               </p>
             </th>
-            <th
-              class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
+            <th class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </th>
-            <th
-              class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
+            <th class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </th>
           </tr>
           <tr>
-            <th
-              class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+            <th class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">c</span>
               </p>
             </th>
             <td class="PlaygroundEditorTheme__tableCell">
-              <p
-                class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-                dir="ltr">
+              <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
                 <span data-lexical-text="true">d</span>
               </p>
             </td>
@@ -2335,8 +1867,7 @@ test.describe('CopyAndPaste', () => {
             </td>
           </tr>
           <tr>
-            <th
-              class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
+            <th class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </th>
             <td class="PlaygroundEditorTheme__tableCell">
@@ -2350,8 +1881,7 @@ test.describe('CopyAndPaste', () => {
             </td>
           </tr>
           <tr>
-            <th
-              class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
+            <th class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </th>
             <td class="PlaygroundEditorTheme__tableCell">
@@ -2370,11 +1900,7 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste multi line html with extra newlines', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('HTML Copy + paste multi line html with extra newlines', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText || isCollab);
 
     await focusEditor(page);
@@ -2388,8 +1914,8 @@ test.describe('CopyAndPaste', () => {
 
     // Explicitly checking inner text, since regular assertHTML will prettify it and strip all
     // extra newlines, which makes this test less acurate
-    await expect(paragraphs.nth(0)).toHaveText('Hello', {useInnerText: true});
-    await expect(paragraphs.nth(1)).toHaveText('World', {useInnerText: true});
+    await expect(paragraphs.nth(0)).toHaveText('Hello', { useInnerText: true });
+    await expect(paragraphs.nth(1)).toHaveText('World', { useInnerText: true });
     await expect(paragraphs.nth(2)).toHaveText('Hello   World   !', {
       useInnerText: true,
     });
@@ -2398,10 +1924,7 @@ test.describe('CopyAndPaste', () => {
     });
   });
 
-  test('HTML Copy + paste in front of or after a link', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('HTML Copy + paste in front of or after a link', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await pasteFromClipboard(page, {
@@ -2418,14 +1941,9 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">beforetext</span>
-          <a
-            href="https://test.com/1"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://test.com/1" dir="ltr">
             <span data-lexical-text="true">link</span>
           </a>
           <span data-lexical-text="true">textafter</span>
@@ -2434,10 +1952,7 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste link by selecting its (partial) content', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('HTML Copy + paste link by selecting its (partial) content', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await pasteFromClipboard(page, {
@@ -2454,21 +1969,13 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">text</span>
-          <a
-            href="https://test.com/"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://test.com/" dir="ltr">
             <span data-lexical-text="true">link</span>
           </a>
           <span data-lexical-text="true">text</span>
-          <a
-            href="https://test.com/"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://test.com/" dir="ltr">
             <span data-lexical-text="true">in</span>
           </a>
         </p>
@@ -2489,24 +1996,17 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello world</span>
         </h1>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">And text below</span>
         </p>
       `,
     );
   });
 
-  test('HTML Copy + paste html with BIU formatting', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('HTML Copy + paste html with BIU formatting', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     const clipboardData = {
@@ -2516,40 +2016,21 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            Bold
-          </strong>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> Bold </strong>
         </p>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <em
-            class="PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
-            Italic
-          </em>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> Italic </em>
         </p>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span
-            class="PlaygroundEditorTheme__textUnderline"
-            data-lexical-text="true">
-            underline
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="PlaygroundEditorTheme__textUnderline" data-lexical-text="true"> underline </span>
         </p>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <strong
             class="PlaygroundEditorTheme__textBold PlaygroundEditorTheme__textItalic
           PlaygroundEditorTheme__textUnderline"
-            data-lexical-text="true">
+            data-lexical-text="true"
+          >
             Bold Italic Underline
           </strong>
         </p>
@@ -2560,10 +2041,7 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste text with subscript and superscript', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('HTML Copy + paste text with subscript and superscript', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     const clipboardData = {
@@ -2574,27 +2052,20 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <sub data-lexical-text="true">
             <span class="PlaygroundEditorTheme__textSubscript">subscript</span>
           </sub>
           <span data-lexical-text="true">and</span>
           <sup data-lexical-text="true">
-            <span class="PlaygroundEditorTheme__textSuperscript">
-              superscript
-            </span>
+            <span class="PlaygroundEditorTheme__textSuperscript"> superscript </span>
           </sup>
         </p>
       `,
     );
   });
 
-  test('HTML Copy + paste a Title from Google Docs', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('HTML Copy + paste a Title from Google Docs', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -2608,9 +2079,7 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">My document</span>
         </h1>
       `,
@@ -2629,16 +2098,14 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">My document</span>
         </h1>
       `,
     );
   });
 
-  test('HTML Copy + paste a checklist', async ({page, isPlainText}) => {
+  test('HTML Copy + paste a checklist', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -2654,21 +2121,23 @@ test.describe('CopyAndPaste', () => {
       html`
         <ul class="PlaygroundEditorTheme__ul">
           <li
+            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__listItemUnchecked PlaygroundEditorTheme__ltr"
             role="checkbox"
             tabindex="-1"
             aria-checked="false"
             value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__listItemUnchecked PlaygroundEditorTheme__ltr"
-            dir="ltr">
+            dir="ltr"
+          >
             <span data-lexical-text="true">Hello</span>
           </li>
           <li
+            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__listItemUnchecked PlaygroundEditorTheme__ltr"
             role="checkbox"
             tabindex="-1"
             aria-checked="false"
             value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__listItemUnchecked PlaygroundEditorTheme__ltr"
-            dir="ltr">
+            dir="ltr"
+          >
             <span data-lexical-text="true">world</span>
           </li>
         </ul>
@@ -2690,21 +2159,23 @@ test.describe('CopyAndPaste', () => {
       html`
         <ul class="PlaygroundEditorTheme__ul">
           <li
+            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__listItemChecked PlaygroundEditorTheme__ltr"
             role="checkbox"
             tabindex="-1"
             aria-checked="true"
             value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__listItemChecked PlaygroundEditorTheme__ltr"
-            dir="ltr">
+            dir="ltr"
+          >
             <span data-lexical-text="true">Hello</span>
           </li>
           <li
+            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__listItemUnchecked PlaygroundEditorTheme__ltr"
             role="checkbox"
             tabindex="-1"
             aria-checked="false"
             value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__listItemUnchecked PlaygroundEditorTheme__ltr"
-            dir="ltr">
+            dir="ltr"
+          >
             <span data-lexical-text="true">world</span>
           </li>
         </ul>
@@ -2712,10 +2183,7 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste a code block with BR', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('HTML Copy + paste a code block with BR', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -2729,9 +2197,7 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Code block</span>
         </p>
         <code
@@ -2739,69 +2205,32 @@ test.describe('CopyAndPaste', () => {
           dir="ltr"
           spellcheck="false"
           data-gutter="123"
-          data-highlight-language="javascript">
-          <span
-            class="PlaygroundEditorTheme__tokenAttr"
-            data-lexical-text="true">
-            function
-          </span>
+          data-highlight-language="javascript"
+        >
+          <span class="PlaygroundEditorTheme__tokenAttr" data-lexical-text="true"> function </span>
           <span data-lexical-text="true"></span>
-          <span
-            class="PlaygroundEditorTheme__tokenFunction"
-            data-lexical-text="true">
-            foo
-          </span>
-          <span
-            class="PlaygroundEditorTheme__tokenPunctuation"
-            data-lexical-text="true">
-            (
-          </span>
-          <span
-            class="PlaygroundEditorTheme__tokenPunctuation"
-            data-lexical-text="true">
-            )
-          </span>
+          <span class="PlaygroundEditorTheme__tokenFunction" data-lexical-text="true"> foo </span>
+          <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> ( </span>
+          <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> ) </span>
           <span data-lexical-text="true"></span>
-          <span
-            class="PlaygroundEditorTheme__tokenPunctuation"
-            data-lexical-text="true">
-            {
-          </span>
+          <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> { </span>
           <br />
           <span data-lexical-text="true"></span>
-          <span
-            class="PlaygroundEditorTheme__tokenAttr"
-            data-lexical-text="true">
-            return
-          </span>
+          <span class="PlaygroundEditorTheme__tokenAttr" data-lexical-text="true"> return </span>
           <span data-lexical-text="true"></span>
-          <span
-            class="PlaygroundEditorTheme__tokenSelector"
-            data-lexical-text="true">
-            'Hey there'
-          </span>
-          <span
-            class="PlaygroundEditorTheme__tokenPunctuation"
-            data-lexical-text="true">
-            ;
-          </span>
+          <span class="PlaygroundEditorTheme__tokenSelector" data-lexical-text="true"> 'Hey there' </span>
+          <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> ; </span>
           <br />
-          <span
-            class="PlaygroundEditorTheme__tokenPunctuation"
-            data-lexical-text="true">
-            }
-          </span>
+          <span class="PlaygroundEditorTheme__tokenPunctuation" data-lexical-text="true"> } </span>
         </code>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">--end--</span>
         </p>
       `,
     );
   });
 
-  test('HTML Copy + paste empty link #3193', async ({page, isPlainText}) => {
+  test('HTML Copy + paste empty link #3193', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -2816,31 +2245,24 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Line 0</span>
         </p>
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            value="1">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" dir="ltr" value="1">
             <span data-lexical-text="true">â..ï¸.Â&nbsp;Line 1Â&nbsp;</span>
             <a
               class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
               dir="ltr"
               href="https://www.internalfb.com/removed?entry_point=20"
               rel="nofollow noopener"
-              target="_blank">
+              target="_blank"
+            >
               <span data-lexical-text="true">Some link</span>
             </a>
             <span data-lexical-text="true">.</span>
           </li>
-          <li
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            value="2">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" dir="ltr" value="2">
             <span data-lexical-text="true">â..ï¸.Â&nbsp;Line 2.</span>
           </li>
         </ul>
@@ -2848,7 +2270,7 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Paste a link into text', async ({page, isPlainText}) => {
+  test('HTML Paste a link into text', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -2868,15 +2290,14 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">A</span>
           <a
             class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
             dir="ltr"
             href="https://lexical.dev"
-            rel="noopener">
+            rel="noopener"
+          >
             <span data-lexical-text="true">Lexical</span>
           </a>
           <span data-lexical-text="true">in the wild</span>
@@ -2885,7 +2306,7 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste an image', async ({page, isPlainText}) => {
+  test('HTML Copy + paste an image', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -2903,20 +2324,16 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">An</span>
-          <span
-            class="editor-image"
-            contenteditable="false"
-            data-lexical-decorator="true">
+          <span class="editor-image" contenteditable="false" data-lexical-decorator="true">
             <div draggable="false">
               <img
                 alt="file"
                 draggable="false"
                 src="${LEXICAL_IMAGE_BASE64}"
-                style="height: inherit; max-width: 500px; width: inherit" />
+                style="height: inherit; max-width: 500px; width: inherit"
+              />
             </div>
           </span>
           <span data-lexical-text="true">inline image</span>
@@ -2925,10 +2342,7 @@ test.describe('CopyAndPaste', () => {
     );
   });
 
-  test('HTML Copy + paste + undo multiple image', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('HTML Copy + paste + undo multiple image', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
@@ -2945,28 +2359,24 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="editor-image"
-            contenteditable="false"
-            data-lexical-decorator="true">
+          <span class="editor-image" contenteditable="false" data-lexical-decorator="true">
             <div draggable="false">
               <img
                 alt="file"
                 draggable="false"
                 src="${LEXICAL_IMAGE_BASE64}"
-                style="height: inherit; max-width: 500px; width: inherit" />
+                style="height: inherit; max-width: 500px; width: inherit"
+              />
             </div>
           </span>
-          <span
-            class="editor-image"
-            contenteditable="false"
-            data-lexical-decorator="true">
+          <span class="editor-image" contenteditable="false" data-lexical-decorator="true">
             <div draggable="false">
               <img
                 alt="file"
                 draggable="false"
                 src="${LEXICAL_IMAGE_BASE64}"
-                style="height: inherit; max-width: 500px; width: inherit" />
+                style="height: inherit; max-width: 500px; width: inherit"
+              />
             </div>
           </span>
           <br />
@@ -2975,24 +2385,15 @@ test.describe('CopyAndPaste', () => {
     );
 
     await undo(page);
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
   });
 
-  test('HTML Copy + paste a paragraph element between horizontal rules', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('HTML Copy + paste a paragraph element between horizontal rules', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);
 
-    let clipboard = {'text/html': '<hr/><hr/>'};
+    let clipboard = { 'text/html': '<hr/><hr/>' };
 
     await pasteFromClipboard(page, clipboard);
     // Collab doesn't process the cursor correctly
@@ -3003,10 +2404,7 @@ test.describe('CopyAndPaste', () => {
           <p class="PlaygroundEditorTheme__paragraph"><br /></p>
           <hr class="" contenteditable="false" data-lexical-decorator="true" />
           <hr class="" contenteditable="false" data-lexical-decorator="true" />
-          <div
-            class="PlaygroundEditorTheme__blockCursor"
-            contenteditable="false"
-            data-lexical-cursor="true"></div>
+          <div class="PlaygroundEditorTheme__blockCursor" contenteditable="false" data-lexical-cursor="true"></div>
         `,
       );
     }
@@ -3015,7 +2413,7 @@ test.describe('CopyAndPaste', () => {
     // sets focus between HRs
     await page.keyboard.press('ArrowRight');
 
-    clipboard = {'text/html': '<p>Text between HRs</p>'};
+    clipboard = { 'text/html': '<p>Text between HRs</p>' };
 
     await pasteFromClipboard(page, clipboard);
     await assertHTML(
@@ -3023,9 +2421,7 @@ test.describe('CopyAndPaste', () => {
       html`
         <p class="PlaygroundEditorTheme__paragraph"><br /></p>
         <hr class="" contenteditable="false" data-lexical-decorator="true" />
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Text between HRs</span>
         </p>
         <hr class="" contenteditable="false" data-lexical-decorator="true" />
@@ -3039,11 +2435,7 @@ test.describe('CopyAndPaste', () => {
     });
   });
 
-  test('Paste top level element in the middle of paragraph', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('Paste top level element in the middle of paragraph', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText || isCollab);
     await focusEditor(page);
     await page.keyboard.type('Hello world');
@@ -3055,26 +2447,18 @@ test.describe('CopyAndPaste', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
         </p>
         <hr class="" contenteditable="false" data-lexical-decorator="true" />
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">world</span>
         </p>
       `,
     );
   });
 
-  test('Paste top level element in the middle of list', async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test('Paste top level element in the middle of list', async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText || isCollab);
     await focusEditor(page);
     // Add three list items
@@ -3100,35 +2484,20 @@ test.describe('CopyAndPaste', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">one</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">two</span>
           </li>
         </ul>
         <hr class="" contenteditable="false" data-lexical-decorator="true" />
-        <div
-          class="PlaygroundEditorTheme__blockCursor"
-          contenteditable="false"
-          data-lexical-cursor="true"></div>
+        <div class="PlaygroundEditorTheme__blockCursor" contenteditable="false" data-lexical-cursor="true"></div>
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            value="1"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="1" dir="ltr">
             <span data-lexical-text="true">three</span>
           </li>
-          <li
-            value="2"
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" value="2" dir="ltr">
             <span data-lexical-text="true">four</span>
           </li>
         </ul>

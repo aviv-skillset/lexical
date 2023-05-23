@@ -7,7 +7,7 @@
  * @flow strict
  */
 
-import type {LexicalCommand, LexicalEditor, NodeKey, TextNode} from 'lexical';
+import type { LexicalCommand, LexicalEditor, NodeKey, TextNode } from 'lexical';
 import * as React from 'react';
 
 export type QueryMatch = {
@@ -21,12 +21,11 @@ export type Resolution = {
   getRect: () => ClientRect,
 };
 
-export const PUNCTUATION: string =
-  '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;';
+export const PUNCTUATION: string = '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;';
 
 declare export class TypeaheadOption {
   key: string;
-  ref: {current: HTMLElement | null};
+  ref: { current: HTMLElement | null };
   constructor(key: string): void;
   setRefElement(element: HTMLElement | null): void;
 }
@@ -37,7 +36,7 @@ declare export var SCROLL_TYPEAHEAD_OPTION_INTO_VIEW_COMMAND: LexicalCommand<{
 }>;
 
 export type MenuRenderFn<TOption> = (
-  anchorElementRef: {current: HTMLElement | null},
+  anchorElementRef: { current: HTMLElement | null },
   itemProps: {
     selectedIndex: number | null,
     selectOptionAndCleanUp: (option: TOption) => void,
@@ -49,7 +48,7 @@ export type MenuRenderFn<TOption> = (
 
 declare export function useBasicTypeaheadTriggerMatch(
   trigger: string,
-  options: {minLength?: number, maxLength?: number},
+  options: { minLength?: number, maxLength?: number },
 ): TriggerFn;
 
 export type TypeaheadMenuPluginProps<TOption> = {
@@ -68,10 +67,7 @@ export type TypeaheadMenuPluginProps<TOption> = {
   anchorClassName?: string,
 };
 
-export type TriggerFn = (
-  text: string,
-  editor: LexicalEditor,
-) => QueryMatch | null;
+export type TriggerFn = (text: string, editor: LexicalEditor) => QueryMatch | null;
 
 declare export function LexicalTypeaheadMenuPlugin<TOption>(
   options: TypeaheadMenuPluginProps<TOption>,

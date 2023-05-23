@@ -6,15 +6,9 @@
  *
  */
 
-import {$createCodeNode} from '@lexical/code';
-import {
-  $createParagraphNode,
-  $createTextNode,
-  $getRoot,
-  $getSelection,
-  $isRangeSelection,
-} from 'lexical';
-import {initializeUnitTest} from 'lexical/src/__tests__/utils';
+import { $createCodeNode } from '@lexical/code';
+import { $createParagraphNode, $createTextNode, $getRoot, $getSelection, $isRangeSelection } from 'lexical';
+import { initializeUnitTest } from 'lexical/src/__tests__/utils';
 
 const editorConfig = Object.freeze({
   namespace: '',
@@ -26,7 +20,7 @@ const editorConfig = Object.freeze({
 describe('LexicalCodeNode tests', () => {
   initializeUnitTest((testEnv) => {
     test('CodeNode.constructor', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const codeNode = $createCodeNode();
@@ -37,7 +31,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('CodeNode.createDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const codeNode = $createCodeNode();
@@ -54,7 +48,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('CodeNode.updateDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const newCodeNode = $createCodeNode();
@@ -64,18 +58,14 @@ describe('LexicalCodeNode tests', () => {
           theme: {},
         });
         expect(domElement.outerHTML).toBe('<code spellcheck="false"></code>');
-        const result = newCodeNode.updateDOM(
-          codeNode,
-          domElement,
-          editorConfig,
-        );
+        const result = newCodeNode.updateDOM(codeNode, domElement, editorConfig);
         expect(result).toBe(false);
         expect(domElement.outerHTML).toBe('<code spellcheck="false"></code>');
       });
     });
 
     test('CodeNode.exportJSON() should return and object conforming to the expected schema', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const node = $createCodeNode('javascript');
         // If you broke this test, you changed the public interface of a
@@ -95,7 +85,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test.skip('CodeNode.insertNewAfter()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const root = $getRoot();
@@ -129,7 +119,7 @@ describe('LexicalCodeNode tests', () => {
     });
 
     test('$createCodeNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const codeNode = $createCodeNode();

@@ -6,12 +6,7 @@
  *
  */
 
-import {
-  moveLeft,
-  moveToLineBeginning,
-  pressBackspace,
-  selectCharacters,
-} from '../keyboardShortcuts/index.mjs';
+import { moveLeft, moveToLineBeginning, pressBackspace, selectCharacters } from '../keyboardShortcuts/index.mjs';
 import {
   assertHTML,
   assertSelection,
@@ -27,10 +22,10 @@ import {
   waitForSelector,
 } from '../utils/index.mjs';
 
-test.use({launchOptions: {slowMo: 50}});
+test.use({ launchOptions: { slowMo: 50 } });
 test.describe('Composition', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test('Handles Hiragana characters', async ({page}) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test('Handles Hiragana characters', async ({ page }) => {
     await focusEditor(page);
 
     await page.keyboard.type('も');
@@ -38,9 +33,7 @@ test.describe('Composition', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">も</span>
         </p>
       `,
@@ -54,12 +47,7 @@ test.describe('Composition', () => {
 
     await page.keyboard.press('Backspace');
 
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     await assertSelection(page, {
       anchorOffset: 0,
       anchorPath: [0],
@@ -72,9 +60,7 @@ test.describe('Composition', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">もじ</span>
         </p>
       `,
@@ -87,16 +73,14 @@ test.describe('Composition', () => {
     });
   });
 
-  test('Handles Arabic characters with diacritics', async ({page}) => {
+  test('Handles Arabic characters with diacritics', async ({ page }) => {
     await focusEditor(page);
 
     await page.keyboard.type('هَ');
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__rtl"
-          dir="rtl">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__rtl" dir="rtl">
           <span data-lexical-text="true">هَ</span>
         </p>
       `,
@@ -112,9 +96,7 @@ test.describe('Composition', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__rtl"
-          dir="rtl">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__rtl" dir="rtl">
           <span data-lexical-text="true">ه</span>
         </p>
       `,
@@ -128,20 +110,13 @@ test.describe('Composition', () => {
 
     await page.keyboard.press('Backspace');
 
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
 
     await page.keyboard.type('هَ');
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__rtl"
-          dir="rtl">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__rtl" dir="rtl">
           <span data-lexical-text="true">هَ</span>
         </p>
       `,
@@ -165,9 +140,7 @@ test.describe('Composition', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__rtl"
-          dir="rtl">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__rtl" dir="rtl">
           <span data-lexical-text="true">ه</span>
         </p>
       `,
@@ -181,7 +154,7 @@ test.describe('Composition', () => {
   });
 
   test.describe('IME', () => {
-    test('Can type Hiragana via IME', async ({page, browserName}) => {
+    test('Can type Hiragana via IME', async ({ page, browserName }) => {
       // We don't yet support FF.
       test.skip(browserName === 'firefox');
 
@@ -205,9 +178,7 @@ test.describe('Composition', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">すし もじあ</span>
           </p>
         `,
@@ -220,10 +191,7 @@ test.describe('Composition', () => {
       });
     });
 
-    test('Can type Hiragana via IME between line breaks', async ({
-      page,
-      browserName,
-    }) => {
+    test('Can type Hiragana via IME between line breaks', async ({ page, browserName }) => {
       // We don't yet support FF.
       test.skip(browserName === 'firefox');
 
@@ -257,9 +225,7 @@ test.describe('Composition', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <br />
             <span data-lexical-text="true">すし もじあ</span>
             <br />
@@ -275,11 +241,7 @@ test.describe('Composition', () => {
       });
     });
 
-    test('Can type Hiragana via IME into a new bold format', async ({
-      page,
-      browserName,
-      isPlainText,
-    }) => {
+    test('Can type Hiragana via IME into a new bold format', async ({ page, browserName, isPlainText }) => {
       // We don't yet support FF.
       test.skip(browserName === 'firefox' || isPlainText);
 
@@ -302,15 +264,9 @@ test.describe('Composition', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Hello</span>
-            <strong
-              class="PlaygroundEditorTheme__textBold"
-              data-lexical-text="true">
-              すし
-            </strong>
+            <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> すし </strong>
           </p>
         `,
       );
@@ -322,10 +278,7 @@ test.describe('Composition', () => {
       });
     });
 
-    test('Can type Hiragana via IME between emojis', async ({
-      page,
-      browserName,
-    }) => {
+    test('Can type Hiragana via IME between emojis', async ({ page, browserName }) => {
       test.skip(browserName === 'firefox');
       await focusEditor(page);
       await enableCompositionKeyEvents(page);
@@ -351,9 +304,7 @@ test.describe('Composition', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span class="emoji happysmile" data-lexical-text="true">
               <span class="emoji-inner">🙂</span>
             </span>
@@ -375,9 +326,7 @@ test.describe('Composition', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span class="emoji happysmile" data-lexical-text="true">
               <span class="emoji-inner">🙂</span>
             </span>
@@ -407,9 +356,7 @@ test.describe('Composition', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span class="emoji happysmile" data-lexical-text="true">
               <span class="emoji-inner">🙂</span>
             </span>
@@ -427,10 +374,7 @@ test.describe('Composition', () => {
       });
     });
 
-    test('Can type Hiragana via IME at the end of a mention', async ({
-      page,
-      browserName,
-    }) => {
+    test('Can type Hiragana via IME at the end of a mention', async ({ page, browserName }) => {
       // We don't yet support FF.
       test.skip(browserName === 'firefox');
 
@@ -460,13 +404,8 @@ test.describe('Composition', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
             <span data-lexical-text="true">すし もじあ</span>
@@ -481,10 +420,7 @@ test.describe('Composition', () => {
       });
     });
 
-    test('Can type Hiragana via IME part way through a mention', async ({
-      page,
-      browserName,
-    }) => {
+    test('Can type Hiragana via IME part way through a mention', async ({ page, browserName }) => {
       // We don't yet support FF.
       test.skip(browserName === 'firefox');
 
@@ -517,12 +453,8 @@ test.describe('Composition', () => {
         await assertHTML(
           page,
           html`
-            <p
-              class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-              dir="ltr">
-              <span data-lexical-text="true">
-                Luke &nbsp;すし もじあSkywalker
-              </span>
+            <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+              <span data-lexical-text="true"> Luke &nbsp;すし もじあSkywalker </span>
             </p>
           `,
         );
@@ -531,9 +463,7 @@ test.describe('Composition', () => {
         await assertHTML(
           page,
           html`
-            <p
-              class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-              dir="ltr">
+            <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
               <span data-lexical-text="true">Luke ​すし もじあSkywalker</span>
             </p>
           `,
@@ -547,11 +477,7 @@ test.describe('Composition', () => {
       });
     });
 
-    test('Can type Hiragana via IME with hashtags', async ({
-      page,
-      browserName,
-      isCollab,
-    }) => {
+    test('Can type Hiragana via IME with hashtags', async ({ page, browserName, isCollab }) => {
       // We don't yet support FF.
       test.skip(browserName === 'firefox');
 
@@ -578,14 +504,8 @@ test.describe('Composition', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
-            <span
-              class="PlaygroundEditorTheme__hashtag"
-              data-lexical-text="true">
-              #すし
-            </span>
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+            <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #すし </span>
             <span data-lexical-text="true">もじあ</span>
           </p>
         `,
@@ -609,9 +529,7 @@ test.describe('Composition', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">すし#すし もじあ</span>
           </p>
         `,
@@ -624,10 +542,7 @@ test.describe('Composition', () => {
       });
     });
 
-    test('Can type, delete and cancel Hiragana via IME', async ({
-      page,
-      browserName,
-    }) => {
+    test('Can type, delete and cancel Hiragana via IME', async ({ page, browserName }) => {
       // We don't yet support FF.
       test.skip(browserName === 'firefox');
 
@@ -644,12 +559,7 @@ test.describe('Composition', () => {
       // Escape would fire here
       await page.keyboard.insertText('');
 
-      await assertHTML(
-        page,
-        html`
-          <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-        `,
-      );
+      await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
       await assertSelection(page, {
         anchorOffset: 0,
         anchorPath: [0],
@@ -686,11 +596,7 @@ test.describe('Composition', () => {
       });
     });
 
-    test('Floating toolbar should not be displayed when using IME', async ({
-      page,
-      browserName,
-      isPlainText,
-    }) => {
+    test('Floating toolbar should not be displayed when using IME', async ({ page, browserName, isPlainText }) => {
       test.skip(isPlainText);
       // We don't yet support FF.
       test.skip(browserName === 'firefox');

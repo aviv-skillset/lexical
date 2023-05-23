@@ -15,7 +15,7 @@ import Layout from '@theme/Layout';
 import React from 'react';
 
 export default function Community() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout description={siteConfig.tagline}>
       <main>

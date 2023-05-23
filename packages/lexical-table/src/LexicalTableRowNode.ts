@@ -6,9 +6,9 @@
  *
  */
 
-import type {Spread} from 'lexical';
+import type { Spread } from 'lexical';
 
-import {addClassNamesToElement} from '@lexical/utils';
+import { addClassNamesToElement } from '@lexical/utils';
 import {
   $applyNodeReplacement,
   DEPRECATED_GridRowNode,
@@ -106,15 +106,13 @@ export class TableRowNode extends DEPRECATED_GridRowNode {
 }
 
 export function convertTableRowElement(domNode: Node): DOMConversionOutput {
-  return {node: $createTableRowNode()};
+  return { node: $createTableRowNode() };
 }
 
 export function $createTableRowNode(height?: number): TableRowNode {
   return $applyNodeReplacement(new TableRowNode(height));
 }
 
-export function $isTableRowNode(
-  node: LexicalNode | null | undefined,
-): node is TableRowNode {
+export function $isTableRowNode(node: LexicalNode | null | undefined): node is TableRowNode {
   return node instanceof TableRowNode;
 }

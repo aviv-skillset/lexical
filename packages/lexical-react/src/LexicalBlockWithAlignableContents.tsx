@@ -6,15 +6,12 @@
  *
  */
 
-import type {ElementFormatType, NodeKey} from 'lexical';
+import type { ElementFormatType, NodeKey } from 'lexical';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$isDecoratorBlockNode} from '@lexical/react/LexicalDecoratorBlockNode';
-import {useLexicalNodeSelection} from '@lexical/react/useLexicalNodeSelection';
-import {
-  $getNearestBlockElementAncestorOrThrow,
-  mergeRegister,
-} from '@lexical/utils';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $isDecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode';
+import { useLexicalNodeSelection } from '@lexical/react/useLexicalNodeSelection';
+import { $getNearestBlockElementAncestorOrThrow, mergeRegister } from '@lexical/utils';
 import {
   $getNodeByKey,
   $getSelection,
@@ -29,7 +26,7 @@ import {
   KEY_DELETE_COMMAND,
 } from 'lexical';
 import * as React from 'react';
-import {ReactNode, useCallback, useEffect, useRef} from 'react';
+import { ReactNode, useCallback, useEffect, useRef } from 'react';
 
 type Props = Readonly<{
   children: ReactNode;
@@ -41,16 +38,10 @@ type Props = Readonly<{
   }>;
 }>;
 
-export function BlockWithAlignableContents({
-  children,
-  format,
-  nodeKey,
-  className,
-}: Props): JSX.Element {
+export function BlockWithAlignableContents({ children, format, nodeKey, className }: Props): JSX.Element {
   const [editor] = useLexicalComposerContext();
 
-  const [isSelected, setSelected, clearSelection] =
-    useLexicalNodeSelection(nodeKey);
+  const [isSelected, setSelected, clearSelection] = useLexicalNodeSelection(nodeKey);
   const ref = useRef(null);
 
   const onDelete = useCallback(
@@ -124,28 +115,19 @@ export function BlockWithAlignableContents({
         },
         COMMAND_PRIORITY_LOW,
       ),
-      editor.registerCommand(
-        KEY_DELETE_COMMAND,
-        onDelete,
-        COMMAND_PRIORITY_LOW,
-      ),
-      editor.registerCommand(
-        KEY_BACKSPACE_COMMAND,
-        onDelete,
-        COMMAND_PRIORITY_LOW,
-      ),
+      editor.registerCommand(KEY_DELETE_COMMAND, onDelete, COMMAND_PRIORITY_LOW),
+      editor.registerCommand(KEY_BACKSPACE_COMMAND, onDelete, COMMAND_PRIORITY_LOW),
     );
   }, [clearSelection, editor, isSelected, nodeKey, onDelete, setSelected]);
 
   return (
     <div
-      className={[className.base, isSelected ? className.focus : null]
-        .filter(Boolean)
-        .join(' ')}
+      className={[className.base, isSelected ? className.focus : null].filter(Boolean).join(' ')}
       ref={ref}
       style={{
         textAlign: format ? format : undefined,
-      }}>
+      }}
+    >
       {children}
     </div>
   );

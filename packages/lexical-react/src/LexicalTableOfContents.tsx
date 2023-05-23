@@ -6,18 +6,14 @@
  *
  */
 
-import type {LexicalEditor, NodeKey, NodeMutation} from 'lexical';
+import type { LexicalEditor, NodeKey, NodeMutation } from 'lexical';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$isHeadingNode, HeadingNode, HeadingTagType} from '@lexical/rich-text';
-import {$getNodeByKey, $getRoot, TextNode} from 'lexical';
-import {useEffect, useState} from 'react';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $isHeadingNode, HeadingNode, HeadingTagType } from '@lexical/rich-text';
+import { $getNodeByKey, $getRoot, TextNode } from 'lexical';
+import { useEffect, useState } from 'react';
 
-export type TableOfContentsEntry = [
-  key: NodeKey,
-  text: string,
-  tag: HeadingTagType,
-];
+export type TableOfContentsEntry = [key: NodeKey, text: string, tag: HeadingTagType];
 
 function toEntry(heading: HeadingNode): TableOfContentsEntry {
   return [heading.getKey(), heading.getTextContent(), heading.getTag()];
@@ -104,18 +100,11 @@ function $updateHeadingPosition(
 }
 
 type Props = {
-  children: (
-    values: Array<TableOfContentsEntry>,
-    editor: LexicalEditor,
-  ) => JSX.Element;
+  children: (values: Array<TableOfContentsEntry>, editor: LexicalEditor) => JSX.Element;
 };
 
-export default function LexicalTableOfContentsPlugin({
-  children,
-}: Props): JSX.Element {
-  const [tableOfContents, setTableOfContents] = useState<
-    Array<TableOfContentsEntry>
-  >([]);
+export default function LexicalTableOfContentsPlugin({ children }: Props): JSX.Element {
+  const [tableOfContents, setTableOfContents] = useState<Array<TableOfContentsEntry>>([]);
   const [editor] = useLexicalComposerContext();
   useEffect(() => {
     // Set table of contents initial state
@@ -125,11 +114,7 @@ export default function LexicalTableOfContentsPlugin({
       const rootChildren = root.getChildren();
       for (const child of rootChildren) {
         if ($isHeadingNode(child)) {
-          currentTableOfContents.push([
-            child.getKey(),
-            child.getTextContent(),
-            child.getTag(),
-          ]);
+          currentTableOfContents.push([child.getKey(), child.getTextContent(), child.getTag()]);
         }
       }
       setTableOfContents(currentTableOfContents);
@@ -155,10 +140,7 @@ export default function LexicalTableOfContentsPlugin({
                 );
               }
             } else if (mutation === 'destroyed') {
-              currentTableOfContents = $deleteHeadingFromTableOfContents(
-                nodeKey,
-                currentTableOfContents,
-              );
+              currentTableOfContents = $deleteHeadingFromTableOfContents(nodeKey, currentTableOfContents);
             } else if (mutation === 'updated') {
               const newHeading = $getNodeByKey<HeadingNode>(nodeKey);
               if (newHeading !== null) {
@@ -166,11 +148,7 @@ export default function LexicalTableOfContentsPlugin({
                 while (prevHeading !== null && !$isHeadingNode(prevHeading)) {
                   prevHeading = prevHeading.getPreviousSibling();
                 }
-                currentTableOfContents = $updateHeadingPosition(
-                  prevHeading,
-                  newHeading,
-                  currentTableOfContents,
-                );
+                currentTableOfContents = $updateHeadingPosition(prevHeading, newHeading, currentTableOfContents);
               }
             }
           }
@@ -190,10 +168,7 @@ export default function LexicalTableOfContentsPlugin({
               if (currNode !== null) {
                 const parentNode = currNode.getParentOrThrow();
                 if ($isHeadingNode(parentNode)) {
-                  currentTableOfContents = $updateHeadingInTableOfContents(
-                    parentNode,
-                    currentTableOfContents,
-                  );
+                  currentTableOfContents = $updateHeadingInTableOfContents(parentNode, currentTableOfContents);
                   setTableOfContents(currentTableOfContents);
                 }
               }

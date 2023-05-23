@@ -7,13 +7,13 @@
  * @flow strict
  */
 
-import type {LexicalNode, MutationListener} from 'lexical';
+import type { LexicalNode, MutationListener } from 'lexical';
 
-import {TypeaheadOption} from '@lexical/react/LexicalTypeaheadMenuPlugin';
-import type {LexicalCommand, LexicalEditor, NodeKey, TextNode} from 'lexical';
+import { TypeaheadOption } from '@lexical/react/LexicalTypeaheadMenuPlugin';
+import type { LexicalCommand, LexicalEditor, NodeKey, TextNode } from 'lexical';
 import * as React from 'react';
-import {createCommand} from 'lexical';
-import type {MenuRenderFn} from './LexicalTypeaheadMenuPlugin';
+import { createCommand } from 'lexical';
+import type { MenuRenderFn } from './LexicalTypeaheadMenuPlugin';
 
 export type EmbedMatchResult = {
   url: string,
@@ -32,8 +32,7 @@ export interface EmbedConfig {
 export const URL_MATCHER: RegExp =
   /((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
 
-export const INSERT_EMBED_COMMAND: LexicalCommand<EmbedConfig['type']> =
-  createCommand('INSERT_EMBED_COMMAND');
+export const INSERT_EMBED_COMMAND: LexicalCommand<EmbedConfig['type']> = createCommand('INSERT_EMBED_COMMAND');
 
 type LexicalAutoEmbedPluginProps<TEmbedConfig> = {
   embedConfigs: Array<TEmbedConfig>,

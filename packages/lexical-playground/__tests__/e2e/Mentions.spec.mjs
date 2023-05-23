@@ -6,11 +6,7 @@
  *
  */
 
-import {
-  deleteNextWord,
-  moveLeft,
-  moveToEditorBeginning,
-} from '../keyboardShortcuts/index.mjs';
+import { deleteNextWord, moveLeft, moveToEditorBeginning } from '../keyboardShortcuts/index.mjs';
 import {
   assertHTML,
   assertSelection,
@@ -23,9 +19,9 @@ import {
 } from '../utils/index.mjs';
 
 test.describe('Mentions', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
 
-  test(`Can enter the Luke Skywalker mention`, async ({page}) => {
+  test(`Can enter the Luke Skywalker mention`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Luke');
     await assertSelection(page, {
@@ -39,9 +35,7 @@ test.describe('Mentions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Luke</span>
         </p>
       `,
@@ -52,10 +46,7 @@ test.describe('Mentions', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
         </p>
@@ -95,9 +86,7 @@ test.describe('Mentions', () => {
     });
   });
 
-  test(`Can enter and delete part of the Luke Skywalker mention`, async ({
-    page,
-  }) => {
+  test(`Can enter and delete part of the Luke Skywalker mention`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Luke');
     await assertSelection(page, {
@@ -111,9 +100,7 @@ test.describe('Mentions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Luke</span>
         </p>
       `,
@@ -124,10 +111,7 @@ test.describe('Mentions', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
         </p>
@@ -155,10 +139,7 @@ test.describe('Mentions', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke
           </span>
         </p>
@@ -172,12 +153,7 @@ test.describe('Mentions', () => {
     });
 
     await page.keyboard.press('Backspace');
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     await assertSelection(page, {
       anchorOffset: 0,
       anchorPath: [0],
@@ -186,9 +162,7 @@ test.describe('Mentions', () => {
     });
   });
 
-  test(`Can enter and backspace part of the Luke Skywalker mention in the middle`, async ({
-    page,
-  }) => {
+  test(`Can enter and backspace part of the Luke Skywalker mention in the middle`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Luke');
     await assertSelection(page, {
@@ -202,9 +176,7 @@ test.describe('Mentions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Luke</span>
         </p>
       `,
@@ -215,10 +187,7 @@ test.describe('Mentions', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
         </p>
@@ -247,10 +216,7 @@ test.describe('Mentions', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Skywalker
           </span>
         </p>
@@ -258,9 +224,7 @@ test.describe('Mentions', () => {
     );
   });
 
-  test(`Can enter and delete part of the Luke Skywalker mention in the middle`, async ({
-    page,
-  }) => {
+  test(`Can enter and delete part of the Luke Skywalker mention in the middle`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Luke');
     await assertSelection(page, {
@@ -274,9 +238,7 @@ test.describe('Mentions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Luke</span>
         </p>
       `,
@@ -287,10 +249,7 @@ test.describe('Mentions', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
         </p>
@@ -319,10 +278,7 @@ test.describe('Mentions', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke
           </span>
         </p>
@@ -330,9 +286,7 @@ test.describe('Mentions', () => {
     );
   });
 
-  test(`Can enter and backspace part of the Luke Skywalker mention`, async ({
-    page,
-  }) => {
+  test(`Can enter and backspace part of the Luke Skywalker mention`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Luke');
     await assertSelection(page, {
@@ -346,9 +300,7 @@ test.describe('Mentions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Luke</span>
         </p>
       `,
@@ -359,10 +311,7 @@ test.describe('Mentions', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
         </p>
@@ -382,10 +331,7 @@ test.describe('Mentions', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke
           </span>
         </p>
@@ -399,12 +345,7 @@ test.describe('Mentions', () => {
     });
 
     await page.keyboard.press('Backspace');
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     await assertSelection(page, {
       anchorOffset: 0,
       anchorPath: [0],
@@ -421,9 +362,7 @@ test.describe('Mentions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">abc def</span>
         </p>
       `,
@@ -441,9 +380,7 @@ test.describe('Mentions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">abc Luke def</span>
         </p>
       `,
@@ -453,14 +390,9 @@ test.describe('Mentions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">abc</span>
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
           <span data-lexical-text="true">def</span>
@@ -478,14 +410,9 @@ test.describe('Mentions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">abc</span>
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke
           </span>
           <span data-lexical-text="true">def</span>
@@ -500,10 +427,7 @@ test.describe('Mentions', () => {
     });
   });
 
-  test(`Can enter multiple Luke Skywalker mentions and then delete them from start`, async ({
-    page,
-    browserName,
-  }) => {
+  test(`Can enter multiple Luke Skywalker mentions and then delete them from start`, async ({ page, browserName }) => {
     await focusEditor(page);
     await page.keyboard.type('Luke');
     await assertSelection(page, {
@@ -549,31 +473,19 @@ test.describe('Mentions', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
           <span data-lexical-text="true"></span>
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
           <span data-lexical-text="true"></span>
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
           <span data-lexical-text="true"></span>
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
         </p>
@@ -601,28 +513,17 @@ test.describe('Mentions', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Skywalker</span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
             <span data-lexical-text="true"></span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
             <span data-lexical-text="true"></span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
           </p>
@@ -632,28 +533,17 @@ test.describe('Mentions', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Skywalker</span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
             <span data-lexical-text="true"></span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
             <span data-lexical-text="true"></span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
           </p>
@@ -673,24 +563,15 @@ test.describe('Mentions', () => {
         page,
         html`
           <p class="PlaygroundEditorTheme__paragraph">
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
             <span data-lexical-text="true"></span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
             <span data-lexical-text="true"></span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
           </p>
@@ -702,24 +583,15 @@ test.describe('Mentions', () => {
         html`
           <p class="PlaygroundEditorTheme__paragraph">
             <span data-lexical-text="true"></span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
             <span data-lexical-text="true"></span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
             <span data-lexical-text="true"></span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
           </p>
@@ -738,21 +610,13 @@ test.describe('Mentions', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Skywalker</span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
             <span data-lexical-text="true"></span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
           </p>
@@ -762,21 +626,13 @@ test.describe('Mentions', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Skywalker</span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
             <span data-lexical-text="true"></span>
-            <span
-              class="mention"
-              style="background-color: rgba(24, 119, 232, 0.2);"
-              data-lexical-text="true">
+            <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
               Luke Skywalker
             </span>
           </p>
@@ -796,12 +652,7 @@ test.describe('Mentions', () => {
     await deleteNextWord(page);
     await deleteNextWord(page);
 
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     await assertSelection(page, {
       anchorOffset: 0,
       anchorPath: [0],
@@ -810,9 +661,7 @@ test.describe('Mentions', () => {
     });
   });
 
-  test(`Can enter a mention then delete it and partially remove text after`, async ({
-    page,
-  }) => {
+  test(`Can enter a mention then delete it and partially remove text after`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Luke');
     await assertSelection(page, {
@@ -832,13 +681,8 @@ test.describe('Mentions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
           <span data-lexical-text="true">foo bar</span>
@@ -877,9 +721,7 @@ test.describe('Mentions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">bar</span>
         </p>
       `,

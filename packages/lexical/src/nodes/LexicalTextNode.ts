@@ -6,12 +6,7 @@
  *
  */
 
-import type {
-  EditorConfig,
-  LexicalEditor,
-  Spread,
-  TextNodeThemeClasses,
-} from '../LexicalEditor';
+import type { EditorConfig, LexicalEditor, Spread, TextNodeThemeClasses } from '../LexicalEditor';
 import type {
   DOMConversionMap,
   DOMConversionOutput,
@@ -19,13 +14,9 @@ import type {
   NodeKey,
   SerializedLexicalNode,
 } from '../LexicalNode';
-import type {
-  GridSelection,
-  NodeSelection,
-  RangeSelection,
-} from '../LexicalSelection';
+import type { GridSelection, NodeSelection, RangeSelection } from '../LexicalSelection';
 
-import {IS_FIREFOX} from 'shared/environment';
+import { IS_FIREFOX } from 'shared/environment';
 import invariant from 'shared/invariant';
 
 import {
@@ -47,7 +38,7 @@ import {
   TEXT_TYPE_TO_FORMAT,
   TEXT_TYPE_TO_MODE,
 } from '../LexicalConstants';
-import {LexicalNode} from '../LexicalNode';
+import { LexicalNode } from '../LexicalNode';
 import {
   $getSelection,
   $isRangeSelection,
@@ -55,7 +46,7 @@ import {
   adjustPointOffsetForMergedSibling,
   internalMakeRangeSelection,
 } from '../LexicalSelection';
-import {errorOnReadOnly} from '../LexicalUpdates';
+import { errorOnReadOnly } from '../LexicalUpdates';
 import {
   $applyNodeReplacement,
   $getCompositionKey,
@@ -64,7 +55,7 @@ import {
   internalMarkSiblingsAsDirty,
   toggleTextFormatType,
 } from '../LexicalUtils';
-import {$createLineBreakNode} from './LexicalLineBreakNode';
+import { $createLineBreakNode } from './LexicalLineBreakNode';
 
 export type SerializedTextNode = Spread<
   {
@@ -91,7 +82,7 @@ export type TextFormatType =
 
 export type TextModeType = 'normal' | 'token' | 'segmented';
 
-export type TextMark = {end: null | number; id: string; start: null | number};
+export type TextMark = { end: null | number; id: string; start: null | number };
 
 export type TextMarks = Array<TextMark>;
 
@@ -139,15 +130,10 @@ function setTextThemeClassNames(
   // the same CSS property will need to be used: text-decoration.
   // In an ideal world we shouldn't have to do this, but there's no
   // easy workaround for many atomic CSS systems today.
-  classNames = getCachedClassNameArray(
-    textClassNames,
-    'underlineStrikethrough',
-  );
+  classNames = getCachedClassNameArray(textClassNames, 'underlineStrikethrough');
   let hasUnderlineStrikethrough = false;
-  const prevUnderlineStrikethrough =
-    prevFormat & IS_UNDERLINE && prevFormat & IS_STRIKETHROUGH;
-  const nextUnderlineStrikethrough =
-    nextFormat & IS_UNDERLINE && nextFormat & IS_STRIKETHROUGH;
+  const prevUnderlineStrikethrough = prevFormat & IS_UNDERLINE && prevFormat & IS_STRIKETHROUGH;
+  const nextUnderlineStrikethrough = nextFormat & IS_UNDERLINE && nextFormat & IS_STRIKETHROUGH;
 
   if (classNames !== undefined) {
     if (nextUnderlineStrikethrough) {
@@ -166,10 +152,7 @@ function setTextThemeClassNames(
     classNames = getCachedClassNameArray(textClassNames, key);
     if (classNames !== undefined) {
       if (nextFormat & flag) {
-        if (
-          hasUnderlineStrikethrough &&
-          (key === 'underline' || key === 'strikethrough')
-        ) {
+        if (hasUnderlineStrikethrough && (key === 'underline' || key === 'strikethrough')) {
           if (prevFormat & flag) {
             domClassList.remove(...classNames);
           }
@@ -198,22 +181,14 @@ function diffComposedText(a: string, b: string): [number, number, string] {
   while (left < aLength && left < bLength && a[left] === b[left]) {
     left++;
   }
-  while (
-    right + left < aLength &&
-    right + left < bLength &&
-    a[aLength - right - 1] === b[bLength - right - 1]
-  ) {
+  while (right + left < aLength && right + left < bLength && a[aLength - right - 1] === b[bLength - right - 1]) {
     right++;
   }
 
   return [left, aLength - left - right, b.slice(left, bLength - right)];
 }
 
-function setTextContent(
-  nextText: string,
-  dom: HTMLElement,
-  node: TextNode,
-): void {
+function setTextContent(nextText: string, dom: HTMLElement, node: TextNode): void {
   const firstChild = dom.firstChild;
   const isComposing = node.isComposing();
   // Always add a suffix if we're composing a node
@@ -228,10 +203,7 @@ function setTextContent(
       if (isComposing || IS_FIREFOX) {
         // We also use the diff composed text for general text in FF to avoid
         // the spellcheck red line from flickering.
-        const [index, remove, insert] = diffComposedText(
-          nodeValue as string,
-          text,
-        );
+        const [index, remove, insert] = diffComposedText(nodeValue as string, text);
         if (remove !== 0) {
           // @ts-expect-error
           firstChild.deleteData(index, remove);
@@ -384,11 +356,7 @@ export class TextNode extends LexicalNode {
     return dom;
   }
 
-  updateDOM(
-    prevNode: TextNode,
-    dom: HTMLElement,
-    config: EditorConfig,
-  ): boolean {
+  updateDOM(prevNode: TextNode, dom: HTMLElement, config: EditorConfig): boolean {
     const nextText = this.__text;
     const prevFormat = prevNode.__format;
     const nextFormat = this.__format;
@@ -409,14 +377,7 @@ export class TextNode extends LexicalNode {
         invariant(false, 'updateDOM: prevInnerDOM is null or undefined');
       }
       const nextInnerDOM = document.createElement(nextInnerTag);
-      createTextInnerDOM(
-        nextInnerDOM,
-        this,
-        nextInnerTag,
-        nextFormat,
-        nextText,
-        config,
-      );
+      createTextInnerDOM(nextInnerDOM, this, nextInnerTag, nextFormat, nextText, config);
       dom.replaceChild(nextInnerDOM, prevInnerDOM);
       return false;
     }
@@ -435,13 +396,7 @@ export class TextNode extends LexicalNode {
     const textClassNames = theme.text;
 
     if (textClassNames !== undefined && prevFormat !== nextFormat) {
-      setTextThemeClassNames(
-        nextInnerTag,
-        prevFormat,
-        nextFormat,
-        innerDOM,
-        textClassNames,
-      );
+      setTextThemeClassNames(nextInnerTag, prevFormat, nextFormat, innerDOM, textClassNames);
     }
     const prevStyle = prevNode.__style;
     const nextStyle = this.__style;
@@ -517,7 +472,7 @@ export class TextNode extends LexicalNode {
   // for headless mode where people might use Lexical to generate
   // HTML content and not have the ability to use CSS classes.
   exportDOM(editor: LexicalEditor): DOMExportOutput {
-    let {element} = super.exportDOM(editor);
+    let { element } = super.exportDOM(editor);
 
     // This is the only way to properly add support for most clients,
     // even if it's semantically incorrect to have to resort to using
@@ -565,16 +520,14 @@ export class TextNode extends LexicalNode {
   // TODO 0.5 This should just be a `string`.
   setFormat(format: TextFormatType | number): this {
     const self = this.getWritable();
-    self.__format =
-      typeof format === 'string' ? TEXT_TYPE_TO_FORMAT[format] : format;
+    self.__format = typeof format === 'string' ? TEXT_TYPE_TO_FORMAT[format] : format;
     return self;
   }
 
   // TODO 0.5 This should just be a `string`.
   setDetail(detail: TextDetailType | number): this {
     const self = this.getWritable();
-    self.__detail =
-      typeof detail === 'string' ? DETAIL_TYPE_TO_DETAIL[detail] : detail;
+    self.__detail = typeof detail === 'string' ? DETAIL_TYPE_TO_DETAIL[detail] : detail;
     return self;
   }
 
@@ -640,20 +593,10 @@ export class TextNode extends LexicalNode {
       focusOffset = 0;
     }
     if (!$isRangeSelection(selection)) {
-      return internalMakeRangeSelection(
-        key,
-        anchorOffset,
-        key,
-        focusOffset,
-        'text',
-        'text',
-      );
+      return internalMakeRangeSelection(key, anchorOffset, key, focusOffset, 'text', 'text');
     } else {
       const compositionKey = $getCompositionKey();
-      if (
-        compositionKey === selection.anchor.key ||
-        compositionKey === selection.focus.key
-      ) {
+      if (compositionKey === selection.anchor.key || compositionKey === selection.focus.key) {
         $setCompositionKey(key);
       }
       selection.setTextNodeRange(this, anchorOffset, this, focusOffset);
@@ -661,12 +604,7 @@ export class TextNode extends LexicalNode {
     return selection;
   }
 
-  spliceText(
-    offset: number,
-    delCount: number,
-    newText: string,
-    moveSelection?: boolean,
-  ): TextNode {
+  spliceText(offset: number, delCount: number, newText: string, moveSelection?: boolean): TextNode {
     const writableSelf = this.getWritable();
     const text = writableSelf.__text;
     const handledTextLength = newText.length;
@@ -680,16 +618,10 @@ export class TextNode extends LexicalNode {
     const selection = $getSelection();
     if (moveSelection && $isRangeSelection(selection)) {
       const newOffset = offset + handledTextLength;
-      selection.setTextNodeRange(
-        writableSelf,
-        newOffset,
-        writableSelf,
-        newOffset,
-      );
+      selection.setTextNodeRange(writableSelf, newOffset, writableSelf, newOffset);
     }
 
-    const updatedText =
-      text.slice(0, index) + newText + text.slice(index + delCount);
+    const updatedText = text.slice(0, index) + newText + text.slice(index + delCount);
 
     writableSelf.__text = updatedText;
     return writableSelf;
@@ -775,22 +707,12 @@ export class TextNode extends LexicalNode {
         const anchor = selection.anchor;
         const focus = selection.focus;
 
-        if (
-          anchor.key === key &&
-          anchor.type === 'text' &&
-          anchor.offset > textSize &&
-          anchor.offset <= nextTextSize
-        ) {
+        if (anchor.key === key && anchor.type === 'text' && anchor.offset > textSize && anchor.offset <= nextTextSize) {
           anchor.key = siblingKey;
           anchor.offset -= textSize;
           selection.dirty = true;
         }
-        if (
-          focus.key === key &&
-          focus.type === 'text' &&
-          focus.offset > textSize &&
-          focus.offset <= nextTextSize
-        ) {
+        if (focus.key === key && focus.type === 'text' && focus.offset > textSize && focus.offset <= nextTextSize) {
           focus.key = siblingKey;
           focus.offset -= textSize;
           selection.dirty = true;
@@ -815,12 +737,7 @@ export class TextNode extends LexicalNode {
     }
 
     if ($isRangeSelection(selection)) {
-      $updateElementSelectionOnCreateDeleteNode(
-        selection,
-        parent,
-        insertionIndex,
-        partsLength - 1,
-      );
+      $updateElementSelectionOnCreateDeleteNode(selection, parent, insertionIndex, partsLength - 1);
     }
 
     return splitNodes;
@@ -829,10 +746,7 @@ export class TextNode extends LexicalNode {
   mergeWithSibling(target: TextNode): TextNode {
     const isBefore = target === this.getPreviousSibling();
     if (!isBefore && target !== this.getNextSibling()) {
-      invariant(
-        false,
-        'mergeWithSibling: sibling must be a previous or next sibling',
-      );
+      invariant(false, 'mergeWithSibling: sibling must be a previous or next sibling');
     }
     const key = this.__key;
     const targetKey = target.__key;
@@ -848,23 +762,11 @@ export class TextNode extends LexicalNode {
       const anchor = selection.anchor;
       const focus = selection.focus;
       if (anchor !== null && anchor.key === targetKey) {
-        adjustPointOffsetForMergedSibling(
-          anchor,
-          isBefore,
-          key,
-          target,
-          textLength,
-        );
+        adjustPointOffsetForMergedSibling(anchor, isBefore, key, target, textLength);
         selection.dirty = true;
       }
       if (focus !== null && focus.key === targetKey) {
-        adjustPointOffsetForMergedSibling(
-          focus,
-          isBefore,
-          key,
-          target,
-          textLength,
-        );
+        adjustPointOffsetForMergedSibling(focus, isBefore, key, target, textLength);
         selection.dirty = true;
       }
     }
@@ -887,8 +789,7 @@ function convertSpanElement(domNode: Node): DOMConversionOutput {
   // Google Docs uses span tags + font-weight for bold text
   const hasBoldFontWeight = span.style.fontWeight === '700';
   // Google Docs uses span tags + text-decoration: line-through for strikethrough text
-  const hasLinethroughTextDecoration =
-    span.style.textDecoration === 'line-through';
+  const hasLinethroughTextDecoration = span.style.textDecoration === 'line-through';
   // Google Docs uses span tags + font-style for italic text
   const hasItalicFontStyle = span.style.fontStyle === 'italic';
   // Google Docs uses span tags + text-decoration: underline for underline text
@@ -949,19 +850,15 @@ function convertBringAttentionToElement(domNode: Node): DOMConversionOutput {
   };
 }
 
-function convertTextDOMNode(
-  domNode: Node,
-  _parent?: Node,
-  preformatted?: boolean,
-): DOMConversionOutput {
+function convertTextDOMNode(domNode: Node, _parent?: Node, preformatted?: boolean): DOMConversionOutput {
   let textContent = domNode.textContent || '';
   if (!preformatted && /\n/.test(textContent)) {
     textContent = textContent.replace(/\r?\n/gm, ' ');
     if (textContent.trim().length === 0) {
-      return {node: null};
+      return { node: null };
     }
   }
-  return {node: $createTextNode(textContent)};
+  return { node: $createTextNode(textContent) };
 }
 
 const nodeNameToTextFormat: Record<string, TextFormatType> = {
@@ -978,7 +875,7 @@ const nodeNameToTextFormat: Record<string, TextFormatType> = {
 function convertTextFormatElement(domNode: Node): DOMConversionOutput {
   const format = nodeNameToTextFormat[domNode.nodeName.toLowerCase()];
   if (format === undefined) {
-    return {node: null};
+    return { node: null };
   }
   return {
     forChild: (lexicalNode) => {
@@ -996,8 +893,6 @@ export function $createTextNode(text = ''): TextNode {
   return $applyNodeReplacement(new TextNode(text));
 }
 
-export function $isTextNode(
-  node: LexicalNode | null | undefined,
-): node is TextNode {
+export function $isTextNode(node: LexicalNode | null | undefined): node is TextNode {
   return node instanceof TextNode;
 }

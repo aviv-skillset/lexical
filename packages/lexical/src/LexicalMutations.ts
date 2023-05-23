@@ -6,26 +6,15 @@
  *
  */
 
-import type {TextNode} from '.';
-import type {LexicalEditor} from './LexicalEditor';
-import type {
-  GridSelection,
-  NodeSelection,
-  RangeSelection,
-} from './LexicalSelection';
+import type { TextNode } from '.';
+import type { LexicalEditor } from './LexicalEditor';
+import type { GridSelection, NodeSelection, RangeSelection } from './LexicalSelection';
 
-import {IS_FIREFOX} from 'shared/environment';
+import { IS_FIREFOX } from 'shared/environment';
 
-import {
-  $getSelection,
-  $isDecoratorNode,
-  $isElementNode,
-  $isRangeSelection,
-  $isTextNode,
-  $setSelection,
-} from '.';
-import {DOM_TEXT_TYPE} from './LexicalConstants';
-import {updateEditor} from './LexicalUpdates';
+import { $getSelection, $isDecoratorNode, $isElementNode, $isRangeSelection, $isTextNode, $setSelection } from '.';
+import { DOM_TEXT_TYPE } from './LexicalConstants';
+import { updateEditor } from './LexicalUpdates';
 import {
   $getNearestNodeFromDOMNode,
   $updateTextNodeFromDOMContent,
@@ -55,11 +44,7 @@ function initTextEntryListener(editor: LexicalEditor): void {
   }
 }
 
-function isManagedLineBreak(
-  dom: Node,
-  target: Node,
-  editor: LexicalEditor,
-): boolean {
+function isManagedLineBreak(dom: Node, target: Node, editor: LexicalEditor): boolean {
   return (
     // @ts-expect-error: internal field
     target.__lexicalLineBreak === dom ||
@@ -68,20 +53,14 @@ function isManagedLineBreak(
   );
 }
 
-function getLastSelection(
-  editor: LexicalEditor,
-): null | RangeSelection | NodeSelection | GridSelection {
+function getLastSelection(editor: LexicalEditor): null | RangeSelection | NodeSelection | GridSelection {
   return editor.getEditorState().read(() => {
     const selection = $getSelection();
     return selection !== null ? selection.clone() : null;
   });
 }
 
-function handleTextMutation(
-  target: Text,
-  node: TextNode,
-  editor: LexicalEditor,
-): void {
+function handleTextMutation(target: Text, node: TextNode, editor: LexicalEditor): void {
   const domSelection = getDOMSelection(editor._window);
   let anchorOffset = null;
   let focusOffset = null;
@@ -104,10 +83,7 @@ function shouldUpdateTextNodeFromMutation(
 ): boolean {
   if ($isRangeSelection(selection)) {
     const anchorNode = selection.anchor.getNode();
-    if (
-      anchorNode.is(targetNode) &&
-      selection.format !== anchorNode.getFormat()
-    ) {
+    if (anchorNode.is(targetNode) && selection.format !== anchorNode.getFormat()) {
       return false;
     }
   }
@@ -120,8 +96,7 @@ export function $flushMutations(
   observer: MutationObserver,
 ): void {
   isProcessingMutations = true;
-  const shouldFlushTextMutations =
-    performance.now() - lastTextEntryTimeStamp > TEXT_MUTATION_VARIANCE;
+  const shouldFlushTextMutations = performance.now() - lastTextEntryTimeStamp > TEXT_MUTATION_VARIANCE;
 
   try {
     updateEditor(editor, () => {
@@ -139,15 +114,9 @@ export function $flushMutations(
         const mutation = mutations[i];
         const type = mutation.type;
         const targetDOM = mutation.target;
-        let targetNode = $getNearestNodeFromDOMNode(
-          targetDOM,
-          currentEditorState,
-        );
+        let targetNode = $getNearestNodeFromDOMNode(targetDOM, currentEditorState);
 
-        if (
-          (targetNode === null && targetDOM !== rootElement) ||
-          $isDecoratorNode(targetNode)
-        ) {
+        if ((targetNode === null && targetDOM !== rootElement) || $isDecoratorNode(targetNode)) {
           continue;
         }
 
@@ -182,12 +151,10 @@ export function $flushMutations(
               parentDOM != null &&
               addedDOM !== blockCursorElement &&
               node === null &&
-              (addedDOM.nodeName !== 'BR' ||
-                !isManagedLineBreak(addedDOM, parentDOM, editor))
+              (addedDOM.nodeName !== 'BR' || !isManagedLineBreak(addedDOM, parentDOM, editor))
             ) {
               if (IS_FIREFOX) {
-                const possibleText =
-                  (addedDOM as HTMLElement).innerText || addedDOM.nodeValue;
+                const possibleText = (addedDOM as HTMLElement).innerText || addedDOM.nodeValue;
 
                 if (possibleText) {
                   possibleTextForFirefoxPaste += possibleText;
@@ -208,8 +175,7 @@ export function $flushMutations(
               const removedDOM = removedDOMs[s];
 
               if (
-                (removedDOM.nodeName === 'BR' &&
-                  isManagedLineBreak(removedDOM, targetDOM, editor)) ||
+                (removedDOM.nodeName === 'BR' && isManagedLineBreak(removedDOM, targetDOM, editor)) ||
                 blockCursorElement === removedDOM
               ) {
                 targetDOM.appendChild(removedDOM);
@@ -279,11 +245,7 @@ export function $flushMutations(
             const addedDOM = addedNodes[s];
             const parentDOM = addedDOM.parentNode;
 
-            if (
-              parentDOM != null &&
-              addedDOM.nodeName === 'BR' &&
-              !isManagedLineBreak(addedDOM, target, editor)
-            ) {
+            if (parentDOM != null && addedDOM.nodeName === 'BR' && !isManagedLineBreak(addedDOM, target, editor)) {
               parentDOM.removeChild(addedDOM);
             }
           }
@@ -320,9 +282,7 @@ export function flushRootMutations(editor: LexicalEditor): void {
 
 export function initMutationObserver(editor: LexicalEditor): void {
   initTextEntryListener(editor);
-  editor._observer = new MutationObserver(
-    (mutations: Array<MutationRecord>, observer: MutationObserver) => {
-      $flushMutations(editor, mutations, observer);
-    },
-  );
+  editor._observer = new MutationObserver((mutations: Array<MutationRecord>, observer: MutationObserver) => {
+    $flushMutations(editor, mutations, observer);
+  });
 }

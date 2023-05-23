@@ -6,27 +6,18 @@
  *
  */
 
-import {
-  assertHTML,
-  click,
-  focusEditor,
-  html,
-  initialize,
-  test,
-} from '../utils/index.mjs';
+import { assertHTML, click, focusEditor, html, initialize, test } from '../utils/index.mjs';
 
 test.describe('Clear', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`can clear the editor`, async ({page}) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`can clear the editor`, async ({ page }) => {
     await focusEditor(page);
 
     await page.keyboard.type('foo');
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">foo</span>
         </p>
       `,
@@ -38,9 +29,7 @@ test.describe('Clear', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">foo</span>
         </p>
       `,
@@ -53,9 +42,7 @@ test.describe('Clear', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">bar</span>
         </p>
       `,

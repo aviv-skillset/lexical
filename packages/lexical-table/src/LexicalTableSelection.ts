@@ -6,12 +6,7 @@
  *
  */
 
-import type {
-  GridSelection,
-  LexicalEditor,
-  NodeKey,
-  TextFormatType,
-} from 'lexical';
+import type { GridSelection, LexicalEditor, NodeKey, TextFormatType } from 'lexical';
 
 import {
   $createParagraphNode,
@@ -27,15 +22,12 @@ import {
   DEPRECATED_$isGridSelection,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import {CAN_USE_DOM} from 'shared/canUseDOM';
+import { CAN_USE_DOM } from 'shared/canUseDOM';
 import invariant from 'shared/invariant';
 
-import {$isTableCellNode} from './LexicalTableCellNode';
-import {$isTableNode} from './LexicalTableNode';
-import {
-  $updateDOMForSelection,
-  getTableGrid,
-} from './LexicalTableSelectionHelpers';
+import { $isTableCellNode } from './LexicalTableCellNode';
+import { $isTableNode } from './LexicalTableNode';
+import { $updateDOMForSelection, getTableGrid } from './LexicalTableSelectionHelpers';
 
 export const BACKGROUND_COLOR = 'background-color';
 export const BACKGROUND_IMAGE = 'background-image';
@@ -103,9 +95,7 @@ export class TableSelection {
   }
 
   removeListeners() {
-    Array.from(this.listenersToRemove).forEach((removeListener) =>
-      removeListener(),
-    );
+    Array.from(this.listenersToRemove).forEach((removeListener) => removeListener());
   }
 
   trackTableGrid() {
@@ -251,19 +241,11 @@ export class TableSelection {
         const domSelection = getDOMSelection(editor._window);
         // Collapse the selection
         if (domSelection) {
-          domSelection.setBaseAndExtent(
-            this.anchorCell.elem,
-            0,
-            this.focusCell.elem,
-            0,
-          );
+          domSelection.setBaseAndExtent(this.anchorCell.elem, 0, this.focusCell.elem, 0);
         }
       }
 
-      if (
-        !this.isHighlightingCells &&
-        (this.anchorX !== cellX || this.anchorY !== cellY || ignoreStart)
-      ) {
+      if (!this.isHighlightingCells && (this.anchorX !== cellX || this.anchorY !== cellY || ignoreStart)) {
         this.isHighlightingCells = true;
         this.disableHighlightStyle();
       } else if (cellX === this.focusX && cellY === this.focusY) {
@@ -276,22 +258,13 @@ export class TableSelection {
       if (this.isHighlightingCells) {
         const focusTableCellNode = $getNearestNodeFromDOMNode(cell.elem);
 
-        if (
-          this.gridSelection != null &&
-          this.anchorCellNodeKey != null &&
-          $isTableCellNode(focusTableCellNode)
-        ) {
+        if (this.gridSelection != null && this.anchorCellNodeKey != null && $isTableCellNode(focusTableCellNode)) {
           const focusNodeKey = focusTableCellNode.getKey();
 
-          this.gridSelection =
-            this.gridSelection.clone() || DEPRECATED_$createGridSelection();
+          this.gridSelection = this.gridSelection.clone() || DEPRECATED_$createGridSelection();
 
           this.focusCellNodeKey = focusNodeKey;
-          this.gridSelection.set(
-            this.tableNodeKey,
-            this.anchorCellNodeKey,
-            this.focusCellNodeKey,
-          );
+          this.gridSelection.set(this.tableNodeKey, this.anchorCellNodeKey, this.focusCellNodeKey);
 
           $setSelection(this.gridSelection);
 

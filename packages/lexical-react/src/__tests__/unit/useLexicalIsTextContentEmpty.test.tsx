@@ -6,18 +6,12 @@
  *
  */
 
-import {
-  $createParagraphNode,
-  $createTextNode,
-  $getRoot,
-  createEditor,
-  ParagraphNode,
-} from 'lexical';
+import { $createParagraphNode, $createTextNode, $getRoot, createEditor, ParagraphNode } from 'lexical';
 import * as React from 'react';
-import {createRoot} from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import * as ReactTestUtils from 'react-dom/test-utils';
 
-import {useLexicalIsTextContentEmpty} from '../../useLexicalIsTextContentEmpty';
+import { useLexicalIsTextContentEmpty } from '../../useLexicalIsTextContentEmpty';
 
 describe('useLexicalIsTextContentEmpty', () => {
   let container = null;

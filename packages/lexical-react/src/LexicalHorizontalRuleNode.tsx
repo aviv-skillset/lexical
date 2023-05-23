@@ -16,9 +16,9 @@ import type {
   SerializedLexicalNode,
 } from 'lexical';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {useLexicalNodeSelection} from '@lexical/react/useLexicalNodeSelection';
-import {mergeRegister} from '@lexical/utils';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useLexicalNodeSelection } from '@lexical/react/useLexicalNodeSelection';
+import { mergeRegister } from '@lexical/utils';
 import {
   $applyNodeReplacement,
   $getNodeByKey,
@@ -32,17 +32,15 @@ import {
   KEY_DELETE_COMMAND,
 } from 'lexical';
 import * as React from 'react';
-import {useCallback, useEffect} from 'react';
+import { useCallback, useEffect } from 'react';
 
 export type SerializedHorizontalRuleNode = SerializedLexicalNode;
 
-export const INSERT_HORIZONTAL_RULE_COMMAND: LexicalCommand<void> =
-  createCommand('INSERT_HORIZONTAL_RULE_COMMAND');
+export const INSERT_HORIZONTAL_RULE_COMMAND: LexicalCommand<void> = createCommand('INSERT_HORIZONTAL_RULE_COMMAND');
 
-function HorizontalRuleComponent({nodeKey}: {nodeKey: NodeKey}) {
+function HorizontalRuleComponent({ nodeKey }: { nodeKey: NodeKey }) {
   const [editor] = useLexicalComposerContext();
-  const [isSelected, setSelected, clearSelection] =
-    useLexicalNodeSelection(nodeKey);
+  const [isSelected, setSelected, clearSelection] = useLexicalNodeSelection(nodeKey);
 
   const onDelete = useCallback(
     (payload: KeyboardEvent) => {
@@ -79,16 +77,8 @@ function HorizontalRuleComponent({nodeKey}: {nodeKey: NodeKey}) {
         },
         COMMAND_PRIORITY_LOW,
       ),
-      editor.registerCommand(
-        KEY_DELETE_COMMAND,
-        onDelete,
-        COMMAND_PRIORITY_LOW,
-      ),
-      editor.registerCommand(
-        KEY_BACKSPACE_COMMAND,
-        onDelete,
-        COMMAND_PRIORITY_LOW,
-      ),
+      editor.registerCommand(KEY_DELETE_COMMAND, onDelete, COMMAND_PRIORITY_LOW),
+      editor.registerCommand(KEY_BACKSPACE_COMMAND, onDelete, COMMAND_PRIORITY_LOW),
     );
   }, [clearSelection, editor, isSelected, nodeKey, onDelete, setSelected]);
 
@@ -111,9 +101,7 @@ export class HorizontalRuleNode extends DecoratorNode<JSX.Element> {
     return new HorizontalRuleNode(node.__key);
   }
 
-  static importJSON(
-    serializedNode: SerializedHorizontalRuleNode,
-  ): HorizontalRuleNode {
+  static importJSON(serializedNode: SerializedHorizontalRuleNode): HorizontalRuleNode {
     return $createHorizontalRuleNode();
   }
 
@@ -134,7 +122,7 @@ export class HorizontalRuleNode extends DecoratorNode<JSX.Element> {
   }
 
   exportDOM(): DOMExportOutput {
-    return {element: document.createElement('hr')};
+    return { element: document.createElement('hr') };
   }
 
   createDOM(): HTMLElement {
@@ -159,15 +147,13 @@ export class HorizontalRuleNode extends DecoratorNode<JSX.Element> {
 }
 
 function convertHorizontalRuleElement(): DOMConversionOutput {
-  return {node: $createHorizontalRuleNode()};
+  return { node: $createHorizontalRuleNode() };
 }
 
 export function $createHorizontalRuleNode(): HorizontalRuleNode {
   return $applyNodeReplacement(new HorizontalRuleNode());
 }
 
-export function $isHorizontalRuleNode(
-  node: LexicalNode | null | undefined,
-): node is HorizontalRuleNode {
+export function $isHorizontalRuleNode(node: LexicalNode | null | undefined): node is HorizontalRuleNode {
   return node instanceof HorizontalRuleNode;
 }

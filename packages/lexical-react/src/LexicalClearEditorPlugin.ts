@@ -6,21 +6,15 @@
  *
  */
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {
-  $createParagraphNode,
-  $getRoot,
-  $getSelection,
-  CLEAR_EDITOR_COMMAND,
-  COMMAND_PRIORITY_EDITOR,
-} from 'lexical';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $createParagraphNode, $getRoot, $getSelection, CLEAR_EDITOR_COMMAND, COMMAND_PRIORITY_EDITOR } from 'lexical';
 import useLayoutEffect from 'shared/useLayoutEffect';
 
 type Props = Readonly<{
   onClear?: () => void;
 }>;
 
-export function ClearEditorPlugin({onClear}: Props): JSX.Element | null {
+export function ClearEditorPlugin({ onClear }: Props): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
 
   useLayoutEffect(() => {

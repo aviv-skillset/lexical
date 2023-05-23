@@ -6,10 +6,7 @@
  *
  */
 
-import {
-  addClassNamesToElement,
-  removeClassNamesFromElement,
-} from '@lexical/utils';
+import { addClassNamesToElement, removeClassNamesFromElement } from '@lexical/utils';
 
 describe('LexicalElementHelpers tests', () => {
   describe('addClassNamesToElement() and removeClassNamesFromElement()', () => {

@@ -6,12 +6,9 @@
  *
  */
 
-import type {LexicalComposerContextType} from '@lexical/react/LexicalComposerContext';
+import type { LexicalComposerContextType } from '@lexical/react/LexicalComposerContext';
 
-import {
-  createLexicalComposerContext,
-  LexicalComposerContext,
-} from '@lexical/react/LexicalComposerContext';
+import { createLexicalComposerContext, LexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   $createParagraphNode,
   $getRoot,
@@ -23,18 +20,14 @@ import {
   LexicalEditor,
   LexicalNode,
 } from 'lexical';
-import {useMemo} from 'react';
+import { useMemo } from 'react';
 import * as React from 'react';
-import {CAN_USE_DOM} from 'shared/canUseDOM';
+import { CAN_USE_DOM } from 'shared/canUseDOM';
 import useLayoutEffect from 'shared/useLayoutEffect';
 
-const HISTORY_MERGE_OPTIONS = {tag: 'history-merge'};
+const HISTORY_MERGE_OPTIONS = { tag: 'history-merge' };
 
-export type InitialEditorStateType =
-  | null
-  | string
-  | EditorState
-  | ((editor: LexicalEditor) => void);
+export type InitialEditorStateType = null | string | EditorState | ((editor: LexicalEditor) => void);
 
 export type InitialConfigType = Readonly<{
   editor__DEPRECATED?: LexicalEditor | null;
@@ -44,9 +37,7 @@ export type InitialConfigType = Readonly<{
     | {
         replace: Klass<LexicalNode>;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        with: <T extends {new (...args: any): any}>(
-          node: InstanceType<T>,
-        ) => LexicalNode;
+        with: <T extends { new (...args: any): any }>(node: InstanceType<T>) => LexicalNode;
       }
   >;
   onError: (error: Error, editor: LexicalEditor) => void;
@@ -60,7 +51,7 @@ type Props = {
   initialConfig: InitialConfigType;
 };
 
-export function LexicalComposer({initialConfig, children}: Props): JSX.Element {
+export function LexicalComposer({ initialConfig, children }: Props): JSX.Element {
   const composerContext: [LexicalEditor, LexicalComposerContextType] = useMemo(
     () => {
       const {
@@ -72,10 +63,7 @@ export function LexicalComposer({initialConfig, children}: Props): JSX.Element {
         editorState: initialEditorState,
       } = initialConfig;
 
-      const context: LexicalComposerContextType = createLexicalComposerContext(
-        null,
-        theme,
-      );
+      const context: LexicalComposerContextType = createLexicalComposerContext(null, theme);
 
       let editor = initialEditor || null;
 
@@ -109,17 +97,10 @@ export function LexicalComposer({initialConfig, children}: Props): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <LexicalComposerContext.Provider value={composerContext}>
-      {children}
-    </LexicalComposerContext.Provider>
-  );
+  return <LexicalComposerContext.Provider value={composerContext}>{children}</LexicalComposerContext.Provider>;
 }
 
-function initializeEditor(
-  editor: LexicalEditor,
-  initialEditorState?: InitialEditorStateType,
-): void {
+function initializeEditor(editor: LexicalEditor, initialEditorState?: InitialEditorStateType): void {
   if (initialEditorState === null) {
     return;
   } else if (initialEditorState === undefined) {
@@ -129,10 +110,7 @@ function initializeEditor(
         const paragraph = $createParagraphNode();
         root.append(paragraph);
         const activeElement = CAN_USE_DOM ? document.activeElement : null;
-        if (
-          $getSelection() !== null ||
-          (activeElement !== null && activeElement === editor.getRootElement())
-        ) {
+        if ($getSelection() !== null || (activeElement !== null && activeElement === editor.getRootElement())) {
           paragraph.select();
         }
       }

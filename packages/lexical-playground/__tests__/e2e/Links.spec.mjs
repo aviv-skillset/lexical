@@ -29,13 +29,13 @@ import {
   test,
 } from '../utils/index.mjs';
 
-test.beforeEach(({isPlainText}) => {
+test.beforeEach(({ isPlainText }) => {
   test.skip(isPlainText);
 });
 
 test.describe('Links', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Can convert a text node into a link`, async ({page}) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Can convert a text node into a link`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello');
     await selectAll(page);
@@ -43,9 +43,7 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
         </p>
       `,
@@ -57,14 +55,8 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <a
-            href="https://"
-            rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://" rel="noopener" dir="ltr">
             <span data-lexical-text="true">Hello</span>
           </a>
         </p>
@@ -84,14 +76,13 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <a
+            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
             href="https://facebook.com"
             rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+            dir="ltr"
+          >
             <span data-lexical-text="true">Hello</span>
           </a>
         </p>
@@ -111,9 +102,7 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
         </p>
       `,
@@ -127,9 +116,7 @@ test.describe('Links', () => {
     });
   });
 
-  test(`Can convert multi-formatted text into a link (backward)`, async ({
-    page,
-  }) => {
+  test(`Can convert multi-formatted text into a link (backward)`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type(' abc');
 
@@ -158,20 +145,10 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">abc</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            def
-          </strong>
-          <em
-            class="PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
-            ghi
-          </em>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> def </strong>
+          <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> ghi </em>
           <span data-lexical-text="true"></span>
         </p>
       `,
@@ -195,22 +172,10 @@ test.describe('Links', () => {
       html`
         <p class="PlaygroundEditorTheme__paragraph">
           <span data-lexical-text="true"></span>
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">abc</span>
-            <strong
-              class="PlaygroundEditorTheme__textBold"
-              data-lexical-text="true">
-              def
-            </strong>
-            <em
-              class="PlaygroundEditorTheme__textItalic"
-              data-lexical-text="true">
-              ghi
-            </em>
+            <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> def </strong>
+            <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> ghi </em>
           </a>
           <span data-lexical-text="true"></span>
         </p>
@@ -228,18 +193,11 @@ test.describe('Links', () => {
             class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
             dir="ltr"
             href="https://facebook.com"
-            rel="noopener">
+            rel="noopener"
+          >
             <span data-lexical-text="true">abc</span>
-            <strong
-              class="PlaygroundEditorTheme__textBold"
-              data-lexical-text="true">
-              def
-            </strong>
-            <em
-              class="PlaygroundEditorTheme__textItalic"
-              data-lexical-text="true">
-              ghi
-            </em>
+            <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> def </strong>
+            <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> ghi </em>
           </a>
           <span data-lexical-text="true"></span>
         </p>
@@ -247,9 +205,7 @@ test.describe('Links', () => {
     );
   });
 
-  test(`Can convert multi-formatted text into a link (forward)`, async ({
-    page,
-  }) => {
+  test(`Can convert multi-formatted text into a link (forward)`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type(' abc');
 
@@ -278,20 +234,10 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">abc</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            def
-          </strong>
-          <em
-            class="PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
-            ghi
-          </em>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> def </strong>
+          <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> ghi </em>
           <span data-lexical-text="true"></span>
         </p>
       `,
@@ -315,22 +261,10 @@ test.describe('Links', () => {
       html`
         <p class="PlaygroundEditorTheme__paragraph">
           <span data-lexical-text="true"></span>
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">abc</span>
-            <strong
-              class="PlaygroundEditorTheme__textBold"
-              data-lexical-text="true">
-              def
-            </strong>
-            <em
-              class="PlaygroundEditorTheme__textItalic"
-              data-lexical-text="true">
-              ghi
-            </em>
+            <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> def </strong>
+            <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> ghi </em>
           </a>
           <span data-lexical-text="true"></span>
         </p>
@@ -348,18 +282,11 @@ test.describe('Links', () => {
             class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
             dir="ltr"
             href="https://facebook.com"
-            rel="noopener">
+            rel="noopener"
+          >
             <span data-lexical-text="true">abc</span>
-            <strong
-              class="PlaygroundEditorTheme__textBold"
-              data-lexical-text="true">
-              def
-            </strong>
-            <em
-              class="PlaygroundEditorTheme__textItalic"
-              data-lexical-text="true">
-              ghi
-            </em>
+            <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> def </strong>
+            <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> ghi </em>
           </a>
           <span data-lexical-text="true"></span>
         </p>
@@ -367,9 +294,7 @@ test.describe('Links', () => {
     );
   });
 
-  test(`Can create a link in a list and insert a paragraph at the start`, async ({
-    page,
-  }) => {
+  test(`Can create a link in a list and insert a paragraph at the start`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('- hello');
     await selectCharacters(page, 'left', 5);
@@ -383,15 +308,8 @@ test.describe('Links', () => {
       page,
       html`
         <ul class="PlaygroundEditorTheme__ul">
-          <li
-            class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            value="1">
-            <a
-              class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-              dir="ltr"
-              href="https://"
-              rel="noopener">
+          <li class="PlaygroundEditorTheme__listItem PlaygroundEditorTheme__ltr" dir="ltr" value="1">
+            <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
               <span data-lexical-text="true">hello</span>
             </a>
           </li>
@@ -407,11 +325,7 @@ test.describe('Links', () => {
         <ul class="PlaygroundEditorTheme__ul">
           <li class="PlaygroundEditorTheme__listItem" value="1"><br /></li>
           <li class="PlaygroundEditorTheme__listItem" value="2">
-            <a
-              class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-              dir="ltr"
-              href="https://"
-              rel="noopener">
+            <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
               <span data-lexical-text="true">hello</span>
             </a>
           </li>
@@ -434,15 +348,9 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true"></span>
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">abc</span>
           </a>
           <span data-lexical-text="true">def</span>
@@ -459,22 +367,12 @@ test.describe('Links', () => {
       html`
         <p class="PlaygroundEditorTheme__paragraph">
           <span data-lexical-text="true"></span>
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">ab</span>
           </a>
         </p>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">c</span>
           </a>
           <span data-lexical-text="true">def</span>
@@ -487,22 +385,12 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true"></span>
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">ab</span>
           </a>
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">c</span>
           </a>
           <span data-lexical-text="true">def</span>
@@ -511,7 +399,7 @@ test.describe('Links', () => {
     );
   });
 
-  test(`Can create a link then replace it with plain text`, async ({page}) => {
+  test(`Can create a link then replace it with plain text`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type(' abc ');
 
@@ -526,11 +414,7 @@ test.describe('Links', () => {
       html`
         <p class="PlaygroundEditorTheme__paragraph">
           <span data-lexical-text="true"></span>
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">abc</span>
           </a>
           <span data-lexical-text="true"></span>
@@ -543,18 +427,14 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">a</span>
         </p>
       `,
     );
   });
 
-  test(`Can create a link then replace it with plain text #2`, async ({
-    page,
-  }) => {
+  test(`Can create a link then replace it with plain text #2`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type(' abc ');
 
@@ -570,18 +450,14 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">a</span>
         </p>
       `,
     );
   });
 
-  test(`Can create a link then partly replace it with plain text`, async ({
-    page,
-  }) => {
+  test(`Can create a link then partly replace it with plain text`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type(' abc ');
 
@@ -597,15 +473,9 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true"></span>
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">a</span>
           </a>
           <span data-lexical-text="true">a</span>
@@ -614,9 +484,7 @@ test.describe('Links', () => {
     );
   });
 
-  test(`Can convert multi-formatted text into a link and then modify text after`, async ({
-    page,
-  }) => {
+  test(`Can convert multi-formatted text into a link and then modify text after`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type(' abc');
 
@@ -645,20 +513,10 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">abc</span>
-          <strong
-            class="PlaygroundEditorTheme__textBold"
-            data-lexical-text="true">
-            def
-          </strong>
-          <em
-            class="PlaygroundEditorTheme__textItalic"
-            data-lexical-text="true">
-            ghi
-          </em>
+          <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> def </strong>
+          <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> ghi </em>
           <span data-lexical-text="true"></span>
         </p>
       `,
@@ -682,22 +540,10 @@ test.describe('Links', () => {
       html`
         <p class="PlaygroundEditorTheme__paragraph">
           <span data-lexical-text="true"></span>
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">abc</span>
-            <strong
-              class="PlaygroundEditorTheme__textBold"
-              data-lexical-text="true">
-              def
-            </strong>
-            <em
-              class="PlaygroundEditorTheme__textItalic"
-              data-lexical-text="true">
-              ghi
-            </em>
+            <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> def </strong>
+            <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> ghi </em>
           </a>
           <span data-lexical-text="true"></span>
         </p>
@@ -710,26 +556,12 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true"></span>
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">abc</span>
-            <strong
-              class="PlaygroundEditorTheme__textBold"
-              data-lexical-text="true">
-              def
-            </strong>
-            <em
-              class="PlaygroundEditorTheme__textItalic"
-              data-lexical-text="true">
-              ghi
-            </em>
+            <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> def </strong>
+            <em class="PlaygroundEditorTheme__textItalic" data-lexical-text="true"> ghi </em>
           </a>
           <span data-lexical-text="true">a</span>
         </p>
@@ -744,9 +576,7 @@ test.describe('Links', () => {
     });
   });
 
-  test(`It can insert text inside a link after a formatted text node`, async ({
-    page,
-  }) => {
+  test(`It can insert text inside a link after a formatted text node`, async ({ page }) => {
     await focusEditor(page);
     const linkText = 'This is the bold link';
     await page.keyboard.type(linkText);
@@ -760,14 +590,8 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">${linkText}</span>
           </a>
         </p>
@@ -787,20 +611,10 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">This is the</span>
-            <strong
-              class="PlaygroundEditorTheme__textBold"
-              data-lexical-text="true">
-              bold
-            </strong>
+            <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> bold </strong>
             <span data-lexical-text="true">link</span>
           </a>
         </p>
@@ -816,20 +630,10 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">This is the</span>
-            <strong
-              class="PlaygroundEditorTheme__textBold"
-              data-lexical-text="true">
-              boldest
-            </strong>
+            <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> boldest </strong>
             <span data-lexical-text="true">link</span>
           </a>
         </p>
@@ -837,9 +641,7 @@ test.describe('Links', () => {
     );
   });
 
-  test(`It can insert text inside a link before a formatted text node`, async ({
-    page,
-  }) => {
+  test(`It can insert text inside a link before a formatted text node`, async ({ page }) => {
     await focusEditor(page);
     const linkText = 'This is a bold link';
     await page.keyboard.type(linkText);
@@ -853,14 +655,8 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">${linkText}</span>
           </a>
         </p>
@@ -881,20 +677,10 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">This is a</span>
-            <strong
-              class="PlaygroundEditorTheme__textBold"
-              data-lexical-text="true">
-              bold
-            </strong>
+            <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> bold </strong>
             <span data-lexical-text="true">link</span>
           </a>
         </p>
@@ -912,20 +698,10 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">This is the</span>
-            <strong
-              class="PlaygroundEditorTheme__textBold"
-              data-lexical-text="true">
-              bold
-            </strong>
+            <strong class="PlaygroundEditorTheme__textBold" data-lexical-text="true"> bold </strong>
             <span data-lexical-text="true">link</span>
           </a>
         </p>
@@ -933,7 +709,7 @@ test.describe('Links', () => {
     );
   });
 
-  test('Can edit link with collapsed selection', async ({page}) => {
+  test('Can edit link with collapsed selection', async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('A link');
     await selectAll(page);
@@ -973,16 +749,14 @@ test.describe('Links', () => {
     );
   });
 
-  test(`Can type text before and after`, async ({page}) => {
+  test(`Can type text before and after`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('An Awesome Website');
     await selectAll(page);
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">An Awesome Website</span>
         </p>
       `,
@@ -992,14 +766,8 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <a
-            href="https://"
-            rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://" rel="noopener" dir="ltr">
             <span data-lexical-text="true">An Awesome Website</span>
           </a>
         </p>
@@ -1014,15 +782,9 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hey, check this out:</span>
-          <a
-            href="https://"
-            rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://" rel="noopener" dir="ltr">
             <span data-lexical-text="true">An Awesome Website</span>
           </a>
           <span data-lexical-text="true">!</span>
@@ -1031,9 +793,7 @@ test.describe('Links', () => {
     );
   });
 
-  test(`Can delete text up to a link and then add text after`, async ({
-    page,
-  }) => {
+  test(`Can delete text up to a link and then add text after`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('This is an Awesome Website right?');
     await moveLeft(page, ' right?'.length);
@@ -1041,12 +801,8 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span data-lexical-text="true">
-            This is an Awesome Website right?
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span data-lexical-text="true"> This is an Awesome Website right? </span>
         </p>
       `,
     );
@@ -1081,15 +837,9 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">This is an</span>
-          <a
-            href="https://"
-            rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://" rel="noopener" dir="ltr">
             <span data-lexical-text="true">Awesome Website</span>
           </a>
           <span data-lexical-text="true">, right?</span>
@@ -1098,19 +848,14 @@ test.describe('Links', () => {
     );
   });
 
-  test(`Can convert part of a text node into a link with forwards selection`, async ({
-    page,
-    browserName,
-  }) => {
+  test(`Can convert part of a text node into a link with forwards selection`, async ({ page, browserName }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello world');
 
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello world</span>
         </p>
       `,
@@ -1125,15 +870,9 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <a
-            href="https://"
-            rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://" rel="noopener" dir="ltr">
             <span data-lexical-text="true">world</span>
           </a>
         </p>
@@ -1160,15 +899,14 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
           <a
+            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
             href="https://facebook.com"
             rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+            dir="ltr"
+          >
             <span data-lexical-text="true">world</span>
           </a>
         </p>
@@ -1197,9 +935,7 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello world</span>
         </p>
       `,
@@ -1213,19 +949,14 @@ test.describe('Links', () => {
     });
   });
 
-  test(`Can convert part of a text node into a link with backwards selection`, async ({
-    page,
-    browserName,
-  }) => {
+  test(`Can convert part of a text node into a link with backwards selection`, async ({ page, browserName }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello world');
 
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello world</span>
         </p>
       `,
@@ -1239,15 +970,9 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <a
-            href="https://"
-            rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://" rel="noopener" dir="ltr">
             <span data-lexical-text="true">world</span>
           </a>
         </p>
@@ -1275,15 +1000,14 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
           <a
+            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
             href="https://facebook.com"
             rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+            dir="ltr"
+          >
             <span data-lexical-text="true">world</span>
           </a>
         </p>
@@ -1312,9 +1036,7 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello world</span>
         </p>
       `,
@@ -1328,10 +1050,7 @@ test.describe('Links', () => {
     });
   });
 
-  test(`Can convert part of a text node into a link and change block type`, async ({
-    page,
-    browserName,
-  }) => {
+  test(`Can convert part of a text node into a link and change block type`, async ({ page, browserName }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello world');
 
@@ -1342,15 +1061,9 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <a
-            href="https://"
-            rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://" rel="noopener" dir="ltr">
             <span data-lexical-text="true">world</span>
           </a>
         </p>
@@ -1365,15 +1078,9 @@ test.describe('Links', () => {
     await assertHTML(
       page,
       html`
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
-          <a
-            href="https://"
-            rel="noopener"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://" rel="noopener" dir="ltr">
             <span data-lexical-text="true">world</span>
           </a>
         </h1>
@@ -1381,7 +1088,7 @@ test.describe('Links', () => {
     );
   });
 
-  test('Can create multiline links', async ({page}) => {
+  test('Can create multiline links', async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello world');
     await page.keyboard.press('Enter');
@@ -1413,11 +1120,11 @@ test.describe('Links', () => {
         </p>
       `,
       undefined,
-      {ignoreClasses: true},
+      { ignoreClasses: true },
     );
   });
 
-  test('Can handle pressing Enter inside a Link', async ({page}) => {
+  test('Can handle pressing Enter inside a Link', async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello awesome');
     await selectAll(page);
@@ -1446,13 +1153,11 @@ test.describe('Links', () => {
         </p>
       `,
       undefined,
-      {ignoreClasses: true},
+      { ignoreClasses: true },
     );
   });
 
-  test('Can handle pressing Enter inside a Link containing multiple TextNodes', async ({
-    page,
-  }) => {
+  test('Can handle pressing Enter inside a Link containing multiple TextNodes', async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello ');
     await toggleBold(page);
@@ -1486,13 +1191,11 @@ test.describe('Links', () => {
         </p>
       `,
       undefined,
-      {ignoreClasses: true},
+      { ignoreClasses: true },
     );
   });
 
-  test('Can handle pressing Enter at the beginning of a Link', async ({
-    page,
-  }) => {
+  test('Can handle pressing Enter at the beginning of a Link', async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello awesome');
     await selectAll(page);
@@ -1515,11 +1218,11 @@ test.describe('Links', () => {
         </p>
       `,
       undefined,
-      {ignoreClasses: true},
+      { ignoreClasses: true },
     );
   });
 
-  test('Can handle pressing Enter at the end of a Link', async ({page}) => {
+  test('Can handle pressing Enter at the end of a Link', async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello awesome');
     await selectAll(page);
@@ -1544,7 +1247,7 @@ test.describe('Links', () => {
         </p>
       `,
       undefined,
-      {ignoreClasses: true},
+      { ignoreClasses: true },
     );
   });
 });

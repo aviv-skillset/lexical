@@ -39,21 +39,17 @@ import {
 } from '../utils/index.mjs';
 
 test.describe('Selection', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test('does not focus the editor on load', async ({page}) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test('does not focus the editor on load', async ({ page }) => {
     const editorHasFocus = async () =>
       await evaluate(page, () => {
-        const editorElement = document.querySelector(
-          'div[contenteditable="true"]',
-        );
+        const editorElement = document.querySelector('div[contenteditable="true"]');
         return document.activeElement === editorElement;
       });
 
     await focusEditor(page);
     await evaluate(page, () => {
-      const editorElement = document.querySelector(
-        'div[contenteditable="true"]',
-      );
+      const editorElement = document.querySelector('div[contenteditable="true"]');
       return editorElement.blur();
     });
     expect(await editorHasFocus()).toEqual(false);
@@ -61,20 +57,15 @@ test.describe('Selection', () => {
     expect(await editorHasFocus()).toEqual(false);
   });
 
-  test('keeps single active selection for nested editors', async ({
-    page,
-    isPlainText,
-    browserName,
-  }) => {
+  test('keeps single active selection for nested editors', async ({ page, isPlainText, browserName }) => {
     test.skip(isPlainText);
     const hasSelection = async (parentSelector) =>
       await evaluate(
         page,
         (_parentSelector) => {
           return (
-            document
-              .querySelector(`${_parentSelector} > .tree-view-output pre`)
-              .__lexicalEditor.getEditorState()._selection !== null
+            document.querySelector(`${_parentSelector} > .tree-view-output pre`).__lexicalEditor.getEditorState()
+              ._selection !== null
           );
         },
         parentSelector,
@@ -97,7 +88,7 @@ test.describe('Selection', () => {
       // In firefox .focus() on editor does not trigger selectionchange, while checking it
       // explicitly clicking on an editor (passing position that is on the right side to
       // prevent clicking on image and its nested editor)
-      await click(page, '.editor-shell', {position: {x: 600, y: 150}});
+      await click(page, '.editor-shell', { position: { x: 600, y: 150 } });
     } else {
       await focusEditor(page);
     }
@@ -115,10 +106,7 @@ test.describe('Selection', () => {
     expect(await hasSelection('.editor-shell')).toBe(false);
   });
 
-  test('can wrap post-linebreak nodes into new element', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('can wrap post-linebreak nodes into new element', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await page.keyboard.type('Line1');
@@ -131,9 +119,7 @@ test.describe('Selection', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Line1</span>
         </p>
         <code
@@ -141,17 +127,15 @@ test.describe('Selection', () => {
           spellcheck="false"
           dir="ltr"
           data-highlight-language="javascript"
-          data-gutter="1">
+          data-gutter="1"
+        >
           <span data-lexical-text="true">Line2</span>
         </code>
       `,
     );
   });
 
-  test('can delete text by line with CMD+delete', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('can delete text by line with CMD+delete', async ({ page, isPlainText }) => {
     test.skip(isPlainText || !IS_MAC);
     await focusEditor(page);
     await page.keyboard.type('One');
@@ -169,26 +153,18 @@ test.describe('Selection', () => {
 
     const lines = [
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">One</span>
         </p>
       `,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Two</span>
         </p>
       `,
+      html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `,
       html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-      html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Three</span>
         </p>
       `,
@@ -201,18 +177,10 @@ test.describe('Selection', () => {
     await deleteLine();
     await assertHTML(page, lines.slice(0, 1).join(''));
     await deleteLine();
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
   });
 
-  test('Can insert inline element within text and put selection after it', async ({
-    page,
-    isPlainText,
-  }) => {
+  test('Can insert inline element within text and put selection after it', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await page.keyboard.type('Hello world');
@@ -229,7 +197,7 @@ test.describe('Selection', () => {
     });
   });
 
-  test('Can delete at boundary #4221', async ({page, isPlainText}) => {
+  test('Can delete at boundary #4221', async ({ page, isPlainText }) => {
     test.skip(!isPlainText);
     await focusEditor(page);
     await page.keyboard.type('aaa');
@@ -245,9 +213,7 @@ test.describe('Selection', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">aaa</span>
           <br />
           <br />
@@ -262,16 +228,14 @@ test.describe('Selection', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">aaa</span>
         </p>
       `,
     );
   });
 
-  test('Can select all with node selection', async ({page, isPlainText}) => {
+  test('Can select all with node selection', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await page.keyboard.type('Text before');
@@ -279,15 +243,10 @@ test.describe('Selection', () => {
     await page.keyboard.type('Text after');
     await selectAll(page);
     await page.keyboard.press('Delete');
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
   });
 
-  test('Can delete forward a Collapsible', async ({page, isPlainText}) => {
+  test('Can delete forward a Collapsible', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     if (!IS_MAC) {
       // Do Windows/Linux have equivalent shortcuts?
@@ -303,9 +262,7 @@ test.describe('Selection', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">abc</span>
         </p>
         <p class="PlaygroundEditorTheme__paragraph"><br /></p>
@@ -315,7 +272,7 @@ test.describe('Selection', () => {
 
   // TODO I don't think this test is correct but at least this test will prevent it from regressing
   // even further
-  test('Can delete forward a Table', async ({page, isPlainText}) => {
+  test('Can delete forward a Table', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     if (!IS_MAC) {
       // Do Windows/Linux have equivalent shortcuts?
@@ -331,19 +288,15 @@ test.describe('Selection', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">abc</span>
         </p>
         <table class="PlaygroundEditorTheme__table">
           <tr>
-            <th
-              class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
+            <th class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </th>
-            <th
-              class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
+            <th class="PlaygroundEditorTheme__tableCell PlaygroundEditorTheme__tableCellHeader">
               <p class="PlaygroundEditorTheme__paragraph"><br /></p>
             </th>
           </tr>

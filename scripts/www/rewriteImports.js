@@ -9,7 +9,7 @@
 'use strict';
 
 const glob = require('glob');
-const {readFile, writeFile} = require('fs');
+const { readFile, writeFile } = require('fs');
 
 const options = {};
 
@@ -30,10 +30,7 @@ glob('packages/**/flow/*.flow', options, function (error1, files) {
         throw error2;
       }
       const result = data
-        .replace(
-          / \* @flow strict/g,
-          ' * @flow strict\n * @generated\n * @oncall lexical_web_text_editor',
-        )
+        .replace(/ \* @flow strict/g, ' * @flow strict\n * @generated\n * @oncall lexical_web_text_editor')
         .replace(/from 'lexical'/g, "from 'Lexical'")
         .replace(/from 'lexical'/g, "from 'Lexical'")
         .replace(/from 'lexical\/LinkNode'/g, "from 'LexicalLinkNode'")
@@ -58,10 +55,7 @@ glob('packages/**/flow/*.flow', options, function (error1, files) {
         .replace(/from '@lexical\/text\'/g, "from 'LexicalText'")
         .replace(/from '@lexical\/utils\'/g, "from 'LexicalUtils'")
         .replace(/from '@lexical\/yjs\'/g, "from 'LexicalYjs'")
-        .replace(
-          /from 'lexical\/CodeHighlightNode'/g,
-          "from 'LexicalCodeHighlightNode'",
-        );
+        .replace(/from 'lexical\/CodeHighlightNode'/g, "from 'LexicalCodeHighlightNode'");
 
       const distDirectory = file.replace('/flow/', '/dist/');
 

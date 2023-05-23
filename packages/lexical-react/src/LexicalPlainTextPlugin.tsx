@@ -6,13 +6,13 @@
  *
  */
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import useLexicalEditable from '@lexical/react/useLexicalEditable';
 import * as React from 'react';
 
-import {useCanShowPlaceholder} from './shared/useCanShowPlaceholder';
-import {ErrorBoundaryType, useDecorators} from './shared/useDecorators';
-import {usePlainTextSetup} from './shared/usePlainTextSetup';
+import { useCanShowPlaceholder } from './shared/useCanShowPlaceholder';
+import { ErrorBoundaryType, useDecorators } from './shared/useDecorators';
+import { usePlainTextSetup } from './shared/usePlainTextSetup';
 
 export function PlainTextPlugin({
   contentEditable,
@@ -20,10 +20,7 @@ export function PlainTextPlugin({
   ErrorBoundary,
 }: {
   contentEditable: JSX.Element;
-  placeholder:
-    | ((isEditable: boolean) => null | JSX.Element)
-    | null
-    | JSX.Element;
+  placeholder: ((isEditable: boolean) => null | JSX.Element) | null | JSX.Element;
   ErrorBoundary: ErrorBoundaryType;
 }): JSX.Element {
   const [editor] = useLexicalComposerContext();

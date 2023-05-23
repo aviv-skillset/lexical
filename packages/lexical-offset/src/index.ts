@@ -7,22 +7,9 @@
  *
  */
 
-import type {
-  EditorState,
-  ElementNode,
-  LexicalEditor,
-  NodeKey,
-  NodeMap,
-  RangeSelection,
-  RootNode,
-} from 'lexical';
+import type { EditorState, ElementNode, LexicalEditor, NodeKey, NodeMap, RangeSelection, RootNode } from 'lexical';
 
-import {
-  $createRangeSelection,
-  $getNodeByKey,
-  $isElementNode,
-  $isTextNode,
-} from 'lexical';
+import { $createRangeSelection, $getNodeByKey, $isElementNode, $isTextNode } from 'lexical';
 import invariant from 'shared/invariant';
 
 type OffsetElementNode = {
@@ -63,11 +50,7 @@ export class OffsetView {
   _firstNode: null | OffsetNode;
   _blockOffsetSize: number;
 
-  constructor(
-    offsetMap: OffsetMap,
-    firstNode: null | OffsetNode,
-    blockOffsetSize = 1,
-  ) {
+  constructor(offsetMap: OffsetMap, firstNode: null | OffsetNode, blockOffsetSize = 1) {
     this._offsetMap = offsetMap;
     this._firstNode = firstNode;
     this._blockOffsetSize = blockOffsetSize;
@@ -86,42 +69,14 @@ export class OffsetView {
 
     let start = originalStart;
     let end = originalEnd;
-    let startOffsetNode = $searchForNodeWithOffset(
-      firstNode,
-      start,
-      this._blockOffsetSize,
-    );
-    let endOffsetNode = $searchForNodeWithOffset(
-      firstNode,
-      end,
-      this._blockOffsetSize,
-    );
+    let startOffsetNode = $searchForNodeWithOffset(firstNode, start, this._blockOffsetSize);
+    let endOffsetNode = $searchForNodeWithOffset(firstNode, end, this._blockOffsetSize);
 
     if (diffOffsetView !== undefined) {
-      start = $getAdjustedOffsetFromDiff(
-        start,
-        startOffsetNode,
-        diffOffsetView,
-        this,
-        this._blockOffsetSize,
-      );
-      startOffsetNode = $searchForNodeWithOffset(
-        firstNode,
-        start,
-        this._blockOffsetSize,
-      );
-      end = $getAdjustedOffsetFromDiff(
-        end,
-        endOffsetNode,
-        diffOffsetView,
-        this,
-        this._blockOffsetSize,
-      );
-      endOffsetNode = $searchForNodeWithOffset(
-        firstNode,
-        end,
-        this._blockOffsetSize,
-      );
+      start = $getAdjustedOffsetFromDiff(start, startOffsetNode, diffOffsetView, this, this._blockOffsetSize);
+      startOffsetNode = $searchForNodeWithOffset(firstNode, start, this._blockOffsetSize);
+      end = $getAdjustedOffsetFromDiff(end, endOffsetNode, diffOffsetView, this, this._blockOffsetSize);
+      endOffsetNode = $searchForNodeWithOffset(firstNode, end, this._blockOffsetSize);
     }
 
     if (startOffsetNode === null || endOffsetNode === null) {
@@ -150,20 +105,13 @@ export class OffsetView {
       // try and correct the offset node.
       const sibling = startNode.getNextSibling();
 
-      if (
-        start !== end &&
-        startOffset === startNode.getTextContentSize() &&
-        $isTextNode(sibling)
-      ) {
+      if (start !== end && startOffset === startNode.getTextContentSize() && $isTextNode(sibling)) {
         startOffset = 0;
         startKey = sibling.__key;
       }
     } else if (startOffsetNode.type === 'inline') {
       startKey = startNode.getParentOrThrow().getKey();
-      startOffset =
-        end > startOffsetNode.start
-          ? startOffsetNode.end
-          : startOffsetNode.start;
+      startOffset = end > startOffsetNode.start ? startOffsetNode.end : startOffsetNode.start;
     }
 
     if (endOffsetNode.type === 'text') {
@@ -171,8 +119,7 @@ export class OffsetView {
       endType = 'text';
     } else if (endOffsetNode.type === 'inline') {
       endKey = endNode.getParentOrThrow().getKey();
-      endOffset =
-        end > endOffsetNode.start ? endOffsetNode.end : endOffsetNode.start;
+      endOffset = end > endOffsetNode.start ? endOffsetNode.end : endOffsetNode.start;
     }
 
     const selection = $createRangeSelection();
@@ -288,8 +235,7 @@ function $getAdjustedOffsetFromDiff(
         if (prevParentSibling === undefined) {
           adjustedOffset += parentDiff;
         } else {
-          const prevParentDiff =
-            prevParentSibling.end - prevParentSibling.start;
+          const prevParentDiff = prevParentSibling.end - prevParentSibling.start;
 
           if (prevParentDiff !== parentDiff) {
             adjustedOffset += parentDiff - prevParentDiff;
@@ -311,11 +257,7 @@ function $getAdjustedOffsetFromDiff(
   const prevFirstNode = prevOffsetView._firstNode;
 
   if (prevFirstNode !== null) {
-    currentNode = $searchForNodeWithOffset(
-      prevFirstNode,
-      offset,
-      blockOffsetSize,
-    );
+    currentNode = $searchForNodeWithOffset(prevFirstNode, offset, blockOffsetSize);
     let alreadyVisitedParentOfCurrentNode = false;
 
     while (currentNode !== null) {
@@ -354,17 +296,11 @@ function $getAdjustedOffsetFromDiff(
   return adjustedOffset;
 }
 
-function $searchForNodeWithOffset(
-  firstNode: OffsetNode,
-  offset: number,
-  blockOffsetSize: number,
-): OffsetNode | null {
+function $searchForNodeWithOffset(firstNode: OffsetNode, offset: number, blockOffsetSize: number): OffsetNode | null {
   let currentNode = firstNode;
 
   while (currentNode !== null) {
-    const end =
-      currentNode.end +
-      (currentNode.type !== 'element' || blockOffsetSize === 0 ? 1 : 0);
+    const end = currentNode.end + (currentNode.type !== 'element' || blockOffsetSize === 0 ? 1 : 0);
 
     if (offset < end) {
       const child = currentNode.child;
@@ -440,16 +376,7 @@ function $createOffsetNode(
   if ($isElementNode(node)) {
     const childKeys = createChildrenArray(node, nodeMap);
     const blockIsEmpty = childKeys.length === 0;
-    const child = blockIsEmpty
-      ? null
-      : $createOffsetChild(
-          state,
-          childKeys,
-          null,
-          nodeMap,
-          offsetMap,
-          blockOffsetSize,
-        );
+    const child = blockIsEmpty ? null : $createOffsetChild(state, childKeys, null, nodeMap, offsetMap, blockOffsetSize);
 
     // If the prev node was not a block or the block is empty, we should
     // account for the user being able to selection the block (due to the \n).
@@ -458,14 +385,7 @@ function $createOffsetNode(
       state.offset += blockOffsetSize;
     }
 
-    const offsetNode = $createInternalOffsetNode(
-      child,
-      'element',
-      start,
-      start,
-      key,
-      parent,
-    ) as OffsetElementNode;
+    const offsetNode = $createInternalOffsetNode(child, 'element', start, start, key, parent) as OffsetElementNode;
 
     if (child !== null) {
       child.parent = offsetNode;
@@ -483,14 +403,7 @@ function $createOffsetNode(
   const length = isText ? node.__text.length : 1;
   const end = (state.offset += length);
 
-  const offsetNode = $createInternalOffsetNode(
-    null,
-    isText ? 'text' : 'inline',
-    start,
-    end,
-    key,
-    parent,
-  );
+  const offsetNode = $createInternalOffsetNode(null, isText ? 'text' : 'inline', start, end, key, parent);
 
   offsetMap.set(key, offsetNode as OffsetNode);
 
@@ -516,14 +429,7 @@ function $createOffsetChild(
   for (let i = 0; i < childrenLength; i++) {
     const childKey = children[i];
 
-    const offsetNode = $createOffsetNode(
-      state,
-      childKey,
-      parent,
-      nodeMap,
-      offsetMap,
-      blockOffsetSize,
-    );
+    const offsetNode = $createOffsetNode(state, childKey, parent, nodeMap, offsetMap, blockOffsetSize);
 
     if (currentNode === null) {
       firstNode = offsetNode;
@@ -538,15 +444,11 @@ function $createOffsetChild(
   return firstNode;
 }
 
-export function createChildrenArray(
-  element: ElementNode,
-  nodeMap: null | NodeMap,
-): Array<NodeKey> {
+export function createChildrenArray(element: ElementNode, nodeMap: null | NodeMap): Array<NodeKey> {
   const children = [];
   let nodeKey = element.__first;
   while (nodeKey !== null) {
-    const node =
-      nodeMap === null ? $getNodeByKey(nodeKey) : nodeMap.get(nodeKey);
+    const node = nodeMap === null ? $getNodeByKey(nodeKey) : nodeMap.get(nodeKey);
     if (node === null || node === undefined) {
       invariant(false, 'createChildrenArray: node does not exist in nodeMap');
     }
@@ -561,8 +463,7 @@ export function $createOffsetView(
   blockOffsetSize = 1,
   editorState?: EditorState | null,
 ): OffsetView {
-  const targetEditorState =
-    editorState || editor._pendingEditorState || editor._editorState;
+  const targetEditorState = editorState || editor._pendingEditorState || editor._editorState;
   const nodeMap = targetEditorState._nodeMap;
 
   const root = nodeMap.get('root') as RootNode;
@@ -573,14 +474,7 @@ export function $createOffsetView(
     prevIsBlock: false,
   };
 
-  const node = $createOffsetChild(
-    state,
-    createChildrenArray(root, nodeMap),
-    null,
-    nodeMap,
-    offsetMap,
-    blockOffsetSize,
-  );
+  const node = $createOffsetChild(state, createChildrenArray(root, nodeMap), null, nodeMap, offsetMap, blockOffsetSize);
 
   return new OffsetView(offsetMap, node, blockOffsetSize);
 }

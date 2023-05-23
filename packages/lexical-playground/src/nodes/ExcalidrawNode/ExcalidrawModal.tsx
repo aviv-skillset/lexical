@@ -8,15 +8,11 @@
 
 import './ExcalidrawModal.css';
 
-import {Excalidraw} from '@excalidraw/excalidraw';
-import {
-  AppState,
-  BinaryFiles,
-  ExcalidrawImperativeAPI,
-} from '@excalidraw/excalidraw/types/types';
+import { Excalidraw } from '@excalidraw/excalidraw';
+import { AppState, BinaryFiles, ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
 import * as React from 'react';
-import {ReactPortal, useEffect, useLayoutEffect, useRef, useState} from 'react';
-import {createPortal} from 'react-dom';
+import { ReactPortal, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import Button from '../../ui/Button';
 import Modal from '../../ui/Modal';
@@ -54,11 +50,7 @@ type Props = {
   /**
    * Callback when the save button is clicked
    */
-  onSave: (
-    elements: ReadonlyArray<ExcalidrawElementFragment>,
-    appState: Partial<AppState>,
-    files: BinaryFiles,
-  ) => void;
+  onSave: (elements: ReadonlyArray<ExcalidrawElementFragment>, appState: Partial<AppState>, files: BinaryFiles) => void;
 };
 
 /**
@@ -79,8 +71,7 @@ export default function ExcalidrawModal({
   const excaliDrawModelRef = useRef<HTMLDivElement | null>(null);
   const excaliDrawSceneRef = useRef<ExcalidrawImperativeAPI>(null);
   const [discardModalOpen, setDiscardModalOpen] = useState(false);
-  const [elements, setElements] =
-    useState<ReadonlyArray<ExcalidrawElementFragment>>(initialElements);
+  const [elements, setElements] = useState<ReadonlyArray<ExcalidrawElementFragment>>(initialElements);
   const [files, setFiles] = useState<BinaryFiles>(initialFiles);
 
   useEffect(() => {
@@ -178,20 +169,23 @@ export default function ExcalidrawModal({
         onClose={() => {
           setDiscardModalOpen(false);
         }}
-        closeOnClickOutside={false}>
+        closeOnClickOutside={false}
+      >
         Are you sure you want to discard the changes?
         <div className="ExcalidrawModal__discardModal">
           <Button
             onClick={() => {
               setDiscardModalOpen(false);
               onClose();
-            }}>
+            }}
+          >
             Discard
           </Button>{' '}
           <Button
             onClick={() => {
               setDiscardModalOpen(false);
-            }}>
+            }}
+          >
             Cancel
           </Button>
         </div>
@@ -203,11 +197,7 @@ export default function ExcalidrawModal({
     return null;
   }
 
-  const onChange = (
-    els: ReadonlyArray<ExcalidrawElementFragment>,
-    _: AppState,
-    fls: BinaryFiles,
-  ) => {
+  const onChange = (els: ReadonlyArray<ExcalidrawElementFragment>, _: AppState, fls: BinaryFiles) => {
     setElements(els);
     setFiles(fls);
   };
@@ -215,22 +205,18 @@ export default function ExcalidrawModal({
   // This is a hacky work-around for Excalidraw + Vite.
   // In DEV, Vite pulls this in fine, in prod it doesn't. It seems
   // like a module resolution issue with ESM vs CJS?
-  const _Excalidraw =
-    Excalidraw.$$typeof != null ? Excalidraw : Excalidraw.default;
+  const _Excalidraw = Excalidraw.$$typeof != null ? Excalidraw : Excalidraw.default;
 
   return createPortal(
     <div className="ExcalidrawModal__overlay" role="dialog">
-      <div
-        className="ExcalidrawModal__modal"
-        ref={excaliDrawModelRef}
-        tabIndex={-1}>
+      <div className="ExcalidrawModal__modal" ref={excaliDrawModelRef} tabIndex={-1}>
         <div className="ExcalidrawModal__row">
           {discardModalOpen && <ShowDiscardDialog />}
           <_Excalidraw
             onChange={onChange}
             ref={excaliDrawSceneRef}
             initialData={{
-              appState: initialAppState || {isLoading: false},
+              appState: initialAppState || { isLoading: false },
               elements: initialElements,
               files: initialFiles,
             }}

@@ -6,20 +6,18 @@
  *
  */
 
-import type {LexicalNode, SerializedLexicalNode} from '../LexicalNode';
-import type {SerializedElementNode} from './LexicalElementNode';
+import type { LexicalNode, SerializedLexicalNode } from '../LexicalNode';
+import type { SerializedElementNode } from './LexicalElementNode';
 
 import invariant from 'shared/invariant';
 
-import {NO_DIRTY_NODES} from '../LexicalConstants';
-import {getActiveEditor, isCurrentlyReadOnlyMode} from '../LexicalUpdates';
-import {$getRoot} from '../LexicalUtils';
-import {$isDecoratorNode} from './LexicalDecoratorNode';
-import {$isElementNode, ElementNode} from './LexicalElementNode';
+import { NO_DIRTY_NODES } from '../LexicalConstants';
+import { getActiveEditor, isCurrentlyReadOnlyMode } from '../LexicalUpdates';
+import { $getRoot } from '../LexicalUtils';
+import { $isDecoratorNode } from './LexicalDecoratorNode';
+import { $isElementNode, ElementNode } from './LexicalElementNode';
 
-export type SerializedRootNode<
-  T extends SerializedLexicalNode = SerializedLexicalNode,
-> = SerializedElementNode<T>;
+export type SerializedRootNode<T extends SerializedLexicalNode = SerializedLexicalNode> = SerializedElementNode<T>;
 
 /** @noInheritDoc */
 export class RootNode extends ElementNode {
@@ -40,18 +38,12 @@ export class RootNode extends ElementNode {
   }
 
   getTopLevelElementOrThrow(): never {
-    invariant(
-      false,
-      'getTopLevelElementOrThrow: root nodes are not top level elements',
-    );
+    invariant(false, 'getTopLevelElementOrThrow: root nodes are not top level elements');
   }
 
   getTextContent(): string {
     const cachedText = this.__cachedText;
-    if (
-      isCurrentlyReadOnlyMode() ||
-      getActiveEditor()._dirtyType === NO_DIRTY_NODES
-    ) {
+    if (isCurrentlyReadOnlyMode() || getActiveEditor()._dirtyType === NO_DIRTY_NODES) {
       if (cachedText !== null) {
         return cachedText;
       }
@@ -87,10 +79,7 @@ export class RootNode extends ElementNode {
     for (let i = 0; i < nodesToAppend.length; i++) {
       const node = nodesToAppend[i];
       if (!$isElementNode(node) && !$isDecoratorNode(node)) {
-        invariant(
-          false,
-          'rootNode.append: Only element or decorator nodes can be appended to the root node',
-        );
+        invariant(false, 'rootNode.append: Only element or decorator nodes can be appended to the root node');
       }
     }
     return super.append(...nodesToAppend);
@@ -125,8 +114,6 @@ export function $createRootNode(): RootNode {
   return new RootNode();
 }
 
-export function $isRootNode(
-  node: RootNode | LexicalNode | null | undefined,
-): node is RootNode {
+export function $isRootNode(node: RootNode | LexicalNode | null | undefined): node is RootNode {
   return node instanceof RootNode;
 }

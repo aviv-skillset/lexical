@@ -6,13 +6,7 @@
  *
  */
 
-import {
-  $createTextNode,
-  $getSelection,
-  $isNodeSelection,
-  $isRangeSelection,
-  $isTextNode,
-} from 'lexical';
+import { $createTextNode, $getSelection, $isNodeSelection, $isRangeSelection, $isTextNode } from 'lexical';
 
 Object.defineProperty(HTMLElement.prototype, 'contentEditable', {
   get() {
@@ -32,15 +26,9 @@ type Segment = {
 
 // @ts-ignore
 if (!Selection.prototype.modify) {
-  const wordBreakPolyfillRegex =
-    /[\s.,\\/#!$%^&*;:{}=\-`~()\uD800-\uDBFF\uDC00-\uDFFF\u3000-\u303F]/u;
+  const wordBreakPolyfillRegex = /[\s.,\\/#!$%^&*;:{}=\-`~()\uD800-\uDBFF\uDC00-\uDFFF\u3000-\u303F]/u;
 
-  const pushSegment = function (
-    segments: Array<Segment>,
-    index: number,
-    str: string,
-    isWordLike: boolean,
-  ): void {
+  const pushSegment = function (segments: Array<Segment>, index: number, str: string, isWordLike: boolean): void {
     segments.push({
       index: index - str.length,
       isWordLike,
@@ -139,8 +127,7 @@ if (!Selection.prototype.modify) {
           (_$isTextNode && anchorOffset === anchorNode.textContent.length) ||
           (!_$isTextNode &&
             (anchorNode.childNodes.length === anchorOffset ||
-              (anchorNode.childNodes.length === 1 &&
-                anchorNode.firstChild.nodeName === 'BR')))
+              (anchorNode.childNodes.length === 1 && anchorNode.firstChild.nodeName === 'BR')))
         ) {
           let nextSibling = anchorNode.nextSibling;
 
@@ -219,9 +206,7 @@ if (!Selection.prototype.modify) {
 }
 
 export function printWhitespace(whitespaceCharacter) {
-  return whitespaceCharacter.charCodeAt(0) === 160
-    ? '&nbsp;'
-    : whitespaceCharacter;
+  return whitespaceCharacter.charCodeAt(0) === 160 ? '&nbsp;' : whitespaceCharacter;
 }
 
 export function insertText(text) {
@@ -384,12 +369,7 @@ export function pasteHTML(text: string) {
   };
 }
 
-export function moveNativeSelection(
-  anchorPath,
-  anchorOffset,
-  focusPath,
-  focusOffset,
-) {
+export function moveNativeSelection(anchorPath, anchorOffset, focusPath, focusOffset) {
   return {
     anchorOffset,
     anchorPath,
@@ -409,12 +389,7 @@ export function getNodeFromPath(path, rootElement) {
   return node;
 }
 
-export function setNativeSelection(
-  anchorNode,
-  anchorOffset,
-  focusNode,
-  focusOffset,
-) {
+export function setNativeSelection(anchorNode, anchorOffset, focusNode, focusOffset) {
   const domSelection = window.getSelection();
   const range = document.createRange();
   range.setStart(anchorNode, anchorOffset);
@@ -426,13 +401,7 @@ export function setNativeSelection(
   });
 }
 
-export function setNativeSelectionWithPaths(
-  rootElement,
-  anchorPath,
-  anchorOffset,
-  focusPath,
-  focusOffset,
-) {
+export function setNativeSelectionWithPaths(rootElement, anchorPath, anchorOffset, focusPath, focusOffset) {
   const anchorNode = getNodeFromPath(anchorPath, rootElement);
   const focusNode = getNodeFromPath(focusPath, rootElement);
   setNativeSelection(anchorNode, anchorOffset, focusNode, focusOffset);
@@ -518,11 +487,10 @@ function getNextTextNode(startingNode) {
 
 function moveNativeSelectionBackward() {
   const domSelection = window.getSelection();
-  let {anchorNode, anchorOffset} = domSelection;
+  let { anchorNode, anchorOffset } = domSelection;
 
   if (domSelection.isCollapsed) {
-    const target =
-      anchorNode.nodeType === 1 ? anchorNode : anchorNode.parentNode;
+    const target = anchorNode.nodeType === 1 ? anchorNode : anchorNode.parentNode;
     const keyDownEvent = new KeyboardEvent('keydown', {
       bubbles: true,
       cancelable: true,
@@ -540,20 +508,10 @@ function moveNativeSelectionBackward() {
             throw new Error('moveNativeSelectionBackward: TODO');
           } else {
             const textLength = lastTextNode.nodeValue.length;
-            setNativeSelection(
-              lastTextNode,
-              textLength,
-              lastTextNode,
-              textLength,
-            );
+            setNativeSelection(lastTextNode, textLength, lastTextNode, textLength);
           }
         } else {
-          setNativeSelection(
-            anchorNode,
-            anchorOffset - 1,
-            anchorNode,
-            anchorOffset - 1,
-          );
+          setNativeSelection(anchorNode, anchorOffset - 1, anchorNode, anchorOffset - 1);
         }
       } else if (anchorNode.nodeType === 1) {
         if (anchorNode.nodeName === 'BR') {
@@ -585,11 +543,10 @@ function moveNativeSelectionBackward() {
 
 function moveNativeSelectionForward() {
   const domSelection = window.getSelection();
-  const {anchorNode, anchorOffset} = domSelection;
+  const { anchorNode, anchorOffset } = domSelection;
 
   if (domSelection.isCollapsed) {
-    const target =
-      anchorNode.nodeType === 1 ? anchorNode : anchorNode.parentNode;
+    const target = anchorNode.nodeType === 1 ? anchorNode : anchorNode.parentNode;
     const keyDownEvent = new KeyboardEvent('keydown', {
       bubbles: true,
       cancelable: true,
@@ -611,12 +568,7 @@ function moveNativeSelectionForward() {
             setNativeSelection(nextTextNode, 0, nextTextNode, 0);
           }
         } else {
-          setNativeSelection(
-            anchorNode,
-            anchorOffset + 1,
-            anchorNode,
-            anchorOffset + 1,
-          );
+          setNativeSelection(anchorNode, anchorOffset + 1, anchorNode, anchorOffset + 1);
         }
       } else {
         throw new Error('moveNativeSelectionForward: TODO');

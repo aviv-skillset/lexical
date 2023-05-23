@@ -6,19 +6,10 @@
  *
  */
 
-import type {ElementFormatType} from './nodes/LexicalElementNode';
-import type {
-  TextDetailType,
-  TextFormatType,
-  TextModeType,
-} from './nodes/LexicalTextNode';
+import type { ElementFormatType } from './nodes/LexicalElementNode';
+import type { TextDetailType, TextFormatType, TextModeType } from './nodes/LexicalTextNode';
 
-import {
-  IS_APPLE_WEBKIT,
-  IS_FIREFOX,
-  IS_IOS,
-  IS_SAFARI,
-} from 'shared/environment';
+import { IS_APPLE_WEBKIT, IS_FIREFOX, IS_IOS, IS_SAFARI } from 'shared/environment';
 
 // DOM
 export const DOM_ELEMENT_TYPE = 1;
@@ -46,14 +37,7 @@ export const IS_SUPERSCRIPT = 1 << 6;
 export const IS_HIGHLIGHT = 1 << 7;
 
 export const IS_ALL_FORMATTING =
-  IS_BOLD |
-  IS_ITALIC |
-  IS_STRIKETHROUGH |
-  IS_UNDERLINE |
-  IS_CODE |
-  IS_SUBSCRIPT |
-  IS_SUPERSCRIPT |
-  IS_HIGHLIGHT;
+  IS_BOLD | IS_ITALIC | IS_STRIKETHROUGH | IS_UNDERLINE | IS_CODE | IS_SUBSCRIPT | IS_SUPERSCRIPT | IS_HIGHLIGHT;
 
 // Text node details
 export const IS_DIRECTIONLESS = 1;
@@ -74,16 +58,12 @@ const ZERO_WIDTH_SPACE = '\u200b';
 // For iOS/Safari we use a non breaking space, otherwise the cursor appears
 // overlapping the composed text.
 export const COMPOSITION_SUFFIX: string =
-  IS_SAFARI || IS_IOS || IS_APPLE_WEBKIT
-    ? NON_BREAKING_SPACE
-    : ZERO_WIDTH_SPACE;
+  IS_SAFARI || IS_IOS || IS_APPLE_WEBKIT ? NON_BREAKING_SPACE : ZERO_WIDTH_SPACE;
 export const DOUBLE_LINE_BREAK = '\n\n';
 
 // For FF, we need to use a non-breaking space, or it gets composition
 // in a stuck state.
-export const COMPOSITION_START_CHAR: string = IS_FIREFOX
-  ? NON_BREAKING_SPACE
-  : COMPOSITION_SUFFIX;
+export const COMPOSITION_START_CHAR: string = IS_FIREFOX ? NON_BREAKING_SPACE : COMPOSITION_SUFFIX;
 const RTL = '\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC';
 const LTR =
   'A-Za-z\u00C0-\u00D6\u00D8-\u00F6' +
@@ -111,10 +91,7 @@ export const DETAIL_TYPE_TO_DETAIL: Record<TextDetailType | string, number> = {
   unmergeable: IS_UNMERGEABLE,
 };
 
-export const ELEMENT_TYPE_TO_FORMAT: Record<
-  Exclude<ElementFormatType, ''>,
-  number
-> = {
+export const ELEMENT_TYPE_TO_FORMAT: Record<Exclude<ElementFormatType, ''>, number> = {
   center: IS_ALIGN_CENTER,
   end: IS_ALIGN_END,
   justify: IS_ALIGN_JUSTIFY,

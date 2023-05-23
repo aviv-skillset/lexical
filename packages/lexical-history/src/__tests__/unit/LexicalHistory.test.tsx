@@ -6,13 +6,13 @@
  *
  */
 
-import {useLexicalComposerContext} from '@lexical/react/src/LexicalComposerContext';
-import {ContentEditable} from '@lexical/react/src/LexicalContentEditable';
+import { useLexicalComposerContext } from '@lexical/react/src/LexicalComposerContext';
+import { ContentEditable } from '@lexical/react/src/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/src/LexicalErrorBoundary';
-import {HistoryPlugin} from '@lexical/react/src/LexicalHistoryPlugin';
-import {RichTextPlugin} from '@lexical/react/src/LexicalRichTextPlugin';
-import {$createQuoteNode} from '@lexical/rich-text/src';
-import {$setBlocksType} from '@lexical/selection/src';
+import { HistoryPlugin } from '@lexical/react/src/LexicalHistoryPlugin';
+import { RichTextPlugin } from '@lexical/react/src/LexicalRichTextPlugin';
+import { $createQuoteNode } from '@lexical/rich-text/src';
+import { $setBlocksType } from '@lexical/selection/src';
 import {
   $createRangeSelection,
   CAN_REDO_COMMAND,
@@ -25,12 +25,12 @@ import {
   SerializedTextNode,
   UNDO_COMMAND,
 } from 'lexical/src';
-import {TestComposer} from 'lexical/src/__tests__/utils';
-import {$getRoot, $setSelection} from 'lexical/src/LexicalUtils';
-import {$createParagraphNode} from 'lexical/src/nodes/LexicalParagraphNode';
-import {$createTextNode} from 'lexical/src/nodes/LexicalTextNode';
+import { TestComposer } from 'lexical/src/__tests__/utils';
+import { $getRoot, $setSelection } from 'lexical/src/LexicalUtils';
+import { $createParagraphNode } from 'lexical/src/nodes/LexicalParagraphNode';
+import { $createTextNode } from 'lexical/src/nodes/LexicalTextNode';
 import React from 'react';
-import {createRoot} from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import * as ReactTestUtils from 'react-dom/test-utils';
 
 describe('LexicalHistory tests', () => {
@@ -66,9 +66,7 @@ describe('LexicalHistory tests', () => {
       <TestComposer>
         <RichTextPlugin
           contentEditable={<ContentEditable />}
-          placeholder={
-            <div className="editor-placeholder">Enter some text...</div>
-          }
+          placeholder={<div className="editor-placeholder">Enter some text...</div>}
           ErrorBoundary={LexicalErrorBoundary}
         />
         <TestPlugin />
@@ -154,20 +152,11 @@ describe('LexicalHistory tests', () => {
     expect(afterQuoteInsertionJSONState.root.children.length).toBe(2);
     expect(afterQuoteInsertionJSONState.root.children[0].type).toBe('quote');
 
+    expect((afterQuoteInsertionJSONState.root.children as SerializedElementNode[])[0].children.length).toBe(1);
+    expect((afterQuoteInsertionJSONState.root.children as SerializedElementNode[])[0].children[0].type).toBe('text');
     expect(
-      (afterQuoteInsertionJSONState.root.children as SerializedElementNode[])[0]
-        .children.length,
-    ).toBe(1);
-    expect(
-      (afterQuoteInsertionJSONState.root.children as SerializedElementNode[])[0]
-        .children[0].type,
-    ).toBe('text');
-    expect(
-      (
-        (
-          afterQuoteInsertionJSONState.root.children as SerializedElementNode[]
-        )[0].children[0] as SerializedTextNode
-      ).text,
+      ((afterQuoteInsertionJSONState.root.children as SerializedElementNode[])[0].children[0] as SerializedTextNode)
+        .text,
     ).toBe('AAA');
 
     await ReactTestUtils.act(async () => {
@@ -176,9 +165,7 @@ describe('LexicalHistory tests', () => {
       });
     });
 
-    expect(JSON.stringify(initialJSONState)).toBe(
-      JSON.stringify(editor.getEditorState().toJSON()),
-    );
+    expect(JSON.stringify(initialJSONState)).toBe(JSON.stringify(editor.getEditorState().toJSON()));
   });
 
   test('LexicalHistory in sequence: change, undo, redo, undo, change', async () => {

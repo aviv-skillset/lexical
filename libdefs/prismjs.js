@@ -18,7 +18,7 @@ type Token = {
 
 declare module 'prismjs/components/prism-core' {
   declare module.exports: {
-    languages: {[string]: Object | Function},
+    languages: { [string]: Object | Function },
     tokenize(code: string, grammar: Object): TokenStream,
   };
 }

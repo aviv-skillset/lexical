@@ -7,14 +7,9 @@
  * @flow strict
  */
 
-import type {
-  ElementFormatType,
-  LexicalNode,
-  LexicalCommand,
-  NodeKey,
-} from 'lexical';
+import type { ElementFormatType, LexicalNode, LexicalCommand, NodeKey } from 'lexical';
 
-import {DecoratorNode} from 'lexical';
+import { DecoratorNode } from 'lexical';
 
 declare export class DecoratorBlockNode<T> extends DecoratorNode<T> {
   __format: ?ElementFormatType;
@@ -23,6 +18,4 @@ declare export class DecoratorBlockNode<T> extends DecoratorNode<T> {
   setFormat(format: ElementFormatType): void;
 }
 
-declare export function $isDecoratorBlockNode(
-  node: ?LexicalNode,
-): boolean %checks(node instanceof DecoratorBlockNode);
+declare export function $isDecoratorBlockNode(node: ?LexicalNode): boolean %checks(node instanceof DecoratorBlockNode);

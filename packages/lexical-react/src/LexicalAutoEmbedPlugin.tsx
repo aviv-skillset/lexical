@@ -5,16 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import type {LexicalNode, MutationListener} from 'lexical';
+import type { LexicalNode, MutationListener } from 'lexical';
 
-import {$isLinkNode, AutoLinkNode, LinkNode} from '@lexical/link';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {
-  LexicalNodeMenuPlugin,
-  MenuRenderFn,
-  TypeaheadOption,
-} from '@lexical/react/LexicalTypeaheadMenuPlugin';
-import {mergeRegister} from '@lexical/utils';
+import { $isLinkNode, AutoLinkNode, LinkNode } from '@lexical/link';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { LexicalNodeMenuPlugin, MenuRenderFn, TypeaheadOption } from '@lexical/react/LexicalTypeaheadMenuPlugin';
+import { mergeRegister } from '@lexical/utils';
 import {
   $getNodeByKey,
   $getSelection,
@@ -25,7 +21,7 @@ import {
   NodeKey,
   TextNode,
 } from 'lexical';
-import {useCallback, useEffect, useMemo, useState} from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as React from 'react';
 
 export type EmbedMatchResult<TEmbedMatchResult = unknown> = {
@@ -41,9 +37,7 @@ export interface EmbedConfig<
   // Used to identify this config e.g. youtube, tweet, google-maps.
   type: string;
   // Determine if a given URL is a match and return url data.
-  parseUrl: (
-    text: string,
-  ) => Promise<TEmbedMatchResult | null> | TEmbedMatchResult | null;
+  parseUrl: (text: string) => Promise<TEmbedMatchResult | null> | TEmbedMatchResult | null;
   // Create the Lexical embed node from the url data.
   insertNode: (editor: LexicalEditor, result: TEmbedMatchResult) => void;
 }
@@ -51,8 +45,7 @@ export interface EmbedConfig<
 export const URL_MATCHER =
   /((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
 
-export const INSERT_EMBED_COMMAND: LexicalCommand<EmbedConfig['type']> =
-  createCommand('INSERT_EMBED_COMMAND');
+export const INSERT_EMBED_COMMAND: LexicalCommand<EmbedConfig['type']> = createCommand('INSERT_EMBED_COMMAND');
 
 export class AutoEmbedOption extends TypeaheadOption {
   title: string;
@@ -89,8 +82,7 @@ export function LexicalAutoEmbedPlugin<TEmbedConfig extends EmbedConfig>({
   const [editor] = useLexicalComposerContext();
 
   const [nodeKey, setNodeKey] = useState<NodeKey | null>(null);
-  const [activeEmbedConfig, setActiveEmbedConfig] =
-    useState<TEmbedConfig | null>(null);
+  const [activeEmbedConfig, setActiveEmbedConfig] = useState<TEmbedConfig | null>(null);
 
   const reset = useCallback(() => {
     setNodeKey(null);
@@ -105,9 +97,7 @@ export function LexicalAutoEmbedPlugin<TEmbedConfig extends EmbedConfig>({
           for (let i = 0; i < embedConfigs.length; i++) {
             const embedConfig = embedConfigs[i];
 
-            const urlMatch = await Promise.resolve(
-              embedConfig.parseUrl(linkNode.__url),
-            );
+            const urlMatch = await Promise.resolve(embedConfig.parseUrl(linkNode.__url));
 
             if (urlMatch != null) {
               setActiveEmbedConfig(embedConfig);
@@ -121,16 +111,9 @@ export function LexicalAutoEmbedPlugin<TEmbedConfig extends EmbedConfig>({
   );
 
   useEffect(() => {
-    const listener: MutationListener = (
-      nodeMutations,
-      {updateTags, dirtyLeaves},
-    ) => {
+    const listener: MutationListener = (nodeMutations, { updateTags, dirtyLeaves }) => {
       for (const [key, mutation] of nodeMutations) {
-        if (
-          mutation === 'created' &&
-          updateTags.has('paste') &&
-          dirtyLeaves.size === 1
-        ) {
+        if (mutation === 'created' && updateTags.has('paste') && dirtyLeaves.size === 1) {
           checkIfLinkNodeIsEmbeddable(key);
         } else if (key === nodeKey) {
           reset();
@@ -148,9 +131,7 @@ export function LexicalAutoEmbedPlugin<TEmbedConfig extends EmbedConfig>({
     return editor.registerCommand(
       INSERT_EMBED_COMMAND,
       (embedConfigType: TEmbedConfig['type']) => {
-        const embedConfig = embedConfigs.find(
-          ({type}) => type === embedConfigType,
-        );
+        const embedConfig = embedConfigs.find(({ type }) => type === embedConfigType);
         if (embedConfig) {
           onOpenEmbedModalForConfig(embedConfig);
           return true;
@@ -172,9 +153,7 @@ export function LexicalAutoEmbedPlugin<TEmbedConfig extends EmbedConfig>({
       });
 
       if ($isLinkNode(linkNode)) {
-        const result = await Promise.resolve(
-          activeEmbedConfig.parseUrl(linkNode.__url),
-        );
+        const result = await Promise.resolve(activeEmbedConfig.parseUrl(linkNode.__url));
         if (result != null) {
           editor.update(() => {
             if (!$getSelection()) {
@@ -194,20 +173,10 @@ export function LexicalAutoEmbedPlugin<TEmbedConfig extends EmbedConfig>({
     return activeEmbedConfig != null && nodeKey != null
       ? getMenuOptions(activeEmbedConfig, embedLinkViaActiveEmbedConfig, reset)
       : [];
-  }, [
-    activeEmbedConfig,
-    embedLinkViaActiveEmbedConfig,
-    getMenuOptions,
-    nodeKey,
-    reset,
-  ]);
+  }, [activeEmbedConfig, embedLinkViaActiveEmbedConfig, getMenuOptions, nodeKey, reset]);
 
   const onSelectOption = useCallback(
-    (
-      selectedOption: AutoEmbedOption,
-      targetNode: TextNode | null,
-      closeMenu: () => void,
-    ) => {
+    (selectedOption: AutoEmbedOption, targetNode: TextNode | null, closeMenu: () => void) => {
       editor.update(() => {
         selectedOption.onSelect(targetNode);
         closeMenu();

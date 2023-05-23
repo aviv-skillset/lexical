@@ -6,7 +6,7 @@
  *
  */
 
-import {DEFAULT_SETTINGS, Settings} from './appSettings';
+import { DEFAULT_SETTINGS, Settings } from './appSettings';
 
 // override default options with query parameters if any
 const urlSearchParams = new URLSearchParams(window.location.search);

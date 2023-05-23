@@ -18,7 +18,7 @@ import type {
   SerializedElementNode,
   Spread,
 } from 'lexical';
-import type {CodeHighlightNode} from '@lexical/code';
+import type { CodeHighlightNode } from '@lexical/code';
 
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
@@ -35,7 +35,7 @@ import 'prismjs/components/prism-typescript';
 import 'prismjs/components/prism-java';
 import 'prismjs/components/prism-cpp';
 
-import {addClassNamesToElement, isHTMLElement} from '@lexical/utils';
+import { addClassNamesToElement, isHTMLElement } from '@lexical/utils';
 import {
   $applyNodeReplacement,
   $createLineBreakNode,
@@ -44,10 +44,7 @@ import {
   $isRangeSelection,
   ElementNode,
 } from 'lexical';
-import {
-  $createCodeHighlightNode,
-  getFirstCodeHighlightNodeOfLine,
-} from './CodeHighlightNode';
+import { $createCodeHighlightNode, getFirstCodeHighlightNodeOfLine } from './CodeHighlightNode';
 import * as Prism from 'prismjs';
 
 export type SerializedCodeNode = Spread<
@@ -57,13 +54,9 @@ export type SerializedCodeNode = Spread<
   SerializedElementNode
 >;
 
-const mapToPrismLanguage = (
-  language: string | null | undefined,
-): string | null | undefined => {
+const mapToPrismLanguage = (language: string | null | undefined): string | null | undefined => {
   // eslint-disable-next-line no-prototype-builtins
-  return language != null && Prism.languages.hasOwnProperty(language)
-    ? language
-    : undefined;
+  return language != null && Prism.languages.hasOwnProperty(language) ? language : undefined;
 };
 
 function hasChildDOMNodeTag(node: Node, tagName: string) {
@@ -107,11 +100,7 @@ export class CodeNode extends ElementNode {
     }
     return element;
   }
-  updateDOM(
-    prevNode: CodeNode,
-    dom: HTMLElement,
-    config: EditorConfig,
-  ): boolean {
+  updateDOM(prevNode: CodeNode, dom: HTMLElement, config: EditorConfig): boolean {
     const language = this.__language;
     const prevLanguage = prevNode.__language;
 
@@ -132,8 +121,7 @@ export class CodeNode extends ElementNode {
       // inline format handled by TextNode otherwise.
       code: (node: Node) => {
         const isMultiLine =
-          node.textContent != null &&
-          (/\r?\n/.test(node.textContent) || hasChildDOMNodeTag(node, 'BR'));
+          node.textContent != null && (/\r?\n/.test(node.textContent) || hasChildDOMNodeTag(node, 'BR'));
 
         return isMultiLine
           ? {
@@ -216,10 +204,7 @@ export class CodeNode extends ElementNode {
   }
 
   // Mutation
-  insertNewAfter(
-    selection: RangeSelection,
-    restoreSelection = true,
-  ): null | ParagraphNode | CodeHighlightNode {
+  insertNewAfter(selection: RangeSelection, restoreSelection = true): null | ParagraphNode | CodeHighlightNode {
     const children = this.getChildren();
     const childrenLength = children.length;
 
@@ -246,10 +231,7 @@ export class CodeNode extends ElementNode {
     if (firstNode != null) {
       let leadingWhitespace = 0;
       const firstNodeText = firstNode.getTextContent();
-      while (
-        leadingWhitespace < firstNodeText.length &&
-        /[\t ]/.test(firstNodeText[leadingWhitespace])
-      ) {
+      while (leadingWhitespace < firstNodeText.length && /[\t ]/.test(firstNodeText[leadingWhitespace])) {
         leadingWhitespace += 1;
       }
       if (leadingWhitespace > 0) {
@@ -295,20 +277,16 @@ export class CodeNode extends ElementNode {
   }
 }
 
-export function $createCodeNode(
-  language?: string | null | undefined,
-): CodeNode {
+export function $createCodeNode(language?: string | null | undefined): CodeNode {
   return $applyNodeReplacement(new CodeNode(language));
 }
 
-export function $isCodeNode(
-  node: LexicalNode | null | undefined,
-): node is CodeNode {
+export function $isCodeNode(node: LexicalNode | null | undefined): node is CodeNode {
   return node instanceof CodeNode;
 }
 
 function convertPreElement(domNode: Node): DOMConversionOutput {
-  return {node: $createCodeNode(), preformatted: true};
+  return { node: $createCodeNode(), preformatted: true };
 }
 
 function convertDivElement(domNode: Node): DOMConversionOutput {
@@ -334,11 +312,11 @@ function convertDivElement(domNode: Node): DOMConversionOutput {
 }
 
 function convertTableElement(): DOMConversionOutput {
-  return {node: $createCodeNode(), preformatted: true};
+  return { node: $createCodeNode(), preformatted: true };
 }
 
 function convertCodeNoop(): DOMConversionOutput {
-  return {node: null};
+  return { node: null };
 }
 
 function convertTableCellElement(domNode: Node): DOMConversionOutput {
@@ -372,9 +350,7 @@ function isCodeChildElement(node: HTMLElement): boolean {
   return false;
 }
 
-function isGitHubCodeCell(
-  cell: HTMLTableCellElement,
-): cell is HTMLTableCellElement {
+function isGitHubCodeCell(cell: HTMLTableCellElement): cell is HTMLTableCellElement {
   return cell.classList.contains('js-file-line');
 }
 

@@ -6,11 +6,11 @@
  *
  */
 
-import type {EditorState, LexicalEditor} from 'lexical';
+import type { EditorState, LexicalEditor } from 'lexical';
 
-import {CLEAR_HISTORY_COMMAND} from 'lexical';
+import { CLEAR_HISTORY_COMMAND } from 'lexical';
 
-import {version} from '../package.json';
+import { version } from '../package.json';
 
 /**
  * Takes a file and inputs its content into the editor state as an input field.
@@ -19,9 +19,7 @@ import {version} from '../package.json';
 export function importFile(editor: LexicalEditor) {
   readTextFileFromSystem((text) => {
     const json = JSON.parse(text);
-    const editorState = editor.parseEditorState(
-      JSON.stringify(json.editorState),
-    );
+    const editorState = editor.parseEditorState(JSON.stringify(json.editorState));
     editor.setEditorState(editorState);
     editor.dispatchCommand(CLEAR_HISTORY_COMMAND, undefined);
   });

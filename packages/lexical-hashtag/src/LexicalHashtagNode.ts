@@ -6,15 +6,10 @@
  *
  */
 
-import type {
-  EditorConfig,
-  LexicalNode,
-  NodeKey,
-  SerializedTextNode,
-} from 'lexical';
+import type { EditorConfig, LexicalNode, NodeKey, SerializedTextNode } from 'lexical';
 
-import {addClassNamesToElement} from '@lexical/utils';
-import {$applyNodeReplacement, TextNode} from 'lexical';
+import { addClassNamesToElement } from '@lexical/utils';
+import { $applyNodeReplacement, TextNode } from 'lexical';
 
 /** @noInheritDoc */
 export class HashtagNode extends TextNode {
@@ -75,8 +70,6 @@ export function $createHashtagNode(text = ''): HashtagNode {
  * @param node - The node to be checked.
  * @returns true if node is a HashtagNode, false otherwise.
  */
-export function $isHashtagNode(
-  node: LexicalNode | null | undefined,
-): node is HashtagNode {
+export function $isHashtagNode(node: LexicalNode | null | undefined): node is HashtagNode {
   return node instanceof HashtagNode;
 }

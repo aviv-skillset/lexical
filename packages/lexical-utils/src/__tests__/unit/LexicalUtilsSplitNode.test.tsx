@@ -6,13 +6,13 @@
  *
  */
 
-import type {ElementNode, LexicalEditor} from 'lexical';
+import type { ElementNode, LexicalEditor } from 'lexical';
 
-import {$generateHtmlFromNodes, $generateNodesFromDOM} from '@lexical/html';
-import {$getRoot, $isElementNode} from 'lexical';
-import {createTestEditor} from 'lexical/src/__tests__/utils';
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html';
+import { $getRoot, $isElementNode } from 'lexical';
+import { createTestEditor } from 'lexical/src/__tests__/utils';
 
-import {$splitNode} from '../../index';
+import { $splitNode } from '../../index';
 
 describe('LexicalUtils#splitNode', () => {
   let editor: LexicalEditor;
@@ -58,18 +58,14 @@ describe('LexicalUtils#splitNode', () => {
     },
     {
       _: 'split list items between two text nodes',
-      expectedHtml:
-        '<ul><li><span>Hello</span></li></ul>' +
-        '<ul><li><span>world</span></li></ul>',
+      expectedHtml: '<ul><li><span>Hello</span></li></ul>' + '<ul><li><span>world</span></li></ul>',
       initialHtml: '<ul><li><span>Hello</span><span>world</span></li></ul>',
       splitOffset: 1, // Any offset that is higher than children size
       splitPath: [0, 0],
     },
     {
       _: 'split list items before the first text node',
-      expectedHtml:
-        '<ul><li></li></ul>' +
-        '<ul><li><span>Hello</span><span>world</span></li></ul>',
+      expectedHtml: '<ul><li></li></ul>' + '<ul><li><span>Hello</span><span>world</span></li></ul>',
       initialHtml: '<ul><li><span>Hello</span><span>world</span></li></ul>',
       splitOffset: 0, // Any offset that is higher than children size
       splitPath: [0, 0],
@@ -122,10 +118,7 @@ describe('LexicalUtils#splitNode', () => {
 
         // Cleaning up list value attributes as it's not really needed in this test
         // and it clutters expected output
-        const actualHtml = $generateHtmlFromNodes(editor).replace(
-          /\svalue="\d{1,}"/g,
-          '',
-        );
+        const actualHtml = $generateHtmlFromNodes(editor).replace(/\svalue="\d{1,}"/g, '');
         expect(actualHtml).toEqual(testCase.expectedHtml);
       });
     });

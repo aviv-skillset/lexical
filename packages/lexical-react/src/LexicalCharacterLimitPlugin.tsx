@@ -6,11 +6,11 @@
  *
  */
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import * as React from 'react';
-import {useMemo, useState} from 'react';
+import { useMemo, useState } from 'react';
 
-import {useCharacterLimit} from './shared/useCharacterLimit';
+import { useCharacterLimit } from './shared/useCharacterLimit';
 
 const CHARACTER_LIMIT = 5;
 let textEncoderInstance: null | TextEncoder = null;
@@ -69,10 +69,7 @@ export function CharacterLimitPlugin({
   useCharacterLimit(editor, maxLength, characterLimitProps);
 
   return (
-    <span
-      className={`characters-limit ${
-        remainingCharacters < 0 ? 'characters-limit-exceeded' : ''
-      }`}>
+    <span className={`characters-limit ${remainingCharacters < 0 ? 'characters-limit-exceeded' : ''}`}>
       {remainingCharacters}
     </span>
   );

@@ -6,25 +6,19 @@
  *
  */
 
-import type {EditorThemeClasses, LexicalEditor} from 'lexical';
+import type { EditorThemeClasses, LexicalEditor } from 'lexical';
 
-import {createContext as createReactContext, useContext} from 'react';
+import { createContext as createReactContext, useContext } from 'react';
 import invariant from 'shared/invariant';
 
 export type LexicalComposerContextType = {
   getTheme: () => EditorThemeClasses | null | undefined;
 };
 
-export type LexicalComposerContextWithEditor = [
-  LexicalEditor,
-  LexicalComposerContextType,
-];
+export type LexicalComposerContextWithEditor = [LexicalEditor, LexicalComposerContextType];
 
-export const LexicalComposerContext: React.Context<
-  LexicalComposerContextWithEditor | null | undefined
-> = createReactContext<LexicalComposerContextWithEditor | null | undefined>(
-  null,
-);
+export const LexicalComposerContext: React.Context<LexicalComposerContextWithEditor | null | undefined> =
+  createReactContext<LexicalComposerContextWithEditor | null | undefined>(null);
 
 export function createLexicalComposerContext(
   parent: LexicalComposerContextWithEditor | null | undefined,
@@ -53,10 +47,7 @@ export function useLexicalComposerContext(): LexicalComposerContextWithEditor {
   const composerContext = useContext(LexicalComposerContext);
 
   if (composerContext == null) {
-    invariant(
-      false,
-      'LexicalComposerContext.useLexicalComposerContext: cannot find a LexicalComposerContext',
-    );
+    invariant(false, 'LexicalComposerContext.useLexicalComposerContext: cannot find a LexicalComposerContext');
   }
 
   return composerContext;

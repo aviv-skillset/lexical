@@ -6,16 +6,13 @@
  *
  */
 
-import type {RangeSelection, TextNode} from '.';
-import type {PointType} from './LexicalSelection';
+import type { RangeSelection, TextNode } from '.';
+import type { PointType } from './LexicalSelection';
 
-import {$isElementNode, $isTextNode} from '.';
-import {getActiveEditor} from './LexicalUpdates';
+import { $isElementNode, $isTextNode } from '.';
+import { getActiveEditor } from './LexicalUpdates';
 
-function $canSimpleTextNodesBeMerged(
-  node1: TextNode,
-  node2: TextNode,
-): boolean {
+function $canSimpleTextNodesBeMerged(node1: TextNode, node2: TextNode): boolean {
   const node1Mode = node1.__mode;
   const node1Format = node1.__format;
   const node1Style = node1.__style;
@@ -106,19 +103,11 @@ function $normalizePoint(point: PointType): void {
       nextOffsetAtEnd = false;
     }
     if ($isTextNode(nextNode)) {
-      point.set(
-        nextNode.__key,
-        nextOffsetAtEnd ? nextNode.getTextContentSize() : 0,
-        'text',
-      );
+      point.set(nextNode.__key, nextOffsetAtEnd ? nextNode.getTextContentSize() : 0, 'text');
       break;
     } else if (!$isElementNode(nextNode)) {
       break;
     }
-    point.set(
-      nextNode.__key,
-      nextOffsetAtEnd ? nextNode.getChildrenSize() : 0,
-      'element',
-    );
+    point.set(nextNode.__key, nextOffsetAtEnd ? nextNode.getChildrenSize() : 0, 'element');
   }
 }

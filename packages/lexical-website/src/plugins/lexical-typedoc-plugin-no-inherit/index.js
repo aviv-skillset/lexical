@@ -21,16 +21,8 @@ class NoInheritPlugin {
    */
   initialize(app) {
     app.converter.on(typedoc.Converter.EVENT_BEGIN, this.onBegin.bind(this));
-    app.converter.on(
-      typedoc.Converter.EVENT_CREATE_DECLARATION,
-      this.onDeclaration.bind(this),
-      null,
-      -1100,
-    ); // after ImplementsPlugin
-    app.converter.on(
-      typedoc.Converter.EVENT_RESOLVE_BEGIN,
-      this.onBeginResolve.bind(this),
-    );
+    app.converter.on(typedoc.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration.bind(this), null, -1100); // after ImplementsPlugin
+    app.converter.on(typedoc.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve.bind(this));
     this.logger = app.logger;
   }
   /**
@@ -68,9 +60,7 @@ class NoInheritPlugin {
         reflection.inheritedFrom &&
         reflection.parent &&
         reflection.parent.kindOf(typedoc.ReflectionKind.ClassOrInterface) &&
-        (!reflection.overwrites ||
-          (reflection.overwrites &&
-            reflection.overwrites !== reflection.inheritedFrom))
+        (!reflection.overwrites || (reflection.overwrites && reflection.overwrites !== reflection.inheritedFrom))
       ) {
         this.inheritedReflections.push(reflection);
       }
@@ -105,11 +95,7 @@ class NoInheritPlugin {
    * @param search  The DeclarationReflection to search for in the list.
    */
   isNoInherit(search) {
-    if (
-      this.noInherit.find(
-        (no) => no.id === search.id && no.name === search.name,
-      )
-    ) {
+    if (this.noInherit.find((no) => no.id === search.id && no.name === search.name)) {
       return true;
     }
     return false;
@@ -119,11 +105,7 @@ class NoInheritPlugin {
    * @param search  The Reflection to search for in the list.
    */
   isInherited(search) {
-    if (
-      this.inheritedReflections.find(
-        (inh) => inh.id === search.id && inh.name === search.name,
-      )
-    ) {
+    if (this.inheritedReflections.find((inh) => inh.id === search.id && inh.name === search.name)) {
       return true;
     }
     return false;
@@ -136,24 +118,18 @@ class NoInheritPlugin {
    */
   isNoInheritRecursive(context, current, depth) {
     if (depth > 20) {
-      this.logger.warn(
-        `Found inheritance chain with depth > 20, stopping no inherit check: ${current.getFullName()}`,
-      );
+      this.logger.warn(`Found inheritance chain with depth > 20, stopping no inherit check: ${current.getFullName()}`);
       return false; // stop if we've recursed more than 20 times
     }
     // As we move up the chain, check if the reflection parent is in the noInherit list
     const parent = current.parent;
     if (!parent) return false;
-    if (
-      this.isNoInherit(parent) &&
-      (depth === 0 || this.isInherited(current))
-    ) {
+    if (this.isNoInherit(parent) && (depth === 0 || this.isInherited(current))) {
       return true;
     }
     const checkExtended = (type) => {
       let _a;
-      const extended =
-        (_a = type) === null || _a === void 0 ? void 0 : _a.reflection;
+      const extended = (_a = type) === null || _a === void 0 ? void 0 : _a.reflection;
       if (extended instanceof typedoc.Reflection) {
         const upLevel = extended.getChildByName(current.name);
         if (upLevel && this.isNoInheritRecursive(context, upLevel, depth + 1)) {

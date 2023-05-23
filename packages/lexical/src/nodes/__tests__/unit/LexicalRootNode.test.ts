@@ -23,14 +23,14 @@ import {
   $createTestInlineElementNode,
   initializeUnitTest,
 } from '../../../__tests__/utils';
-import {$createRootNode} from '../../LexicalRootNode';
+import { $createRootNode } from '../../LexicalRootNode';
 
 describe('LexicalRootNode tests', () => {
   initializeUnitTest((testEnv) => {
     let rootNode;
 
     function expectRootTextContentToBe(text: string): void {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       editor.getEditorState().read(() => {
         const root = $getRoot();
 
@@ -46,7 +46,7 @@ describe('LexicalRootNode tests', () => {
     }
 
     beforeEach(async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         rootNode = $createRootNode();
@@ -54,7 +54,7 @@ describe('LexicalRootNode tests', () => {
     });
 
     test('RootNode.constructor', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         expect(rootNode).toStrictEqual($createRootNode());
@@ -64,7 +64,7 @@ describe('LexicalRootNode tests', () => {
     });
 
     test('RootNode.exportJSON() should return and object conforming to the expected schema', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const node = $createRootNode();
@@ -108,7 +108,7 @@ describe('LexicalRootNode tests', () => {
     });
 
     test('Cached getTextContent with decorators', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const root = $getRoot();
@@ -125,7 +125,7 @@ describe('LexicalRootNode tests', () => {
     });
 
     test('RootNode.clear() to handle selection update', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const root = $getRoot();
@@ -155,7 +155,7 @@ describe('LexicalRootNode tests', () => {
     });
 
     test('RootNode is selected when its only child removed', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const root = $getRoot();
@@ -185,7 +185,7 @@ describe('LexicalRootNode tests', () => {
     });
 
     test('RootNode __cachedText', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         $getRoot().append($createParagraphNode());
@@ -238,7 +238,7 @@ describe('LexicalRootNode tests', () => {
     });
 
     test('RootNode __cachedText (empty paragraph)', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         $getRoot().append($createParagraphNode(), $createParagraphNode());
@@ -248,7 +248,7 @@ describe('LexicalRootNode tests', () => {
     });
 
     test('RootNode __cachedText (inlines)', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const paragraph = $createParagraphNode();

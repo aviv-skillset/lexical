@@ -6,7 +6,7 @@
  *
  * @flow strict
  */
-import type {ElementNode, LexicalEditor, RootNode, TextNode} from 'lexical';
+import type { ElementNode, LexicalEditor, RootNode, TextNode } from 'lexical';
 export type TextNodeWithOffset = {
   node: TextNode,
   offset: number,
@@ -18,19 +18,11 @@ declare export function $findTextIntersectionFromCharacters(
   node: TextNode,
   offset: number,
 };
-declare export function $isRootTextContentEmpty(
-  isEditorComposing: boolean,
-  trim?: boolean,
-): boolean;
-declare export function $isRootTextContentEmptyCurry(
-  isEditorComposing: boolean,
-  trim?: boolean,
-): () => boolean;
+declare export function $isRootTextContentEmpty(isEditorComposing: boolean, trim?: boolean): boolean;
+declare export function $isRootTextContentEmptyCurry(isEditorComposing: boolean, trim?: boolean): () => boolean;
 declare export function $rootTextContent(): string;
 declare export function $canShowPlaceholder(isComposing: boolean): boolean;
-declare export function $canShowPlaceholderCurry(
-  isEditorComposing: boolean,
-): () => boolean;
+declare export function $canShowPlaceholderCurry(isEditorComposing: boolean): () => boolean;
 export type EntityMatch = {
   end: number,
   start: number,

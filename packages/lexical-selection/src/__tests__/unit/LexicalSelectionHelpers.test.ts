@@ -6,12 +6,9 @@
  *
  */
 
-import {$createLinkNode} from '@lexical/link';
-import {$createHeadingNode} from '@lexical/rich-text';
-import {
-  $getSelectionStyleValueForProperty,
-  $patchStyleText,
-} from '@lexical/selection';
+import { $createLinkNode } from '@lexical/link';
+import { $createHeadingNode } from '@lexical/rich-text';
+import { $getSelectionStyleValueForProperty, $patchStyleText } from '@lexical/selection';
 import {
   $createParagraphNode,
   $createTextNode,
@@ -32,7 +29,7 @@ import {
   TestDecoratorNode,
 } from 'lexical/src/__tests__/utils';
 
-import {setAnchorPoint, setFocusPoint} from '../utils';
+import { setAnchorPoint, setFocusPoint } from '../utils';
 
 Range.prototype.getBoundingClientRect = function (): DOMRect {
   const rect = {
@@ -58,7 +55,7 @@ function createParagraphWithNodes(editor, nodes) {
   const nodeMap = editor._pendingEditorState._nodeMap;
 
   for (let i = 0; i < nodes.length; i++) {
-    const {text, key, mergeable} = nodes[i];
+    const { text, key, mergeable } = nodes[i];
     const textNode = new TextNode(text, key);
     nodeMap.set(key, textNode);
 
@@ -236,9 +233,7 @@ describe('LexicalSelectionHelpers tests', () => {
           }),
         );
 
-        expect(element.getFirstChild().getNextSibling().getTextContent()).toBe(
-          'a',
-        );
+        expect(element.getFirstChild().getNextSibling().getTextContent()).toBe('a');
       });
 
       // Extract selection
@@ -1319,10 +1314,7 @@ describe('LexicalSelectionHelpers tests', () => {
 
       // getNodes
       setupTestCase((selection, state) => {
-        expect(selection.getNodes()).toEqual([
-          $getNodeByKey('a'),
-          $getNodeByKey('b'),
-        ]);
+        expect(selection.getNodes()).toEqual([$getNodeByKey('a'), $getNodeByKey('b')]);
       });
 
       // getTextContent
@@ -1442,7 +1434,7 @@ describe('LexicalSelectionHelpers tests', () => {
 
       // Extract selection
       setupTestCase((selection, state) => {
-        expect(selection.extract()).toEqual([{...$getNodeByKey('a')}]);
+        expect(selection.extract()).toEqual([{ ...$getNodeByKey('a') }]);
       });
     });
 
@@ -1649,11 +1641,7 @@ describe('LexicalSelectionHelpers tests', () => {
 
       // getNodes
       setupTestCase((selection, state) => {
-        expect(selection.getNodes()).toEqual([
-          $getNodeByKey('a'),
-          $getNodeByKey('b'),
-          $getNodeByKey('c'),
-        ]);
+        expect(selection.getNodes()).toEqual([$getNodeByKey('a'), $getNodeByKey('b'), $getNodeByKey('c')]);
       });
 
       // getTextContent
@@ -1755,11 +1743,7 @@ describe('LexicalSelectionHelpers tests', () => {
 
       // Extract selection
       setupTestCase((selection, element) => {
-        expect(selection.extract()).toEqual([
-          $getNodeByKey('a'),
-          $getNodeByKey('b'),
-          $getNodeByKey('c'),
-        ]);
+        expect(selection.extract()).toEqual([$getNodeByKey('a'), $getNodeByKey('b'), $getNodeByKey('c')]);
       });
     });
   });
@@ -1800,9 +1784,7 @@ describe('LexicalSelectionHelpers tests', () => {
           selection.insertNodes([$createTextNode('foo')]);
         });
 
-        expect(element.innerHTML).toBe(
-          '<p dir="ltr"><span data-lexical-text="true">foo</span></p>',
-        );
+        expect(element.innerHTML).toBe('<p dir="ltr"><span data-lexical-text="true">foo</span></p>');
       });
 
       test('two text nodes', async () => {
@@ -1835,15 +1817,10 @@ describe('LexicalSelectionHelpers tests', () => {
             return;
           }
 
-          selection.insertNodes([
-            $createTextNode('foo'),
-            $createTextNode('bar'),
-          ]);
+          selection.insertNodes([$createTextNode('foo'), $createTextNode('bar')]);
         });
 
-        expect(element.innerHTML).toBe(
-          '<p dir="ltr"><span data-lexical-text="true">foobar</span></p>',
-        );
+        expect(element.innerHTML).toBe('<p dir="ltr"><span data-lexical-text="true">foobar</span></p>');
       });
 
       test('link insertion without parent element', async () => {
@@ -1879,11 +1856,7 @@ describe('LexicalSelectionHelpers tests', () => {
             return;
           }
 
-          selection.insertNodes([
-            $createTextNode('h'),
-            link,
-            $createTextNode('d'),
-          ]);
+          selection.insertNodes([$createTextNode('h'), link, $createTextNode('d')]);
         });
 
         expect(element.innerHTML).toBe(
@@ -1929,9 +1902,7 @@ describe('LexicalSelectionHelpers tests', () => {
           selection.insertNodes([heading]);
         });
 
-        expect(element.innerHTML).toBe(
-          '<h1 dir="ltr"><span data-lexical-text="true">foo</span></h1>',
-        );
+        expect(element.innerHTML).toBe('<h1 dir="ltr"><span data-lexical-text="true">foo</span></h1>');
       });
 
       test('a heading node with a child text node and a disjoint sibling text node should throw', async () => {
@@ -1975,9 +1946,7 @@ describe('LexicalSelectionHelpers tests', () => {
           }).toThrow();
         });
 
-        expect(element.innerHTML).toBe(
-          '<h1 dir="ltr"><span data-lexical-text="true">foo</span></h1>',
-        );
+        expect(element.innerHTML).toBe('<h1 dir="ltr"><span data-lexical-text="true">foo</span></h1>');
       });
     });
 
@@ -2018,9 +1987,7 @@ describe('LexicalSelectionHelpers tests', () => {
           selection.insertNodes([$createTextNode('foo')]);
         });
 
-        expect(element.innerHTML).toBe(
-          '<p dir="ltr"><span data-lexical-text="true">Existing text...foo</span></p>',
-        );
+        expect(element.innerHTML).toBe('<p dir="ltr"><span data-lexical-text="true">Existing text...foo</span></p>');
       });
 
       test('two text nodes', async () => {
@@ -2057,15 +2024,10 @@ describe('LexicalSelectionHelpers tests', () => {
             return;
           }
 
-          selection.insertNodes([
-            $createTextNode('foo'),
-            $createTextNode('bar'),
-          ]);
+          selection.insertNodes([$createTextNode('foo'), $createTextNode('bar')]);
         });
 
-        expect(element.innerHTML).toBe(
-          '<p dir="ltr"><span data-lexical-text="true">Existing text...foobar</span></p>',
-        );
+        expect(element.innerHTML).toBe('<p dir="ltr"><span data-lexical-text="true">Existing text...foobar</span></p>');
       });
 
       test('a single heading node with a child text node', async () => {
@@ -2110,9 +2072,7 @@ describe('LexicalSelectionHelpers tests', () => {
           selection.insertNodes([heading]);
         });
 
-        expect(element.innerHTML).toBe(
-          '<p dir="ltr"><span data-lexical-text="true">Existing text...foo</span></p>',
-        );
+        expect(element.innerHTML).toBe('<p dir="ltr"><span data-lexical-text="true">Existing text...foo</span></p>');
       });
 
       test('a heading node with a child text node and a disjoint sibling text node should throw', async () => {
@@ -2159,9 +2119,7 @@ describe('LexicalSelectionHelpers tests', () => {
           }).toThrow();
         });
 
-        expect(element.innerHTML).toBe(
-          '<p dir="ltr"><span data-lexical-text="true">Existing text...foo</span></p>',
-        );
+        expect(element.innerHTML).toBe('<p dir="ltr"><span data-lexical-text="true">Existing text...foo</span></p>');
       });
 
       test('a paragraph with a child text and a child italic text and a child text', async () => {
@@ -2211,9 +2169,7 @@ describe('LexicalSelectionHelpers tests', () => {
 
           expect(selection.anchor).toEqual(
             expect.objectContaining({
-              key: paragraph
-                .getChildAtIndex(paragraph.getChildrenSize() - 2)
-                .getKey(),
+              key: paragraph.getChildAtIndex(paragraph.getChildrenSize() - 2).getKey(),
               offset: 1,
               type: 'text',
             }),
@@ -2221,9 +2177,7 @@ describe('LexicalSelectionHelpers tests', () => {
 
           expect(selection.focus).toEqual(
             expect.objectContaining({
-              key: paragraph
-                .getChildAtIndex(paragraph.getChildrenSize() - 2)
-                .getKey(),
+              key: paragraph.getChildAtIndex(paragraph.getChildrenSize() - 2).getKey(),
               offset: 1,
               type: 'text',
             }),
@@ -2273,9 +2227,7 @@ describe('LexicalSelectionHelpers tests', () => {
           selection.insertNodes([$createTextNode('foo')]);
         });
 
-        expect(element.innerHTML).toBe(
-          '<p dir="ltr"><span data-lexical-text="true">foo</span></p>',
-        );
+        expect(element.innerHTML).toBe('<p dir="ltr"><span data-lexical-text="true">foo</span></p>');
       });
     });
 
@@ -2415,9 +2367,7 @@ describe('LexicalSelectionHelpers tests', () => {
           selection.insertNodes([paragraphToInsert]);
         });
 
-        expect(element.innerHTML).toBe(
-          '<p dir="ltr"><span data-lexical-text="true">foo</span></p>',
-        );
+        expect(element.innerHTML).toBe('<p dir="ltr"><span data-lexical-text="true">foo</span></p>');
       });
     });
 
@@ -2637,9 +2587,7 @@ describe('insertNodes', () => {
 
     await editor.update(() => {
       const selection = $getRoot().getFirstChild().select();
-      selection.insertNodes([
-        $createParagraphNode().append($createTextNode('Text before')),
-      ]);
+      selection.insertNodes([$createParagraphNode().append($createTextNode('Text before'))]);
     });
 
     expect(element.innerHTML).toBe(
@@ -2692,7 +2640,7 @@ describe('$patchStyleText', () => {
       });
 
       const selection = $getSelection() as RangeSelection;
-      $patchStyleText(selection, {'text-emphasis': 'filled'});
+      $patchStyleText(selection, { 'text-emphasis': 'filled' });
     });
 
     expect(element.innerHTML).toBe(
@@ -2742,7 +2690,7 @@ describe('$patchStyleText', () => {
       });
 
       const selection = $getSelection() as RangeSelection;
-      $patchStyleText(selection, {'text-emphasis': 'filled'});
+      $patchStyleText(selection, { 'text-emphasis': 'filled' });
     });
 
     expect(element.innerHTML).toBe(
@@ -2788,7 +2736,7 @@ describe('$patchStyleText', () => {
       });
 
       const selection = $getSelection() as RangeSelection;
-      $patchStyleText(selection, {'text-emphasis': 'filled'});
+      $patchStyleText(selection, { 'text-emphasis': 'filled' });
     });
 
     expect(element.innerHTML).toBe(
@@ -2838,7 +2786,7 @@ describe('$patchStyleText', () => {
       });
 
       const selection = $getSelection() as RangeSelection;
-      $patchStyleText(selection, {'text-emphasis': 'filled'});
+      $patchStyleText(selection, { 'text-emphasis': 'filled' });
     });
 
     expect(element.innerHTML).toBe(
@@ -2878,7 +2826,7 @@ describe('$patchStyleText', () => {
       });
 
       const selection = $getSelection() as RangeSelection;
-      $patchStyleText(selection, {'text-emphasis': 'filled'});
+      $patchStyleText(selection, { 'text-emphasis': 'filled' });
     });
 
     expect(element.innerHTML).toBe(
@@ -2916,13 +2864,11 @@ describe('$patchStyleText', () => {
       });
 
       const selection = $getSelection() as RangeSelection;
-      $patchStyleText(selection, {'text-emphasis': 'filled'});
-      $patchStyleText(selection, {'text-emphasis': null});
+      $patchStyleText(selection, { 'text-emphasis': 'filled' });
+      $patchStyleText(selection, { 'text-emphasis': null });
     });
 
-    expect(element.innerHTML).toBe(
-      '<p dir="ltr"><span data-lexical-text="true">text</span></p>',
-    );
+    expect(element.innerHTML).toBe('<p dir="ltr"><span data-lexical-text="true">text</span></p>');
   });
 
   test('can toggle a style on a collapsed selection', async () => {
@@ -2951,23 +2897,17 @@ describe('$patchStyleText', () => {
       });
 
       const selection = $getSelection() as RangeSelection;
-      $patchStyleText(selection, {'text-emphasis': 'filled'});
+      $patchStyleText(selection, { 'text-emphasis': 'filled' });
 
-      expect(
-        $getSelectionStyleValueForProperty(selection, 'text-emphasis', ''),
-      ).toEqual('filled');
+      expect($getSelectionStyleValueForProperty(selection, 'text-emphasis', '')).toEqual('filled');
 
-      $patchStyleText(selection, {'text-emphasis': null});
+      $patchStyleText(selection, { 'text-emphasis': null });
 
-      expect(
-        $getSelectionStyleValueForProperty(selection, 'text-emphasis', ''),
-      ).toEqual('');
+      expect($getSelectionStyleValueForProperty(selection, 'text-emphasis', '')).toEqual('');
 
-      $patchStyleText(selection, {'text-emphasis': 'filled'});
+      $patchStyleText(selection, { 'text-emphasis': 'filled' });
 
-      expect(
-        $getSelectionStyleValueForProperty(selection, 'text-emphasis', ''),
-      ).toEqual('filled');
+      expect($getSelectionStyleValueForProperty(selection, 'text-emphasis', '')).toEqual('filled');
     });
   });
 
@@ -3003,16 +2943,12 @@ describe('$patchStyleText', () => {
 
       // Now when we set the style, we should _not_ touch the previously created
       // empty style object, but create a new one instead.
-      $patchStyleText(selection, {color: 'red'});
+      $patchStyleText(selection, { color: 'red' });
 
       // We can check that result by clearing the style and re-querying it.
       ($getSelection() as RangeSelection).setStyle('');
 
-      const color = $getSelectionStyleValueForProperty(
-        $getSelection() as RangeSelection,
-        'color',
-        '',
-      );
+      const color = $getSelectionStyleValueForProperty($getSelection() as RangeSelection, 'color', '');
       expect(color).toEqual('');
     });
   });

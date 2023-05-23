@@ -6,17 +6,14 @@
  *
  */
 
-import type {LexicalEditor, LexicalNode} from 'lexical';
+import type { LexicalEditor, LexicalNode } from 'lexical';
 
-import {$generateHtmlFromNodes, $generateNodesFromDOM} from '@lexical/html';
-import {$getRoot, $isElementNode, $setSelection} from 'lexical';
-import {$createRangeSelection} from 'lexical/src';
-import {
-  $createTestDecoratorNode,
-  createTestEditor,
-} from 'lexical/src/__tests__/utils';
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html';
+import { $getRoot, $isElementNode, $setSelection } from 'lexical';
+import { $createRangeSelection } from 'lexical/src';
+import { $createTestDecoratorNode, createTestEditor } from 'lexical/src/__tests__/utils';
 
-import {$insertNodeToNearestRoot} from '../..';
+import { $insertNodeToNearestRoot } from '../..';
 
 describe('LexicalUtils#insertNodeToNearestRoot', () => {
   let editor: LexicalEditor;
@@ -41,8 +38,7 @@ describe('LexicalUtils#insertNodeToNearestRoot', () => {
   }> = [
     {
       _: 'insert into paragraph in between two text nodes',
-      expectedHtml:
-        '<p><span>Hello</span></p><test-decorator></test-decorator><p><span>world</span></p>',
+      expectedHtml: '<p><span>Hello</span></p><test-decorator></test-decorator><p><span>world</span></p>',
       initialHtml: '<p><span>Helloworld</span></p>',
       selectionOffset: 5, // Selection on text node after "Hello" world
       selectionPath: [0, 0],
@@ -77,20 +73,14 @@ describe('LexicalUtils#insertNodeToNearestRoot', () => {
     },
     {
       _: 'insert in the end of paragraph',
-      expectedHtml:
-        '<p><span>Hello world</span></p>' +
-        '<test-decorator></test-decorator>' +
-        '<p><br></p>',
+      expectedHtml: '<p><span>Hello world</span></p>' + '<test-decorator></test-decorator>' + '<p><br></p>',
       initialHtml: '<p>Hello world</p>',
       selectionOffset: 12, // Selection on text node after "Hello" world
       selectionPath: [0, 0],
     },
     {
       _: 'insert in the beginning of paragraph',
-      expectedHtml:
-        '<p><br></p>' +
-        '<test-decorator></test-decorator>' +
-        '<p><span>Hello world</span></p>',
+      expectedHtml: '<p><br></p>' + '<test-decorator></test-decorator>' + '<p><span>Hello world</span></p>',
       initialHtml: '<p>Hello world</p>',
       selectionOffset: 0, // Selection on text node after "Hello" world
       selectionPath: [0, 0],
@@ -102,27 +92,20 @@ describe('LexicalUtils#insertNodeToNearestRoot', () => {
         '<test-decorator></test-decorator>' +
         '<p><span>Before</span></p>' +
         '<p><span>After</span></p>',
-      initialHtml:
-        '<test-decorator></test-decorator>' +
-        '<p><span>Before</span></p>' +
-        '<p><span>After</span></p>',
+      initialHtml: '<test-decorator></test-decorator>' + '<p><span>Before</span></p>' + '<p><span>After</span></p>',
       selectionOffset: 0,
       selectionPath: [],
     },
     {
       _: 'insert with selection on root child',
-      expectedHtml:
-        '<p><span>Before</span></p>' +
-        '<test-decorator></test-decorator>' +
-        '<p><span>After</span></p>',
+      expectedHtml: '<p><span>Before</span></p>' + '<test-decorator></test-decorator>' + '<p><span>After</span></p>',
       initialHtml: '<p>Before</p><p>After</p>',
       selectionOffset: 1,
       selectionPath: [],
     },
     {
       _: 'insert with selection on root end',
-      expectedHtml:
-        '<p><span>Before</span></p>' + '<test-decorator></test-decorator>',
+      expectedHtml: '<p><span>Before</span></p>' + '<test-decorator></test-decorator>',
       initialHtml: '<p>Before</p>',
       selectionOffset: 1,
       selectionPath: [],
@@ -146,9 +129,7 @@ describe('LexicalUtils#insertNodeToNearestRoot', () => {
         let selectionNode: LexicalNode = $getRoot();
         for (const index of testCase.selectionPath) {
           if (!$isElementNode(selectionNode)) {
-            throw new Error(
-              'Expected node to be element (to traverse the tree)',
-            );
+            throw new Error('Expected node to be element (to traverse the tree)');
           }
           selectionNode = selectionNode.getChildAtIndex(index);
         }
@@ -159,8 +140,7 @@ describe('LexicalUtils#insertNodeToNearestRoot', () => {
         const selection = $createRangeSelection();
         const type = $isElementNode(selectionNode) ? 'element' : 'text';
         selection.anchor.key = selection.focus.key = selectionNode.getKey();
-        selection.anchor.offset = selection.focus.offset =
-          testCase.selectionOffset;
+        selection.anchor.offset = selection.focus.offset = testCase.selectionOffset;
         selection.anchor.type = selection.focus.type = type;
         $setSelection(selection);
 
@@ -168,10 +148,7 @@ describe('LexicalUtils#insertNodeToNearestRoot', () => {
 
         // Cleaning up list value attributes as it's not really needed in this test
         // and it clutters expected output
-        const actualHtml = $generateHtmlFromNodes(editor).replace(
-          /\svalue="\d{1,}"/g,
-          '',
-        );
+        const actualHtml = $generateHtmlFromNodes(editor).replace(/\svalue="\d{1,}"/g, '');
         expect(actualHtml).toEqual(testCase.expectedHtml);
       });
     });

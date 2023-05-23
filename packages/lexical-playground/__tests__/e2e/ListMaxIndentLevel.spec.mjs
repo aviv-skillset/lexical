@@ -6,15 +6,8 @@
  *
  */
 
-import {selectAll} from '../keyboardShortcuts/index.mjs';
-import {
-  assertHTML,
-  click,
-  focusEditor,
-  initialize,
-  selectFromAlignDropdown,
-  test,
-} from '../utils/index.mjs';
+import { selectAll } from '../keyboardShortcuts/index.mjs';
+import { assertHTML, click, focusEditor, initialize, selectFromAlignDropdown, test } from '../utils/index.mjs';
 
 async function toggleBulletList(page) {
   await click(page, '.block-controls');
@@ -30,11 +23,8 @@ async function clickIndentButton(page, times = 1) {
 const MAX_INDENT_LEVEL = 6;
 
 test.describe('Nested List', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Can only indent until the max depth when list is empty`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Can only indent until the max depth when list is empty`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await toggleBulletList(page);
@@ -55,10 +45,7 @@ test.describe('Nested List', () => {
     );
   });
 
-  test(`Can only indent until the max depth when list has content`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test(`Can only indent until the max depth when list has content`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await toggleBulletList(page);
@@ -80,10 +67,7 @@ test.describe('Nested List', () => {
     );
   });
 
-  test(`Can only indent until the max depth a list with nested lists`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test(`Can only indent until the max depth a list with nested lists`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
 
     await focusEditor(page);

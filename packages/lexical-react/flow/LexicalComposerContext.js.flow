@@ -7,16 +7,13 @@
  * @flow strict
  */
 
-import type {EditorThemeClasses, LexicalEditor} from 'lexical';
+import type { EditorThemeClasses, LexicalEditor } from 'lexical';
 
 export type LexicalComposerContextType = {
   getTheme: () => ?EditorThemeClasses,
 };
 
-export type LexicalComposerContextWithEditor = [
-  LexicalEditor,
-  LexicalComposerContextType,
-];
+export type LexicalComposerContextWithEditor = [LexicalEditor, LexicalComposerContextType];
 
 declare export var LexicalComposerContext: React$Context<?LexicalComposerContextWithEditor>;
 

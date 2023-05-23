@@ -6,32 +6,18 @@
  *
  */
 
-import {
-  moveToLineBeginning,
-  moveToLineEnd,
-  pressBackspace,
-  selectCharacters,
-} from '../keyboardShortcuts/index.mjs';
-import {
-  assertHTML,
-  assertSelection,
-  focusEditor,
-  html,
-  initialize,
-  test,
-} from '../utils/index.mjs';
+import { moveToLineBeginning, moveToLineEnd, pressBackspace, selectCharacters } from '../keyboardShortcuts/index.mjs';
+import { assertHTML, assertSelection, focusEditor, html, initialize, test } from '../utils/index.mjs';
 
 test.describe('Emoticons', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Can handle a single emoticon`, async ({page, browserName}) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Can handle a single emoticon`, async ({ page, browserName }) => {
     await focusEditor(page);
     await page.keyboard.type('This is an emoji :)');
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">This is an emoji</span>
           <span class="emoji happysmile" data-lexical-text="true">
             <span class="emoji-inner">🙂</span>
@@ -50,9 +36,7 @@ test.describe('Emoticons', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">This is an emoji</span>
         </p>
       `,
@@ -95,9 +79,7 @@ test.describe('Emoticons', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">This is an emoji</span>
         </p>
       `,
@@ -110,19 +92,13 @@ test.describe('Emoticons', () => {
     });
   });
 
-  test(`Can enter multiple emoticons`, async ({
-    isRichText,
-    browserName,
-    page,
-  }) => {
+  test(`Can enter multiple emoticons`, async ({ isRichText, browserName, page }) => {
     await focusEditor(page);
     await page.keyboard.type(':) :) <3 :(');
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span class="emoji happysmile" data-lexical-text="true">
             <span class="emoji-inner">🙂</span>
           </span>
@@ -154,9 +130,7 @@ test.describe('Emoticons', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span class="emoji happysmile" data-lexical-text="true">
             <span class="emoji-inner">🙂</span>
           </span>
@@ -188,9 +162,7 @@ test.describe('Emoticons', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span class="emoji happysmile" data-lexical-text="true">
             <span class="emoji-inner">🙂</span>
           </span>
@@ -237,9 +209,7 @@ test.describe('Emoticons', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span class="emoji happysmile" data-lexical-text="true">
               <span class="emoji-inner">🙂</span>
             </span>
@@ -285,9 +255,7 @@ test.describe('Emoticons', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span class="emoji happysmile" data-lexical-text="true">
               <span class="emoji-inner">🙂</span>
             </span>
@@ -337,9 +305,7 @@ test.describe('Emoticons', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span class="emoji happysmile" data-lexical-text="true">
               <span class="emoji-inner">🙂</span>
             </span>
@@ -372,9 +338,7 @@ test.describe('Emoticons', () => {
               <span class="emoji-inner">🙁</span>
             </span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span class="emoji happysmile" data-lexical-text="true">
               <span class="emoji-inner">🙂</span>
             </span>
@@ -403,9 +367,7 @@ test.describe('Emoticons', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span class="emoji happysmile" data-lexical-text="true">
               <span class="emoji-inner">🙂</span>
             </span>
@@ -470,12 +432,7 @@ test.describe('Emoticons', () => {
     await moveToLineEnd(page);
 
     await pressBackspace(page, 22);
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     await assertSelection(page, {
       anchorOffset: 0,
       anchorPath: [0],
@@ -564,9 +521,7 @@ test.describe('Emoticons', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hey</span>
           <span class="emoji happysmile" data-lexical-text="true">
             <span class="emoji-inner">🙂</span>
@@ -594,7 +549,7 @@ test.describe('Emoticons', () => {
     });
   });
 
-  test(`Can handle single emoticon replaced with text`, async ({page}) => {
+  test(`Can handle single emoticon replaced with text`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type(':)');
     await page.keyboard.down('Shift');
@@ -604,9 +559,7 @@ test.describe('Emoticons', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">a</span>
         </p>
       `,
@@ -624,9 +577,7 @@ test.describe('Emoticons', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">a</span>
         </p>
       `,

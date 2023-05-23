@@ -10,28 +10,20 @@
 
 'use strict';
 
-const {exec} = require('child-process-promise');
-const {LEXICAL_PKG, DEFAULT_PKGS} = require('./packages');
+const { exec } = require('child-process-promise');
+const { LEXICAL_PKG, DEFAULT_PKGS } = require('./packages');
 
 async function prepareLexicalPackage() {
   await exec(`rm -rf ./packages/${LEXICAL_PKG}/npm`);
   await exec(`mkdir ./packages/${LEXICAL_PKG}/npm`);
-  await exec(
-    `cp -R ./packages/${LEXICAL_PKG}/dist/* ./packages/${LEXICAL_PKG}/npm`,
-  );
+  await exec(`cp -R ./packages/${LEXICAL_PKG}/dist/* ./packages/${LEXICAL_PKG}/npm`);
 
   // Other bits
-  await exec(
-    `cp -R ./packages/${LEXICAL_PKG}/package.json ./packages/${LEXICAL_PKG}/npm`,
-  );
+  await exec(`cp -R ./packages/${LEXICAL_PKG}/package.json ./packages/${LEXICAL_PKG}/npm`);
   await exec(`cp -R LICENSE ./packages/${LEXICAL_PKG}/npm`);
-  await exec(
-    `cp -R ./packages/${LEXICAL_PKG}/README.md ./packages/${LEXICAL_PKG}/npm`,
-  );
+  await exec(`cp -R ./packages/${LEXICAL_PKG}/README.md ./packages/${LEXICAL_PKG}/npm`);
   // Flow Types
-  await exec(
-    `cp -R ./packages/${LEXICAL_PKG}/flow/*.flow ./packages/${LEXICAL_PKG}/npm`,
-  );
+  await exec(`cp -R ./packages/${LEXICAL_PKG}/flow/*.flow ./packages/${LEXICAL_PKG}/npm`);
 }
 
 async function prepareDefaultPackages() {

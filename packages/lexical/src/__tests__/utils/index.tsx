@@ -18,27 +18,21 @@ import type {
   SerializedTextNode,
 } from 'lexical';
 
-import {CodeHighlightNode, CodeNode} from '@lexical/code';
-import {HashtagNode} from '@lexical/hashtag';
-import {AutoLinkNode, LinkNode} from '@lexical/link';
-import {ListItemNode, ListNode} from '@lexical/list';
-import {OverflowNode} from '@lexical/overflow';
-import {LexicalComposer} from '@lexical/react/src/LexicalComposer';
-import {HeadingNode, QuoteNode} from '@lexical/rich-text';
-import {TableCellNode, TableNode, TableRowNode} from '@lexical/table';
-import {
-  $isRangeSelection,
-  createEditor,
-  DecoratorNode,
-  ElementNode,
-  TextNode,
-} from 'lexical';
+import { CodeHighlightNode, CodeNode } from '@lexical/code';
+import { HashtagNode } from '@lexical/hashtag';
+import { AutoLinkNode, LinkNode } from '@lexical/link';
+import { ListItemNode, ListNode } from '@lexical/list';
+import { OverflowNode } from '@lexical/overflow';
+import { LexicalComposer } from '@lexical/react/src/LexicalComposer';
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
+import { $isRangeSelection, createEditor, DecoratorNode, ElementNode, TextNode } from 'lexical';
 import * as React from 'react';
-import {createRef} from 'react';
-import {createRoot} from 'react-dom/client';
+import { createRef } from 'react';
+import { createRoot } from 'react-dom/client';
 import * as ReactTestUtils from 'react-dom/test-utils';
 
-import {resetRandomKey} from '../../LexicalUtils';
+import { resetRandomKey } from '../../LexicalUtils';
 
 type TestEnv = {
   container: HTMLDivElement | null;
@@ -46,10 +40,7 @@ type TestEnv = {
   outerHTML: string;
 };
 
-export function initializeUnitTest(
-  runTests: (testEnv: TestEnv) => void,
-  editorConfig = {},
-) {
+export function initializeUnitTest(runTests: (testEnv: TestEnv) => void, editorConfig = {}) {
   const testEnv: TestEnv = {
     container: null,
     editor: null,
@@ -117,9 +108,7 @@ export class TestElementNode extends ElementNode {
     return new TestElementNode(node.__key);
   }
 
-  static importJSON(
-    serializedNode: SerializedTestElementNode,
-  ): TestInlineElementNode {
+  static importJSON(serializedNode: SerializedTestElementNode): TestInlineElementNode {
     const node = $createTestInlineElementNode();
     node.setFormat(serializedNode.format);
     node.setIndent(serializedNode.indent);
@@ -185,9 +174,7 @@ export class TestInlineElementNode extends ElementNode {
     return new TestInlineElementNode(node.__key);
   }
 
-  static importJSON(
-    serializedNode: SerializedTestInlineElementNode,
-  ): TestInlineElementNode {
+  static importJSON(serializedNode: SerializedTestInlineElementNode): TestInlineElementNode {
     const node = $createTestInlineElementNode();
     node.setFormat(serializedNode.format);
     node.setIndent(serializedNode.indent);
@@ -231,9 +218,7 @@ export class TestShadowRootNode extends ElementNode {
     return new TestElementNode(node.__key);
   }
 
-  static importJSON(
-    serializedNode: SerializedTestShadowRootNode,
-  ): TestShadowRootNode {
+  static importJSON(serializedNode: SerializedTestShadowRootNode): TestShadowRootNode {
     const node = $createTestShadowRootNode();
     node.setFormat(serializedNode.format);
     node.setIndent(serializedNode.indent);
@@ -277,9 +262,7 @@ export class TestSegmentedNode extends TextNode {
     return new TestSegmentedNode(node.__text, node.__key);
   }
 
-  static importJSON(
-    serializedNode: SerializedTestSegmentedNode,
-  ): TestSegmentedNode {
+  static importJSON(serializedNode: SerializedTestSegmentedNode): TestSegmentedNode {
     const node = $createTestSegmentedNode(serializedNode.text);
     node.setFormat(serializedNode.format);
     node.setDetail(serializedNode.detail);
@@ -312,9 +295,7 @@ export class TestExcludeFromCopyElementNode extends ElementNode {
     return new TestExcludeFromCopyElementNode(node.__key);
   }
 
-  static importJSON(
-    serializedNode: SerializedTestExcludeFromCopyElementNode,
-  ): TestExcludeFromCopyElementNode {
+  static importJSON(serializedNode: SerializedTestExcludeFromCopyElementNode): TestExcludeFromCopyElementNode {
     const node = $createTestExcludeFromCopyElementNode();
     node.setFormat(serializedNode.format);
     node.setIndent(serializedNode.indent);
@@ -358,9 +339,7 @@ export class TestDecoratorNode extends DecoratorNode<JSX.Element> {
     return new TestDecoratorNode(node.__key);
   }
 
-  static importJSON(
-    serializedNode: SerializedTestDecoratorNode,
-  ): TestDecoratorNode {
+  static importJSON(serializedNode: SerializedTestDecoratorNode): TestDecoratorNode {
     return $createTestDecoratorNode();
   }
 
@@ -376,7 +355,7 @@ export class TestDecoratorNode extends DecoratorNode<JSX.Element> {
     return {
       'test-decorator': (domNode: HTMLElement) => {
         return {
-          conversion: () => ({node: $createTestDecoratorNode()}),
+          conversion: () => ({ node: $createTestDecoratorNode() }),
         };
       },
     };
@@ -405,7 +384,7 @@ export class TestDecoratorNode extends DecoratorNode<JSX.Element> {
   }
 }
 
-function Decorator({text}): JSX.Element {
+function Decorator({ text }): JSX.Element {
   return <span>{text}</span>;
 }
 
@@ -453,7 +432,8 @@ export function TestComposer({
         ...config,
         namespace: '',
         nodes: DEFAULT_NODES.concat(customNodes),
-      }}>
+      }}
+    >
       {children}
     </LexicalComposer>
   );
@@ -470,9 +450,7 @@ export function createTestEditor(
       | {
           replace: Klass<LexicalNode>;
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          with: <T extends {new (...args: any): any}>(
-            node: InstanceType<T>,
-          ) => LexicalNode;
+          with: <T extends { new (...args: any): any }>(node: InstanceType<T>) => LexicalNode;
         }
     >;
     onError?: (error: Error) => void;

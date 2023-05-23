@@ -6,26 +6,26 @@
  *
  */
 
-import {useLexicalComposerContext} from '@lexical/react/src/LexicalComposerContext';
+import { useLexicalComposerContext } from '@lexical/react/src/LexicalComposerContext';
 import LexicalErrorBoundary from '@lexical/react/src/LexicalErrorBoundary';
-import {LexicalEditor} from 'lexical';
+import { LexicalEditor } from 'lexical';
 import * as React from 'react';
-import {createRoot, Root} from 'react-dom/client';
+import { createRoot, Root } from 'react-dom/client';
 import * as ReactTestUtils from 'react-dom/test-utils';
 import * as Y from 'yjs';
 
-import {useCollaborationContext} from '../../LexicalCollaborationContext';
-import {CollaborationPlugin} from '../../LexicalCollaborationPlugin';
-import {LexicalComposer} from '../../LexicalComposer';
-import {ContentEditable} from '../../LexicalContentEditable';
-import {RichTextPlugin} from '../../LexicalRichTextPlugin';
+import { useCollaborationContext } from '../../LexicalCollaborationContext';
+import { CollaborationPlugin } from '../../LexicalCollaborationPlugin';
+import { LexicalComposer } from '../../LexicalComposer';
+import { ContentEditable } from '../../LexicalContentEditable';
+import { RichTextPlugin } from '../../LexicalRichTextPlugin';
 
-function Editor({doc, provider, setEditor}) {
+function Editor({ doc, provider, setEditor }) {
   const context = useCollaborationContext();
 
   const [editor] = useLexicalComposerContext();
 
-  const {yjsDocMap} = context;
+  const { yjsDocMap } = context;
   context.isCollabActive = true;
   yjsDocMap.set('main', doc);
 
@@ -33,16 +33,8 @@ function Editor({doc, provider, setEditor}) {
 
   return (
     <>
-      <CollaborationPlugin
-        id="main"
-        providerFactory={() => provider}
-        shouldBootstrap={true}
-      />
-      <RichTextPlugin
-        contentEditable={<ContentEditable />}
-        placeholder={<></>}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
+      <CollaborationPlugin id="main" providerFactory={() => provider} shouldBootstrap={true} />
+      <RichTextPlugin contentEditable={<ContentEditable />} placeholder={<></>} ErrorBoundary={LexicalErrorBoundary} />
     </>
   );
 }
@@ -132,11 +124,7 @@ class Client {
       const update = Y.encodeStateAsUpdate(this._doc);
 
       if (this._updates.length > 0) {
-        Y.applyUpdate(
-          this._doc,
-          Y.mergeUpdates(this._updates),
-          this._connection,
-        );
+        Y.applyUpdate(this._doc, Y.mergeUpdates(this._updates), this._connection);
         this._updates = [];
       }
 
@@ -167,12 +155,9 @@ class Client {
             onError: () => {
               throw Error();
             },
-          }}>
-          <Editor
-            provider={this}
-            doc={this._doc}
-            setEditor={(editor) => (this._editor = editor)}
-          />
+          }}
+        >
+          <Editor provider={this} doc={this._doc} setEditor={(editor) => (this._editor = editor)} />
         </LexicalComposer>,
       );
     });

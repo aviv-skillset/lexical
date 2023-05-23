@@ -7,7 +7,7 @@
  *
  */
 
-import {$cloneWithProperties} from '@lexical/selection';
+import { $cloneWithProperties } from '@lexical/selection';
 import {
   $createParagraphNode,
   $getRoot,
@@ -28,7 +28,7 @@ import {
 } from 'lexical';
 import invariant from 'shared/invariant';
 
-export {$splitNode};
+export { $splitNode };
 
 export type DFSNode = Readonly<{
   depth: number;
@@ -82,10 +82,7 @@ export function removeClassNamesFromElement(
  * @param acceptableMimeTypes - An array of strings of types which the file is checked against.
  * @returns true if the file is an acceptable mime type, false otherwise.
  */
-export function isMimeType(
-  file: File,
-  acceptableMimeTypes: Array<string>,
-): boolean {
+export function isMimeType(file: File, acceptableMimeTypes: Array<string>): boolean {
   for (const acceptableType of acceptableMimeTypes) {
     if (file.type.startsWith(acceptableType)) {
       return true;
@@ -108,12 +105,12 @@ export function isMimeType(
 export function mediaFileReader(
   files: Array<File>,
   acceptableMimeTypes: Array<string>,
-): Promise<Array<{file: File; result: string}>> {
+): Promise<Array<{ file: File; result: string }>> {
   const filesIterator = files[Symbol.iterator]();
   return new Promise((resolve, reject) => {
-    const processed: Array<{file: File; result: string}> = [];
+    const processed: Array<{ file: File; result: string }> = [];
     const handleNextFile = () => {
-      const {done, value: file} = filesIterator.next();
+      const { done, value: file } = filesIterator.next();
       if (done) {
         return resolve(processed);
       }
@@ -122,7 +119,7 @@ export function mediaFileReader(
       fileReader.addEventListener('load', () => {
         const result = fileReader.result;
         if (typeof result === 'string') {
-          processed.push({file, result});
+          processed.push({ file, result });
         }
         handleNextFile();
       });
@@ -146,19 +143,15 @@ export function mediaFileReader(
  * @returns An array of objects of all the nodes found by the search, including their depth into the tree.
  * {depth: number, node: LexicalNode} It will always return at least 1 node (the ending node) so long as it exists
  */
-export function $dfs(
-  startingNode?: LexicalNode,
-  endingNode?: LexicalNode,
-): Array<DFSNode> {
+export function $dfs(startingNode?: LexicalNode, endingNode?: LexicalNode): Array<DFSNode> {
   const nodes = [];
   const start = (startingNode || $getRoot()).getLatest();
-  const end =
-    endingNode || ($isElementNode(start) ? start.getLastDescendant() : start);
+  const end = endingNode || ($isElementNode(start) ? start.getLastDescendant() : start);
   let node: LexicalNode | null = start;
   let depth = $getDepth(node);
 
   while (node !== null && !node.is(end)) {
-    nodes.push({depth, node});
+    nodes.push({ depth, node });
 
     if ($isElementNode(node) && node.getChildrenSize() > 0) {
       node = node.getFirstChild();
@@ -181,7 +174,7 @@ export function $dfs(
   }
 
   if (node !== null && node.is(end)) {
-    nodes.push({depth, node});
+    nodes.push({ depth, node });
   }
 
   return nodes;
@@ -205,10 +198,7 @@ function $getDepth(node: LexicalNode): number {
  * @param klass - an instance of the type of node to look for.
  * @returns the node of type klass that was passed, or null if none exist.
  */
-export function $getNearestNodeOfType<T extends ElementNode>(
-  node: LexicalNode,
-  klass: Klass<T>,
-): T | null {
+export function $getNearestNodeOfType<T extends ElementNode>(node: LexicalNode, klass: Klass<T>): T | null {
   let parent: ElementNode | LexicalNode | null = node;
 
   while (parent != null) {
@@ -227,20 +217,11 @@ export function $getNearestNodeOfType<T extends ElementNode>(
  * @param startNode - The starting node of the search
  * @returns The ancestor node found
  */
-export function $getNearestBlockElementAncestorOrThrow(
-  startNode: LexicalNode,
-): ElementNode {
-  const blockNode = $findMatchingParent(
-    startNode,
-    (node) => $isElementNode(node) && !node.isInline(),
-  );
+export function $getNearestBlockElementAncestorOrThrow(startNode: LexicalNode): ElementNode {
+  const blockNode = $findMatchingParent(startNode, (node) => $isElementNode(node) && !node.isInline());
 
   if (!$isElementNode(blockNode)) {
-    invariant(
-      false,
-      'Expected node %s to have closest block element node.',
-      startNode.__key,
-    );
+    invariant(false, 'Expected node %s to have closest block element node.', startNode.__key);
   }
 
   return blockNode;
@@ -248,10 +229,7 @@ export function $getNearestBlockElementAncestorOrThrow(
 
 export type DOMNodeToLexicalConversion = (element: Node) => LexicalNode;
 
-export type DOMNodeToLexicalConversionMap = Record<
-  string,
-  DOMNodeToLexicalConversion
->;
+export type DOMNodeToLexicalConversionMap = Record<string, DOMNodeToLexicalConversion>;
 
 /**
  * Starts with a node and moves up the tree (toward the root node) to find a matching node based on
@@ -327,7 +305,7 @@ export function registerNestedElementResolver<N extends ElementNode>(
     return node instanceof targetNode;
   };
 
-  const $findMatch = (node: N): {child: ElementNode; parent: N} | null => {
+  const $findMatch = (node: N): { child: ElementNode; parent: N } | null => {
     // First validate we don't have any children that are of the target,
     // as we need to handle them first.
     const children = node.getChildren();
@@ -348,7 +326,7 @@ export function registerNestedElementResolver<N extends ElementNode>(
       parentNode = parentNode.getParent();
 
       if ($isTargetNode(parentNode)) {
-        return {child: childNode, parent: parentNode};
+        return { child: childNode, parent: parentNode };
       }
     }
 
@@ -359,7 +337,7 @@ export function registerNestedElementResolver<N extends ElementNode>(
     const match = $findMatch(node);
 
     if (match !== null) {
-      const {child, parent} = match;
+      const { child, parent } = match;
 
       // Simple path, we can move child out and siblings into a new parent.
 
@@ -398,10 +376,7 @@ export function registerNestedElementResolver<N extends ElementNode>(
  * @param editor - The lexical editor
  * @param editorState - The editor's state
  */
-export function $restoreEditorState(
-  editor: LexicalEditor,
-  editorState: EditorState,
-): void {
+export function $restoreEditorState(editor: LexicalEditor, editorState: EditorState): void {
   const FULL_RECONCILE = 2;
   const nodeMap = new Map();
   const activeEditorState = editor._pendingEditorState;
@@ -434,7 +409,7 @@ export function $restoreEditorState(
 export function $insertNodeToNearestRoot<T extends LexicalNode>(node: T): T {
   const selection = $getSelection();
   if ($isRangeSelection(selection)) {
-    const {focus} = selection;
+    const { focus } = selection;
     const focusNode = focus.getNode();
     const focusOffset = focus.offset;
 
@@ -485,10 +460,7 @@ export function $insertNodeToNearestRoot<T extends LexicalNode>(node: T): T {
  * @param createElementNode - Creates a new lexcial element to wrap the to-be-wrapped node and returns it.
  * @returns A new lexcial element with the previous node appended within (as a child, including its children).
  */
-export function $wrapNodeInElement(
-  node: LexicalNode,
-  createElementNode: () => ElementNode,
-): ElementNode {
+export function $wrapNodeInElement(node: LexicalNode, createElementNode: () => ElementNode): ElementNode {
   const elementNode = createElementNode();
   node.replace(elementNode);
   elementNode.append(node);

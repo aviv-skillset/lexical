@@ -6,23 +6,11 @@
  *
  */
 
-import {
-  moveLeft,
-  moveRight,
-  selectCharacters,
-} from '../keyboardShortcuts/index.mjs';
-import {
-  assertHTML,
-  click,
-  focusEditor,
-  html,
-  initialize,
-  pasteFromClipboard,
-  test,
-} from '../utils/index.mjs';
+import { moveLeft, moveRight, selectCharacters } from '../keyboardShortcuts/index.mjs';
+import { assertHTML, click, focusEditor, html, initialize, pasteFromClipboard, test } from '../utils/index.mjs';
 
 test.describe('Regression test #3136', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
   test('Correctly pastes rich content when the selection is followed by an inline element', async ({
     isPlainText,
     page,
@@ -45,20 +33,14 @@ test.describe('Regression test #3136', () => {
 
     // Paste to replace it (needs to be rich text in order to exercise
     // insertNodes)
-    await pasteFromClipboard(page, {'text/html': 'replaced'});
+    await pasteFromClipboard(page, { 'text/html': 'replaced' });
 
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">replaced</span>
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">link</span>
           </a>
         </p>
@@ -89,19 +71,13 @@ test.describe('Regression test #3136', () => {
 
     // Paste to replace it (needs to be rich text in order to exercise
     // insertNodes)
-    await pasteFromClipboard(page, {'text/html': 'replaced'});
+    await pasteFromClipboard(page, { 'text/html': 'replaced' });
 
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <a
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr"
-            href="https://"
-            rel="noopener">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" dir="ltr" href="https://" rel="noopener">
             <span data-lexical-text="true">link</span>
           </a>
           <span data-lexical-text="true">replaced</span>

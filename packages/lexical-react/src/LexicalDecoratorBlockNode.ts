@@ -6,15 +6,9 @@
  *
  */
 
-import type {
-  ElementFormatType,
-  LexicalNode,
-  NodeKey,
-  SerializedLexicalNode,
-  Spread,
-} from 'lexical';
+import type { ElementFormatType, LexicalNode, NodeKey, SerializedLexicalNode, Spread } from 'lexical';
 
-import {DecoratorNode} from 'lexical';
+import { DecoratorNode } from 'lexical';
 
 export type SerializedDecoratorBlockNode = Spread<
   {
@@ -53,8 +47,6 @@ export class DecoratorBlockNode extends DecoratorNode<JSX.Element> {
   }
 }
 
-export function $isDecoratorBlockNode(
-  node: LexicalNode | null | undefined,
-): node is DecoratorBlockNode {
+export function $isDecoratorBlockNode(node: LexicalNode | null | undefined): node is DecoratorBlockNode {
   return node instanceof DecoratorBlockNode;
 }

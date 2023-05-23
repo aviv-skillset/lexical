@@ -6,16 +6,9 @@
  *
  */
 
-import {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as React from 'react';
-import {createPortal} from 'react-dom';
+import { createPortal } from 'react-dom';
 
 type DropDownContextType = {
   registerItem: (ref: React.RefObject<HTMLButtonElement>) => void;
@@ -42,7 +35,7 @@ export function DropDownItem({
     throw new Error('DropDownItem must be used within a DropDown');
   }
 
-  const {registerItem} = dropDownContext;
+  const { registerItem } = dropDownContext;
 
   useEffect(() => {
     if (ref && ref.current) {
@@ -51,12 +44,7 @@ export function DropDownItem({
   }, [ref, registerItem]);
 
   return (
-    <button
-      className={className}
-      onClick={onClick}
-      ref={ref}
-      title={title}
-      type="button">
+    <button className={className} onClick={onClick} ref={ref} title={title} type="button">
       {children}
     </button>
   );
@@ -72,8 +60,7 @@ function DropDownItems({
   onClose: () => void;
 }) {
   const [items, setItems] = useState<React.RefObject<HTMLButtonElement>[]>();
-  const [highlightedItem, setHighlightedItem] =
-    useState<React.RefObject<HTMLButtonElement>>();
+  const [highlightedItem, setHighlightedItem] = useState<React.RefObject<HTMLButtonElement>>();
 
   const registerItem = useCallback(
     (itemRef: React.RefObject<HTMLButtonElement>) => {
@@ -166,12 +153,9 @@ export default function DropDown({
     const dropDown = dropDownRef.current;
 
     if (showDropDown && button !== null && dropDown !== null) {
-      const {top, left} = button.getBoundingClientRect();
+      const { top, left } = button.getBoundingClientRect();
       dropDown.style.top = `${top + 40}px`;
-      dropDown.style.left = `${Math.min(
-        left,
-        window.innerWidth - dropDown.offsetWidth - 20,
-      )}px`;
+      dropDown.style.left = `${Math.min(left, window.innerWidth - dropDown.offsetWidth - 20)}px`;
     }
   }, [dropDownRef, buttonRef, showDropDown]);
 
@@ -182,11 +166,7 @@ export default function DropDown({
       const handle = (event: MouseEvent) => {
         const target = event.target;
         if (stopCloseOnClickSelf) {
-          if (
-            dropDownRef.current &&
-            dropDownRef.current.contains(target as Node)
-          )
-            return;
+          if (dropDownRef.current && dropDownRef.current.contains(target as Node)) return;
         }
         if (!button.contains(target as Node)) {
           setShowDropDown(false);
@@ -207,11 +187,10 @@ export default function DropDown({
         aria-label={buttonAriaLabel || buttonLabel}
         className={buttonClassName}
         onClick={() => setShowDropDown(!showDropDown)}
-        ref={buttonRef}>
+        ref={buttonRef}
+      >
         {buttonIconClassName && <span className={buttonIconClassName} />}
-        {buttonLabel && (
-          <span className="text dropdown-button-text">{buttonLabel}</span>
-        )}
+        {buttonLabel && <span className="text dropdown-button-text">{buttonLabel}</span>}
         <i className="chevron-down" />
       </button>
 

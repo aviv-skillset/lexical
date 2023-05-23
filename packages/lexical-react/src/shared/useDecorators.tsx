@@ -6,11 +6,11 @@
  *
  */
 
-import type {LexicalEditor} from 'lexical';
+import type { LexicalEditor } from 'lexical';
 
-import {Suspense, useEffect, useMemo, useState} from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import * as React from 'react';
-import {createPortal, flushSync} from 'react-dom';
+import { createPortal, flushSync } from 'react-dom';
 import useLayoutEffect from 'shared/useLayoutEffect';
 
 type ErrorBoundaryProps = {
@@ -18,17 +18,10 @@ type ErrorBoundaryProps = {
   onError: (error: Error) => void;
 };
 
-export type ErrorBoundaryType =
-  | React.ComponentClass<ErrorBoundaryProps>
-  | React.FC<ErrorBoundaryProps>;
+export type ErrorBoundaryType = React.ComponentClass<ErrorBoundaryProps> | React.FC<ErrorBoundaryProps>;
 
-export function useDecorators(
-  editor: LexicalEditor,
-  ErrorBoundary: ErrorBoundaryType,
-): Array<JSX.Element> {
-  const [decorators, setDecorators] = useState<Record<string, JSX.Element>>(
-    () => editor.getDecorators<JSX.Element>(),
-  );
+export function useDecorators(editor: LexicalEditor, ErrorBoundary: ErrorBoundaryType): Array<JSX.Element> {
+  const [decorators, setDecorators] = useState<Record<string, JSX.Element>>(() => editor.getDecorators<JSX.Element>());
 
   // Subscribe to changes
   useLayoutEffect(() => {

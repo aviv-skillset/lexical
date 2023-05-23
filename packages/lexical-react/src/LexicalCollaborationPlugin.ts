@@ -6,14 +6,14 @@
  *
  */
 
-import type {Doc} from 'yjs';
+import type { Doc } from 'yjs';
 
-import {useCollaborationContext} from '@lexical/react/LexicalCollaborationContext';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {ExcludedProperties, Provider} from '@lexical/yjs';
-import {useEffect, useMemo} from 'react';
+import { useCollaborationContext } from '@lexical/react/LexicalCollaborationContext';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { ExcludedProperties, Provider } from '@lexical/yjs';
+import { useEffect, useMemo } from 'react';
 
-import {InitialEditorStateType} from './LexicalComposer';
+import { InitialEditorStateType } from './LexicalComposer';
 import {
   CursorsContainerRef,
   useYjsCollaboration,
@@ -48,7 +48,7 @@ export function CollaborationPlugin({
 }: Props): JSX.Element {
   const collabContext = useCollaborationContext(username, cursorColor);
 
-  const {yjsDocMap, name, color} = collabContext;
+  const { yjsDocMap, name, color } = collabContext;
 
   const [editor] = useLexicalComposerContext();
 
@@ -64,10 +64,7 @@ export function CollaborationPlugin({
     };
   }, [collabContext, editor]);
 
-  const provider = useMemo(
-    () => providerFactory(id, yjsDocMap),
-    [id, providerFactory, yjsDocMap],
-  );
+  const provider = useMemo(() => providerFactory(id, yjsDocMap), [id, providerFactory, yjsDocMap]);
 
   const [cursors, binding] = useYjsCollaboration(
     editor,

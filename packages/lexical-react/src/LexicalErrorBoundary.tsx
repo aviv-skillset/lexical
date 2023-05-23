@@ -7,17 +7,14 @@
  */
 
 import * as React from 'react';
-import {ErrorBoundary as ReactErrorBoundary} from 'react-error-boundary';
+import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 
 export type LexicalErrorBoundaryProps = {
   children: JSX.Element;
   onError: (error: Error) => void;
 };
 
-export default function LexicalErrorBoundary({
-  children,
-  onError,
-}: LexicalErrorBoundaryProps): JSX.Element {
+export default function LexicalErrorBoundary({ children, onError }: LexicalErrorBoundaryProps): JSX.Element {
   return (
     <ReactErrorBoundary
       fallback={
@@ -26,11 +23,13 @@ export default function LexicalErrorBoundary({
             border: '1px solid #f00',
             color: '#f00',
             padding: '8px',
-          }}>
+          }}
+        >
           An error was thrown.
         </div>
       }
-      onError={onError}>
+      onError={onError}
+    >
       {children}
     </ReactErrorBoundary>
   );

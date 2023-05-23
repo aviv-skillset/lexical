@@ -6,7 +6,7 @@
  *
  */
 
-import {$getNearestNodeOfType} from '@lexical/utils';
+import { $getNearestNodeOfType } from '@lexical/utils';
 import {
   $createParagraphNode,
   $getSelection,
@@ -24,32 +24,14 @@ import {
 } from 'lexical';
 import invariant from 'shared/invariant';
 
-import {
-  $createListItemNode,
-  $createListNode,
-  $isListItemNode,
-  $isListNode,
-  ListItemNode,
-  ListNode,
-} from './';
-import {ListType} from './LexicalListNode';
-import {
-  $getAllListItems,
-  $getTopListNode,
-  $removeHighestEmptyListParent,
-  isNestedListNode,
-} from './utils';
+import { $createListItemNode, $createListNode, $isListItemNode, $isListNode, ListItemNode, ListNode } from './';
+import { ListType } from './LexicalListNode';
+import { $getAllListItems, $getTopListNode, $removeHighestEmptyListParent, isNestedListNode } from './utils';
 
-function $isSelectingEmptyListItem(
-  anchorNode: ListItemNode | LexicalNode,
-  nodes: Array<LexicalNode>,
-): boolean {
+function $isSelectingEmptyListItem(anchorNode: ListItemNode | LexicalNode, nodes: Array<LexicalNode>): boolean {
   return (
     $isListItemNode(anchorNode) &&
-    (nodes.length === 0 ||
-      (nodes.length === 1 &&
-        anchorNode.is(nodes[0]) &&
-        anchorNode.getChildrenSize() === 0))
+    (nodes.length === 0 || (nodes.length === 1 && anchorNode.is(nodes[0]) && anchorNode.getChildrenSize() === 0))
   );
 }
 
@@ -60,10 +42,7 @@ function $getListItemValue(listItem: ListItemNode): number {
 
   if (list != null) {
     if (!$isListNode(list)) {
-      invariant(
-        false,
-        '$getListItemValue: list node is not parent of list item node',
-      );
+      invariant(false, '$getListItemValue: list node is not parent of list item node');
     } else {
       value = list.getStart();
     }
@@ -94,10 +73,7 @@ export function insertList(editor: LexicalEditor, listType: ListType): void {
   editor.update(() => {
     const selection = $getSelection();
 
-    if (
-      $isRangeSelection(selection) ||
-      DEPRECATED_$isGridSelection(selection)
-    ) {
+    if ($isRangeSelection(selection) || DEPRECATED_$isGridSelection(selection)) {
       const nodes = selection.getNodes();
       const anchor = selection.anchor;
       const anchorNode = anchor.getNode();
@@ -126,11 +102,7 @@ export function insertList(editor: LexicalEditor, listType: ListType): void {
         for (let i = 0; i < nodes.length; i++) {
           const node = nodes[i];
 
-          if (
-            $isElementNode(node) &&
-            node.isEmpty() &&
-            !handled.has(node.getKey())
-          ) {
+          if ($isElementNode(node) && node.isEmpty() && !handled.has(node.getKey())) {
             createListOrMerge(node, listType);
             continue;
           }
@@ -153,10 +125,7 @@ export function insertList(editor: LexicalEditor, listType: ListType): void {
               } else {
                 const nextParent = parent.getParent();
 
-                if (
-                  $isRootOrShadowRoot(nextParent) &&
-                  !handled.has(parentKey)
-                ) {
+                if ($isRootOrShadowRoot(nextParent) && !handled.has(parentKey)) {
                   handled.add(parentKey);
                   createListOrMerge(parent, listType);
                   break;
@@ -188,10 +157,7 @@ function createListOrMerge(node: ElementNode, listType: ListType): ListNode {
   listItem.setIndent(node.getIndent());
   append(listItem, node.getChildren());
 
-  if (
-    $isListNode(previousSibling) &&
-    listType === previousSibling.getListType()
-  ) {
+  if ($isListNode(previousSibling) && listType === previousSibling.getListType()) {
     previousSibling.append(listItem);
     node.remove();
     // if the same type of list is on both sides, merge them.
@@ -201,10 +167,7 @@ function createListOrMerge(node: ElementNode, listType: ListType): ListNode {
       nextSibling.remove();
     }
     return previousSibling;
-  } else if (
-    $isListNode(nextSibling) &&
-    listType === nextSibling.getListType()
-  ) {
+  } else if ($isListNode(nextSibling) && listType === nextSibling.getListType()) {
     nextSibling.getFirstChildOrThrow().insertBefore(listItem);
     node.remove();
     return nextSibling;
@@ -227,12 +190,7 @@ export function mergeLists(list1: ListNode, list2: ListNode): void {
   const listItem1 = list1.getLastChild();
   const listItem2 = list2.getFirstChild();
 
-  if (
-    listItem1 &&
-    listItem2 &&
-    isNestedListNode(listItem1) &&
-    isNestedListNode(listItem2)
-  ) {
+  if (listItem1 && listItem2 && isNestedListNode(listItem1) && isNestedListNode(listItem2)) {
     mergeLists(listItem1.getFirstChild(), listItem2.getFirstChild());
     listItem2.remove();
   }
@@ -319,10 +277,7 @@ export function removeList(editor: LexicalEditor): void {
  * @param list - The list whose children are updated.
  * @param children - An array of the children to be updated.
  */
-export function updateChildrenListItemValue(
-  list: ListNode,
-  children?: Array<LexicalNode>,
-): void {
+export function updateChildrenListItemValue(list: ListNode, children?: Array<LexicalNode>): void {
   const childrenOrExisting = children || list.getChildren();
   if (childrenOrExisting !== undefined) {
     for (let i = 0; i < childrenOrExisting.length; i++) {
@@ -356,10 +311,8 @@ export function $handleIndent(listItemNode: ListItemNode): void {
   const parent = listItemNode.getParent();
 
   // We can cast both of the below `isNestedListNode` only returns a boolean type instead of a user-defined type guards
-  const nextSibling =
-    listItemNode.getNextSibling<ListItemNode>() as ListItemNode;
-  const previousSibling =
-    listItemNode.getPreviousSibling<ListItemNode>() as ListItemNode;
+  const nextSibling = listItemNode.getNextSibling<ListItemNode>() as ListItemNode;
+  const previousSibling = listItemNode.getPreviousSibling<ListItemNode>() as ListItemNode;
   // if there are nested lists on either side, merge them all together.
 
   if (isNestedListNode(nextSibling) && isNestedListNode(previousSibling)) {
@@ -435,16 +388,10 @@ export function $handleOutdent(listItemNode: ListItemNode): void {
   }
   const parentList = listItemNode.getParent();
   const grandparentListItem = parentList ? parentList.getParent() : undefined;
-  const greatGrandparentList = grandparentListItem
-    ? grandparentListItem.getParent()
-    : undefined;
+  const greatGrandparentList = grandparentListItem ? grandparentListItem.getParent() : undefined;
   // If it doesn't have these ancestors, it's not indented.
 
-  if (
-    $isListNode(greatGrandparentList) &&
-    $isListItemNode(grandparentListItem) &&
-    $isListNode(parentList)
-  ) {
+  if ($isListNode(greatGrandparentList) && $isListItemNode(grandparentListItem) && $isListNode(parentList)) {
     // if it's the first child in it's parent list, insert it into the
     // great grandparent list before the grandparent
     const firstChild = parentList ? parentList.getFirstChild() : undefined;
@@ -470,9 +417,7 @@ export function $handleOutdent(listItemNode: ListItemNode): void {
       const previousSiblingsListItem = $createListItemNode();
       const previousSiblingsList = $createListNode(listType);
       previousSiblingsListItem.append(previousSiblingsList);
-      listItemNode
-        .getPreviousSiblings()
-        .forEach((sibling) => previousSiblingsList.append(sibling));
+      listItemNode.getPreviousSiblings().forEach((sibling) => previousSiblingsList.append(sibling));
       const nextSiblingsListItem = $createListItemNode();
       const nextSiblingsList = $createListNode(listType);
       nextSiblingsListItem.append(nextSiblingsList);
@@ -512,10 +457,7 @@ export function $handleListInsertParagraph(): boolean {
   const topListNode = $getTopListNode(anchor);
   const parent = anchor.getParent();
 
-  invariant(
-    $isListNode(parent),
-    'A ListItemNode must have a ListNode for a parent.',
-  );
+  invariant($isListNode(parent), 'A ListItemNode must have a ListNode for a parent.');
 
   const grandparent = parent.getParent();
 

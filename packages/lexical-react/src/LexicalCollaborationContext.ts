@@ -6,9 +6,9 @@
  *
  */
 
-import type {Doc} from 'yjs';
+import type { Doc } from 'yjs';
 
-import {createContext, useContext} from 'react';
+import { createContext, useContext } from 'react';
 
 type CollaborationContextType = {
   clientID: number;
@@ -46,10 +46,7 @@ export const CollaborationContext = createContext<CollaborationContextType>({
   yjsDocMap: new Map(),
 });
 
-export function useCollaborationContext(
-  username?: string,
-  color?: string,
-): CollaborationContextType {
+export function useCollaborationContext(username?: string, color?: string): CollaborationContextType {
   const collabContext = useContext(CollaborationContext);
 
   if (username != null) {

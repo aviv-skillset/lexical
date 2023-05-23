@@ -15,13 +15,7 @@ const traverse = require('@babel/traverse').default;
 const evalToString = require('./evalToString');
 const invertObject = require('./invertObject');
 
-const plugins = [
-  'classProperties',
-  'jsx',
-  'trailingFunctionCommas',
-  'objectRestSpread',
-  'typescript',
-];
+const plugins = ['classProperties', 'jsx', 'trailingFunctionCommas', 'objectRestSpread', 'typescript'];
 
 const babylonOptions = {
   // As a parser, babylon has its own options and we can't directly
@@ -34,9 +28,7 @@ const babylonOptions = {
 
 module.exports = function (opts) {
   if (!opts || !('errorMapFilePath' in opts)) {
-    throw new Error(
-      'Missing options. Ensure you pass an object with `errorMapFilePath`.',
-    );
+    throw new Error('Missing options. Ensure you pass an object with `errorMapFilePath`.');
   }
 
   const errorMapFilePath = opts.errorMapFilePath;
@@ -45,12 +37,7 @@ module.exports = function (opts) {
     // Using `fs.readFileSync` instead of `require` here, because `require()`
     // calls are cached, and the cache map is not properly invalidated after
     // file changes.
-    existingErrorMap = JSON.parse(
-      fs.readFileSync(
-        path.join(__dirname, path.basename(errorMapFilePath)),
-        'utf8',
-      ),
-    );
+    existingErrorMap = JSON.parse(fs.readFileSync(path.join(__dirname, path.basename(errorMapFilePath)), 'utf8'));
   } catch (e) {
     existingErrorMap = {};
   }
@@ -74,7 +61,7 @@ module.exports = function (opts) {
     traverse(ast, {
       CallExpression: {
         exit(astPath) {
-          if (astPath.get('callee').isIdentifier({name: 'invariant'})) {
+          if (astPath.get('callee').isIdentifier({ name: 'invariant' })) {
             const node = astPath.node;
 
             // error messages can be concatenated (`+`) at runtime, so here's a
@@ -95,11 +82,7 @@ module.exports = function (opts) {
   }
 
   function flush(cb) {
-    fs.writeFileSync(
-      errorMapFilePath,
-      JSON.stringify(invertObject(existingErrorMap), null, 2) + '\n',
-      'utf-8',
-    );
+    fs.writeFileSync(errorMapFilePath, JSON.stringify(invertObject(existingErrorMap), null, 2) + '\n', 'utf-8');
   }
 
   return function extractErrors(source) {

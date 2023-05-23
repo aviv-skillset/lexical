@@ -20,27 +20,13 @@ import {
   TextNode,
 } from 'lexical';
 import * as React from 'react';
-import {createRef, useEffect, useMemo} from 'react';
-import {createRoot} from 'react-dom/client';
+import { createRef, useEffect, useMemo } from 'react';
+import { createRoot } from 'react-dom/client';
 import * as ReactTestUtils from 'react-dom/test-utils';
 
-import {
-  $createTestSegmentedNode,
-  createTestEditor,
-} from '../../../__tests__/utils';
-import {
-  IS_BOLD,
-  IS_CODE,
-  IS_HIGHLIGHT,
-  IS_ITALIC,
-  IS_STRIKETHROUGH,
-  IS_UNDERLINE,
-} from '../../../LexicalConstants';
-import {
-  $getCompositionKey,
-  $setCompositionKey,
-  getEditorStateTextContent,
-} from '../../../LexicalUtils';
+import { $createTestSegmentedNode, createTestEditor } from '../../../__tests__/utils';
+import { IS_BOLD, IS_CODE, IS_HIGHLIGHT, IS_ITALIC, IS_STRIKETHROUGH, IS_UNDERLINE } from '../../../LexicalConstants';
+import { $getCompositionKey, $setCompositionKey, getEditorStateTextContent } from '../../../LexicalUtils';
 
 const editorConfig = Object.freeze({
   namespace: '',
@@ -172,15 +158,11 @@ describe('LexicalTextNode tests', () => {
 
       await update(() => {
         const textNode = $createTextNode('Hello ').toggleUnmergeable();
-        const previousTextNode = $getRoot()
-          .getFirstChild<ElementNode>()
-          .getFirstChild();
+        const previousTextNode = $getRoot().getFirstChild<ElementNode>().getFirstChild();
         previousTextNode.insertBefore(textNode);
       });
 
-      expect(getEditorStateTextContent(editor.getEditorState())).toBe(
-        'Hello World',
-      );
+      expect(getEditorStateTextContent(editor.getEditorState())).toBe('Hello World');
     });
   });
 
@@ -196,97 +178,69 @@ describe('LexicalTextNode tests', () => {
   });
 
   describe.each([
-    [
-      'bold',
-      IS_BOLD,
-      (node) => node.hasFormat('bold'),
-      (node) => node.toggleFormat('bold'),
-    ],
-    [
-      'italic',
-      IS_ITALIC,
-      (node) => node.hasFormat('italic'),
-      (node) => node.toggleFormat('italic'),
-    ],
+    ['bold', IS_BOLD, (node) => node.hasFormat('bold'), (node) => node.toggleFormat('bold')],
+    ['italic', IS_ITALIC, (node) => node.hasFormat('italic'), (node) => node.toggleFormat('italic')],
     [
       'strikethrough',
       IS_STRIKETHROUGH,
       (node) => node.hasFormat('strikethrough'),
       (node) => node.toggleFormat('strikethrough'),
     ],
-    [
-      'underline',
-      IS_UNDERLINE,
-      (node) => node.hasFormat('underline'),
-      (node) => node.toggleFormat('underline'),
-    ],
-    [
-      'code',
-      IS_CODE,
-      (node) => node.hasFormat('code'),
-      (node) => node.toggleFormat('code'),
-    ],
-    [
-      'highlight',
-      IS_HIGHLIGHT,
-      (node) => node.hasFormat('highlight'),
-      (node) => node.toggleFormat('highlight'),
-    ],
-  ])(
-    '%s flag',
-    (formatFlag: TextFormatType, stateFormat, flagPredicate, flagToggle) => {
-      test(`getFormatFlags(${formatFlag})`, async () => {
-        await update(() => {
-          const root = $getRoot();
-          const paragraphNode = root.getFirstChild<ParagraphNode>();
-          const textNode = paragraphNode.getFirstChild<TextNode>();
-          const newFormat = textNode.getFormatFlags(formatFlag, null);
+    ['underline', IS_UNDERLINE, (node) => node.hasFormat('underline'), (node) => node.toggleFormat('underline')],
+    ['code', IS_CODE, (node) => node.hasFormat('code'), (node) => node.toggleFormat('code')],
+    ['highlight', IS_HIGHLIGHT, (node) => node.hasFormat('highlight'), (node) => node.toggleFormat('highlight')],
+  ])('%s flag', (formatFlag: TextFormatType, stateFormat, flagPredicate, flagToggle) => {
+    test(`getFormatFlags(${formatFlag})`, async () => {
+      await update(() => {
+        const root = $getRoot();
+        const paragraphNode = root.getFirstChild<ParagraphNode>();
+        const textNode = paragraphNode.getFirstChild<TextNode>();
+        const newFormat = textNode.getFormatFlags(formatFlag, null);
 
-          expect(newFormat).toBe(stateFormat);
+        expect(newFormat).toBe(stateFormat);
 
-          textNode.setFormat(newFormat);
-          const newFormat2 = textNode.getFormatFlags(formatFlag, null);
+        textNode.setFormat(newFormat);
+        const newFormat2 = textNode.getFormatFlags(formatFlag, null);
 
-          expect(newFormat2).toBe(0);
-        });
+        expect(newFormat2).toBe(0);
       });
+    });
 
-      test(`predicate for ${formatFlag}`, async () => {
-        await update(() => {
-          const root = $getRoot();
-          const paragraphNode = root.getFirstChild<ParagraphNode>();
-          const textNode = paragraphNode.getFirstChild<TextNode>();
+    test(`predicate for ${formatFlag}`, async () => {
+      await update(() => {
+        const root = $getRoot();
+        const paragraphNode = root.getFirstChild<ParagraphNode>();
+        const textNode = paragraphNode.getFirstChild<TextNode>();
 
-          textNode.setFormat(stateFormat);
+        textNode.setFormat(stateFormat);
 
-          expect(flagPredicate(textNode)).toBe(true);
-        });
+        expect(flagPredicate(textNode)).toBe(true);
       });
+    });
 
-      test(`toggling for ${formatFlag}`, async () => {
-        // Toggle method hasn't been implemented for this flag.
-        if (flagToggle === null) {
-          return;
-        }
+    test(`toggling for ${formatFlag}`, async () => {
+      // Toggle method hasn't been implemented for this flag.
+      if (flagToggle === null) {
+        return;
+      }
 
-        await update(() => {
-          const root = $getRoot();
-          const paragraphNode = root.getFirstChild<ParagraphNode>();
-          const textNode = paragraphNode.getFirstChild<TextNode>();
+      await update(() => {
+        const root = $getRoot();
+        const paragraphNode = root.getFirstChild<ParagraphNode>();
+        const textNode = paragraphNode.getFirstChild<TextNode>();
 
-          expect(flagPredicate(textNode)).toBe(false);
+        expect(flagPredicate(textNode)).toBe(false);
 
-          flagToggle(textNode);
+        flagToggle(textNode);
 
-          expect(flagPredicate(textNode)).toBe(true);
+        expect(flagPredicate(textNode)).toBe(true);
 
-          flagToggle(textNode);
+        flagToggle(textNode);
 
-          expect(flagPredicate(textNode)).toBe(false);
-        });
+        expect(flagPredicate(textNode)).toBe(false);
       });
-    },
-  );
+    });
+  });
 
   test('selectPrevious()', async () => {
     await update(() => {
@@ -357,27 +311,21 @@ describe('LexicalTextNode tests', () => {
         [undefined, undefined],
         [11, 11],
       ],
-    ])(
-      'select(...%p)',
-      async (
-        [anchorOffset, focusOffset],
-        [expectedAnchorOffset, expectedFocusOffset],
-      ) => {
-        await update(() => {
-          const paragraphNode = $createParagraphNode();
-          const textNode = $createTextNode('Hello World');
-          paragraphNode.append(textNode);
-          $getRoot().append(paragraphNode);
+    ])('select(...%p)', async ([anchorOffset, focusOffset], [expectedAnchorOffset, expectedFocusOffset]) => {
+      await update(() => {
+        const paragraphNode = $createParagraphNode();
+        const textNode = $createTextNode('Hello World');
+        paragraphNode.append(textNode);
+        $getRoot().append(paragraphNode);
 
-          const selection = textNode.select(anchorOffset, focusOffset);
+        const selection = textNode.select(anchorOffset, focusOffset);
 
-          expect(selection.focus.getNode()).toBe(textNode);
-          expect(selection.anchor.offset).toBe(expectedAnchorOffset);
-          expect(selection.focus.getNode()).toBe(textNode);
-          expect(selection.focus.offset).toBe(expectedFocusOffset);
-        });
-      },
-    );
+        expect(selection.focus.getNode()).toBe(textNode);
+        expect(selection.anchor.offset).toBe(expectedAnchorOffset);
+        expect(selection.focus.getNode()).toBe(textNode);
+        expect(selection.focus.offset).toBe(expectedFocusOffset);
+      });
+    });
   });
 
   describe('splitText()', () => {
@@ -407,23 +355,18 @@ describe('LexicalTextNode tests', () => {
       ['Hello World', [3, 7], ['Hel', 'lo W', 'orld']],
       ['Hello World', [7, 3], ['Hel', 'lo W', 'orld']],
       ['Hello World', [3, 7, 99], ['Hel', 'lo W', 'orld']],
-    ])(
-      '"%s" splitText(...%p)',
-      async (initialString, splitOffsets, splitStrings) => {
-        await update(() => {
-          const paragraphNode = $createParagraphNode();
-          const textNode = $createTextNode(initialString);
-          paragraphNode.append(textNode);
+    ])('"%s" splitText(...%p)', async (initialString, splitOffsets, splitStrings) => {
+      await update(() => {
+        const paragraphNode = $createParagraphNode();
+        const textNode = $createTextNode(initialString);
+        paragraphNode.append(textNode);
 
-          const splitNodes = textNode.splitText(...splitOffsets);
+        const splitNodes = textNode.splitText(...splitOffsets);
 
-          expect(paragraphNode.getChildren()).toHaveLength(splitStrings.length);
-          expect(splitNodes.map((node) => node.getTextContent())).toEqual(
-            splitStrings,
-          );
-        });
-      },
-    );
+        expect(paragraphNode.getChildren()).toHaveLength(splitStrings.length);
+        expect(splitNodes.map((node) => node.getTextContent())).toEqual(splitStrings);
+      });
+    });
 
     test('splitText moves composition key to last node', async () => {
       await update(() => {
@@ -532,7 +475,7 @@ describe('LexicalTextNode tests', () => {
         initialString,
         splitOffsets,
         selectionOffsets,
-        {anchorNodeIndex, anchorOffset, focusNodeIndex, focusOffset},
+        { anchorNodeIndex, anchorOffset, focusNodeIndex, focusOffset },
       ) => {
         await update(() => {
           const paragraphNode = $createParagraphNode();
@@ -543,9 +486,7 @@ describe('LexicalTextNode tests', () => {
           const selection = textNode.select(...selectionOffsets);
           const childrenNodes = textNode.splitText(...splitOffsets);
 
-          expect(selection.anchor.getNode()).toBe(
-            childrenNodes[anchorNodeIndex],
-          );
+          expect(selection.anchor.getNode()).toBe(childrenNodes[anchorNodeIndex]);
           expect(selection.anchor.offset).toBe(anchorOffset);
           expect(selection.focus.getNode()).toBe(childrenNodes[focusNodeIndex]);
           expect(selection.focus.offset).toBe(focusOffset);
@@ -557,49 +498,18 @@ describe('LexicalTextNode tests', () => {
   describe('createDOM()', () => {
     test.each([
       ['no formatting', null, 'My text node', '<span>My text node</span>'],
-      [
-        'bold',
-        IS_BOLD,
-        'My text node',
-        '<strong class="my-bold-class">My text node</strong>',
-      ],
+      ['bold', IS_BOLD, 'My text node', '<strong class="my-bold-class">My text node</strong>'],
       ['bold + empty', IS_BOLD, '', `<strong class="my-bold-class"></strong>`],
-      [
-        'underline',
-        IS_UNDERLINE,
-        'My text node',
-        '<span class="my-underline-class">My text node</span>',
-      ],
-      [
-        'strikethrough',
-        IS_STRIKETHROUGH,
-        'My text node',
-        '<span class="my-strikethrough-class">My text node</span>',
-      ],
-      [
-        'highlight',
-        IS_HIGHLIGHT,
-        'My text node',
-        '<mark><span class="my-highlight-class">My text node</span></mark>',
-      ],
-      [
-        'italic',
-        IS_ITALIC,
-        'My text node',
-        '<em class="my-italic-class">My text node</em>',
-      ],
-      [
-        'code',
-        IS_CODE,
-        'My text node',
-        '<code><span class="my-code-class">My text node</span></code>',
-      ],
+      ['underline', IS_UNDERLINE, 'My text node', '<span class="my-underline-class">My text node</span>'],
+      ['strikethrough', IS_STRIKETHROUGH, 'My text node', '<span class="my-strikethrough-class">My text node</span>'],
+      ['highlight', IS_HIGHLIGHT, 'My text node', '<mark><span class="my-highlight-class">My text node</span></mark>'],
+      ['italic', IS_ITALIC, 'My text node', '<em class="my-italic-class">My text node</em>'],
+      ['code', IS_CODE, 'My text node', '<code><span class="my-code-class">My text node</span></code>'],
       [
         'underline + strikethrough',
         IS_UNDERLINE | IS_STRIKETHROUGH,
         'My text node',
-        '<span class="my-underline-strikethrough-class">' +
-          'My text node</span>',
+        '<span class="my-underline-strikethrough-class">' + 'My text node</span>',
       ],
       [
         'code + italic',
@@ -611,8 +521,7 @@ describe('LexicalTextNode tests', () => {
         'code + underline + strikethrough',
         IS_CODE | IS_UNDERLINE | IS_STRIKETHROUGH,
         'My text node',
-        '<code><span class="my-underline-strikethrough-class my-code-class">' +
-          'My text node</span></code>',
+        '<code><span class="my-underline-strikethrough-class my-code-class">' + 'My text node</span></code>',
       ],
       [
         'highlight + italic',
@@ -628,12 +537,7 @@ describe('LexicalTextNode tests', () => {
       ],
       [
         'code + underline + strikethrough + bold + italic + highlight',
-        IS_CODE |
-          IS_UNDERLINE |
-          IS_STRIKETHROUGH |
-          IS_BOLD |
-          IS_ITALIC |
-          IS_HIGHLIGHT,
+        IS_CODE | IS_UNDERLINE | IS_STRIKETHROUGH | IS_BOLD | IS_ITALIC | IS_HIGHLIGHT,
         'My text node',
         '<code><strong class="my-underline-strikethrough-class my-bold-class my-code-class my-highlight-class my-italic-class">My text node</strong></code>',
       ],
@@ -651,20 +555,17 @@ describe('LexicalTextNode tests', () => {
       test.each([
         ['no formatting', null, 'My text node', '<span>My text node</span>'],
         ['no formatting + empty string', null, '', `<span></span>`],
-      ])(
-        '%s text format type',
-        async (_type, format, contents, expectedHTML) => {
-          await update(() => {
-            const paragraphNode = $createParagraphNode();
-            const textNode = $createTextNode(contents);
-            textNode.setFormat(format);
-            paragraphNode.append(textNode);
-            const element = textNode.createDOM(editorConfig);
+      ])('%s text format type', async (_type, format, contents, expectedHTML) => {
+        await update(() => {
+          const paragraphNode = $createParagraphNode();
+          const textNode = $createTextNode(contents);
+          textNode.setFormat(format);
+          paragraphNode.append(textNode);
+          const element = textNode.createDOM(editorConfig);
 
-            expect(element.outerHTML).toBe(expectedHTML);
-          });
-        },
-      );
+          expect(element.outerHTML).toBe(expectedHTML);
+        });
+      });
     });
   });
 
@@ -717,8 +618,7 @@ describe('LexicalTextNode tests', () => {
           text: 'My new text node',
         },
         {
-          expectedHTML:
-            '<strong class="my-bold-class">My new text node</strong>',
+          expectedHTML: '<strong class="my-bold-class">My new text node</strong>',
           result: false,
         },
       ],
@@ -743,9 +643,9 @@ describe('LexicalTextNode tests', () => {
       '%s',
       async (
         _desc,
-        {text: prevText, mode: prevMode, format: prevFormat},
-        {text: nextText, mode: nextMode, format: nextFormat},
-        {result, expectedHTML},
+        { text: prevText, mode: prevMode, format: prevFormat },
+        { text: nextText, mode: nextMode, format: nextFormat },
+        { result, expectedHTML },
       ) => {
         await update(() => {
           const prevTextNode = $createTextNode(prevText);
@@ -756,9 +656,7 @@ describe('LexicalTextNode tests', () => {
           textNode.setMode(nextMode as TextModeType);
           textNode.setFormat(nextFormat);
 
-          expect(textNode.updateDOM(prevTextNode, element, editorConfig)).toBe(
-            result,
-          );
+          expect(textNode.updateDOM(prevTextNode, element, editorConfig)).toBe(result);
           // Only need to bother about DOM element contents if updateDOM()
           // returns false.
           if (!result) {

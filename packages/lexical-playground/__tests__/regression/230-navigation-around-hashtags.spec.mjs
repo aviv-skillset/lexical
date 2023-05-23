@@ -6,22 +6,12 @@
  *
  */
 
-import {moveLeft} from '../keyboardShortcuts/index.mjs';
-import {
-  assertHTML,
-  assertSelection,
-  focusEditor,
-  html,
-  initialize,
-  test,
-  waitForSelector,
-} from '../utils/index.mjs';
+import { moveLeft } from '../keyboardShortcuts/index.mjs';
+import { assertHTML, assertSelection, focusEditor, html, initialize, test, waitForSelector } from '../utils/index.mjs';
 
 test.describe('Regression test #230', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Is able to right arrow before hashtag after inserting text node`, async ({
-    page,
-  }) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Is able to right arrow before hashtag after inserting text node`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('#foo');
     await waitForSelector(page, '.PlaygroundEditorTheme__hashtag');
@@ -32,12 +22,8 @@ test.describe('Regression test #230', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-            #foo
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #foo </span>
         </p>
       `,
     );

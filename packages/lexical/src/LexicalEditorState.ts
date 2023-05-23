@@ -6,32 +6,23 @@
  *
  */
 
-import type {LexicalEditor} from './LexicalEditor';
-import type {LexicalNode, NodeMap, SerializedLexicalNode} from './LexicalNode';
-import type {
-  GridSelection,
-  NodeSelection,
-  RangeSelection,
-} from './LexicalSelection';
-import type {SerializedRootNode} from './nodes/LexicalRootNode';
+import type { LexicalEditor } from './LexicalEditor';
+import type { LexicalNode, NodeMap, SerializedLexicalNode } from './LexicalNode';
+import type { GridSelection, NodeSelection, RangeSelection } from './LexicalSelection';
+import type { SerializedRootNode } from './nodes/LexicalRootNode';
 
 import invariant from 'shared/invariant';
 
-import {$isElementNode} from '.';
-import {readEditorState} from './LexicalUpdates';
-import {$getRoot} from './LexicalUtils';
-import {$createRootNode} from './nodes/LexicalRootNode';
+import { $isElementNode } from '.';
+import { readEditorState } from './LexicalUpdates';
+import { $getRoot } from './LexicalUtils';
+import { $createRootNode } from './nodes/LexicalRootNode';
 
-export interface SerializedEditorState<
-  T extends SerializedLexicalNode = SerializedLexicalNode,
-> {
+export interface SerializedEditorState<T extends SerializedLexicalNode = SerializedLexicalNode> {
   root: SerializedRootNode<T>;
 }
 
-export function editorStateHasDirtySelection(
-  editorState: EditorState,
-  editor: LexicalEditor,
-): boolean {
+export function editorStateHasDirtySelection(editorState: EditorState, editor: LexicalEditor): boolean {
   const currentSelection = editor.getEditorState()._selection;
 
   const pendingSelection = editorState._selection;
@@ -62,11 +53,7 @@ function exportNodeToJSON<SerializedNode>(node: LexicalNode): SerializedNode {
 
   // @ts-expect-error TODO Replace Class utility type with InstanceType
   if (serializedNode.type !== nodeClass.getType()) {
-    invariant(
-      false,
-      'LexicalNode: Node %s does not implement .exportJSON().',
-      nodeClass.name,
-    );
+    invariant(false, 'LexicalNode: Node %s does not implement .exportJSON().', nodeClass.name);
   }
 
   // @ts-expect-error TODO Replace Class utility type with InstanceType
@@ -100,10 +87,7 @@ export class EditorState {
   _flushSync: boolean;
   _readOnly: boolean;
 
-  constructor(
-    nodeMap: NodeMap,
-    selection?: RangeSelection | NodeSelection | GridSelection | null,
-  ) {
+  constructor(nodeMap: NodeMap, selection?: RangeSelection | NodeSelection | GridSelection | null) {
     this._nodeMap = nodeMap;
     this._selection = selection || null;
     this._flushSync = false;
@@ -118,13 +102,8 @@ export class EditorState {
     return readEditorState(this, callbackFn);
   }
 
-  clone(
-    selection?: RangeSelection | NodeSelection | GridSelection | null,
-  ): EditorState {
-    const editorState = new EditorState(
-      this._nodeMap,
-      selection === undefined ? this._selection : selection,
-    );
+  clone(selection?: RangeSelection | NodeSelection | GridSelection | null): EditorState {
+    const editorState = new EditorState(this._nodeMap, selection === undefined ? this._selection : selection);
     editorState._readOnly = true;
 
     return editorState;

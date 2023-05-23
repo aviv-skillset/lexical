@@ -7,33 +7,19 @@
  *
  */
 
-import type {LexicalCommand} from 'lexical';
+import type { LexicalCommand } from 'lexical';
 
-import {createCommand} from 'lexical';
+import { createCommand } from 'lexical';
 
-export type {SerializedTableCellNode} from './LexicalTableCellNode';
-export {
-  $createTableCellNode,
-  $isTableCellNode,
-  TableCellHeaderStates,
-  TableCellNode,
-} from './LexicalTableCellNode';
-export type {SerializedTableNode} from './LexicalTableNode';
-export {
-  $createTableNode,
-  $getElementGridForTableNode,
-  $isTableNode,
-  TableNode,
-} from './LexicalTableNode';
-export type {SerializedTableRowNode} from './LexicalTableRowNode';
-export {
-  $createTableRowNode,
-  $isTableRowNode,
-  TableRowNode,
-} from './LexicalTableRowNode';
-export type {Cell} from './LexicalTableSelection';
-export {TableSelection} from './LexicalTableSelection';
-export type {HTMLTableElementWithWithTableSelectionState} from './LexicalTableSelectionHelpers';
+export type { SerializedTableCellNode } from './LexicalTableCellNode';
+export { $createTableCellNode, $isTableCellNode, TableCellHeaderStates, TableCellNode } from './LexicalTableCellNode';
+export type { SerializedTableNode } from './LexicalTableNode';
+export { $createTableNode, $getElementGridForTableNode, $isTableNode, TableNode } from './LexicalTableNode';
+export type { SerializedTableRowNode } from './LexicalTableRowNode';
+export { $createTableRowNode, $isTableRowNode, TableRowNode } from './LexicalTableRowNode';
+export type { Cell } from './LexicalTableSelection';
+export { TableSelection } from './LexicalTableSelection';
+export type { HTMLTableElementWithWithTableSelectionState } from './LexicalTableSelectionHelpers';
 export {
   applyTableHandlers,
   getCellFromTarget,
@@ -70,5 +56,4 @@ export type InsertTableCommandPayload = Readonly<{
   includeHeaders?: InsertTableCommandPayloadHeaders;
 }>;
 
-export const INSERT_TABLE_COMMAND: LexicalCommand<InsertTableCommandPayload> =
-  createCommand('INSERT_TABLE_COMMAND');
+export const INSERT_TABLE_COMMAND: LexicalCommand<InsertTableCommandPayload> = createCommand('INSERT_TABLE_COMMAND');

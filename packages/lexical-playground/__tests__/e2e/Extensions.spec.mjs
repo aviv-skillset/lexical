@@ -6,19 +6,11 @@
  *
  */
 
-import {
-  assertHTML,
-  assertSelection,
-  evaluate,
-  focusEditor,
-  html,
-  initialize,
-  test,
-} from '../utils/index.mjs';
+import { assertHTML, assertSelection, evaluate, focusEditor, html, initialize, test } from '../utils/index.mjs';
 
 test.describe('Extensions', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`document.execCommand("insertText")`, async ({page}) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`document.execCommand("insertText")`, async ({ page }) => {
     await focusEditor(page);
 
     await evaluate(
@@ -31,9 +23,7 @@ test.describe('Extensions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">foo</span>
         </p>
       `,
@@ -46,7 +36,7 @@ test.describe('Extensions', () => {
     });
   });
 
-  test(`ClipboardEvent("paste")`, async ({page, browserName}) => {
+  test(`ClipboardEvent("paste")`, async ({ page, browserName }) => {
     // Pasting this way doesn't work in FF due to content
     // privacy reasons.
     if (browserName === 'firefox') {
@@ -82,9 +72,7 @@ test.describe('Extensions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">foo</span>
         </p>
       `,
@@ -120,9 +108,7 @@ test.describe('Extensions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">foobar</span>
         </p>
       `,
@@ -135,10 +121,7 @@ test.describe('Extensions', () => {
     });
   });
 
-  test(`ClipboardEvent("paste") + document.execCommand("insertText")`, async ({
-    page,
-    browserName,
-  }) => {
+  test(`ClipboardEvent("paste") + document.execCommand("insertText")`, async ({ page, browserName }) => {
     await focusEditor(page);
 
     await evaluate(page, () => {
@@ -161,9 +144,7 @@ test.describe('Extensions', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">bar</span>
           </p>
         `,
@@ -178,9 +159,7 @@ test.describe('Extensions', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">foobar</span>
           </p>
         `,
@@ -194,11 +173,7 @@ test.describe('Extensions', () => {
     }
   });
 
-  test(`document.execCommand("insertText") with selection`, async ({
-    page,
-    isCollab,
-    isPlainText,
-  }) => {
+  test(`document.execCommand("insertText") with selection`, async ({ page, isCollab, isPlainText }) => {
     // This test is flaky in collab #3915
     test.fixme(isCollab);
     test.skip(isPlainText);
@@ -215,14 +190,8 @@ test.describe('Extensions', () => {
       async () => {
         const editor = document.querySelector('div[contenteditable="true"]');
         const selection = window.getSelection();
-        const secondParagraphTextNode =
-          editor.firstChild.nextSibling.firstChild.firstChild;
-        selection.setBaseAndExtent(
-          secondParagraphTextNode,
-          0,
-          secondParagraphTextNode,
-          3,
-        );
+        const secondParagraphTextNode = editor.firstChild.nextSibling.firstChild.firstChild;
+        selection.setBaseAndExtent(secondParagraphTextNode, 0, secondParagraphTextNode, 3);
 
         await new Promise((resolve) => {
           setTimeout(() => {
@@ -236,14 +205,10 @@ test.describe('Extensions', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">hello world</span>
         </p>
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">and t</span>
         </p>
       `,

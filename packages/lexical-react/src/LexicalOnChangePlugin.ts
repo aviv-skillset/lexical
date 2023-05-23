@@ -6,9 +6,9 @@
  *
  */
 
-import type {EditorState, LexicalEditor} from 'lexical';
+import type { EditorState, LexicalEditor } from 'lexical';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import useLayoutEffect from 'shared/useLayoutEffect';
 
 export function OnChangePlugin({
@@ -18,31 +18,23 @@ export function OnChangePlugin({
 }: {
   ignoreHistoryMergeTagChange?: boolean;
   ignoreSelectionChange?: boolean;
-  onChange: (
-    editorState: EditorState,
-    editor: LexicalEditor,
-    tags: Set<string>,
-  ) => void;
+  onChange: (editorState: EditorState, editor: LexicalEditor, tags: Set<string>) => void;
 }): null {
   const [editor] = useLexicalComposerContext();
 
   useLayoutEffect(() => {
     if (onChange) {
-      return editor.registerUpdateListener(
-        ({editorState, dirtyElements, dirtyLeaves, prevEditorState, tags}) => {
-          if (
-            (ignoreSelectionChange &&
-              dirtyElements.size === 0 &&
-              dirtyLeaves.size === 0) ||
-            (ignoreHistoryMergeTagChange && tags.has('history-merge')) ||
-            prevEditorState.isEmpty()
-          ) {
-            return;
-          }
+      return editor.registerUpdateListener(({ editorState, dirtyElements, dirtyLeaves, prevEditorState, tags }) => {
+        if (
+          (ignoreSelectionChange && dirtyElements.size === 0 && dirtyLeaves.size === 0) ||
+          (ignoreHistoryMergeTagChange && tags.has('history-merge')) ||
+          prevEditorState.isEmpty()
+        ) {
+          return;
+        }
 
-          onChange(editorState, editor, tags);
-        },
-      );
+        onChange(editorState, editor, tags);
+      });
     }
   }, [editor, ignoreHistoryMergeTagChange, ignoreSelectionChange, onChange]);
 

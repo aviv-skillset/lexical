@@ -16,7 +16,7 @@ import {
 } from '../utils/index.mjs';
 
 test.describe('DraggableBlock', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
 
   test('Paragraph one can be successfully dragged below paragraph two', async ({
     page,
@@ -37,12 +37,7 @@ test.describe('DraggableBlock', () => {
 
     await mouseMoveToSelector(page, 'p:has-text("Paragraph 1")');
     await page.pause();
-    await dragDraggableMenuTo(
-      page,
-      'p:has-text("Paragraph 2")',
-      'middle',
-      'end',
-    );
+    await dragDraggableMenuTo(page, 'p:has-text("Paragraph 2")', 'middle', 'end');
     await page.pause();
     await assertHTML(
       page,
@@ -84,12 +79,7 @@ test.describe('DraggableBlock', () => {
 
     await mouseMoveToSelector(page, 'p:has-text("Paragraph 1")');
     await page.pause();
-    await dragDraggableMenuTo(
-      page,
-      'p:has-text("Paragraph 1")',
-      'middle',
-      'end',
-    );
+    await dragDraggableMenuTo(page, 'p:has-text("Paragraph 1")', 'middle', 'end');
 
     await assertHTML(
       page,
@@ -126,12 +116,7 @@ test.describe('DraggableBlock', () => {
 
     await mouseMoveToSelector(page, 'p:has-text("Paragraph 2")');
     await page.pause();
-    await dragDraggableMenuTo(
-      page,
-      'p:has-text("Paragraph 1")',
-      'middle',
-      'end',
-    );
+    await dragDraggableMenuTo(page, 'p:has-text("Paragraph 1")', 'middle', 'end');
 
     await assertHTML(
       page,

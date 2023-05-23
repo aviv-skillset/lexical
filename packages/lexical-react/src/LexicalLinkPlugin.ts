@@ -6,23 +6,17 @@
  *
  */
 
-import {LinkNode, TOGGLE_LINK_COMMAND, toggleLink} from '@lexical/link';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {mergeRegister} from '@lexical/utils';
-import {
-  $getSelection,
-  $isElementNode,
-  $isRangeSelection,
-  COMMAND_PRIORITY_LOW,
-  PASTE_COMMAND,
-} from 'lexical';
-import {useEffect} from 'react';
+import { LinkNode, TOGGLE_LINK_COMMAND, toggleLink } from '@lexical/link';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { mergeRegister } from '@lexical/utils';
+import { $getSelection, $isElementNode, $isRangeSelection, COMMAND_PRIORITY_LOW, PASTE_COMMAND } from 'lexical';
+import { useEffect } from 'react';
 
 type Props = {
   validateUrl?: (url: string) => boolean;
 };
 
-export function LinkPlugin({validateUrl}: Props): null {
+export function LinkPlugin({ validateUrl }: Props): null {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
@@ -43,8 +37,8 @@ export function LinkPlugin({validateUrl}: Props): null {
             }
             return false;
           } else {
-            const {url, target, rel, title} = payload;
-            toggleLink(url, {rel, target, title});
+            const { url, target, rel, title } = payload;
+            toggleLink(url, { rel, target, title });
             return true;
           }
         },

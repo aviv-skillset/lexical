@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$wrapNodeInElement, mergeRegister} from '@lexical/utils';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $wrapNodeInElement, mergeRegister } from '@lexical/utils';
 import {
   $createParagraphNode,
   $createRangeSelection,
@@ -25,20 +25,15 @@ import {
   LexicalCommand,
   LexicalEditor,
 } from 'lexical';
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as React from 'react';
-import {CAN_USE_DOM} from 'shared/canUseDOM';
+import { CAN_USE_DOM } from 'shared/canUseDOM';
 
 import landscapeImage from '../../images/landscape.jpg';
 import yellowFlowerImage from '../../images/yellow-flower.jpg';
-import {
-  $createImageNode,
-  $isImageNode,
-  ImageNode,
-  ImagePayload,
-} from '../../nodes/ImageNode';
+import { $createImageNode, $isImageNode, ImageNode, ImagePayload } from '../../nodes/ImageNode';
 import Button from '../../ui/Button';
-import {DialogActions, DialogButtonsList} from '../../ui/Dialog';
+import { DialogActions, DialogButtonsList } from '../../ui/Dialog';
 import FileInput from '../../ui/FileInput';
 import TextInput from '../../ui/TextInput';
 
@@ -47,14 +42,9 @@ export type InsertImagePayload = Readonly<ImagePayload>;
 const getDOMSelection = (targetWindow: Window | null): Selection | null =>
   CAN_USE_DOM ? (targetWindow || window).getSelection() : null;
 
-export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
-  createCommand('INSERT_IMAGE_COMMAND');
+export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> = createCommand('INSERT_IMAGE_COMMAND');
 
-export function InsertImageUriDialogBody({
-  onClick,
-}: {
-  onClick: (payload: InsertImagePayload) => void;
-}) {
+export function InsertImageUriDialogBody({ onClick }: { onClick: (payload: InsertImagePayload) => void }) {
   const [src, setSrc] = useState('');
   const [altText, setAltText] = useState('');
 
@@ -77,10 +67,7 @@ export function InsertImageUriDialogBody({
         data-test-id="image-modal-alt-text-input"
       />
       <DialogActions>
-        <Button
-          data-test-id="image-modal-confirm-btn"
-          disabled={isDisabled}
-          onClick={() => onClick({altText, src})}>
+        <Button data-test-id="image-modal-confirm-btn" disabled={isDisabled} onClick={() => onClick({ altText, src })}>
           Confirm
         </Button>
       </DialogActions>
@@ -88,11 +75,7 @@ export function InsertImageUriDialogBody({
   );
 }
 
-export function InsertImageUploadedDialogBody({
-  onClick,
-}: {
-  onClick: (payload: InsertImagePayload) => void;
-}) {
+export function InsertImageUploadedDialogBody({ onClick }: { onClick: (payload: InsertImagePayload) => void }) {
   const [src, setSrc] = useState('');
   const [altText, setAltText] = useState('');
 
@@ -113,12 +96,7 @@ export function InsertImageUploadedDialogBody({
 
   return (
     <>
-      <FileInput
-        label="Image Upload"
-        onChange={loadImage}
-        accept="image/*"
-        data-test-id="image-modal-file-upload"
-      />
+      <FileInput label="Image Upload" onChange={loadImage} accept="image/*" data-test-id="image-modal-file-upload" />
       <TextInput
         label="Alt Text"
         placeholder="Descriptive alternative text"
@@ -130,7 +108,8 @@ export function InsertImageUploadedDialogBody({
         <Button
           data-test-id="image-modal-file-upload-btn"
           disabled={isDisabled}
-          onClick={() => onClick({altText, src})}>
+          onClick={() => onClick({ altText, src })}
+        >
           Confirm
         </Button>
       </DialogActions>
@@ -174,8 +153,7 @@ export function InsertImageDialog({
               onClick(
                 hasModifier.current
                   ? {
-                      altText:
-                        'Daylight fir trees forest glacier green high ice landscape',
+                      altText: 'Daylight fir trees forest glacier green high ice landscape',
                       src: landscapeImage,
                     }
                   : {
@@ -183,17 +161,14 @@ export function InsertImageDialog({
                       src: yellowFlowerImage,
                     },
               )
-            }>
+            }
+          >
             Sample
           </Button>
-          <Button
-            data-test-id="image-modal-option-url"
-            onClick={() => setMode('url')}>
+          <Button data-test-id="image-modal-option-url" onClick={() => setMode('url')}>
             URL
           </Button>
-          <Button
-            data-test-id="image-modal-option-file"
-            onClick={() => setMode('file')}>
+          <Button data-test-id="image-modal-option-file" onClick={() => setMode('file')}>
             File
           </Button>
         </DialogButtonsList>
@@ -204,11 +179,7 @@ export function InsertImageDialog({
   );
 }
 
-export default function ImagesPlugin({
-  captionsEnabled,
-}: {
-  captionsEnabled?: boolean;
-}): JSX.Element | null {
+export default function ImagesPlugin({ captionsEnabled }: { captionsEnabled?: boolean }): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
@@ -257,8 +228,7 @@ export default function ImagesPlugin({
   return null;
 }
 
-const TRANSPARENT_IMAGE =
-  'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+const TRANSPARENT_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 const img = document.createElement('img');
 img.src = TRANSPARENT_IMAGE;
 
@@ -342,7 +312,7 @@ function getDragImageData(event: DragEvent): null | InsertImagePayload {
   if (!dragData) {
     return null;
   }
-  const {type, data} = JSON.parse(dragData);
+  const { type, data } = JSON.parse(dragData);
   if (type !== 'image') {
     return null;
   }

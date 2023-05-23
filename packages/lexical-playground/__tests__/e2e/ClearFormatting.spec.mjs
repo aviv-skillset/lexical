@@ -6,12 +6,7 @@
  *
  */
 
-import {
-  selectAll,
-  toggleBold,
-  toggleItalic,
-  toggleUnderline,
-} from '../keyboardShortcuts/index.mjs';
+import { selectAll, toggleBold, toggleItalic, toggleUnderline } from '../keyboardShortcuts/index.mjs';
 import {
   assertHTML,
   clearEditor,
@@ -27,11 +22,11 @@ import {
 } from '../utils/index.mjs';
 
 test.describe('Clear All Formatting', () => {
-  test.beforeEach(({isPlainText, isCollab, page}) => {
+  test.beforeEach(({ isPlainText, isCollab, page }) => {
     test.skip(isPlainText);
-    initialize({isCollab, page});
+    initialize({ isCollab, page });
   });
-  test(`Can clear BIU formatting`, async ({page}) => {
+  test(`Can clear BIU formatting`, async ({ page }) => {
     await focusEditor(page);
 
     await page.keyboard.type('Hello');
@@ -45,18 +40,14 @@ test.describe('Clear All Formatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello World Test</span>
         </p>
       `,
     );
   });
 
-  test(`Should preserve the default styling of links and quoted text`, async ({
-    page,
-  }) => {
+  test(`Should preserve the default styling of links and quoted text`, async ({ page }) => {
     await focusEditor(page);
 
     const clipboard = {
@@ -74,10 +65,7 @@ test.describe('Clear All Formatting', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <a
-            href="https://facebook.com"
-            class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <a class="PlaygroundEditorTheme__link PlaygroundEditorTheme__ltr" href="https://facebook.com" dir="ltr">
             <span data-lexical-text="true">Facebook!</span>
           </a>
         </p>
@@ -97,18 +85,14 @@ test.describe('Clear All Formatting', () => {
     await assertHTML(
       page,
       html`
-        <blockquote
-          class="PlaygroundEditorTheme__quote PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <blockquote class="PlaygroundEditorTheme__quote PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Testing for quote node</span>
         </blockquote>
       `,
     );
   });
 
-  test(`Should preserve the default styling of hashtags and mentions`, async ({
-    page,
-  }) => {
+  test(`Should preserve the default styling of hashtags and mentions`, async ({ page }) => {
     await focusEditor(page);
 
     await page.keyboard.type('#facebook testing');
@@ -120,12 +104,8 @@ test.describe('Clear All Formatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true">
-            #facebook
-          </span>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="PlaygroundEditorTheme__hashtag" data-lexical-text="true"> #facebook </span>
           <span data-lexical-text="true">testing</span>
         </p>
       `,
@@ -139,9 +119,7 @@ test.describe('Clear All Formatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Luke</span>
         </p>
       `,
@@ -152,10 +130,7 @@ test.describe('Clear All Formatting', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
         </p>
@@ -170,13 +145,8 @@ test.describe('Clear All Formatting', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
           <span data-lexical-text="true">is testing</span>

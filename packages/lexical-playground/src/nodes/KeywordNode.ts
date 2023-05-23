@@ -6,9 +6,9 @@
  *
  */
 
-import type {EditorConfig, LexicalNode, SerializedTextNode} from 'lexical';
+import type { EditorConfig, LexicalNode, SerializedTextNode } from 'lexical';
 
-import {TextNode} from 'lexical';
+import { TextNode } from 'lexical';
 
 export type SerializedKeywordNode = SerializedTextNode;
 
@@ -62,8 +62,6 @@ export function $createKeywordNode(keyword: string): KeywordNode {
   return new KeywordNode(keyword);
 }
 
-export function $isKeywordNode(
-  node: LexicalNode | null | undefined | undefined,
-): boolean {
+export function $isKeywordNode(node: LexicalNode | null | undefined | undefined): boolean {
   return node instanceof KeywordNode;
 }

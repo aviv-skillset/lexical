@@ -7,12 +7,7 @@
  */
 
 // eslint-disable-next-line simple-import-sort/imports
-import type {
-  LexicalCommand,
-  LexicalEditor,
-  LexicalNode,
-  NodeKey,
-} from 'lexical';
+import type { LexicalCommand, LexicalEditor, LexicalNode, NodeKey } from 'lexical';
 
 import * as Prism from 'prismjs';
 
@@ -31,7 +26,7 @@ import 'prismjs/components/prism-typescript';
 import 'prismjs/components/prism-java';
 import 'prismjs/components/prism-cpp';
 
-import {mergeRegister} from '@lexical/utils';
+import { mergeRegister } from '@lexical/utils';
 import {
   $createLineBreakNode,
   $createTextNode,
@@ -59,7 +54,7 @@ import {
   getLastCodeHighlightNodeOfLine,
 } from './CodeHighlightNode';
 
-import {$isCodeNode, CodeNode} from './CodeNode';
+import { $isCodeNode, CodeNode } from './CodeNode';
 
 type TokenContent = string | Token | (string | Token)[];
 
@@ -76,10 +71,7 @@ export interface Tokenizer {
 export const PrismTokenizer: Tokenizer = {
   defaultLanguage: DEFAULT_CODE_LANGUAGE,
   tokenize(code: string, language?: string): (string | Token)[] {
-    return Prism.tokenize(
-      code,
-      Prism.languages[language || ''] || Prism.languages[this.defaultLanguage],
-    );
+    return Prism.tokenize(code, Prism.languages[language || ''] || Prism.languages[this.defaultLanguage]);
   },
 };
 
@@ -87,10 +79,7 @@ function isSpaceOrTabChar(char: string): boolean {
   return char === ' ' || char === '\t';
 }
 
-function findFirstNotSpaceOrTabCharAtText(
-  text: string,
-  isForward: boolean,
-): number {
+function findFirstNotSpaceOrTabCharAtText(text: string, isForward: boolean): number {
   const length = text.length;
   let offset = -1;
 
@@ -211,11 +200,7 @@ export function getEndOfCodeInLine(anchor: LexicalNode): {
   };
 }
 
-function textNodeTransform(
-  node: TextNode,
-  editor: LexicalEditor,
-  tokenizer: Tokenizer,
-): void {
+function textNodeTransform(node: TextNode, editor: LexicalEditor, tokenizer: Tokenizer): void {
   // Since CodeNode has flat children structure we only need to check
   // if node's parent is a code node and run highlighting if so
   const parentNode = node.getParent();
@@ -262,11 +247,7 @@ function updateCodeGutter(node: CodeNode, editor: LexicalEditor): void {
 
 const nodesCurrentlyHighlighting = new Set();
 
-function codeNodeTransform(
-  node: CodeNode,
-  editor: LexicalEditor,
-  tokenizer: Tokenizer,
-) {
+function codeNodeTransform(node: CodeNode, editor: LexicalEditor, tokenizer: Tokenizer) {
   const nodeKey = node.getKey();
 
   if (nodesCurrentlyHighlighting.has(nodeKey)) {
@@ -293,16 +274,10 @@ function codeNodeTransform(
         }
 
         const code = currentNode.getTextContent();
-        const tokens = tokenizer.tokenize(
-          code,
-          currentNode.getLanguage() || tokenizer.defaultLanguage,
-        );
+        const tokens = tokenizer.tokenize(code, currentNode.getLanguage() || tokenizer.defaultLanguage);
         const highlightNodes = getHighlightNodes(tokens);
-        const diffRange = getDiffRange(
-          currentNode.getChildren(),
-          highlightNodes,
-        );
-        const {from, to, nodesForReplacement} = diffRange;
+        const diffRange = getDiffRange(currentNode.getChildren(), highlightNodes);
+        const { from, to, nodesForReplacement } = diffRange;
 
         if (from !== to || nodesForReplacement.length) {
           node.splice(from, to - from, nodesForReplacement);
@@ -337,14 +312,10 @@ function getHighlightNodes(tokens: (string | Token)[]): LexicalNode[] {
         }
       }
     } else {
-      const {content} = token;
+      const { content } = token;
       if (typeof content === 'string') {
         nodes.push($createCodeHighlightNode(content, token.type));
-      } else if (
-        Array.isArray(content) &&
-        content.length === 1 &&
-        typeof content[0] === 'string'
-      ) {
+      } else if (Array.isArray(content) && content.length === 1 && typeof content[0] === 'string') {
         nodes.push($createCodeHighlightNode(content[0], token.type));
       } else if (Array.isArray(content)) {
         nodes.push(...getHighlightNodes(content));
@@ -357,10 +328,7 @@ function getHighlightNodes(tokens: (string | Token)[]): LexicalNode[] {
 
 // Wrapping update function into selection retainer, that tries to keep cursor at the same
 // position as before.
-function updateAndRetainSelection(
-  nodeKey: NodeKey,
-  updateFn: () => boolean,
-): void {
+function updateAndRetainSelection(nodeKey: NodeKey, updateFn: () => boolean): void {
   const node = $getNodeByKey(nodeKey);
   if (!$isCodeNode(node) || !node.isAttached()) {
     return;
@@ -375,9 +343,7 @@ function updateAndRetainSelection(
 
   const anchor = selection.anchor;
   const anchorOffset = anchor.offset;
-  const isNewLineAnchor =
-    anchor.type === 'element' &&
-    $isLineBreakNode(node.getChildAtIndex(anchor.offset - 1));
+  const isNewLineAnchor = anchor.type === 'element' && $isLineBreakNode(node.getChildAtIndex(anchor.offset - 1));
   let textOffset = 0;
 
   // Calculating previous text offset (all text node prior to anchor + anchor own text offset)
@@ -438,18 +404,12 @@ function getDiffRange(
 
   const prevNodesLength = prevNodes.length;
   const nextNodesLength = nextNodes.length;
-  const maxTrailingMatch =
-    Math.min(prevNodesLength, nextNodesLength) - leadingMatch;
+  const maxTrailingMatch = Math.min(prevNodesLength, nextNodesLength) - leadingMatch;
 
   let trailingMatch = 0;
   while (trailingMatch < maxTrailingMatch) {
     trailingMatch++;
-    if (
-      !isEqual(
-        prevNodes[prevNodesLength - trailingMatch],
-        nextNodes[nextNodesLength - trailingMatch],
-      )
-    ) {
+    if (!isEqual(prevNodes[prevNodesLength - trailingMatch], nextNodes[nextNodesLength - trailingMatch])) {
       trailingMatch--;
       break;
     }
@@ -457,10 +417,7 @@ function getDiffRange(
 
   const from = leadingMatch;
   const to = prevNodesLength - trailingMatch;
-  const nodesForReplacement = nextNodes.slice(
-    leadingMatch,
-    nextNodesLength - trailingMatch,
-  );
+  const nodesForReplacement = nextNodes.slice(leadingMatch, nextNodesLength - trailingMatch);
   return {
     from,
     nodesForReplacement,
@@ -472,10 +429,7 @@ function isEqual(nodeA: LexicalNode, nodeB: LexicalNode): boolean {
   // Only checking for code higlight nodes and linebreaks. If it's regular text node
   // returning false so that it's transformed into code highlight node
   if ($isCodeHighlightNode(nodeA) && $isCodeHighlightNode(nodeB)) {
-    return (
-      nodeA.__text === nodeB.__text &&
-      nodeA.__highlightType === nodeB.__highlightType
-    );
+    return nodeA.__text === nodeB.__text && nodeA.__highlightType === nodeB.__highlightType;
   }
 
   if ($isLineBreakNode(nodeA) && $isLineBreakNode(nodeB)) {
@@ -543,10 +497,7 @@ function doIndent(node: CodeHighlightNode, type: LexicalCommand<void>) {
   }
 }
 
-function handleShiftLines(
-  type: LexicalCommand<KeyboardEvent>,
-  event: KeyboardEvent,
-): boolean {
+function handleShiftLines(type: LexicalCommand<KeyboardEvent>, event: KeyboardEvent): boolean {
   // We only care about the alt+arrow keys
   const selection = $getSelection();
   if (!$isRangeSelection(selection)) {
@@ -555,7 +506,7 @@ function handleShiftLines(
 
   // I'm not quite sure why, but it seems like calling anchor.getNode() collapses the selection here
   // So first, get the anchor and the focus, then get their nodes
-  const {anchor, focus} = selection;
+  const { anchor, focus } = selection;
   const anchorOffset = anchor.offset;
   const focusOffset = focus.offset;
   const anchorNode = anchor.getNode();
@@ -571,11 +522,7 @@ function handleShiftLines(
     // sibling thats can natively take the selection.
     if (selection.isCollapsed()) {
       const codeNode = anchorNode.getParentOrThrow();
-      if (
-        arrowIsUp &&
-        anchorOffset === 0 &&
-        anchorNode.getPreviousSibling() === null
-      ) {
+      if (arrowIsUp && anchorOffset === 0 && anchorNode.getPreviousSibling() === null) {
         const codeNodeSibling = codeNode.getPreviousSibling();
         if (codeNodeSibling === null) {
           codeNode.selectPrevious();
@@ -618,15 +565,11 @@ function handleShiftLines(
   event.preventDefault();
   event.stopPropagation(); // required to stop cursor movement under Firefox
 
-  const linebreak = arrowIsUp
-    ? start.getPreviousSibling()
-    : end.getNextSibling();
+  const linebreak = arrowIsUp ? start.getPreviousSibling() : end.getNextSibling();
   if (!$isLineBreakNode(linebreak)) {
     return true;
   }
-  const sibling = arrowIsUp
-    ? linebreak.getPreviousSibling()
-    : linebreak.getNextSibling();
+  const sibling = arrowIsUp ? linebreak.getPreviousSibling() : linebreak.getNextSibling();
   if (sibling == null) {
     return true;
   }
@@ -634,8 +577,7 @@ function handleShiftLines(
   const maybeInsertionPoint = arrowIsUp
     ? getFirstCodeHighlightNodeOfLine(sibling)
     : getLastCodeHighlightNodeOfLine(sibling);
-  let insertionPoint =
-    maybeInsertionPoint != null ? maybeInsertionPoint : sibling;
+  let insertionPoint = maybeInsertionPoint != null ? maybeInsertionPoint : sibling;
   linebreak.remove();
   range.forEach((node) => node.remove());
   if (type === KEY_ARROW_UP_COMMAND) {
@@ -655,16 +597,13 @@ function handleShiftLines(
   return true;
 }
 
-function handleMoveTo(
-  type: LexicalCommand<KeyboardEvent>,
-  event: KeyboardEvent,
-): boolean {
+function handleMoveTo(type: LexicalCommand<KeyboardEvent>, event: KeyboardEvent): boolean {
   const selection = $getSelection();
   if (!$isRangeSelection(selection)) {
     return false;
   }
 
-  const {anchor, focus} = selection;
+  const { anchor, focus } = selection;
   const anchorNode = anchor.getNode();
   const focusNode = focus.getNode();
   const isMoveToStart = type === MOVE_TO_START;
@@ -677,9 +616,9 @@ function handleMoveTo(
   let offset;
 
   if (isMoveToStart) {
-    ({node, offset} = getStartOfCodeInLine(focusNode));
+    ({ node, offset } = getStartOfCodeInLine(focusNode));
   } else {
-    ({node, offset} = getEndOfCodeInLine(focusNode));
+    ({ node, offset } = getEndOfCodeInLine(focusNode));
   }
 
   if (node !== null && offset !== -1) {
@@ -692,14 +631,9 @@ function handleMoveTo(
   return true;
 }
 
-export function registerCodeHighlighting(
-  editor: LexicalEditor,
-  tokenizer?: Tokenizer,
-): () => void {
+export function registerCodeHighlighting(editor: LexicalEditor, tokenizer?: Tokenizer): () => void {
   if (!editor.hasNodes([CodeNode, CodeHighlightNode])) {
-    throw new Error(
-      'CodeHighlightPlugin: CodeNode or CodeHighlightNode not registered on editor',
-    );
+    throw new Error('CodeHighlightPlugin: CodeNode or CodeHighlightNode not registered on editor');
   }
 
   if (tokenizer == null) {
@@ -719,15 +653,9 @@ export function registerCodeHighlighting(
         }
       });
     }),
-    editor.registerNodeTransform(CodeNode, (node) =>
-      codeNodeTransform(node, editor, tokenizer as Tokenizer),
-    ),
-    editor.registerNodeTransform(TextNode, (node) =>
-      textNodeTransform(node, editor, tokenizer as Tokenizer),
-    ),
-    editor.registerNodeTransform(CodeHighlightNode, (node) =>
-      textNodeTransform(node, editor, tokenizer as Tokenizer),
-    ),
+    editor.registerNodeTransform(CodeNode, (node) => codeNodeTransform(node, editor, tokenizer as Tokenizer)),
+    editor.registerNodeTransform(TextNode, (node) => textNodeTransform(node, editor, tokenizer as Tokenizer)),
+    editor.registerNodeTransform(CodeHighlightNode, (node) => textNodeTransform(node, editor, tokenizer as Tokenizer)),
     editor.registerCommand(
       INDENT_CONTENT_COMMAND,
       (payload): boolean => handleMultilineIndent(INDENT_CONTENT_COMMAND),
@@ -748,11 +676,7 @@ export function registerCodeHighlighting(
       (payload): boolean => handleShiftLines(KEY_ARROW_DOWN_COMMAND, payload),
       COMMAND_PRIORITY_LOW,
     ),
-    editor.registerCommand(
-      MOVE_TO_END,
-      (payload): boolean => handleMoveTo(MOVE_TO_END, payload),
-      COMMAND_PRIORITY_LOW,
-    ),
+    editor.registerCommand(MOVE_TO_END, (payload): boolean => handleMoveTo(MOVE_TO_END, payload), COMMAND_PRIORITY_LOW),
     editor.registerCommand(
       MOVE_TO_START,
       (payload): boolean => handleMoveTo(MOVE_TO_START, payload),

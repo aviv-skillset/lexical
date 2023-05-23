@@ -8,12 +8,7 @@
  *
  */
 
-import {
-  $getSelection,
-  $isRangeSelection,
-  $isTextNode,
-  LexicalEditor,
-} from 'lexical';
+import { $getSelection, $isRangeSelection, $isTextNode, LexicalEditor } from 'lexical';
 
 export function registerDragonSupport(editor: LexicalEditor): () => void {
   const origin = window.location.origin;
@@ -38,25 +33,14 @@ export function registerDragonSupport(editor: LexicalEditor): () => void {
         return;
       }
 
-      if (
-        parsedData &&
-        parsedData.protocol === 'nuanria_messaging' &&
-        parsedData.type === 'request'
-      ) {
+      if (parsedData && parsedData.protocol === 'nuanria_messaging' && parsedData.type === 'request') {
         const payload = parsedData.payload;
 
         if (payload && payload.functionId === 'makeChanges') {
           const args = payload.args;
 
           if (args) {
-            const [
-              elementStart,
-              elementLength,
-              text,
-              selStart,
-              selLength,
-              formatCommand,
-            ] = args;
+            const [elementStart, elementLength, text, selStart, selLength, formatCommand] = args;
             // TODO: we should probably handle formatCommand somehow?
             // eslint-disable-next-line no-unused-expressions
             formatCommand;
@@ -75,12 +59,7 @@ export function registerDragonSupport(editor: LexicalEditor): () => void {
                     setSelStart = elementStart;
                     setSelEnd = elementStart + elementLength;
                     // If the offset is more than the end, make it the end
-                    selection.setTextNodeRange(
-                      anchorNode,
-                      setSelStart,
-                      anchorNode,
-                      setSelEnd,
-                    );
+                    selection.setTextNodeRange(anchorNode, setSelStart, anchorNode, setSelEnd);
                   }
                 }
 
@@ -95,20 +74,9 @@ export function registerDragonSupport(editor: LexicalEditor): () => void {
                   setSelEnd = selStart + selLength;
                   const anchorNodeTextLength = anchorNode.getTextContentSize();
                   // If the offset is more than the end, make it the end
-                  setSelStart =
-                    setSelStart > anchorNodeTextLength
-                      ? anchorNodeTextLength
-                      : setSelStart;
-                  setSelEnd =
-                    setSelEnd > anchorNodeTextLength
-                      ? anchorNodeTextLength
-                      : setSelEnd;
-                  selection.setTextNodeRange(
-                    anchorNode,
-                    setSelStart,
-                    anchorNode,
-                    setSelEnd,
-                  );
+                  setSelStart = setSelStart > anchorNodeTextLength ? anchorNodeTextLength : setSelStart;
+                  setSelEnd = setSelEnd > anchorNodeTextLength ? anchorNodeTextLength : setSelEnd;
+                  selection.setTextNodeRange(anchorNode, setSelStart, anchorNode, setSelEnd);
                 }
 
                 // block the chrome extension from handling this event

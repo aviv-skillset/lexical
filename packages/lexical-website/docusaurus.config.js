@@ -187,7 +187,7 @@ const config = {
             sidebarId: 'demos',
             type: 'docSidebar',
           },
-          {label: 'Community', position: 'left', to: '/community'},
+          { label: 'Community', position: 'left', to: '/community' },
           {
             href: GITHUB_REPO_URL,
             label: 'GitHub',

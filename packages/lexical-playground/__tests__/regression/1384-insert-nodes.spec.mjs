@@ -6,23 +6,12 @@
  *
  */
 
-import {selectCharacters} from '../keyboardShortcuts/index.mjs';
-import {
-  assertHTML,
-  copyToClipboard,
-  focusEditor,
-  initialize,
-  pasteFromClipboard,
-  test,
-} from '../utils/index.mjs';
+import { selectCharacters } from '../keyboardShortcuts/index.mjs';
+import { assertHTML, copyToClipboard, focusEditor, initialize, pasteFromClipboard, test } from '../utils/index.mjs';
 
 test.describe('Regression test #1384', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Properly pastes in code blocks`, async ({
-    page,
-    isPlainText,
-    isCollab,
-  }) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Properly pastes in code blocks`, async ({ page, isPlainText, isCollab }) => {
     test.skip(isPlainText || isCollab);
     await focusEditor(page);
     await page.keyboard.type('``` alert(1);');

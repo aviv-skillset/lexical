@@ -6,15 +6,10 @@
  *
  */
 
-import type {
-  DOMConversionMap,
-  DOMConversionOutput,
-  NodeKey,
-  SerializedLexicalNode,
-} from '../LexicalNode';
+import type { DOMConversionMap, DOMConversionOutput, NodeKey, SerializedLexicalNode } from '../LexicalNode';
 
-import {LexicalNode} from '../LexicalNode';
-import {$applyNodeReplacement} from '../LexicalUtils';
+import { LexicalNode } from '../LexicalNode';
+import { $applyNodeReplacement } from '../LexicalUtils';
 
 export type SerializedLineBreakNode = SerializedLexicalNode;
 
@@ -49,11 +44,7 @@ export class LineBreakNode extends LexicalNode {
       br: (node: Node) => {
         const parentElement = node.parentElement;
         // If the <br> is the only child, then skip including it
-        if (
-          parentElement != null &&
-          parentElement.firstChild === node &&
-          parentElement.lastChild === node
-        ) {
+        if (parentElement != null && parentElement.firstChild === node && parentElement.lastChild === node) {
           return null;
         }
         return {
@@ -64,9 +55,7 @@ export class LineBreakNode extends LexicalNode {
     };
   }
 
-  static importJSON(
-    serializedLineBreakNode: SerializedLineBreakNode,
-  ): LineBreakNode {
+  static importJSON(serializedLineBreakNode: SerializedLineBreakNode): LineBreakNode {
     return $createLineBreakNode();
   }
 
@@ -79,15 +68,13 @@ export class LineBreakNode extends LexicalNode {
 }
 
 function convertLineBreakElement(node: Node): DOMConversionOutput {
-  return {node: $createLineBreakNode()};
+  return { node: $createLineBreakNode() };
 }
 
 export function $createLineBreakNode(): LineBreakNode {
   return $applyNodeReplacement(new LineBreakNode());
 }
 
-export function $isLineBreakNode(
-  node: LexicalNode | null | undefined,
-): node is LineBreakNode {
+export function $isLineBreakNode(node: LexicalNode | null | undefined): node is LineBreakNode {
   return node instanceof LineBreakNode;
 }

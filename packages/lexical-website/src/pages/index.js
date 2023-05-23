@@ -17,10 +17,9 @@ import React from 'react';
 import styles from './styles.module.css';
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
-    <header
-      className={clsx('hero hero--dark hero--primary', styles.heroBanner)}>
+    <header className={clsx('hero hero--dark hero--primary', styles.heroBanner)}>
       <div className="container">
         <h1 className="hero__title">
           <img
@@ -29,18 +28,12 @@ function HomepageHeader() {
             alt="Lexical Logo: containing an icon of a text editor glyph containing a text cursor on the left, with the text of 'Lexical' on the right."
           />
         </h1>
-        <p className={clsx('hero__subtitle', styles.tagline)}>
-          {siteConfig.tagline}
-        </p>
+        <p className={clsx('hero__subtitle', styles.tagline)}>{siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          <Link
-            className="button button--secondary margin-right--sm"
-            to="/docs/intro">
+          <Link className="button button--secondary margin-right--sm" to="/docs/intro">
             Get Started
           </Link>
-          <Link
-            className="button button--outline margin-left--sm"
-            to="https://playground.lexical.dev">
+          <Link className="button button--outline margin-left--sm" to="https://playground.lexical.dev">
             Visit Playground
           </Link>
         </div>
@@ -50,7 +43,7 @@ function HomepageHeader() {
 }
 
 export default function Home() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout description={siteConfig.tagline}>
       <HomepageHeader />

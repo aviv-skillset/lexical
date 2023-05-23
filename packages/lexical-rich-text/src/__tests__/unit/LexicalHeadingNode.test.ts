@@ -6,13 +6,9 @@
  *
  */
 
-import {
-  $createHeadingNode,
-  $isHeadingNode,
-  HeadingNode,
-} from '@lexical/rich-text';
-import {$createTextNode, $getRoot, $getSelection, ParagraphNode} from 'lexical';
-import {initializeUnitTest} from 'lexical/src/__tests__/utils';
+import { $createHeadingNode, $isHeadingNode, HeadingNode } from '@lexical/rich-text';
+import { $createTextNode, $getRoot, $getSelection, ParagraphNode } from 'lexical';
+import { initializeUnitTest } from 'lexical/src/__tests__/utils';
 
 const editorConfig = Object.freeze({
   namespace: '',
@@ -31,7 +27,7 @@ const editorConfig = Object.freeze({
 describe('LexicalHeadingNode tests', () => {
   initializeUnitTest((testEnv) => {
     test('HeadingNode.constructor', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const headingNode = new HeadingNode('h1');
         expect(headingNode.getType()).toBe('heading');
@@ -43,12 +39,10 @@ describe('LexicalHeadingNode tests', () => {
     });
 
     test('HeadingNode.createDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const headingNode = new HeadingNode('h1');
-        expect(headingNode.createDOM(editorConfig).outerHTML).toBe(
-          '<h1 class="my-h1-class"></h1>',
-        );
+        expect(headingNode.createDOM(editorConfig).outerHTML).toBe('<h1 class="my-h1-class"></h1>');
         expect(
           headingNode.createDOM({
             namespace: '',
@@ -67,7 +61,7 @@ describe('LexicalHeadingNode tests', () => {
     });
 
     test('HeadingNode.updateDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const headingNode = new HeadingNode('h1');
         const domElement = headingNode.createDOM(editorConfig);
@@ -80,7 +74,7 @@ describe('LexicalHeadingNode tests', () => {
     });
 
     test('HeadingNode.insertNewAfter()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       let headingNode;
       await editor.update(() => {
         const root = $getRoot();
@@ -102,7 +96,7 @@ describe('LexicalHeadingNode tests', () => {
     });
 
     test('HeadingNode.canInsertTab()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const headingNode = new HeadingNode('h1');
         expect(headingNode.canInsertTab()).toBe(false);
@@ -110,7 +104,7 @@ describe('LexicalHeadingNode tests', () => {
     });
 
     test('$createHeadingNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const headingNode = new HeadingNode('h1');
         const createdHeadingNode = $createHeadingNode('h1');
@@ -121,7 +115,7 @@ describe('LexicalHeadingNode tests', () => {
     });
 
     test('$isHeadingNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       await editor.update(() => {
         const headingNode = new HeadingNode('h1');
         expect($isHeadingNode(headingNode)).toBe(true);
@@ -129,7 +123,7 @@ describe('LexicalHeadingNode tests', () => {
     });
 
     test('creates a h2 with text and can insert a new paragraph after', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
       let headingNode;
       const text = 'hello world';
       await editor.update(() => {

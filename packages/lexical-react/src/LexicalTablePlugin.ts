@@ -11,14 +11,9 @@ import type {
   InsertTableCommandPayload,
   TableSelection,
 } from '@lexical/table';
-import type {
-  DEPRECATED_GridCellNode,
-  ElementNode,
-  LexicalNode,
-  NodeKey,
-} from 'lexical';
+import type { DEPRECATED_GridCellNode, ElementNode, LexicalNode, NodeKey } from 'lexical';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   $createTableCellNode,
   $createTableNodeWithDimensions,
@@ -29,7 +24,7 @@ import {
   TableNode,
   TableRowNode,
 } from '@lexical/table';
-import {$insertNodeToNearestRoot} from '@lexical/utils';
+import { $insertNodeToNearestRoot } from '@lexical/utils';
 import {
   $getNodeByKey,
   $isTextNode,
@@ -39,7 +34,7 @@ import {
   DEPRECATED_$getNodeTriplet,
   DEPRECATED_$isGridRowNode,
 } from 'lexical';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import invariant from 'shared/invariant';
 
 // TODO extract to utils
@@ -63,20 +58,13 @@ export function TablePlugin({
 
   useEffect(() => {
     if (!editor.hasNodes([TableNode, TableCellNode, TableRowNode])) {
-      invariant(
-        false,
-        'TablePlugin: TableNode, TableCellNode or TableRowNode not registered on editor',
-      );
+      invariant(false, 'TablePlugin: TableNode, TableCellNode or TableRowNode not registered on editor');
     }
 
     return editor.registerCommand<InsertTableCommandPayload>(
       INSERT_TABLE_COMMAND,
-      ({columns, rows, includeHeaders}) => {
-        const tableNode = $createTableNodeWithDimensions(
-          Number(rows),
-          Number(columns),
-          includeHeaders,
-        );
+      ({ columns, rows, includeHeaders }) => {
+        const tableNode = $createTableNodeWithDimensions(Number(rows), Number(columns), includeHeaders);
         $insertNodeToNearestRoot(tableNode);
 
         const firstDescendant = tableNode.getFirstDescendant();
@@ -95,15 +83,9 @@ export function TablePlugin({
 
     const initializeTableNode = (tableNode: TableNode) => {
       const nodeKey = tableNode.getKey();
-      const tableElement = editor.getElementByKey(
-        nodeKey,
-      ) as HTMLTableElementWithWithTableSelectionState;
+      const tableElement = editor.getElementByKey(nodeKey) as HTMLTableElementWithWithTableSelectionState;
       if (tableElement && !tableSelections.has(nodeKey)) {
-        const tableSelection = applyTableHandlers(
-          tableNode,
-          tableElement,
-          editor,
-        );
+        const tableSelection = applyTableHandlers(tableNode, tableElement, editor);
         tableSelections.set(nodeKey, tableSelection);
       }
     };
@@ -119,28 +101,25 @@ export function TablePlugin({
       }
     });
 
-    const unregisterMutationListener = editor.registerMutationListener(
-      TableNode,
-      (nodeMutations) => {
-        for (const [nodeKey, mutation] of nodeMutations) {
-          if (mutation === 'created') {
-            editor.getEditorState().read(() => {
-              const tableNode = $getNodeByKey<TableNode>(nodeKey);
-              if ($isTableNode(tableNode)) {
-                initializeTableNode(tableNode);
-              }
-            });
-          } else if (mutation === 'destroyed') {
-            const tableSelection = tableSelections.get(nodeKey);
-
-            if (tableSelection !== undefined) {
-              tableSelection.removeListeners();
-              tableSelections.delete(nodeKey);
+    const unregisterMutationListener = editor.registerMutationListener(TableNode, (nodeMutations) => {
+      for (const [nodeKey, mutation] of nodeMutations) {
+        if (mutation === 'created') {
+          editor.getEditorState().read(() => {
+            const tableNode = $getNodeByKey<TableNode>(nodeKey);
+            if ($isTableNode(tableNode)) {
+              initializeTableNode(tableNode);
             }
+          });
+        } else if (mutation === 'destroyed') {
+          const tableSelection = tableSelections.get(nodeKey);
+
+          if (tableSelection !== undefined) {
+            tableSelection.removeListeners();
+            tableSelections.delete(nodeKey);
           }
         }
-      },
-    );
+      }
+    });
 
     return () => {
       unregisterMutationListener();
@@ -167,18 +146,12 @@ export function TablePlugin({
         const rowsCount = gridMap.length;
         const columnsCount = gridMap[0].length;
         let row = gridNode.getFirstChild();
-        invariant(
-          DEPRECATED_$isGridRowNode(row),
-          'Expected TableNode first child to be a RowNode',
-        );
+        invariant(DEPRECATED_$isGridRowNode(row), 'Expected TableNode first child to be a RowNode');
         const unmerged = [];
         for (let i = 0; i < rowsCount; i++) {
           if (i !== 0) {
             row = row.getNextSibling();
-            invariant(
-              DEPRECATED_$isGridRowNode(row),
-              'Expected TableNode first child to be a RowNode',
-            );
+            invariant(DEPRECATED_$isGridRowNode(row), 'Expected TableNode first child to be a RowNode');
           }
           let lastRowCell: null | DEPRECATED_GridCellNode = null;
           for (let j = 0; j < columnsCount; j++) {

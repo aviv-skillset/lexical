@@ -1,11 +1,10 @@
 'use strict';
 
 module.exports = {
-  bracketSpacing: false,
+  printWidth: 120,
+  semi: true,
   singleQuote: true,
-  bracketSameLine: true,
-  printWidth: 80,
   trailingComma: 'all',
-  htmlWhitespaceSensitivity: 'ignore',
-  attributeGroups: ['$DEFAULT', '^data-'],
+  endOfLine: 'crlf',
+  tabWidth: 2,
 };

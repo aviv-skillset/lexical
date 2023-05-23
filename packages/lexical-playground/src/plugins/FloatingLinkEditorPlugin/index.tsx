@@ -7,9 +7,9 @@
  */
 import './index.css';
 
-import {$isAutoLinkNode, $isLinkNode, TOGGLE_LINK_COMMAND} from '@lexical/link';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$findMatchingParent, mergeRegister} from '@lexical/utils';
+import { $isAutoLinkNode, $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $findMatchingParent, mergeRegister } from '@lexical/utils';
 import {
   $getSelection,
   $isRangeSelection,
@@ -23,13 +23,13 @@ import {
   RangeSelection,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import {Dispatch, useCallback, useEffect, useRef, useState} from 'react';
+import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
-import {createPortal} from 'react-dom';
+import { createPortal } from 'react-dom';
 
-import {getSelectedNode} from '../../utils/getSelectedNode';
-import {setFloatingElemPositionForLinkEditor} from '../../utils/setFloatingElemPositionForLinkEditor';
-import {sanitizeUrl} from '../../utils/url';
+import { getSelectedNode } from '../../utils/getSelectedNode';
+import { setFloatingElemPositionForLinkEditor } from '../../utils/setFloatingElemPositionForLinkEditor';
+import { sanitizeUrl } from '../../utils/url';
 
 function FloatingLinkEditor({
   editor,
@@ -47,9 +47,7 @@ function FloatingLinkEditor({
   const [linkUrl, setLinkUrl] = useState('');
   const [editedLinkUrl, setEditedLinkUrl] = useState('');
   const [isEditMode, setEditMode] = useState(false);
-  const [lastSelection, setLastSelection] = useState<
-    RangeSelection | GridSelection | NodeSelection | null
-  >(null);
+  const [lastSelection, setLastSelection] = useState<RangeSelection | GridSelection | NodeSelection | null>(null);
 
   const updateLinkEditor = useCallback(() => {
     const selection = $getSelection();
@@ -81,8 +79,7 @@ function FloatingLinkEditor({
       rootElement.contains(nativeSelection.anchorNode) &&
       editor.isEditable()
     ) {
-      const domRect: DOMRect | undefined =
-        nativeSelection.focusNode?.parentElement?.getBoundingClientRect();
+      const domRect: DOMRect | undefined = nativeSelection.focusNode?.parentElement?.getBoundingClientRect();
       if (domRect) {
         domRect.y += 40;
         setFloatingElemPositionForLinkEditor(domRect, editorElem, anchorElem);
@@ -126,7 +123,7 @@ function FloatingLinkEditor({
 
   useEffect(() => {
     return mergeRegister(
-      editor.registerUpdateListener(({editorState}) => {
+      editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
           updateLinkEditor();
         });
@@ -166,9 +163,7 @@ function FloatingLinkEditor({
     }
   }, [isEditMode]);
 
-  const monitorInputInteraction = (
-    event: React.KeyboardEvent<HTMLInputElement>,
-  ) => {
+  const monitorInputInteraction = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault();
       handleLinkSubmission();
@@ -252,10 +247,7 @@ function FloatingLinkEditor({
   );
 }
 
-function useFloatingLinkEditorToolbar(
-  editor: LexicalEditor,
-  anchorElem: HTMLElement,
-): JSX.Element | null {
+function useFloatingLinkEditorToolbar(editor: LexicalEditor, anchorElem: HTMLElement): JSX.Element | null {
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
 
@@ -277,7 +269,7 @@ function useFloatingLinkEditorToolbar(
 
   useEffect(() => {
     return mergeRegister(
-      editor.registerUpdateListener(({editorState}) => {
+      editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
           updateToolbar();
         });
@@ -295,12 +287,7 @@ function useFloatingLinkEditorToolbar(
   }, [editor, updateToolbar]);
 
   return createPortal(
-    <FloatingLinkEditor
-      editor={activeEditor}
-      isLink={isLink}
-      anchorElem={anchorElem}
-      setIsLink={setIsLink}
-    />,
+    <FloatingLinkEditor editor={activeEditor} isLink={isLink} anchorElem={anchorElem} setIsLink={setIsLink} />,
     anchorElem,
   );
 }

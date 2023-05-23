@@ -6,15 +6,7 @@
  *
  */
 
-import type {
-  ElementNode,
-  GridSelection,
-  LexicalNode,
-  NodeKey,
-  Point,
-  RangeSelection,
-  TextNode,
-} from 'lexical';
+import type { ElementNode, GridSelection, LexicalNode, NodeKey, Point, RangeSelection, TextNode } from 'lexical';
 
 import {
   $getAdjacentNode,
@@ -31,17 +23,14 @@ import {
   $setSelection,
 } from 'lexical';
 
-import {getStyleObjectFromCSS} from './utils';
+import { getStyleObjectFromCSS } from './utils';
 
 /**
  * Converts all nodes in the selection that are of one block type to another.
  * @param selection - The selected blocks to be converted.
  * @param createElement - The function that creates the node. eg. $createParagraphNode.
  */
-export function $setBlocksType(
-  selection: RangeSelection | GridSelection,
-  createElement: () => ElementNode,
-): void {
+export function $setBlocksType(selection: RangeSelection | GridSelection, createElement: () => ElementNode): void {
   if (selection.anchor.key === 'root') {
     const element = createElement();
     const root = $getRoot();
@@ -91,8 +80,7 @@ function isBlock(node: LexicalNode): boolean {
   }
 
   const firstChild = node.getFirstChild();
-  const isLeafElement =
-    firstChild === null || $isTextNode(firstChild) || firstChild.isInline();
+  const isLeafElement = firstChild === null || $isTextNode(firstChild) || firstChild.isInline();
 
   return !node.isInline() && node.canBeEmpty() !== false && isLeafElement;
 }
@@ -134,14 +122,9 @@ export function $wrapNodes(
 
   if (
     nodesLength === 0 ||
-    (nodesLength === 1 &&
-      anchor.type === 'element' &&
-      anchor.getNode().getChildrenSize() === 0)
+    (nodesLength === 1 && anchor.type === 'element' && anchor.getNode().getChildrenSize() === 0)
   ) {
-    const target =
-      anchor.type === 'text'
-        ? anchor.getNode().getParentOrThrow()
-        : anchor.getNode();
+    const target = anchor.type === 'text' ? anchor.getNode().getParentOrThrow() : anchor.getNode();
     const children = target.getChildren();
     let element = createElement();
     element.setFormat(target.getFormatType());
@@ -166,38 +149,17 @@ export function $wrapNodes(
     // their own branch. I.e. you don't want to wrap a whole table, but rather the contents of each
     // of each of the cell nodes.
     if ($isRootOrShadowRoot(node)) {
-      $wrapNodesImpl(
-        selection,
-        descendants,
-        descendants.length,
-        createElement,
-        wrappingElement,
-      );
+      $wrapNodesImpl(selection, descendants, descendants.length, createElement, wrappingElement);
       descendants = [];
       topLevelNode = node;
-    } else if (
-      topLevelNode === null ||
-      (topLevelNode !== null && $hasAncestor(node, topLevelNode))
-    ) {
+    } else if (topLevelNode === null || (topLevelNode !== null && $hasAncestor(node, topLevelNode))) {
       descendants.push(node);
     } else {
-      $wrapNodesImpl(
-        selection,
-        descendants,
-        descendants.length,
-        createElement,
-        wrappingElement,
-      );
+      $wrapNodesImpl(selection, descendants, descendants.length, createElement, wrappingElement);
       descendants = [node];
     }
   }
-  $wrapNodesImpl(
-    selection,
-    descendants,
-    descendants.length,
-    createElement,
-    wrappingElement,
-  );
+  $wrapNodesImpl(selection, descendants, descendants.length, createElement, wrappingElement);
 }
 
 /**
@@ -227,9 +189,7 @@ export function $wrapNodesImpl(
   // either insertAfter/insertBefore/append the corresponding
   // elements to. This is made more complicated due to nested
   // structures.
-  let target = $isElementNode(firstNode)
-    ? firstNode
-    : firstNode.getParentOrThrow();
+  let target = $isElementNode(firstNode) ? firstNode : firstNode.getParentOrThrow();
 
   if (target.isInline()) {
     target = target.getParentOrThrow();
@@ -276,11 +236,7 @@ export function $wrapNodesImpl(
       parent = parent.getParent();
     }
 
-    if (
-      parent !== null &&
-      $isLeafNode(node) &&
-      !movedNodes.has(node.getKey())
-    ) {
+    if (parent !== null && $isLeafNode(node) && !movedNodes.has(node.getKey())) {
       const parentKey = parent.getKey();
 
       if (elementMapping.get(parentKey) === undefined) {
@@ -392,17 +348,12 @@ export function $wrapNodesImpl(
  * @param isBackward - Is the selection backwards (the focus comes before the anchor)?
  * @returns true if it should be overridden, false if not.
  */
-export function $shouldOverrideDefaultCharacterSelection(
-  selection: RangeSelection,
-  isBackward: boolean,
-): boolean {
+export function $shouldOverrideDefaultCharacterSelection(selection: RangeSelection, isBackward: boolean): boolean {
   const possibleNode = $getAdjacentNode(selection.focus, isBackward);
 
   return (
     ($isDecoratorNode(possibleNode) && !possibleNode.isIsolated()) ||
-    ($isElementNode(possibleNode) &&
-      !possibleNode.isInline() &&
-      !possibleNode.canBeEmpty())
+    ($isElementNode(possibleNode) && !possibleNode.isInline() && !possibleNode.canBeEmpty())
   );
 }
 
@@ -429,9 +380,7 @@ export function $moveCaretSelection(
  */
 export function $isParentElementRTL(selection: RangeSelection): boolean {
   const anchorNode = selection.anchor.getNode();
-  const parent = $isRootNode(anchorNode)
-    ? anchorNode
-    : anchorNode.getParentOrThrow();
+  const parent = $isRootNode(anchorNode) ? anchorNode : anchorNode.getParentOrThrow();
 
   return parent.getDirection() === 'rtl';
 }
@@ -442,18 +391,9 @@ export function $isParentElementRTL(selection: RangeSelection): boolean {
  * @param isHoldingShift - Is the shift key being held down during the operation.
  * @param isBackward - Is the selection backward (the focus comes before the anchor)?
  */
-export function $moveCharacter(
-  selection: RangeSelection,
-  isHoldingShift: boolean,
-  isBackward: boolean,
-): void {
+export function $moveCharacter(selection: RangeSelection, isHoldingShift: boolean, isBackward: boolean): void {
   const isRTL = $isParentElementRTL(selection);
-  $moveCaretSelection(
-    selection,
-    isHoldingShift,
-    isBackward ? !isRTL : isRTL,
-    'character',
-  );
+  $moveCaretSelection(selection, isHoldingShift, isBackward ? !isRTL : isRTL, 'character');
 }
 
 /**
@@ -498,11 +438,7 @@ export function $selectAll(selection: RangeSelection): void {
  * @param defaultValue - The default value for the property.
  * @returns The value of the property for node.
  */
-function $getNodeStyleValueForProperty(
-  node: TextNode,
-  styleProperty: string,
-  defaultValue: string,
-): string {
+function $getNodeStyleValueForProperty(node: TextNode, styleProperty: string, defaultValue: string): string {
   const css = node.getStyle();
   const styleObject = getStyleObjectFromCSS(css);
 
@@ -554,11 +490,7 @@ export function $getSelectionStyleValueForProperty(
     }
 
     if ($isTextNode(node)) {
-      const nodeStyleValue = $getNodeStyleValueForProperty(
-        node,
-        styleProperty,
-        defaultValue,
-      );
+      const nodeStyleValue = $getNodeStyleValueForProperty(node, styleProperty, defaultValue);
 
       if (styleValue === null) {
         styleValue = nodeStyleValue;

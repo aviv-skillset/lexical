@@ -7,12 +7,12 @@
  *
  */
 
-import type {SerializedMarkNode} from './MarkNode';
-import type {LexicalNode, RangeSelection, TextNode} from 'lexical';
+import type { SerializedMarkNode } from './MarkNode';
+import type { LexicalNode, RangeSelection, TextNode } from 'lexical';
 
-import {$isElementNode, $isTextNode} from 'lexical';
+import { $isElementNode, $isTextNode } from 'lexical';
 
-import {$createMarkNode, $isMarkNode, MarkNode} from './MarkNode';
+import { $createMarkNode, $isMarkNode, MarkNode } from './MarkNode';
 
 export function $unwrapMarkNode(node: MarkNode): void {
   const children = node.getChildren();
@@ -50,10 +50,7 @@ export function $wrapSelectionInMarkNode(
   // again after, if there are more nodes.
   for (let i = 0; i < nodesLength; i++) {
     const node = nodes[i];
-    if (
-      $isElementNode(lastCreatedMarkNode) &&
-      lastCreatedMarkNode.isParentOf(node)
-    ) {
+    if ($isElementNode(lastCreatedMarkNode) && lastCreatedMarkNode.isParentOf(node)) {
       // If the current node is a child of the last created mark node, there is nothing to do here
       continue;
     }
@@ -72,9 +69,7 @@ export function $wrapSelectionInMarkNode(
       const splitNodes = node.splitText(startTextOffset, endTextOffset);
       targetNode =
         splitNodes.length > 1 &&
-        (splitNodes.length === 3 ||
-          (isFirstNode && !isLastNode) ||
-          endTextOffset === textContentSize)
+        (splitNodes.length === 3 || (isFirstNode && !isLastNode) || endTextOffset === textContentSize)
           ? splitNodes[1]
           : splitNodes[0];
     } else if ($isMarkNode(node)) {
@@ -127,24 +122,16 @@ export function $wrapSelectionInMarkNode(
   // Make selection collapsed at the end
   if ($isElementNode(lastCreatedMarkNode)) {
     // eslint-disable-next-line no-unused-expressions
-    isBackward
-      ? lastCreatedMarkNode.selectStart()
-      : lastCreatedMarkNode.selectEnd();
+    isBackward ? lastCreatedMarkNode.selectStart() : lastCreatedMarkNode.selectEnd();
   }
 }
 
-export function $getMarkIDs(
-  node: TextNode,
-  offset: number,
-): null | Array<string> {
+export function $getMarkIDs(node: TextNode, offset: number): null | Array<string> {
   let currentNode: LexicalNode | null = node;
   while (currentNode !== null) {
     if ($isMarkNode(currentNode)) {
       return currentNode.getIDs();
-    } else if (
-      $isTextNode(currentNode) &&
-      offset === currentNode.getTextContentSize()
-    ) {
+    } else if ($isTextNode(currentNode) && offset === currentNode.getTextContentSize()) {
       const nextSibling = currentNode.getNextSibling();
       if ($isMarkNode(nextSibling)) {
         return nextSibling.getIDs();
@@ -155,4 +142,4 @@ export function $getMarkIDs(
   return null;
 }
 
-export {$createMarkNode, $isMarkNode, MarkNode, SerializedMarkNode};
+export { $createMarkNode, $isMarkNode, MarkNode, SerializedMarkNode };

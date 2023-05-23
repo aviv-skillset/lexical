@@ -6,22 +6,17 @@
  *
  */
 
-import type {Binding} from '.';
-import type {ElementNode, NodeKey, NodeMap} from 'lexical';
-import type {AbstractType, XmlElement, XmlText} from 'yjs';
+import type { Binding } from '.';
+import type { ElementNode, NodeKey, NodeMap } from 'lexical';
+import type { AbstractType, XmlElement, XmlText } from 'yjs';
 
-import {
-  $getNodeByKey,
-  $isDecoratorNode,
-  $isElementNode,
-  $isTextNode,
-} from 'lexical';
+import { $getNodeByKey, $isDecoratorNode, $isElementNode, $isTextNode } from 'lexical';
 import invariant from 'shared/invariant';
-import {YMap} from 'yjs/dist/src/internals';
+import { YMap } from 'yjs/dist/src/internals';
 
-import {CollabDecoratorNode} from './CollabDecoratorNode';
-import {CollabLineBreakNode} from './CollabLineBreakNode';
-import {CollabTextNode} from './CollabTextNode';
+import { CollabDecoratorNode } from './CollabDecoratorNode';
+import { CollabLineBreakNode } from './CollabLineBreakNode';
+import { CollabTextNode } from './CollabTextNode';
 import {
   $createCollabNodeFromLexicalNode,
   $getNodeByKeyOrThrow,
@@ -39,21 +34,12 @@ type IntentionallyMarkedAsDirtyElement = boolean;
 
 export class CollabElementNode {
   _key: NodeKey;
-  _children: Array<
-    | CollabElementNode
-    | CollabTextNode
-    | CollabDecoratorNode
-    | CollabLineBreakNode
-  >;
+  _children: Array<CollabElementNode | CollabTextNode | CollabDecoratorNode | CollabLineBreakNode>;
   _xmlText: XmlText;
   _type: string;
   _parent: null | CollabElementNode;
 
-  constructor(
-    xmlText: XmlText,
-    parent: null | CollabElementNode,
-    type: string,
-  ) {
+  constructor(xmlText: XmlText, parent: null | CollabElementNode, type: string) {
     this._key = '';
     this._children = [];
     this._xmlText = xmlText;
@@ -97,23 +83,14 @@ export class CollabElementNode {
 
   getOffset(): number {
     const collabElementNode = this._parent;
-    invariant(
-      collabElementNode !== null,
-      'getOffset: cound not find collab element node',
-    );
+    invariant(collabElementNode !== null, 'getOffset: cound not find collab element node');
 
     return collabElementNode.getChildOffset(this);
   }
 
-  syncPropertiesFromYjs(
-    binding: Binding,
-    keysChanged: null | Set<string>,
-  ): void {
+  syncPropertiesFromYjs(binding: Binding, keysChanged: null | Set<string>): void {
     const lexicalNode = this.getNode();
-    invariant(
-      lexicalNode !== null,
-      'syncPropertiesFromYjs: cound not find element node',
-    );
+    invariant(lexicalNode !== null, 'syncPropertiesFromYjs: cound not find element node');
     syncPropertiesFromYjs(binding, this._xmlText, lexicalNode, keysChanged);
   }
 
@@ -142,8 +119,7 @@ export class CollabElementNode {
         let deletionSize = deleteDelta;
 
         while (deletionSize > 0) {
-          const {node, nodeIndex, offset, length} =
-            getPositionFromElementAndOffset(this, currIndex, false);
+          const { node, nodeIndex, offset, length } = getPositionFromElementAndOffset(this, currIndex, false);
 
           if (
             node instanceof CollabElementNode ||
@@ -154,8 +130,7 @@ export class CollabElementNode {
             deletionSize -= 1;
           } else if (node instanceof CollabTextNode) {
             const delCount = Math.min(deletionSize, length);
-            const prevCollabNode =
-              nodeIndex !== 0 ? children[nodeIndex - 1] : null;
+            const prevCollabNode = nodeIndex !== 0 ? children[nodeIndex - 1] : null;
             const nodeSize = node.getSize();
 
             if (
@@ -185,11 +160,7 @@ export class CollabElementNode {
         }
       } else if (insertDelta != null) {
         if (typeof insertDelta === 'string') {
-          const {node, offset} = getPositionFromElementAndOffset(
-            this,
-            currIndex,
-            true,
-          );
+          const { node, offset } = getPositionFromElementAndOffset(this, currIndex, true);
 
           if (node instanceof CollabTextNode) {
             node._text = spliceString(node._text, offset, 0, insertDelta);
@@ -208,11 +179,7 @@ export class CollabElementNode {
           currIndex += insertDelta.length;
         } else {
           const sharedType = insertDelta;
-          const {nodeIndex} = getPositionFromElementAndOffset(
-            this,
-            currIndex,
-            false,
-          );
+          const { nodeIndex } = getPositionFromElementAndOffset(this, currIndex, false);
           const collabNode = getOrInitCollabNodeFromSharedType(
             binding,
             sharedType as XmlText | YMap<unknown> | XmlElement,
@@ -230,10 +197,7 @@ export class CollabElementNode {
   syncChildrenFromYjs(binding: Binding): void {
     // Now diff the children of the collab node with that of our existing Lexical node.
     const lexicalNode = this.getNode();
-    invariant(
-      lexicalNode !== null,
-      'syncChildrenFromYjs: cound not find element node',
-    );
+    invariant(lexicalNode !== null, 'syncChildrenFromYjs: cound not find element node');
 
     const key = lexicalNode.__key;
     const prevLexicalChildrenKeys = createChildrenArray(lexicalNode, null);
@@ -276,10 +240,7 @@ export class CollabElementNode {
           } else if (childCollabNode instanceof CollabDecoratorNode) {
             childCollabNode.syncPropertiesFromYjs(binding, null);
           } else if (!(childCollabNode instanceof CollabLineBreakNode)) {
-            invariant(
-              false,
-              'syncChildrenFromYjs: expected text, element, decorator, or linebreak collab node',
-            );
+            invariant(false, 'syncChildrenFromYjs: expected text, element, decorator, or linebreak collab node');
           }
         }
 
@@ -300,11 +261,7 @@ export class CollabElementNode {
           }
         }
 
-        if (
-          collabLexicalChildNode !== null &&
-          lexicalChildKey !== undefined &&
-          !collabKeys.has(lexicalChildKey)
-        ) {
+        if (collabLexicalChildNode !== null && lexicalChildKey !== undefined && !collabKeys.has(lexicalChildKey)) {
           const nodeToRemove = $getNodeByKeyOrThrow(lexicalChildKey);
           removeFromParent(nodeToRemove);
           i--;
@@ -314,11 +271,7 @@ export class CollabElementNode {
 
         writableLexicalNode = lexicalNode.getWritable();
         // Create/Replace
-        const lexicalChildNode = createLexicalNodeFromCollabNode(
-          binding,
-          childCollabNode,
-          key,
-        );
+        const lexicalChildNode = createLexicalNodeFromCollabNode(binding, childCollabNode, key);
         const childKey = lexicalChildNode.__key;
         collabNodeMap.set(childKey, childCollabNode);
         nextLexicalChildrenKeys[i] = childKey;
@@ -365,17 +318,8 @@ export class CollabElementNode {
     }
   }
 
-  syncPropertiesFromLexical(
-    binding: Binding,
-    nextLexicalNode: ElementNode,
-    prevNodeMap: null | NodeMap,
-  ): void {
-    syncPropertiesFromLexical(
-      binding,
-      this._xmlText,
-      this.getPrevNode(prevNodeMap),
-      nextLexicalNode,
-    );
+  syncPropertiesFromLexical(binding: Binding, nextLexicalNode: ElementNode, prevNodeMap: null | NodeMap): void {
+    syncPropertiesFromLexical(binding, this._xmlText, this.getPrevNode(prevNodeMap), nextLexicalNode);
   }
 
   _syncChildFromLexical(
@@ -390,40 +334,13 @@ export class CollabElementNode {
     // Update
     const nextChildNode = $getNodeByKeyOrThrow(key);
 
-    if (
-      childCollabNode instanceof CollabElementNode &&
-      $isElementNode(nextChildNode)
-    ) {
-      childCollabNode.syncPropertiesFromLexical(
-        binding,
-        nextChildNode,
-        prevNodeMap,
-      );
-      childCollabNode.syncChildrenFromLexical(
-        binding,
-        nextChildNode,
-        prevNodeMap,
-        dirtyElements,
-        dirtyLeaves,
-      );
-    } else if (
-      childCollabNode instanceof CollabTextNode &&
-      $isTextNode(nextChildNode)
-    ) {
-      childCollabNode.syncPropertiesAndTextFromLexical(
-        binding,
-        nextChildNode,
-        prevNodeMap,
-      );
-    } else if (
-      childCollabNode instanceof CollabDecoratorNode &&
-      $isDecoratorNode(nextChildNode)
-    ) {
-      childCollabNode.syncPropertiesFromLexical(
-        binding,
-        nextChildNode,
-        prevNodeMap,
-      );
+    if (childCollabNode instanceof CollabElementNode && $isElementNode(nextChildNode)) {
+      childCollabNode.syncPropertiesFromLexical(binding, nextChildNode, prevNodeMap);
+      childCollabNode.syncChildrenFromLexical(binding, nextChildNode, prevNodeMap, dirtyElements, dirtyLeaves);
+    } else if (childCollabNode instanceof CollabTextNode && $isTextNode(nextChildNode)) {
+      childCollabNode.syncPropertiesAndTextFromLexical(binding, nextChildNode, prevNodeMap);
+    } else if (childCollabNode instanceof CollabDecoratorNode && $isDecoratorNode(nextChildNode)) {
+      childCollabNode.syncPropertiesFromLexical(binding, nextChildNode, prevNodeMap);
     }
   }
 
@@ -435,10 +352,7 @@ export class CollabElementNode {
     dirtyLeaves: null | Set<NodeKey>,
   ): void {
     const prevLexicalNode = this.getPrevNode(prevNodeMap);
-    const prevChildren =
-      prevLexicalNode === null
-        ? []
-        : createChildrenArray(prevLexicalNode, prevNodeMap);
+    const prevChildren = prevLexicalNode === null ? [] : createChildrenArray(prevLexicalNode, prevNodeMap);
     const nextChildren = createChildrenArray(nextLexicalNode, null);
     const prevEndIndex = prevChildren.length - 1;
     const nextEndIndex = nextChildren.length - 1;
@@ -454,14 +368,7 @@ export class CollabElementNode {
 
       if (prevKey === nextKey) {
         // Nove move, create or remove
-        this._syncChildFromLexical(
-          binding,
-          nextIndex,
-          nextKey,
-          prevNodeMap,
-          dirtyElements,
-          dirtyLeaves,
-        );
+        this._syncChildFromLexical(binding, nextIndex, nextKey, prevNodeMap, dirtyElements, dirtyLeaves);
 
         prevIndex++;
         nextIndex++;
@@ -484,11 +391,7 @@ export class CollabElementNode {
         } else {
           // Create or replace
           const nextChildNode = $getNodeByKeyOrThrow(nextKey);
-          const collabNode = $createCollabNodeFromLexicalNode(
-            binding,
-            nextChildNode,
-            this,
-          );
+          const collabNode = $createCollabNodeFromLexicalNode(binding, nextChildNode, this);
           collabNodeMap.set(nextKey, collabNode);
 
           if (prevHasNextKey) {
@@ -510,11 +413,7 @@ export class CollabElementNode {
       for (; nextIndex <= nextEndIndex; ++nextIndex) {
         const key = nextChildren[nextIndex];
         const nextChildNode = $getNodeByKeyOrThrow(key);
-        const collabNode = $createCollabNodeFromLexicalNode(
-          binding,
-          nextChildNode,
-          this,
-        );
+        const collabNode = $createCollabNodeFromLexicalNode(binding, nextChildNode, this);
         this.append(collabNode);
         collabNodeMap.set(key, collabNode);
       }
@@ -525,18 +424,11 @@ export class CollabElementNode {
     }
   }
 
-  append(
-    collabNode:
-      | CollabElementNode
-      | CollabDecoratorNode
-      | CollabTextNode
-      | CollabLineBreakNode,
-  ): void {
+  append(collabNode: CollabElementNode | CollabDecoratorNode | CollabTextNode | CollabLineBreakNode): void {
     const xmlText = this._xmlText;
     const children = this._children;
     const lastChild = children[children.length - 1];
-    const offset =
-      lastChild !== undefined ? lastChild.getOffset() + lastChild.getSize() : 0;
+    const offset = lastChild !== undefined ? lastChild.getOffset() + lastChild.getSize() : 0;
 
     if (collabNode instanceof CollabElementNode) {
       xmlText.insertEmbed(offset, collabNode._xmlText);
@@ -561,20 +453,13 @@ export class CollabElementNode {
     binding: Binding,
     index: number,
     delCount: number,
-    collabNode?:
-      | CollabElementNode
-      | CollabDecoratorNode
-      | CollabTextNode
-      | CollabLineBreakNode,
+    collabNode?: CollabElementNode | CollabDecoratorNode | CollabTextNode | CollabLineBreakNode,
   ): void {
     const children = this._children;
     const child = children[index];
 
     if (child === undefined) {
-      invariant(
-        collabNode !== undefined,
-        'splice: could not find collab element node',
-      );
+      invariant(collabNode !== undefined, 'splice: could not find collab element node');
       this.append(collabNode);
       return;
     }
@@ -621,13 +506,7 @@ export class CollabElementNode {
     }
   }
 
-  getChildOffset(
-    collabNode:
-      | CollabElementNode
-      | CollabTextNode
-      | CollabDecoratorNode
-      | CollabLineBreakNode,
-  ): number {
+  getChildOffset(collabNode: CollabElementNode | CollabTextNode | CollabDecoratorNode | CollabLineBreakNode): number {
     let offset = 0;
     const children = this._children;
 

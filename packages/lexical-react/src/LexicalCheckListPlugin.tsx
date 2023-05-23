@@ -6,21 +6,12 @@
  *
  */
 
-import type {ListItemNode} from '@lexical/list';
-import type {LexicalEditor} from 'lexical';
+import type { ListItemNode } from '@lexical/list';
+import type { LexicalEditor } from 'lexical';
 
-import {
-  $isListItemNode,
-  $isListNode,
-  INSERT_CHECK_LIST_COMMAND,
-  insertList,
-} from '@lexical/list';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {
-  $findMatchingParent,
-  isHTMLElement,
-  mergeRegister,
-} from '@lexical/utils';
+import { $isListItemNode, $isListNode, INSERT_CHECK_LIST_COMMAND, insertList } from '@lexical/list';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $findMatchingParent, isHTMLElement, mergeRegister } from '@lexical/utils';
 import {
   $getNearestNodeFromDOMNode,
   $getSelection,
@@ -33,7 +24,7 @@ import {
   KEY_ESCAPE_COMMAND,
   KEY_SPACE_COMMAND,
 } from 'lexical';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 
 export function CheckListPlugin(): null {
   const [editor] = useLexicalComposerContext();
@@ -109,22 +100,18 @@ export function CheckListPlugin(): null {
             const selection = $getSelection();
 
             if ($isRangeSelection(selection) && selection.isCollapsed()) {
-              const {anchor} = selection;
+              const { anchor } = selection;
               const isElement = anchor.type === 'element';
 
               if (isElement || anchor.offset === 0) {
                 const anchorNode = anchor.getNode();
-                const elementNode = $findMatchingParent(
-                  anchorNode,
-                  (node) => $isElementNode(node) && !node.isInline(),
-                );
+                const elementNode = $findMatchingParent(anchorNode, (node) => $isElementNode(node) && !node.isInline());
                 if ($isListItemNode(elementNode)) {
                   const parent = elementNode.getParent();
                   if (
                     $isListNode(parent) &&
                     parent.getListType() === 'check' &&
-                    (isElement ||
-                      elementNode.getFirstDescendant() === anchorNode)
+                    (isElement || elementNode.getFirstDescendant() === anchorNode)
                   ) {
                     const domNode = editor.getElementByKey(elementNode.__key);
 
@@ -170,11 +157,7 @@ function handleCheckItemEvent(event: PointerEvent, callback: () => void) {
   // Ignore clicks on LI that have nested lists
   const firstChild = target.firstChild;
 
-  if (
-    firstChild != null &&
-    isHTMLElement(firstChild) &&
-    (firstChild.tagName === 'UL' || firstChild.tagName === 'OL')
-  ) {
+  if (firstChild != null && isHTMLElement(firstChild) && (firstChild.tagName === 'UL' || firstChild.tagName === 'OL')) {
     return;
   }
 
@@ -189,9 +172,7 @@ function handleCheckItemEvent(event: PointerEvent, callback: () => void) {
   const rect = target.getBoundingClientRect();
 
   if (
-    target.dir === 'rtl'
-      ? pageX < rect.right && pageX > rect.right - 20
-      : pageX > rect.left && pageX < rect.left + 20
+    target.dir === 'rtl' ? pageX < rect.right && pageX > rect.right - 20 : pageX > rect.left && pageX < rect.left + 20
   ) {
     callback();
   }
@@ -252,10 +233,7 @@ function getActiveCheckListItem(): HTMLElement | null {
     : null;
 }
 
-function findCheckListItemSibling(
-  node: ListItemNode,
-  backward: boolean,
-): ListItemNode | null {
+function findCheckListItemSibling(node: ListItemNode, backward: boolean): ListItemNode | null {
   let sibling = backward ? node.getPreviousSibling() : node.getNextSibling();
   let parent: ListItemNode | null = node;
 
@@ -265,17 +243,13 @@ function findCheckListItemSibling(
     parent = parent.getParentOrThrow().getParent();
 
     if (parent != null) {
-      sibling = backward
-        ? parent.getPreviousSibling()
-        : parent.getNextSibling();
+      sibling = backward ? parent.getPreviousSibling() : parent.getNextSibling();
     }
   }
 
   // Going down in a tree to get first non-nested list item
   while ($isListItemNode(sibling)) {
-    const firstChild = backward
-      ? sibling.getLastChild()
-      : sibling.getFirstChild();
+    const firstChild = backward ? sibling.getLastChild() : sibling.getFirstChild();
 
     if (!$isListNode(firstChild)) {
       return sibling;
@@ -287,11 +261,7 @@ function findCheckListItemSibling(
   return null;
 }
 
-function handleArrownUpOrDown(
-  event: KeyboardEvent,
-  editor: LexicalEditor,
-  backward: boolean,
-) {
+function handleArrownUpOrDown(event: KeyboardEvent, editor: LexicalEditor, backward: boolean) {
   const activeItem = getActiveCheckListItem();
 
   if (activeItem != null) {

@@ -6,20 +6,13 @@
  *
  */
 
-import {moveRight, moveToEditorBeginning} from '../keyboardShortcuts/index.mjs';
-import {
-  assertHTML,
-  click,
-  focusEditor,
-  html,
-  initialize,
-  test,
-} from '../utils/index.mjs';
+import { moveRight, moveToEditorBeginning } from '../keyboardShortcuts/index.mjs';
+import { assertHTML, click, focusEditor, html, initialize, test } from '../utils/index.mjs';
 
 test.describe('Headings', () => {
-  test.beforeEach(({isPlainText, isCollab, page}) => {
+  test.beforeEach(({ isPlainText, isCollab, page }) => {
     test.skip(isPlainText);
-    initialize({isCollab, page});
+    initialize({ isCollab, page });
   });
 
   test('Stays as a heading when you backspace at the start of a heading with no previous sibling nodes present', async ({
@@ -35,9 +28,7 @@ test.describe('Headings', () => {
     await assertHTML(
       page,
       html`
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Welcome to the playground</span>
         </h1>
       `,
@@ -50,18 +41,14 @@ test.describe('Headings', () => {
     await assertHTML(
       page,
       html`
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Welcome to the playground</span>
         </h1>
       `,
     );
   });
 
-  test('Stays as a heading when you press enter in the middle of a heading', async ({
-    page,
-  }) => {
+  test('Stays as a heading when you press enter in the middle of a heading', async ({ page }) => {
     await focusEditor(page);
 
     await click(page, '.block-controls');
@@ -72,9 +59,7 @@ test.describe('Headings', () => {
     await assertHTML(
       page,
       html`
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Welcome to the playground</span>
         </h1>
       `,
@@ -89,23 +74,17 @@ test.describe('Headings', () => {
     await assertHTML(
       page,
       html`
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Welco</span>
         </h1>
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">me to the playground</span>
         </h1>
       `,
     );
   });
 
-  test('Changes to a paragraph when you press enter at the end of a heading', async ({
-    page,
-  }) => {
+  test('Changes to a paragraph when you press enter at the end of a heading', async ({ page }) => {
     await focusEditor(page);
 
     await click(page, '.block-controls');
@@ -116,9 +95,7 @@ test.describe('Headings', () => {
     await assertHTML(
       page,
       html`
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Welcome to the playground</span>
         </h1>
       `,
@@ -129,9 +106,7 @@ test.describe('Headings', () => {
     await assertHTML(
       page,
       html`
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Welcome to the playground</span>
         </h1>
         <p class="PlaygroundEditorTheme__paragraph"><br /></p>

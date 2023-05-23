@@ -16,7 +16,7 @@
  *
  */
 
-import type {RangeSelection} from 'lexical';
+import type { RangeSelection } from 'lexical';
 
 import {
   $createParagraphNode,
@@ -28,7 +28,7 @@ import {
   ParagraphNode,
 } from 'lexical';
 
-import {createHeadlessEditor} from '../..';
+import { createHeadlessEditor } from '../..';
 
 describe('LexicalHeadlessEditor', () => {
   let editor;
@@ -40,9 +40,7 @@ describe('LexicalHeadlessEditor', () => {
 
   function assertEditorState(editorState, nodes) {
     const nodesFromState = Array.from(editorState._nodeMap.values());
-    expect(nodesFromState).toEqual(
-      nodes.map((node) => expect.objectContaining(node)),
-    );
+    expect(nodesFromState).toEqual(nodes.map((node) => expect.objectContaining(node)));
   }
 
   beforeEach(() => {
@@ -63,10 +61,7 @@ describe('LexicalHeadlessEditor', () => {
   it('can update editor', async () => {
     await update(() => {
       $getRoot().append(
-        $createParagraphNode().append(
-          $createTextNode('Hello').toggleFormat('bold'),
-          $createTextNode('world'),
-        ),
+        $createParagraphNode().append($createTextNode('Hello').toggleFormat('bold'), $createTextNode('world')),
       );
     });
 
@@ -124,29 +119,20 @@ describe('LexicalHeadlessEditor', () => {
     const onTextContent = jest.fn();
 
     editor.registerUpdateListener(onUpdate);
-    editor.registerCommand(
-      CONTROLLED_TEXT_INSERTION_COMMAND,
-      onCommand,
-      COMMAND_PRIORITY_NORMAL,
-    );
+    editor.registerCommand(CONTROLLED_TEXT_INSERTION_COMMAND, onCommand, COMMAND_PRIORITY_NORMAL);
     editor.registerNodeTransform(ParagraphNode, onTransform);
     editor.registerTextContentListener(onTextContent);
 
     await update(() => {
       $getRoot().append(
-        $createParagraphNode().append(
-          $createTextNode('Hello').toggleFormat('bold'),
-          $createTextNode('world'),
-        ),
+        $createParagraphNode().append($createTextNode('Hello').toggleFormat('bold'), $createTextNode('world')),
       );
       editor.dispatchCommand(CONTROLLED_TEXT_INSERTION_COMMAND, 'foo');
     });
 
     expect(onUpdate).toBeCalled();
     expect(onCommand).toBeCalledWith('foo', expect.anything());
-    expect(onTransform).toBeCalledWith(
-      expect.objectContaining({__type: 'paragraph'}),
-    );
+    expect(onTransform).toBeCalledWith(expect.objectContaining({ __type: 'paragraph' }));
     expect(onTextContent).toBeCalledWith('Helloworld');
   });
 
@@ -159,12 +145,8 @@ describe('LexicalHeadlessEditor', () => {
 
     await update(() => {
       const selection = $getSelection() as RangeSelection;
-      expect(selection.anchor).toEqual(
-        expect.objectContaining({offset: 1, type: 'text'}),
-      );
-      expect(selection.focus).toEqual(
-        expect.objectContaining({offset: 2, type: 'text'}),
-      );
+      expect(selection.anchor).toEqual(expect.objectContaining({ offset: 1, type: 'text' }));
+      expect(selection.focus).toEqual(expect.objectContaining({ offset: 2, type: 'text' }));
     });
   });
 });

@@ -6,15 +6,8 @@
  *
  */
 
-import type {Binding, YjsNode} from '.';
-import type {
-  DecoratorNode,
-  ElementNode,
-  LexicalNode,
-  NodeMap,
-  RangeSelection,
-  TextNode,
-} from 'lexical';
+import type { Binding, YjsNode } from '.';
+import type { DecoratorNode, ElementNode, LexicalNode, NodeMap, RangeSelection, TextNode } from 'lexical';
 
 import {
   $getNodeByKey,
@@ -27,18 +20,12 @@ import {
   NodeKey,
 } from 'lexical';
 import invariant from 'shared/invariant';
-import {Doc, Map as YMap, XmlElement, XmlText} from 'yjs';
+import { Doc, Map as YMap, XmlElement, XmlText } from 'yjs';
 
-import {
-  $createCollabDecoratorNode,
-  CollabDecoratorNode,
-} from './CollabDecoratorNode';
-import {$createCollabElementNode, CollabElementNode} from './CollabElementNode';
-import {
-  $createCollabLineBreakNode,
-  CollabLineBreakNode,
-} from './CollabLineBreakNode';
-import {$createCollabTextNode, CollabTextNode} from './CollabTextNode';
+import { $createCollabDecoratorNode, CollabDecoratorNode } from './CollabDecoratorNode';
+import { $createCollabElementNode, CollabElementNode } from './CollabElementNode';
+import { $createCollabLineBreakNode, CollabLineBreakNode } from './CollabLineBreakNode';
+import { $createCollabTextNode, CollabTextNode } from './CollabTextNode';
 
 const excludedProperties: Set<string> = new Set([
   '__key',
@@ -52,10 +39,7 @@ const excludedProperties: Set<string> = new Set([
   '__last',
 ]);
 
-export function getIndexOfYjsNode(
-  yjsParentNode: YjsNode,
-  yjsNode: YjsNode,
-): number {
+export function getIndexOfYjsNode(yjsParentNode: YjsNode, yjsNode: YjsNode): number {
   let node = yjsParentNode.firstChild;
   let i = -1;
 
@@ -91,11 +75,7 @@ export function $createCollabNodeFromLexicalNode(
   binding: Binding,
   lexicalNode: LexicalNode,
   parent: CollabElementNode,
-):
-  | CollabElementNode
-  | CollabTextNode
-  | CollabLineBreakNode
-  | CollabDecoratorNode {
+): CollabElementNode | CollabTextNode | CollabLineBreakNode | CollabDecoratorNode {
   const nodeType = lexicalNode.__type;
   let collabNode;
 
@@ -107,12 +87,7 @@ export function $createCollabNodeFromLexicalNode(
   } else if ($isTextNode(lexicalNode)) {
     // TODO create a token text node for token, segmented nodes.
     const map = new YMap();
-    collabNode = $createCollabTextNode(
-      map,
-      lexicalNode.__text,
-      parent,
-      nodeType,
-    );
+    collabNode = $createCollabTextNode(map, lexicalNode.__text, parent, nodeType);
     collabNode.syncPropertiesAndTextFromLexical(binding, lexicalNode, null);
   } else if ($isLineBreakNode(lexicalNode)) {
     const map = new YMap();
@@ -130,13 +105,8 @@ export function $createCollabNodeFromLexicalNode(
   return collabNode;
 }
 
-function getNodeTypeFromSharedType(
-  sharedType: XmlText | YMap<unknown> | XmlElement,
-): string {
-  const type =
-    sharedType instanceof YMap
-      ? sharedType.get('__type')
-      : sharedType.getAttribute('__type');
+function getNodeTypeFromSharedType(sharedType: XmlText | YMap<unknown> | XmlElement): string {
+  const type = sharedType instanceof YMap ? sharedType.get('__type') : sharedType.getAttribute('__type');
   invariant(type != null, 'Expected shared type to include type attribute');
   return type;
 }
@@ -145,11 +115,7 @@ export function getOrInitCollabNodeFromSharedType(
   binding: Binding,
   sharedType: XmlText | YMap<unknown> | XmlElement,
   parent?: CollabElementNode,
-):
-  | CollabElementNode
-  | CollabTextNode
-  | CollabLineBreakNode
-  | CollabDecoratorNode {
+): CollabElementNode | CollabTextNode | CollabLineBreakNode | CollabDecoratorNode {
   // @ts-expect-error: internal field
   const collabNode = sharedType._collabNode;
 
@@ -162,16 +128,10 @@ export function getOrInitCollabNodeFromSharedType(
     const sharedParent = sharedType.parent;
     const targetParent =
       parent === undefined && sharedParent !== null
-        ? getOrInitCollabNodeFromSharedType(
-            binding,
-            sharedParent as XmlText | YMap<unknown> | XmlElement,
-          )
+        ? getOrInitCollabNodeFromSharedType(binding, sharedParent as XmlText | YMap<unknown> | XmlElement)
         : parent || null;
 
-    invariant(
-      targetParent instanceof CollabElementNode,
-      'Expected parent to be a collab element node',
-    );
+    invariant(targetParent instanceof CollabElementNode, 'Expected parent to be a collab element node');
 
     if (sharedType instanceof XmlText) {
       return $createCollabElementNode(sharedType, targetParent, type);
@@ -190,22 +150,14 @@ export function getOrInitCollabNodeFromSharedType(
 
 export function createLexicalNodeFromCollabNode(
   binding: Binding,
-  collabNode:
-    | CollabElementNode
-    | CollabTextNode
-    | CollabDecoratorNode
-    | CollabLineBreakNode,
+  collabNode: CollabElementNode | CollabTextNode | CollabDecoratorNode | CollabLineBreakNode,
   parentKey: NodeKey,
 ): LexicalNode {
   const type = collabNode.getType();
   const registeredNodes = binding.editor._nodes;
   const nodeInfo = registeredNodes.get(type);
   invariant(nodeInfo !== undefined, 'Node %s is not registered', type);
-  const lexicalNode:
-    | DecoratorNode<unknown>
-    | TextNode
-    | ElementNode
-    | LexicalNode = new nodeInfo.klass();
+  const lexicalNode: DecoratorNode<unknown> | TextNode | ElementNode | LexicalNode = new nodeInfo.klass();
   lexicalNode.__parent = parentKey;
   collabNode._key = lexicalNode.__key;
 
@@ -244,21 +196,13 @@ export function syncPropertiesFromYjs(
     if (excludedProperties.has(property)) {
       continue;
     }
-    const additionalExcludedProperties = binding.excludedProperties.get(
-      lexicalNode.constructor as Klass<LexicalNode>,
-    );
-    if (
-      additionalExcludedProperties !== undefined &&
-      additionalExcludedProperties.has(property)
-    ) {
+    const additionalExcludedProperties = binding.excludedProperties.get(lexicalNode.constructor as Klass<LexicalNode>);
+    if (additionalExcludedProperties !== undefined && additionalExcludedProperties.has(property)) {
       continue;
     }
 
     const prevValue = lexicalNode[property];
-    let nextValue =
-      sharedType instanceof YMap
-        ? sharedType.get(property)
-        : sharedType.getAttribute(property);
+    let nextValue = sharedType instanceof YMap ? sharedType.get(property) : sharedType.getAttribute(property);
 
     if (prevValue !== nextValue) {
       if (nextValue instanceof Doc) {
@@ -301,8 +245,7 @@ export function syncPropertiesFromLexical(
     properties = Object.keys(nextLexicalNode).filter((property) => {
       return (
         !excludedProperties.has(property) ||
-        (additionalExlcudedProperties &&
-          !additionalExlcudedProperties.has(property))
+        (additionalExlcudedProperties && !additionalExlcudedProperties.has(property))
       );
     });
     nodeProperties.set(type, properties);
@@ -312,8 +255,7 @@ export function syncPropertiesFromLexical(
 
   for (let i = 0; i < properties.length; i++) {
     const property = properties[i];
-    const prevValue =
-      prevLexicalNode === null ? undefined : prevLexicalNode[property];
+    const prevValue = prevLexicalNode === null ? undefined : prevLexicalNode[property];
     let nextValue = nextLexicalNode[property];
 
     if (prevValue !== nextValue) {
@@ -350,12 +292,7 @@ export function syncPropertiesFromLexical(
   }
 }
 
-export function spliceString(
-  str: string,
-  index: number,
-  delCount: number,
-  newText: string,
-): string {
+export function spliceString(str: string, index: number, delCount: number, newText: string): string {
   return str.slice(0, index) + newText + str.slice(index + delCount);
 }
 
@@ -365,12 +302,7 @@ export function getPositionFromElementAndOffset(
   boundaryIsEdge: boolean,
 ): {
   length: number;
-  node:
-    | CollabElementNode
-    | CollabTextNode
-    | CollabDecoratorNode
-    | CollabLineBreakNode
-    | null;
+  node: CollabElementNode | CollabTextNode | CollabDecoratorNode | CollabLineBreakNode | null;
   nodeIndex: number;
   offset: number;
 } {
@@ -427,9 +359,7 @@ export function getPositionFromElementAndOffset(
   };
 }
 
-export function doesSelectionNeedRecovering(
-  selection: RangeSelection,
-): boolean {
+export function doesSelectionNeedRecovering(selection: RangeSelection): boolean {
   const anchor = selection.anchor;
   const focus = selection.focus;
   let recoveryNeeded = false;
@@ -443,8 +373,7 @@ export function doesSelectionNeedRecovering(
       !anchorNode.isAttached() ||
       !focusNode.isAttached() ||
       // If we've split a node, then the offset might not be right
-      ($isTextNode(anchorNode) &&
-        anchor.offset > anchorNode.getTextContentSize()) ||
+      ($isTextNode(anchorNode) && anchor.offset > anchorNode.getTextContentSize()) ||
       ($isTextNode(focusNode) && focus.offset > focusNode.getTextContentSize())
     ) {
       recoveryNeeded = true;
@@ -462,15 +391,11 @@ export function syncWithTransaction(binding: Binding, fn: () => void): void {
   binding.doc.transact(fn, binding);
 }
 
-export function createChildrenArray(
-  element: ElementNode,
-  nodeMap: null | NodeMap,
-): Array<NodeKey> {
+export function createChildrenArray(element: ElementNode, nodeMap: null | NodeMap): Array<NodeKey> {
   const children = [];
   let nodeKey = element.__first;
   while (nodeKey !== null) {
-    const node =
-      nodeMap === null ? $getNodeByKey(nodeKey) : nodeMap.get(nodeKey);
+    const node = nodeMap === null ? $getNodeByKey(nodeKey) : nodeMap.get(nodeKey);
     if (node === null || node === undefined) {
       invariant(false, 'createChildrenArray: node does not exist in nodeMap');
     }

@@ -6,28 +6,21 @@
  *
  */
 
-import type {LexicalEditor} from 'lexical';
+import type { LexicalEditor } from 'lexical';
 
-import {$isRootTextContentEmptyCurry} from '@lexical/text';
-import {useState} from 'react';
+import { $isRootTextContentEmptyCurry } from '@lexical/text';
+import { useState } from 'react';
 import useLayoutEffect from 'shared/useLayoutEffect';
 
-export function useLexicalIsTextContentEmpty(
-  editor: LexicalEditor,
-  trim?: boolean,
-): boolean {
+export function useLexicalIsTextContentEmpty(editor: LexicalEditor, trim?: boolean): boolean {
   const [isEmpty, setIsEmpty] = useState(
-    editor
-      .getEditorState()
-      .read($isRootTextContentEmptyCurry(editor.isComposing(), trim)),
+    editor.getEditorState().read($isRootTextContentEmptyCurry(editor.isComposing(), trim)),
   );
 
   useLayoutEffect(() => {
-    return editor.registerUpdateListener(({editorState}) => {
+    return editor.registerUpdateListener(({ editorState }) => {
       const isComposing = editor.isComposing();
-      const currentIsEmpty = editorState.read(
-        $isRootTextContentEmptyCurry(isComposing, trim),
-      );
+      const currentIsEmpty = editorState.read($isRootTextContentEmptyCurry(isComposing, trim));
       setIsEmpty(currentIsEmpty);
     });
   }, [editor, trim]);

@@ -6,13 +6,7 @@
  *
  */
 
-import {
-  moveLeft,
-  moveToLineBeginning,
-  selectAll,
-  selectCharacters,
-  toggleBold,
-} from '../keyboardShortcuts/index.mjs';
+import { moveLeft, moveToLineBeginning, selectAll, selectCharacters, toggleBold } from '../keyboardShortcuts/index.mjs';
 import {
   assertHTML,
   assertSelection,
@@ -25,17 +19,15 @@ import {
 } from '../utils/index.mjs';
 
 test.describe('TextEntry', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Can type 'Hello Lexical' in the editor`, async ({page}) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Can type 'Hello Lexical' in the editor`, async ({ page }) => {
     const targetText = 'Hello Lexical';
     await focusEditor(page);
     await page.keyboard.type(targetText);
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello Lexical</span>
         </p>
       `,
@@ -48,16 +40,14 @@ test.describe('TextEntry', () => {
     });
   });
 
-  test(`Can insert text and replace it`, async ({isCollab, page}) => {
+  test(`Can insert text and replace it`, async ({ isCollab, page }) => {
     test.skip(isCollab);
     await page.locator('[data-lexical-editor]').fill('Front');
     await page.locator('[data-lexical-editor]').fill('Front updated');
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Front updated</span>
         </p>
       `,
@@ -70,10 +60,7 @@ test.describe('TextEntry', () => {
     });
   });
 
-  test(`Can type 'Hello' as a header and insert a paragraph before`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test(`Can type 'Hello' as a header and insert a paragraph before`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await page.keyboard.type('# Hello');
@@ -83,9 +70,7 @@ test.describe('TextEntry', () => {
     await assertHTML(
       page,
       html`
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
         </h1>
       `,
@@ -103,9 +88,7 @@ test.describe('TextEntry', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-        <h1
-          class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello</span>
         </h1>
       `,
@@ -118,10 +101,7 @@ test.describe('TextEntry', () => {
     });
   });
 
-  test(`Can insert a paragraph between two text nodes`, async ({
-    page,
-    isPlainText,
-  }) => {
+  test(`Can insert a paragraph between two text nodes`, async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
     await page.keyboard.type('Hello ');
@@ -141,7 +121,7 @@ test.describe('TextEntry', () => {
         </p>
       `,
       undefined,
-      {ignoreClasses: true},
+      { ignoreClasses: true },
     );
     await assertSelection(page, {
       anchorOffset: 0,
@@ -151,9 +131,7 @@ test.describe('TextEntry', () => {
     });
   });
 
-  test(`Can type 'Hello Lexical' in the editor and replace it with foo`, async ({
-    page,
-  }) => {
+  test(`Can type 'Hello Lexical' in the editor and replace it with foo`, async ({ page }) => {
     const targetText = 'Hello Lexical';
     await focusEditor(page);
     await page.keyboard.type(targetText);
@@ -166,9 +144,7 @@ test.describe('TextEntry', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Foo</span>
         </p>
       `,
@@ -181,9 +157,7 @@ test.describe('TextEntry', () => {
     });
   });
 
-  test(`Can type 'Hello Lexical' in the editor and replace it with an empty space`, async ({
-    page,
-  }) => {
+  test(`Can type 'Hello Lexical' in the editor and replace it with an empty space`, async ({ page }) => {
     const targetText = 'Hello Lexical';
     await focusEditor(page);
     await page.keyboard.type(targetText);
@@ -209,7 +183,7 @@ test.describe('TextEntry', () => {
     });
   });
 
-  test('Paragraphed text entry and selection', async ({page, isRichText}) => {
+  test('Paragraphed text entry and selection', async ({ page, isRichText }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello World.');
     await page.keyboard.press('Enter');
@@ -240,14 +214,10 @@ test.describe('TextEntry', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Hello World.</span>
           </p>
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">This is another paragraph.</span>
             <span class="emoji happysmile" data-lexical-text="true">
               <span class="emoji-inner">🙂</span>
@@ -265,9 +235,7 @@ test.describe('TextEntry', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-            dir="ltr">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
             <span data-lexical-text="true">Hello World.</span>
             <br />
             <span data-lexical-text="true">This is another paragraph.</span>
@@ -286,10 +254,7 @@ test.describe('TextEntry', () => {
     }
   });
 
-  test(`Can delete characters after they're typed`, async ({
-    page,
-    isRichText,
-  }) => {
+  test(`Can delete characters after they're typed`, async ({ page, isRichText }) => {
     await focusEditor(page);
     const text = 'Delete some of these characters.';
     const backspacedText = 'Delete some of these characte';
@@ -301,9 +266,7 @@ test.describe('TextEntry', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Delete some of these characte</span>
         </p>
       `,
@@ -316,19 +279,14 @@ test.describe('TextEntry', () => {
     });
   });
 
-  test(`Can type characters, and select and replace a part`, async ({
-    page,
-    isRichText,
-  }) => {
+  test(`Can type characters, and select and replace a part`, async ({ page, isRichText }) => {
     await focusEditor(page);
     await page.keyboard.type('Hello foobar.');
 
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello foobar.</span>
         </p>
       `,
@@ -357,9 +315,7 @@ test.describe('TextEntry', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Hello lolbar.</span>
         </p>
       `,
@@ -372,11 +328,7 @@ test.describe('TextEntry', () => {
     });
   });
 
-  test(`Can select and delete a word`, async ({
-    page,
-    browserName,
-    isRichText,
-  }) => {
+  test(`Can select and delete a word`, async ({ page, browserName, isRichText }) => {
     await focusEditor(page);
     const text = 'Delete some of these characters.';
     const backspacedText = 'Delete some of these ';
@@ -401,9 +353,7 @@ test.describe('TextEntry', () => {
     await assertHTML(
       page,
       html`
-        <p
-          class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr"
-          dir="ltr">
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">Delete some of these</span>
         </p>
       `,
@@ -416,7 +366,7 @@ test.describe('TextEntry', () => {
     });
   });
 
-  test('First paragraph backspace handling', async ({page, isRichText}) => {
+  test('First paragraph backspace handling', async ({ page, isRichText }) => {
     await focusEditor(page);
 
     // Add some trimmable text
@@ -465,12 +415,7 @@ test.describe('TextEntry', () => {
     await page.keyboard.press('Backspace');
 
     if (isRichText) {
-      await assertHTML(
-        page,
-        html`
-          <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-        `,
-      );
+      await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
       await assertSelection(page, {
         anchorOffset: 0,
         anchorPath: [0],
@@ -497,7 +442,7 @@ test.describe('TextEntry', () => {
     }
   });
 
-  test('Mix of paragraphs and break points', async ({page, isRichText}) => {
+  test('Mix of paragraphs and break points', async ({ page, isRichText }) => {
     await focusEditor(page);
 
     // Add some line breaks
@@ -586,9 +531,7 @@ test.describe('TextEntry', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__rtl"
-            dir="rtl">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__rtl" dir="rtl">
             <span data-lexical-text="true">هَ</span>
           </p>
           <p class="PlaygroundEditorTheme__paragraph">
@@ -603,9 +546,7 @@ test.describe('TextEntry', () => {
       await assertHTML(
         page,
         html`
-          <p
-            class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__rtl"
-            dir="rtl">
+          <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__rtl" dir="rtl">
             <span data-lexical-text="true">هَ</span>
             <br />
             <br />
@@ -625,10 +566,7 @@ test.describe('TextEntry', () => {
     });
   });
 
-  test('Empty paragraph and new line node selection', async ({
-    isRichText,
-    page,
-  }) => {
+  test('Empty paragraph and new line node selection', async ({ isRichText, page }) => {
     await focusEditor(page);
 
     // Add paragraph
@@ -701,12 +639,7 @@ test.describe('TextEntry', () => {
 
     // Remove paragraph
     await page.keyboard.press('Delete');
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     await assertSelection(page, {
       anchorOffset: 0,
       anchorPath: [0],
@@ -753,12 +686,7 @@ test.describe('TextEntry', () => {
 
     // Remove line break
     await page.keyboard.press('Delete');
-    await assertHTML(
-      page,
-      html`
-        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
-      `,
-    );
+    await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
     await assertSelection(page, {
       anchorOffset: 0,
       anchorPath: [0],

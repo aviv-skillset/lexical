@@ -22,7 +22,4 @@ declare export function $generateHtmlFromNodes(
   selection?: RangeSelection | NodeSelection | GridSelection | null,
 ): string;
 
-declare export function $generateNodesFromDOM(
-  editor: LexicalEditor,
-  dom: Document,
-): Array<LexicalNode>;
+declare export function $generateNodesFromDOM(editor: LexicalEditor, dom: Document): Array<LexicalNode>;

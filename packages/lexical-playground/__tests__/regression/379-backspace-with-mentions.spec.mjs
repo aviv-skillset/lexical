@@ -6,22 +6,12 @@
  *
  */
 
-import {moveToEditorBeginning} from '../keyboardShortcuts/index.mjs';
-import {
-  assertHTML,
-  assertSelection,
-  focusEditor,
-  html,
-  initialize,
-  test,
-  waitForSelector,
-} from '../utils/index.mjs';
+import { moveToEditorBeginning } from '../keyboardShortcuts/index.mjs';
+import { assertHTML, assertSelection, focusEditor, html, initialize, test, waitForSelector } from '../utils/index.mjs';
 
 test.describe('Regression test #379', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
-  test(`Is able to correctly handle backspace press at the line boundary`, async ({
-    page,
-  }) => {
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
+  test(`Is able to correctly handle backspace press at the line boundary`, async ({ page }) => {
     await focusEditor(page);
     await page.keyboard.type('Luke');
     await waitForSelector(page, '#typeahead-menu ul li');
@@ -30,10 +20,7 @@ test.describe('Regression test #379', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
         </p>
@@ -52,10 +39,7 @@ test.describe('Regression test #379', () => {
       page,
       html`
         <p class="PlaygroundEditorTheme__paragraph">
-          <span
-            class="mention"
-            style="background-color: rgba(24, 119, 232, 0.2);"
-            data-lexical-text="true">
+          <span class="mention" style="background-color: rgba(24, 119, 232, 0.2);" data-lexical-text="true">
             Luke Skywalker
           </span>
         </p>

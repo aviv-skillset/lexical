@@ -6,11 +6,7 @@
  *
  */
 
-import {
-  addClassNamesToElement,
-  isHTMLElement,
-  removeClassNamesFromElement,
-} from '@lexical/utils';
+import { addClassNamesToElement, isHTMLElement, removeClassNamesFromElement } from '@lexical/utils';
 import {
   $applyNodeReplacement,
   $createTextNode,
@@ -28,9 +24,9 @@ import {
   Spread,
 } from 'lexical';
 
-import {$createListItemNode, $isListItemNode, ListItemNode} from '.';
-import {updateChildrenListItemValue} from './formatList';
-import {$getListDepth, wrapInListItem} from './utils';
+import { $createListItemNode, $isListItemNode, ListItemNode } from '.';
+import { updateChildrenListItemValue } from './formatList';
+import { $getListDepth, wrapInListItem } from './utils';
 
 export type SerializedListNode = Spread<
   {
@@ -100,11 +96,7 @@ export class ListNode extends ElementNode {
     return dom;
   }
 
-  updateDOM(
-    prevNode: ListNode,
-    dom: HTMLElement,
-    config: EditorConfig,
-  ): boolean {
+  updateDOM(prevNode: ListNode, dom: HTMLElement, config: EditorConfig): boolean {
     if (prevNode.__tag !== this.__tag) {
       return true;
     }
@@ -136,7 +128,7 @@ export class ListNode extends ElementNode {
   }
 
   exportDOM(editor: LexicalEditor): DOMExportOutput {
-    const {element} = super.exportDOM(editor);
+    const { element } = super.exportDOM(editor);
     if (element) {
       if (this.__start !== 1) {
         element.setAttribute('start', String(this.__start));
@@ -198,11 +190,7 @@ export class ListNode extends ElementNode {
   }
 }
 
-function setListThemeClassNames(
-  dom: HTMLElement,
-  editorThemeClasses: EditorThemeClasses,
-  node: ListNode,
-): void {
+function setListThemeClassNames(dom: HTMLElement, editorThemeClasses: EditorThemeClasses, node: ListNode): void {
   const classesToAdd = [];
   const classesToRemove = [];
   const listTheme = editorThemeClasses.list;
@@ -288,10 +276,7 @@ function convertListNode(domNode: Node): DOMConversionOutput {
     const start = domNode.start;
     node = $createListNode('number', start);
   } else if (nodeName === 'ul') {
-    if (
-      isHTMLElement(domNode) &&
-      domNode.getAttribute('__lexicallisttype') === 'check'
-    ) {
+    if (isHTMLElement(domNode) && domNode.getAttribute('__lexicallisttype') === 'check') {
       node = $createListNode('check');
     } else {
       node = $createListNode('bullet');
@@ -324,8 +309,6 @@ export function $createListNode(listType: ListType, start = 1): ListNode {
  * @param node - The node to be checked.
  * @returns true if the node is a ListNode, false otherwise.
  */
-export function $isListNode(
-  node: LexicalNode | null | undefined,
-): node is ListNode {
+export function $isListNode(node: LexicalNode | null | undefined): node is ListNode {
   return node instanceof ListNode;
 }

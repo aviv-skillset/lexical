@@ -6,9 +6,9 @@
  *
  */
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import * as React from 'react';
-import {useCallback, useState} from 'react';
+import { useCallback, useState } from 'react';
 import useLayoutEffect from 'shared/useLayoutEffect';
 
 export type Props = {
@@ -69,13 +69,7 @@ export function ContentEditable({
       aria-autocomplete={!isEditable ? 'none' : ariaAutoComplete}
       aria-controls={!isEditable ? undefined : ariaControls}
       aria-describedby={ariaDescribedBy}
-      aria-expanded={
-        !isEditable
-          ? undefined
-          : role === 'combobox'
-          ? !!ariaExpanded
-          : undefined
-      }
+      aria-expanded={!isEditable ? undefined : role === 'combobox' ? !!ariaExpanded : undefined}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabelledBy}
       aria-multiline={ariaMultiline}

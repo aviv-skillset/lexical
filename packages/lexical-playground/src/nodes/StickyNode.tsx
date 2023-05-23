@@ -16,10 +16,10 @@ import type {
   Spread,
 } from 'lexical';
 
-import {$setSelection, createEditor, DecoratorNode} from 'lexical';
+import { $setSelection, createEditor, DecoratorNode } from 'lexical';
 import * as React from 'react';
-import {Suspense} from 'react';
-import {createPortal} from 'react-dom';
+import { Suspense } from 'react';
+import { createPortal } from 'react-dom';
 
 const StickyComponent = React.lazy(
   // @ts-ignore
@@ -49,20 +49,10 @@ export class StickyNode extends DecoratorNode<JSX.Element> {
   }
 
   static clone(node: StickyNode): StickyNode {
-    return new StickyNode(
-      node.__x,
-      node.__y,
-      node.__color,
-      node.__caption,
-      node.__key,
-    );
+    return new StickyNode(node.__x, node.__y, node.__color, node.__caption, node.__key);
   }
   static importJSON(serializedNode: SerializedStickyNode): StickyNode {
-    const stickyNode = new StickyNode(
-      serializedNode.xOffset,
-      serializedNode.yOffset,
-      serializedNode.color,
-    );
+    const stickyNode = new StickyNode(serializedNode.xOffset, serializedNode.yOffset, serializedNode.color);
     const caption = serializedNode.caption;
     const nestedEditor = stickyNode.__caption;
     const editorState = nestedEditor.parseEditorState(caption.editorState);
@@ -72,13 +62,7 @@ export class StickyNode extends DecoratorNode<JSX.Element> {
     return stickyNode;
   }
 
-  constructor(
-    x: number,
-    y: number,
-    color: 'pink' | 'yellow',
-    caption?: LexicalEditor,
-    key?: NodeKey,
-  ) {
+  constructor(x: number, y: number, color: 'pink' | 'yellow', caption?: LexicalEditor, key?: NodeKey) {
     super(key);
     this.__x = x;
     this.__y = y;
@@ -139,15 +123,10 @@ export class StickyNode extends DecoratorNode<JSX.Element> {
   }
 }
 
-export function $isStickyNode(
-  node: LexicalNode | null | undefined,
-): node is StickyNode {
+export function $isStickyNode(node: LexicalNode | null | undefined): node is StickyNode {
   return node instanceof StickyNode;
 }
 
-export function $createStickyNode(
-  xOffset: number,
-  yOffset: number,
-): StickyNode {
+export function $createStickyNode(xOffset: number, yOffset: number): StickyNode {
   return new StickyNode(xOffset, yOffset, 'yellow');
 }

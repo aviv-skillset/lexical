@@ -6,16 +6,11 @@
  *
  */
 
-import {$createParagraphNode, $getRoot, TextNode} from 'lexical';
-import {initializeUnitTest} from 'lexical/src/__tests__/utils';
+import { $createParagraphNode, $getRoot, TextNode } from 'lexical';
+import { initializeUnitTest } from 'lexical/src/__tests__/utils';
 
-import {
-  $createListItemNode,
-  $isListItemNode,
-  ListItemNode,
-  ListNode,
-} from '../..';
-import {expectHtmlToBeEqual, html} from '../utils';
+import { $createListItemNode, $isListItemNode, ListItemNode, ListNode } from '../..';
+import { expectHtmlToBeEqual, html } from '../utils';
 
 const editorConfig = Object.freeze({
   namespace: '',
@@ -32,7 +27,7 @@ const editorConfig = Object.freeze({
 describe('LexicalListItemNode tests', () => {
   initializeUnitTest((testEnv) => {
     test('ListItemNode.constructor', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listItemNode = new ListItemNode();
@@ -46,16 +41,14 @@ describe('LexicalListItemNode tests', () => {
     });
 
     test('ListItemNode.createDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listItemNode = new ListItemNode();
 
         expectHtmlToBeEqual(
           listItemNode.createDOM(editorConfig).outerHTML,
-          html`
-            <li value="1" class="my-listItem-item-class"></li>
-          `,
+          html` <li class="my-listItem-item-class" value="1"></li> `,
         );
 
         expectHtmlToBeEqual(
@@ -63,49 +56,33 @@ describe('LexicalListItemNode tests', () => {
             namespace: '',
             theme: {},
           }).outerHTML,
-          html`
-            <li value="1"></li>
-          `,
+          html` <li value="1"></li> `,
         );
       });
     });
 
     describe('ListItemNode.updateDOM()', () => {
       test('base', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           const listItemNode = new ListItemNode();
 
           const domElement = listItemNode.createDOM(editorConfig);
 
-          expectHtmlToBeEqual(
-            domElement.outerHTML,
-            html`
-              <li value="1" class="my-listItem-item-class"></li>
-            `,
-          );
+          expectHtmlToBeEqual(domElement.outerHTML, html` <li class="my-listItem-item-class" value="1"></li> `);
           const newListItemNode = new ListItemNode();
 
-          const result = newListItemNode.updateDOM(
-            listItemNode,
-            domElement,
-            editorConfig,
-          );
+          const result = newListItemNode.updateDOM(listItemNode, domElement, editorConfig);
 
           expect(result).toBe(false);
 
-          expectHtmlToBeEqual(
-            domElement.outerHTML,
-            html`
-              <li value="1" class="my-listItem-item-class"></li>
-            `,
-          );
+          expectHtmlToBeEqual(domElement.outerHTML, html` <li class="my-listItem-item-class" value="1"></li> `);
         });
       });
 
       test('nested list', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           const parentListNode = new ListNode('bullet', 1);
@@ -114,30 +91,17 @@ describe('LexicalListItemNode tests', () => {
           parentListNode.append(parentlistItemNode);
           const domElement = parentlistItemNode.createDOM(editorConfig);
 
-          expectHtmlToBeEqual(
-            domElement.outerHTML,
-            html`
-              <li value="1" class="my-listItem-item-class"></li>
-            `,
-          );
+          expectHtmlToBeEqual(domElement.outerHTML, html` <li class="my-listItem-item-class" value="1"></li> `);
           const nestedListNode = new ListNode('bullet', 1);
           nestedListNode.append(new ListItemNode());
           parentlistItemNode.append(nestedListNode);
-          const result = parentlistItemNode.updateDOM(
-            parentlistItemNode,
-            domElement,
-            editorConfig,
-          );
+          const result = parentlistItemNode.updateDOM(parentlistItemNode, domElement, editorConfig);
 
           expect(result).toBe(false);
 
           expectHtmlToBeEqual(
             domElement.outerHTML,
-            html`
-              <li
-                value="1"
-                class="my-listItem-item-class my-nested-list-listItem-class"></li>
-            `,
+            html` <li class="my-listItem-item-class my-nested-list-listItem-class" value="1"></li> `,
           );
         });
       });
@@ -150,7 +114,7 @@ describe('LexicalListItemNode tests', () => {
       let listItemNode3;
 
       beforeEach(async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           const root = $getRoot();
@@ -174,7 +138,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">one</span>
@@ -192,7 +157,7 @@ describe('LexicalListItemNode tests', () => {
       });
 
       test('another list item node', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           const newListItemNode = new ListItemNode();
@@ -207,7 +172,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">bar</span>
@@ -225,7 +191,7 @@ describe('LexicalListItemNode tests', () => {
       });
 
       test('first list item with a non list item node', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           return;
@@ -237,7 +203,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">one</span>
@@ -264,7 +231,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <p><br /></p>
               <ul>
                 <li value="1" dir="ltr">
@@ -280,7 +248,7 @@ describe('LexicalListItemNode tests', () => {
       });
 
       test('last list item with a non list item node', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           const paragraphNode = $createParagraphNode();
@@ -293,7 +261,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">one</span>
@@ -309,7 +278,7 @@ describe('LexicalListItemNode tests', () => {
       });
 
       test('middle list item with a non list item node', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           const paragraphNode = $createParagraphNode();
@@ -322,7 +291,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">one</span>
@@ -340,7 +310,7 @@ describe('LexicalListItemNode tests', () => {
       });
 
       test('the only list item with a non list item node', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           listItemNode2.remove();
@@ -353,7 +323,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">one</span>
@@ -374,7 +345,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <p><br /></p>
             </div>
           `,
@@ -387,7 +359,7 @@ describe('LexicalListItemNode tests', () => {
       // - x
       // - B
       test('siblings are not nested', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
         let x;
 
         await editor.update(() => {
@@ -413,7 +385,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">A</span>
@@ -437,7 +410,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">A</span>
@@ -455,7 +429,7 @@ describe('LexicalListItemNode tests', () => {
       // - x
       // - B
       test('the previous sibling is nested', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
         let x;
 
         await editor.update(() => {
@@ -485,7 +459,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1">
                   <ul>
@@ -513,7 +488,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1">
                   <ul>
@@ -535,7 +511,7 @@ describe('LexicalListItemNode tests', () => {
       // - x
       //   - B
       test('the next sibling is nested', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
         let x;
 
         await editor.update(() => {
@@ -565,7 +541,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">A</span>
@@ -593,7 +570,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">A</span>
@@ -615,7 +593,7 @@ describe('LexicalListItemNode tests', () => {
       // - x
       //   - B
       test('both siblings are nested', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
         let x;
 
         await editor.update(() => {
@@ -649,7 +627,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1">
                   <ul>
@@ -681,7 +660,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1">
                   <ul>
@@ -704,7 +684,7 @@ describe('LexicalListItemNode tests', () => {
       // - x
       //   - B
       test('the previous sibling is nested deeper than the next sibling', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
         let x;
 
         await editor.update(() => {
@@ -745,7 +725,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1">
                   <ul>
@@ -784,7 +765,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1">
                   <ul>
@@ -814,7 +796,7 @@ describe('LexicalListItemNode tests', () => {
       //     - B1
       //   - B2
       test('the next sibling is nested deeper than the previous sibling', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
         let x;
 
         await editor.update(() => {
@@ -855,7 +837,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1">
                   <ul>
@@ -894,7 +877,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1">
                   <ul>
@@ -925,7 +909,7 @@ describe('LexicalListItemNode tests', () => {
       //     - B1
       //   - B2
       test('both siblings are deeply nested', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
         let x;
 
         await editor.update(() => {
@@ -973,7 +957,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1">
                   <ul>
@@ -1019,7 +1004,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1">
                   <ul>
@@ -1055,7 +1041,7 @@ describe('LexicalListItemNode tests', () => {
       let listItemNode3;
 
       beforeEach(async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           const root = $getRoot();
@@ -1079,7 +1065,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">one</span>
@@ -1097,7 +1084,7 @@ describe('LexicalListItemNode tests', () => {
       });
 
       test('first list item', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           listItemNode1.insertNewAfter();
@@ -1109,7 +1096,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">one</span>
@@ -1128,7 +1116,7 @@ describe('LexicalListItemNode tests', () => {
       });
 
       test('last list item', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           listItemNode3.insertNewAfter();
@@ -1140,7 +1128,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">one</span>
@@ -1159,7 +1148,7 @@ describe('LexicalListItemNode tests', () => {
       });
 
       test('middle list item', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           listItemNode3.insertNewAfter();
@@ -1171,7 +1160,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">one</span>
@@ -1190,7 +1180,7 @@ describe('LexicalListItemNode tests', () => {
       });
 
       test('the only list item', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           listItemNode2.remove();
@@ -1203,7 +1193,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">one</span>
@@ -1223,7 +1214,8 @@ describe('LexicalListItemNode tests', () => {
             <div
               contenteditable="true"
               style="user-select: text; white-space: pre-wrap; word-break: break-word;"
-              data-lexical-editor="true">
+              data-lexical-editor="true"
+            >
               <ul>
                 <li value="1" dir="ltr">
                   <span data-lexical-text="true">one</span>
@@ -1237,7 +1229,7 @@ describe('LexicalListItemNode tests', () => {
     });
 
     test('$createListItemNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listItemNode = new ListItemNode();
@@ -1251,7 +1243,7 @@ describe('LexicalListItemNode tests', () => {
     });
 
     test('$isListItemNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const listItemNode = new ListItemNode();
@@ -1266,7 +1258,7 @@ describe('LexicalListItemNode tests', () => {
       let listItemNode2;
 
       beforeEach(async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           const root = $getRoot();
@@ -1282,7 +1274,7 @@ describe('LexicalListItemNode tests', () => {
         });
       });
       it('indents and outdents list item', async () => {
-        const {editor} = testEnv;
+        const { editor } = testEnv;
 
         await editor.update(() => {
           listItemNode1.setIndent(3);

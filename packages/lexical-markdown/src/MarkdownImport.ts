@@ -6,19 +6,14 @@
  *
  */
 
-import type {CodeNode} from '@lexical/code';
-import type {
-  ElementTransformer,
-  TextFormatTransformer,
-  TextMatchTransformer,
-  Transformer,
-} from '@lexical/markdown';
-import type {LexicalNode, TextNode} from 'lexical';
+import type { CodeNode } from '@lexical/code';
+import type { ElementTransformer, TextFormatTransformer, TextMatchTransformer, Transformer } from '@lexical/markdown';
+import type { LexicalNode, TextNode } from 'lexical';
 
-import {$createCodeNode} from '@lexical/code';
-import {$isListItemNode, $isListNode} from '@lexical/list';
-import {$isQuoteNode} from '@lexical/rich-text';
-import {$findMatchingParent} from '@lexical/utils';
+import { $createCodeNode } from '@lexical/code';
+import { $isListItemNode, $isListNode } from '@lexical/list';
+import { $isQuoteNode } from '@lexical/rich-text';
+import { $findMatchingParent } from '@lexical/utils';
 import {
   $createLineBreakNode,
   $createParagraphNode,
@@ -29,9 +24,9 @@ import {
   $isTextNode,
   ElementNode,
 } from 'lexical';
-import {IS_APPLE_WEBKIT, IS_IOS, IS_SAFARI} from 'shared/environment';
+import { IS_APPLE_WEBKIT, IS_IOS, IS_SAFARI } from 'shared/environment';
 
-import {PUNCTUATION_OR_SPACE, transformersByType} from './utils';
+import { PUNCTUATION_OR_SPACE, transformersByType } from './utils';
 
 const MARKDOWN_EMPTY_LINE_REG_EXP = /^\s{0,3}$/;
 const CODE_BLOCK_REG_EXP = /^```(\w{1,10})?\s?$/;
@@ -45,9 +40,7 @@ export function createMarkdownImport(
   transformers: Array<Transformer>,
 ): (markdownString: string, node?: ElementNode) => void {
   const byType = transformersByType(transformers);
-  const textFormatTransformersIndex = createTextFormatTransformersIndex(
-    byType.textFormat,
-  );
+  const textFormatTransformersIndex = createTextFormatTransformersIndex(byType.textFormat);
 
   return (markdownString, node) => {
     const lines = markdownString.split('\n');
@@ -68,13 +61,7 @@ export function createMarkdownImport(
         continue;
       }
 
-      importBlocks(
-        lineText,
-        root,
-        byType.element,
-        textFormatTransformersIndex,
-        byType.textMatch,
-      );
+      importBlocks(lineText, root, byType.element, textFormatTransformersIndex, byType.textMatch);
     }
 
     // Removing empty paragraphs as md does not really
@@ -119,7 +106,7 @@ function importBlocks(
   elementNode.append(textNode);
   rootNode.append(elementNode);
 
-  for (const {regExp, replace} of elementTransformers) {
+  for (const { regExp, replace } of elementTransformers) {
     const match = lineText.match(regExp);
 
     if (match) {
@@ -129,22 +116,14 @@ function importBlocks(
     }
   }
 
-  importTextFormatTransformers(
-    textNode,
-    textFormatTransformersIndex,
-    textMatchTransformers,
-  );
+  importTextFormatTransformers(textNode, textFormatTransformersIndex, textMatchTransformers);
 
   // If no transformer found and we left with original paragraph node
   // can check if its content can be appended to the previous node
   // if it's a paragraph, quote or list
   if (elementNode.isAttached() && lineTextTrimmed.length > 0) {
     const previousNode = elementNode.getPreviousSibling();
-    if (
-      $isParagraphNode(previousNode) ||
-      $isQuoteNode(previousNode) ||
-      $isListNode(previousNode)
-    ) {
+    if ($isParagraphNode(previousNode) || $isQuoteNode(previousNode) || $isListNode(previousNode)) {
       let targetNode: LexicalNode | null = previousNode;
 
       if ($isListNode(previousNode)) {
@@ -157,10 +136,7 @@ function importBlocks(
       }
 
       if (targetNode != null && targetNode.getTextContentSize() > 0) {
-        targetNode.splice(targetNode.getChildrenSize(), 0, [
-          $createLineBreakNode(),
-          ...elementNode.getChildren(),
-        ]);
+        targetNode.splice(targetNode.getChildrenSize(), 0, [$createLineBreakNode(), ...elementNode.getChildren()]);
         elementNode.remove();
       }
     }
@@ -183,9 +159,7 @@ function importCodeBlock(
 
       if (closeMatch) {
         const codeBlockNode = $createCodeNode(openMatch[1]);
-        const textNode = $createTextNode(
-          lines.slice(startLineIndex + 1, endLineIndex).join('\n'),
-        );
+        const textNode = $createTextNode(lines.slice(startLineIndex + 1, endLineIndex).join('\n'));
         codeBlockNode.append(textNode);
         rootNode.append(codeBlockNode);
         return [codeBlockNode, endLineIndex];
@@ -232,10 +206,7 @@ function importTextFormatTransformers(
     if (startIndex === 0) {
       [currentNode, remainderNode] = textNode.splitText(endIndex);
     } else {
-      [leadingNode, currentNode, remainderNode] = textNode.splitText(
-        startIndex,
-        endIndex,
-      );
+      [leadingNode, currentNode, remainderNode] = textNode.splitText(startIndex, endIndex);
     }
   }
 
@@ -252,35 +223,20 @@ function importTextFormatTransformers(
 
   // Recursively run over inner text if it's not inline code
   if (!currentNode.hasFormat('code')) {
-    importTextFormatTransformers(
-      currentNode,
-      textFormatTransformersIndex,
-      textMatchTransformers,
-    );
+    importTextFormatTransformers(currentNode, textFormatTransformersIndex, textMatchTransformers);
   }
 
   // Run over leading/remaining text if any
   if (leadingNode) {
-    importTextFormatTransformers(
-      leadingNode,
-      textFormatTransformersIndex,
-      textMatchTransformers,
-    );
+    importTextFormatTransformers(leadingNode, textFormatTransformersIndex, textMatchTransformers);
   }
 
   if (remainderNode) {
-    importTextFormatTransformers(
-      remainderNode,
-      textFormatTransformersIndex,
-      textMatchTransformers,
-    );
+    importTextFormatTransformers(remainderNode, textFormatTransformersIndex, textMatchTransformers);
   }
 }
 
-function importTextMatchTransformers(
-  textNode_: TextNode,
-  textMatchTransformers: Array<TextMatchTransformer>,
-) {
+function importTextMatchTransformers(textNode_: TextNode, textMatchTransformers: Array<TextMatchTransformer>) {
   let textNode = textNode_;
 
   mainLoop: while (textNode) {
@@ -298,10 +254,7 @@ function importTextMatchTransformers(
       if (startIndex === 0) {
         [replaceNode, textNode] = textNode.splitText(endIndex);
       } else {
-        [leftTextNode, replaceNode, rightTextNode] = textNode.splitText(
-          startIndex,
-          endIndex,
-        );
+        [leftTextNode, replaceNode, rightTextNode] = textNode.splitText(startIndex, endIndex);
       }
       if (leftTextNode) {
         importTextMatchTransformers(leftTextNode, textMatchTransformers);
@@ -346,7 +299,7 @@ function findOutermostMatch(
 
       // For non-intraword transformers checking if it's within a word
       // or surrounded with space/punctuation/newline
-      const {index = 0} = fullMatch;
+      const { index = 0 } = fullMatch;
       const beforeChar = textContent[index - 1];
       const afterChar = textContent[index + fullMatch[0].length];
 
@@ -371,7 +324,7 @@ function createTextFormatTransformersIndex(
   const escapeRegExp = `(?<![\\\\])`;
 
   for (const transformer of textTransformers) {
-    const {tag} = transformer;
+    const { tag } = transformer;
     transformersByTag[tag] = transformer;
     const tagRegExp = tag.replace(/(\*|\^|\+)/g, '\\$1');
     openTagsRegExp.push(tagRegExp);
@@ -392,10 +345,7 @@ function createTextFormatTransformersIndex(
     fullMatchRegExpByTag,
     // Reg exp to find opening tags
     openTagsRegExp: new RegExp(
-      (IS_SAFARI || IS_IOS || IS_APPLE_WEBKIT ? '' : `${escapeRegExp}`) +
-        '(' +
-        openTagsRegExp.join('|') +
-        ')',
+      (IS_SAFARI || IS_IOS || IS_APPLE_WEBKIT ? '' : `${escapeRegExp}`) + '(' + openTagsRegExp.join('|') + ')',
       'g',
     ),
     transformersByTag,

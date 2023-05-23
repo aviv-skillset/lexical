@@ -6,17 +6,11 @@
  *
  */
 
-import type {LexicalNode} from 'lexical';
+import type { LexicalNode } from 'lexical';
 
 import invariant from 'shared/invariant';
 
-import {
-  $createListItemNode,
-  $isListItemNode,
-  $isListNode,
-  ListItemNode,
-  ListNode,
-} from './';
+import { $createListItemNode, $isListItemNode, $isListNode, ListItemNode, ListNode } from './';
 
 /**
  * Checks the depth of listNode from the root node.
@@ -106,9 +100,7 @@ export function $isLastItemInList(listItem: ListItemNode): boolean {
 // This should probably be $getAllChildrenOfType
 export function $getAllListItems(node: ListNode): Array<ListItemNode> {
   let listItemNodes: Array<ListItemNode> = [];
-  const listChildren: Array<ListItemNode> = node
-    .getChildren()
-    .filter($isListItemNode);
+  const listChildren: Array<ListItemNode> = node.getChildren().filter($isListItemNode);
 
   for (let i = 0; i < listChildren.length; i++) {
     const listItemNode = listChildren[i];
@@ -129,9 +121,7 @@ export function $getAllListItems(node: ListNode): Array<ListItemNode> {
  * @param node - The node to be checked.
  * @returns true if the node is a ListItemNode and has a ListNode child, false otherwise.
  */
-export function isNestedListNode(
-  node: LexicalNode | null | undefined,
-): boolean {
+export function isNestedListNode(node: LexicalNode | null | undefined): boolean {
   return $isListItemNode(node) && $isListNode(node.getFirstChild());
 }
 
@@ -141,9 +131,7 @@ export function isNestedListNode(
  * @returns The first ListItemNode found, or null if none exist.
  */
 // TODO: rewrite with $findMatchingParent or *nodeOfType
-export function findNearestListItemNode(
-  node: LexicalNode,
-): ListItemNode | null {
+export function findNearestListItemNode(node: LexicalNode): ListItemNode | null {
   let currentNode: LexicalNode | null = node;
 
   while (currentNode !== null) {
@@ -163,9 +151,7 @@ export function findNearestListItemNode(
  * Should not break ListItem -> List -> ListItem chain as empty List/ItemNodes should be removed on .remove().
  * @param sublist - The nested ListNode or ListItemNode to be brought up the branch.
  */
-export function $removeHighestEmptyListParent(
-  sublist: ListItemNode | ListNode,
-) {
+export function $removeHighestEmptyListParent(sublist: ListItemNode | ListNode) {
   // Nodes may be repeatedly indented, to create deeply nested lists that each
   // contain just one bullet.
   // Our goal is to remove these (empty) deeply nested lists. The easiest
@@ -174,16 +160,10 @@ export function $removeHighestEmptyListParent(
   // the root of the list (if no list nodes have siblings.)
   let emptyListPtr = sublist;
 
-  while (
-    emptyListPtr.getNextSibling() == null &&
-    emptyListPtr.getPreviousSibling() == null
-  ) {
+  while (emptyListPtr.getNextSibling() == null && emptyListPtr.getPreviousSibling() == null) {
     const parent = emptyListPtr.getParent<ListItemNode | ListNode>();
 
-    if (
-      parent == null ||
-      !($isListItemNode(emptyListPtr) || $isListNode(emptyListPtr))
-    ) {
+    if (parent == null || !($isListItemNode(emptyListPtr) || $isListNode(emptyListPtr))) {
       break;
     }
 

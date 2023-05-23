@@ -8,8 +8,7 @@
 
 export function sanitizeUrl(url: string): string {
   /** A pattern that matches safe  URLs. */
-  const SAFE_URL_PATTERN =
-    /^(?:(?:https?|mailto|ftp|tel|file|sms):|[^&:/?#]*(?:[/?#]|$))/gi;
+  const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file|sms):|[^&:/?#]*(?:[/?#]|$))/gi;
 
   /** A pattern that matches safe data URLs. */
   const DATA_URL_PATTERN =

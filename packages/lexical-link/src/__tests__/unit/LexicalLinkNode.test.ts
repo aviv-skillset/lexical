@@ -6,8 +6,8 @@
  *
  */
 
-import {$createLinkNode, $isLinkNode, LinkNode} from '@lexical/link';
-import {initializeUnitTest} from 'lexical/src/__tests__/utils';
+import { $createLinkNode, $isLinkNode, LinkNode } from '@lexical/link';
+import { initializeUnitTest } from 'lexical/src/__tests__/utils';
 
 const editorConfig = Object.freeze({
   namespace: '',
@@ -28,7 +28,7 @@ const editorConfig = Object.freeze({
 describe('LexicalLinkNode tests', () => {
   initializeUnitTest((testEnv) => {
     test('LinkNode.constructor', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('/');
@@ -41,7 +41,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LineBreakNode.clone()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('/');
@@ -54,7 +54,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LinkNode.getURL()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo');
@@ -64,7 +64,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LinkNode.setURL()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo');
@@ -78,7 +78,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LinkNode.getTarget()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo', {
@@ -90,7 +90,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LinkNode.setTarget()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo', {
@@ -106,7 +106,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LinkNode.getRel()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo', {
@@ -119,7 +119,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LinkNode.setRel()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo', {
@@ -136,7 +136,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LinkNode.getTitle()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo', {
@@ -148,7 +148,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LinkNode.setTitle()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo', {
@@ -164,7 +164,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LinkNode.createDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo');
@@ -182,7 +182,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LinkNode.createDOM() with target, rel and title', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo', {
@@ -199,26 +199,22 @@ describe('LexicalLinkNode tests', () => {
             namespace: '',
             theme: {},
           }).outerHTML,
-        ).toBe(
-          '<a href="https://example.com/foo" target="_blank" rel="noopener noreferrer" title="Hello world"></a>',
-        );
+        ).toBe('<a href="https://example.com/foo" target="_blank" rel="noopener noreferrer" title="Hello world"></a>');
       });
     });
 
     test('LinkNode.createDOM() sanitizes javascript: URLs', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         // eslint-disable-next-line no-script-url
         const linkNode = new LinkNode('javascript:alert(0)');
-        expect(linkNode.createDOM(editorConfig).outerHTML).toBe(
-          '<a href="about:blank" class="my-link-class"></a>',
-        );
+        expect(linkNode.createDOM(editorConfig).outerHTML).toBe('<a href="about:blank" class="my-link-class"></a>');
       });
     });
 
     test('LinkNode.updateDOM()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo');
@@ -230,21 +226,15 @@ describe('LexicalLinkNode tests', () => {
         );
 
         const newLinkNode = new LinkNode('https://example.com/bar');
-        const result = newLinkNode.updateDOM(
-          linkNode,
-          domElement,
-          editorConfig,
-        );
+        const result = newLinkNode.updateDOM(linkNode, domElement, editorConfig);
 
         expect(result).toBe(false);
-        expect(domElement.outerHTML).toBe(
-          '<a href="https://example.com/bar" class="my-link-class"></a>',
-        );
+        expect(domElement.outerHTML).toBe('<a href="https://example.com/bar" class="my-link-class"></a>');
       });
     });
 
     test('LinkNode.updateDOM() with target, rel and title', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo', {
@@ -264,11 +254,7 @@ describe('LexicalLinkNode tests', () => {
           target: '_self',
           title: 'World hello',
         });
-        const result = newLinkNode.updateDOM(
-          linkNode,
-          domElement,
-          editorConfig,
-        );
+        const result = newLinkNode.updateDOM(linkNode, domElement, editorConfig);
 
         expect(result).toBe(false);
         expect(domElement.outerHTML).toBe(
@@ -278,7 +264,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LinkNode.updateDOM() with undefined target, undefined rel and undefined title', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo', {
@@ -294,21 +280,15 @@ describe('LexicalLinkNode tests', () => {
         );
 
         const newLinkNode = new LinkNode('https://example.com/bar');
-        const result = newLinkNode.updateDOM(
-          linkNode,
-          domElement,
-          editorConfig,
-        );
+        const result = newLinkNode.updateDOM(linkNode, domElement, editorConfig);
 
         expect(result).toBe(false);
-        expect(domElement.outerHTML).toBe(
-          '<a href="https://example.com/bar" class="my-link-class"></a>',
-        );
+        expect(domElement.outerHTML).toBe('<a href="https://example.com/bar" class="my-link-class"></a>');
       });
     });
 
     test('LinkNode.canInsertTextBefore()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo');
@@ -318,7 +298,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('LinkNode.canInsertTextAfter()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo');
@@ -328,7 +308,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('$createLinkNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo');
@@ -343,7 +323,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('$createLinkNode() with target, rel and title', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('https://example.com/foo', {
@@ -369,7 +349,7 @@ describe('LexicalLinkNode tests', () => {
     });
 
     test('$isLinkNode()', async () => {
-      const {editor} = testEnv;
+      const { editor } = testEnv;
 
       await editor.update(() => {
         const linkNode = new LinkNode('');

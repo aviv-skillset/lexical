@@ -6,12 +6,7 @@
  *
  * @flow strict
  */
-import type {
-  EditorState,
-  LexicalEditor,
-  NodeKey,
-  RangeSelection,
-} from 'lexical';
+import type { EditorState, LexicalEditor, NodeKey, RangeSelection } from 'lexical';
 type OffsetElementNode = {
   child: null | OffsetNode,
   end: number,
@@ -48,11 +43,7 @@ declare export class OffsetView {
   _offsetMap: OffsetMap;
   _firstNode: null | OffsetNode;
   _blockOffsetSize: number;
-  constructor(
-    offsetMap: OffsetMap,
-    firstNode: null | OffsetNode,
-    blockOffsetSize: number,
-  ): void;
+  constructor(offsetMap: OffsetMap, firstNode: null | OffsetNode, blockOffsetSize: number): void;
   createSelectionFromOffsets(
     originalStart: number,
     originalEnd: number,

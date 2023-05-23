@@ -18,19 +18,11 @@ import {
   selectCharacters,
   toggleBold,
 } from '../keyboardShortcuts/index.mjs';
-import {
-  assertSelection,
-  focusEditor,
-  initialize,
-  IS_WINDOWS,
-  test,
-} from '../utils/index.mjs';
+import { assertSelection, focusEditor, initialize, IS_WINDOWS, test } from '../utils/index.mjs';
 
 async function typeParagraphs(page) {
   await focusEditor(page);
-  await page.keyboard.type(
-    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-  );
+  await page.keyboard.type('Lorem Ipsum is simply dummy text of the printing and typesetting industry.');
   await page.keyboard.press('Enter');
   await page.keyboard.type(
     'It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
@@ -42,9 +34,9 @@ async function typeParagraphs(page) {
 }
 
 test.describe('Keyboard Navigation', () => {
-  test.beforeEach(({isCollab, page}) => initialize({isCollab, page}));
+  test.beforeEach(({ isCollab, page }) => initialize({ isCollab, page }));
 
-  test('can type several paragraphs', async ({isRichText, page}) => {
+  test('can type several paragraphs', async ({ isRichText, page }) => {
     await typeParagraphs(page);
     if (isRichText) {
       await assertSelection(page, {
@@ -102,7 +94,7 @@ test.describe('Keyboard Navigation', () => {
     }
   });
 
-  test('can move to the top of the editor', async ({page}) => {
+  test('can move to the top of the editor', async ({ page }) => {
     await typeParagraphs(page);
     await moveToEditorBeginning(page);
     await assertSelection(page, {
@@ -113,7 +105,7 @@ test.describe('Keyboard Navigation', () => {
     });
   });
 
-  test('can move one word to the right', async ({page, browserName}) => {
+  test('can move one word to the right', async ({ page, browserName }) => {
     await typeParagraphs(page);
     await moveToEditorBeginning(page);
     await moveToNextWord(page);
@@ -150,11 +142,7 @@ test.describe('Keyboard Navigation', () => {
     }
   });
 
-  test('can move to the beginning of the previous word', async ({
-    isRichText,
-    page,
-    browserName,
-  }) => {
+  test('can move to the beginning of the previous word', async ({ isRichText, page, browserName }) => {
     await typeParagraphs(page);
     await moveToPrevWord(page);
     // Chrome stops words on punctuation, so we need to trigger
@@ -195,7 +183,7 @@ test.describe('Keyboard Navigation', () => {
     }
   });
 
-  test('can move to the bottom of the editor', async ({isRichText, page}) => {
+  test('can move to the bottom of the editor', async ({ isRichText, page }) => {
     await typeParagraphs(page);
     await moveToEditorBeginning(page);
     await moveToEditorEnd(page);
@@ -216,10 +204,7 @@ test.describe('Keyboard Navigation', () => {
     }
   });
 
-  test('can move to the beginning of the current paragraph', async ({
-    isRichText,
-    page,
-  }) => {
+  test('can move to the beginning of the current paragraph', async ({ isRichText, page }) => {
     await typeParagraphs(page);
     await moveToParagraphBeginning(page);
     if (isRichText) {
@@ -239,9 +224,7 @@ test.describe('Keyboard Navigation', () => {
     }
   });
 
-  test('can move to the top of the editor, then to the bottom of the current paragraph', async ({
-    page,
-  }) => {
+  test('can move to the top of the editor, then to the bottom of the current paragraph', async ({ page }) => {
     await typeParagraphs(page);
     await moveToEditorBeginning(page);
     await moveToParagraphEnd(page);
@@ -257,10 +240,7 @@ test.describe('Keyboard Navigation', () => {
     });
   });
 
-  test('can navigate through the plain text word by word', async ({
-    page,
-    browserName,
-  }) => {
+  test('can navigate through the plain text word by word', async ({ page, browserName }) => {
     await focusEditor(page);
     // type sample text
     await page.keyboard.type('  123 abc 456  def  ');
@@ -471,11 +451,7 @@ test.describe('Keyboard Navigation', () => {
     }
   });
 
-  test('can navigate through the formatted text word by word', async ({
-    isRichText,
-    page,
-    browserName,
-  }) => {
+  test('can navigate through the formatted text word by word', async ({ isRichText, page, browserName }) => {
     await focusEditor(page);
     // type sample text
     await page.keyboard.type('  123 abc 456  def  ');
@@ -792,10 +768,7 @@ test.describe('Keyboard Navigation', () => {
     }
   });
 
-  test('can navigate through the text with emoji word by word', async ({
-    page,
-    browserName,
-  }) => {
+  test('can navigate through the text with emoji word by word', async ({ page, browserName }) => {
     await focusEditor(page);
     // type sample text
     await page.keyboard.type('123:)456 abc:):)de fg');
