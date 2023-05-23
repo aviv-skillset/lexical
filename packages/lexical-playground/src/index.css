@@ -16,7 +16,25 @@ body {
   background: #eee;
   padding: 0 20px;
 }
-
+:root {
+  /*! TATIO COLORS */
+  --white: #fff;
+  --light-grey: #f9f9f9;
+  --grey: #ccc;
+  --dark-grey: #777;
+  --very-dark-grey: #414143;
+  --almost-black: #1a1a1a;
+  --dark-blue: #00004f;
+  --tatio-purple: #4413c6;
+  --dark-purple: #5b32af;
+  --tatio--light-purple: #b11ef6;
+  --light-pink: #e20c98;
+  --red: #ec1637;
+  --orange: #ff5811;
+  --tatio-yellow: #ffc100;
+  --tatio-green: #07f698;
+  --light-blue: #07e7f6;
+}
 header {
   max-width: 580px;
   margin: auto;
