@@ -11,7 +11,6 @@ import { CharacterLimitPlugin } from '@lexical/react/LexicalCharacterLimitPlugin
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
 import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
-import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
@@ -26,7 +25,6 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { CAN_USE_DOM } from 'shared/canUseDOM';
 
-import { createWebsocketProvider } from './collaboration';
 import { useSettings } from './context/SettingsContext';
 import { useSharedHistoryContext } from './context/SharedHistoryContext';
 import TableCellNodes from './nodes/TableCellNodes';
@@ -61,15 +59,10 @@ import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
 import ContentEditable from './ui/ContentEditable';
 import Placeholder from './ui/Placeholder';
 
-const skipCollaborationInit =
-  // @ts-ignore
-  window.parent != null && window.parent.frames.right === window;
-
 export default function Editor(): JSX.Element {
   const { historyState } = useSharedHistoryContext();
   const {
     settings: {
-      isCollab,
       isAutocomplete,
       isMaxLength,
       isCharLimit,
@@ -81,11 +74,7 @@ export default function Editor(): JSX.Element {
     },
   } = useSettings();
   const isEditable = useLexicalEditable();
-  const text = isCollab
-    ? 'Enter some collaborative rich text...'
-    : isRichText
-    ? 'Enter some rich text...'
-    : 'Enter some plain text...';
+  const text = isRichText ? 'Enter some rich text...' : 'Enter some plain text...';
   const placeholder = <Placeholder>{text}</Placeholder>;
   const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
   const [isSmallWidthViewport, setIsSmallWidthViewport] = useState<boolean>(false);
@@ -139,15 +128,7 @@ export default function Editor(): JSX.Element {
         <AutoLinkPlugin />
         {isRichText ? (
           <>
-            {isCollab ? (
-              <CollaborationPlugin
-                id="main"
-                providerFactory={createWebsocketProvider}
-                shouldBootstrap={!skipCollaborationInit}
-              />
-            ) : (
-              <HistoryPlugin externalHistoryState={historyState} />
-            )}
+            {<HistoryPlugin externalHistoryState={historyState} />}
             <RichTextPlugin
               contentEditable={
                 <div className="editor-scroller">
