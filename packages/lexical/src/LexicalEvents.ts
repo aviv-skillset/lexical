@@ -324,29 +324,59 @@ function onSelectionChange(domSelection: Selection, editor: LexicalEditor, isAct
 // This results in a tiny selection box that looks buggy/broken. This can
 // also help other browsers when selection might "appear" lost, when it
 // really isn't.
-function onClick(event: MouseEvent, editor: LexicalEditor): void {
+function onClick(event: PointerEvent, editor: LexicalEditor): void {
   updateEditor(editor, () => {
     const selection = $getSelection();
     const domSelection = getDOMSelection(editor._window);
     const lastSelection = $getPreviousSelection();
 
-    if ($isRangeSelection(selection)) {
-      const anchor = selection.anchor;
-      const anchorNode = anchor.getNode();
+    if (domSelection) {
+      if ($isRangeSelection(selection)) {
+        const anchor = selection.anchor;
+        const anchorNode = anchor.getNode();
 
-      if (
-        domSelection &&
-        anchor.type === 'element' &&
-        anchor.offset === 0 &&
-        selection.isCollapsed() &&
-        !$isRootNode(anchorNode) &&
-        $getRoot().getChildrenSize() === 1 &&
-        anchorNode.getTopLevelElementOrThrow().isEmpty() &&
-        lastSelection !== null &&
-        selection.is(lastSelection)
-      ) {
-        domSelection.removeAllRanges();
-        selection.dirty = true;
+        if (
+          anchor.type === 'element' &&
+          anchor.offset === 0 &&
+          selection.isCollapsed() &&
+          !$isRootNode(anchorNode) &&
+          $getRoot().getChildrenSize() === 1 &&
+          anchorNode.getTopLevelElementOrThrow().isEmpty() &&
+          lastSelection !== null &&
+          selection.is(lastSelection)
+        ) {
+          domSelection.removeAllRanges();
+          selection.dirty = true;
+        } else if (event.detail === 3 && !selection.isCollapsed()) {
+          // Tripple click causing selection to overflow into the nearest element. In that
+          // case visually it looks like a single element content is selected, focus node
+          // is actually at the beginning of the next element (if present) and any manipulations
+          // with selection (formatting) are affecting second element as well
+          const focus = selection.focus;
+          const focusNode = focus.getNode();
+          if (anchorNode !== focusNode) {
+            if ($isElementNode(anchorNode)) {
+              anchorNode.select(0);
+            } else {
+              anchorNode.getParentOrThrow().select(0);
+            }
+          }
+        }
+      } else if (event.pointerType === 'touch') {
+        // This is used to update the selection on touch devices when the user clicks on text after a
+        // node selection. See isSelectionChangeFromMouseDown for the inverse
+        const domAnchorNode = domSelection.anchorNode;
+        if (domAnchorNode !== null) {
+          const nodeType = domAnchorNode.nodeType;
+          // If the user is attempting to click selection back onto text, then
+          // we should attempt create a range selection.
+          // When we click on an empty paragraph node or the end of a paragraph that ends
+          // with an image/poll, the nodeType will be ELEMENT_NODE
+          if (nodeType === DOM_ELEMENT_TYPE || nodeType === DOM_TEXT_TYPE) {
+            const newSelection = internalCreateRangeSelection(lastSelection, domSelection, editor);
+            $setSelection(newSelection);
+          }
+        }
       }
     }
 

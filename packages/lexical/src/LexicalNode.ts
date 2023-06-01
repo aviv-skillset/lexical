@@ -98,11 +98,7 @@ export type DOMConversion<T extends HTMLElement = HTMLElement> = {
   priority: 0 | 1 | 2 | 3 | 4;
 };
 
-export type DOMConversionFn<T extends HTMLElement = HTMLElement> = (
-  element: T,
-  parent?: Node,
-  preformatted?: boolean,
-) => DOMConversionOutput | null;
+export type DOMConversionFn<T extends HTMLElement = HTMLElement> = (element: T) => DOMConversionOutput | null;
 
 export type DOMChildConversion = (
   lexicalNode: LexicalNode,
@@ -118,8 +114,7 @@ type NodeName = string;
 export type DOMConversionOutput = {
   after?: (childLexicalNodes: Array<LexicalNode>) => Array<LexicalNode>;
   forChild?: DOMChildConversion;
-  node: LexicalNode | null;
-  preformatted?: boolean;
+  node: null | LexicalNode | Array<LexicalNode>;
 };
 
 export type DOMExportOutput = {

@@ -8,6 +8,7 @@
 
 import type { DOMConversionMap, DOMConversionOutput, NodeKey, SerializedLexicalNode } from '../LexicalNode';
 
+import { DOM_TEXT_TYPE } from '../LexicalConstants';
 import { LexicalNode } from '../LexicalNode';
 import { $applyNodeReplacement } from '../LexicalUtils';
 
@@ -44,7 +45,19 @@ export class LineBreakNode extends LexicalNode {
       br: (node: Node) => {
         const parentElement = node.parentElement;
         // If the <br> is the only child, then skip including it
-        if (parentElement != null && parentElement.firstChild === node && parentElement.lastChild === node) {
+        let firstChild;
+        let lastChild;
+        if (
+          parentElement !== null &&
+          ((firstChild = parentElement.firstChild) === node ||
+            ((firstChild as Text).nextSibling === node &&
+              (firstChild as Text).nodeType === DOM_TEXT_TYPE &&
+              ((firstChild as Text).textContent || '').match(/^[\s|\r?\n|\t]+$/) !== null)) &&
+          ((lastChild = parentElement.lastChild) === node ||
+            ((lastChild as Text).previousSibling === node &&
+              (lastChild as Text).nodeType === DOM_TEXT_TYPE &&
+              ((lastChild as Text).textContent || '').match(/^[\s|\r?\n|\t]+$/) !== null))
+        ) {
           return null;
         }
         return {

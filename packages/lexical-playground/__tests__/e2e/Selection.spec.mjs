@@ -7,6 +7,7 @@
  */
 
 import {
+  deleteBackward,
   deleteForward,
   moveLeft,
   moveRight,
@@ -238,11 +239,11 @@ test.describe('Selection', () => {
   test('Can select all with node selection', async ({ page, isPlainText }) => {
     test.skip(isPlainText);
     await focusEditor(page);
-    await page.keyboard.type('Text before');
+    await page.keyboard.type('# Text before');
     await insertSampleImage(page);
     await page.keyboard.type('Text after');
     await selectAll(page);
-    await page.keyboard.press('Delete');
+    await deleteBackward(page);
     await assertHTML(page, html` <p class="PlaygroundEditorTheme__paragraph"><br /></p> `);
   });
 
@@ -265,6 +266,7 @@ test.describe('Selection', () => {
         <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
           <span data-lexical-text="true">abc</span>
         </p>
+        <p class="PlaygroundEditorTheme__paragraph"><br /></p>
         <p class="PlaygroundEditorTheme__paragraph"><br /></p>
       `,
     );
@@ -302,6 +304,104 @@ test.describe('Selection', () => {
           </tr>
         </table>
         <p class="PlaygroundEditorTheme__paragraph"><br /></p>
+      `,
+    );
+  });
+
+  test('Can delete block elements', async ({ page, isPlainText }) => {
+    test.skip(isPlainText);
+    await focusEditor(page);
+    await page.keyboard.type('# A');
+    await page.keyboard.press('Enter');
+    await page.keyboard.type('b');
+    await assertHTML(
+      page,
+      html`
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
+          <span data-lexical-text="true">A</span>
+        </h1>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span data-lexical-text="true">b</span>
+        </p>
+      `,
+    );
+    await moveLeft(page, 2);
+
+    await deleteBackward(page);
+    await assertHTML(
+      page,
+      html`
+        <h1 class="PlaygroundEditorTheme__h1">
+          <br />
+        </h1>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span data-lexical-text="true">b</span>
+        </p>
+      `,
+    );
+
+    await deleteBackward(page);
+    await assertHTML(
+      page,
+      html`
+        <p class="PlaygroundEditorTheme__paragraph">
+          <br />
+        </p>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span data-lexical-text="true">b</span>
+        </p>
+      `,
+    );
+
+    await deleteBackward(page);
+    await assertHTML(
+      page,
+      html`
+        <p class="PlaygroundEditorTheme__paragraph  PlaygroundEditorTheme__ltr" dir="ltr">
+          <span data-lexical-text="true">b</span>
+        </p>
+      `,
+    );
+  });
+
+  test('Can delete sibling elements forward', async ({ page, isPlainText }) => {
+    test.skip(isPlainText);
+
+    await focusEditor(page);
+    await page.keyboard.press('Enter');
+    await page.keyboard.type('# Title');
+    await page.keyboard.press('ArrowUp');
+    await deleteForward(page);
+    await assertHTML(
+      page,
+      html`
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
+          <span data-lexical-text="true">Title</span>
+        </h1>
+      `,
+    );
+  });
+
+  test('Can adjust tripple click selection', async ({ page, isPlainText, isCollab }) => {
+    test.skip(isPlainText || isCollab);
+
+    await page.keyboard.type('Paragraph 1');
+    await page.keyboard.press('Enter');
+    await page.keyboard.type('Paragraph 2');
+    await page.locator('div[contenteditable="true"] > p').first().click({ clickCount: 3 });
+
+    await click(page, '.block-controls');
+    await click(page, '.dropdown .item:has(.icon.h1)');
+
+    await assertHTML(
+      page,
+      html`
+        <h1 class="PlaygroundEditorTheme__h1 PlaygroundEditorTheme__ltr" dir="ltr">
+          <span data-lexical-text="true">Paragraph 1</span>
+        </h1>
+        <p class="PlaygroundEditorTheme__paragraph PlaygroundEditorTheme__ltr" dir="ltr">
+          <span data-lexical-text="true">Paragraph 2</span>
+        </p>
       `,
     );
   });

@@ -51,6 +51,7 @@ export function useYjsCollaboration(
   cursorsContainerRef?: CursorsContainerRef,
   initialEditorState?: InitialEditorStateType,
   excludedProperties?: ExcludedProperties,
+  awarenessData?: object,
 ): [JSX.Element, Binding] {
   const isReloadingDoc = useRef(false);
   const [doc, setDoc] = useState(docMap.get(id));
@@ -111,7 +112,7 @@ export function useYjsCollaboration(
       }
     };
 
-    initLocalState(provider, name, color, document.activeElement === editor.getRootElement());
+    initLocalState(provider, name, color, document.activeElement === editor.getRootElement(), awarenessData || {});
 
     const onProviderDocReload = (ydoc: Doc) => {
       clearEditorSkipCollab(editor, binding);
@@ -157,7 +158,20 @@ export function useYjsCollaboration(
       docMap.delete(id);
       removeListener();
     };
-  }, [binding, color, connect, disconnect, docMap, editor, id, initialEditorState, name, provider, shouldBootstrap]);
+  }, [
+    binding,
+    color,
+    connect,
+    disconnect,
+    docMap,
+    editor,
+    id,
+    initialEditorState,
+    name,
+    provider,
+    shouldBootstrap,
+    awarenessData,
+  ]);
   const cursorsContainer = useMemo(() => {
     const ref = (element: null | HTMLElement) => {
       binding.cursorsContainer = element;
@@ -193,13 +207,19 @@ export function useYjsCollaboration(
   return [cursorsContainer, binding];
 }
 
-export function useYjsFocusTracking(editor: LexicalEditor, provider: Provider, name: string, color: string) {
+export function useYjsFocusTracking(
+  editor: LexicalEditor,
+  provider: Provider,
+  name: string,
+  color: string,
+  awarenessData?: object,
+) {
   useEffect(() => {
     return mergeRegister(
       editor.registerCommand(
         FOCUS_COMMAND,
         () => {
-          setLocalStateFocus(provider, name, color, true);
+          setLocalStateFocus(provider, name, color, true, awarenessData || {});
           return false;
         },
         COMMAND_PRIORITY_EDITOR,
@@ -207,13 +227,13 @@ export function useYjsFocusTracking(editor: LexicalEditor, provider: Provider, n
       editor.registerCommand(
         BLUR_COMMAND,
         () => {
-          setLocalStateFocus(provider, name, color, false);
+          setLocalStateFocus(provider, name, color, false, awarenessData || {});
           return false;
         },
         COMMAND_PRIORITY_EDITOR,
       ),
     );
-  }, [color, editor, name, provider]);
+  }, [color, editor, name, provider, awarenessData]);
 }
 
 export function useYjsHistory(editor: LexicalEditor, binding: Binding): () => void {

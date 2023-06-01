@@ -464,9 +464,6 @@ export class ElementNode extends LexicalNode {
   insertNewAfter(selection: RangeSelection, restoreSelection?: boolean): null | LexicalNode {
     return null;
   }
-  canInsertTab(): boolean {
-    return false;
-  }
   canIndent(): boolean {
     return true;
   }

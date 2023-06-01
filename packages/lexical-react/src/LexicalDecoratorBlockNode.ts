@@ -45,6 +45,10 @@ export class DecoratorBlockNode extends DecoratorNode<JSX.Element> {
     const self = this.getWritable();
     self.__format = format;
   }
+
+  isInline(): false {
+    return false;
+  }
 }
 
 export function $isDecoratorBlockNode(node: LexicalNode | null | undefined): node is DecoratorBlockNode {

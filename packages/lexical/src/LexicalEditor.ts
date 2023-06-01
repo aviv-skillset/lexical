@@ -36,6 +36,7 @@ import { DecoratorNode } from './nodes/LexicalDecoratorNode';
 import { LineBreakNode } from './nodes/LexicalLineBreakNode';
 import { ParagraphNode } from './nodes/LexicalParagraphNode';
 import { RootNode } from './nodes/LexicalRootNode';
+import { TabNode } from './nodes/LexicalTabNode';
 
 export type Spread<T1, T2> = Omit<T2, keyof T1> & T1;
 
@@ -356,7 +357,7 @@ export function createEditor(editorConfig?: CreateEditorArgs): LexicalEditor {
   const editorState = createEmptyEditorState();
   const namespace = config.namespace || (parentEditor !== null ? parentEditor._config.namespace : createUID());
   const initialEditorState = config.editorState;
-  const nodes = [RootNode, TextNode, LineBreakNode, ParagraphNode, ...(config.nodes || [])];
+  const nodes = [RootNode, TextNode, LineBreakNode, TabNode, ParagraphNode, ...(config.nodes || [])];
   const onError = config.onError;
   const isEditable = config.editable !== undefined ? config.editable : true;
   let registeredNodes;

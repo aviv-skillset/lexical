@@ -18,9 +18,9 @@ export {
   DEFAULT_CODE_LANGUAGE,
   getCodeLanguages,
   getDefaultCodeLanguage,
-  getFirstCodeHighlightNodeOfLine,
+  getFirstCodeNodeOfLine,
   getLanguageFriendlyName,
-  getLastCodeHighlightNodeOfLine,
+  getLastCodeNodeOfLine,
   normalizeCodeLang,
 } from './CodeHighlightNode';
 export type { SerializedCodeNode } from './CodeNode';

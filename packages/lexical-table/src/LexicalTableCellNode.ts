@@ -27,6 +27,8 @@ import {
   DEPRECATED_GridCellNode,
 } from 'lexical';
 
+import { PIXEL_VALUE_REG_EXP } from './constants';
+
 export const TableCellHeaderStates = {
   BOTH: 3,
   COLUMN: 2,
@@ -79,12 +81,10 @@ export class TableCellNode extends DEPRECATED_GridCellNode {
   }
 
   static importJSON(serializedNode: SerializedTableCellNode): TableCellNode {
-    const cellNode = $createTableCellNode(
-      serializedNode.headerState,
-      serializedNode.colSpan,
-      serializedNode.width || undefined,
-    );
-    cellNode.__rowSpan = serializedNode.rowSpan;
+    const colSpan = serializedNode.colSpan || 1;
+    const rowSpan = serializedNode.rowSpan || 1;
+    const cellNode = $createTableCellNode(serializedNode.headerState, colSpan, serializedNode.width || undefined);
+    cellNode.__rowSpan = rowSpan;
     cellNode.__backgroundColor = serializedNode.backgroundColor || null;
     return cellNode;
   }
@@ -242,10 +242,18 @@ export function convertTableCellNodeElement(domNode: Node): DOMConversionOutput 
   const domNode_ = domNode as HTMLTableCellElement;
   const nodeName = domNode.nodeName.toLowerCase();
 
+  let width: number | undefined = undefined;
+
+  if (PIXEL_VALUE_REG_EXP.test(domNode_.style.width)) {
+    width = parseFloat(domNode_.style.width);
+  }
+
   const tableCellNode = $createTableCellNode(
     nodeName === 'th' ? TableCellHeaderStates.ROW : TableCellHeaderStates.NO_STATUS,
+    domNode_.colSpan,
+    width,
   );
-  tableCellNode.__colSpan = domNode_.colSpan;
+
   tableCellNode.__rowSpan = domNode_.rowSpan;
   const backgroundColor = domNode_.style.backgroundColor;
   if (backgroundColor !== '') {

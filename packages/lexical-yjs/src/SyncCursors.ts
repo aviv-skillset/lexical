@@ -427,7 +427,7 @@ export function syncLexicalSelectionToYjs(
     return;
   }
 
-  const { anchorPos: currentAnchorPos, focusPos: currentFocusPos, name, color, focusing } = localState;
+  const { anchorPos: currentAnchorPos, focusPos: currentFocusPos, name, color, focusing, awarenessData } = localState;
   let anchorPos = null;
   let focusPos = null;
 
@@ -445,6 +445,7 @@ export function syncLexicalSelectionToYjs(
   if (shouldUpdatePosition(currentAnchorPos, anchorPos) || shouldUpdatePosition(currentFocusPos, focusPos)) {
     awareness.setLocalState({
       anchorPos,
+      awarenessData,
       color,
       focusPos,
       focusing,

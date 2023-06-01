@@ -7,19 +7,10 @@
  *
  */
 
-import type {
-  EditorState,
-  GridSelection,
-  LexicalEditor,
-  LexicalNode,
-  NodeKey,
-  NodeSelection,
-  RangeSelection,
-} from 'lexical';
+import type { EditorState, LexicalEditor, LexicalNode, NodeKey } from 'lexical';
 
 import { mergeRegister } from '@lexical/utils';
 import {
-  $getSelection,
   $isRangeSelection,
   $isRootNode,
   $isTextNode,
@@ -47,7 +38,6 @@ const DELETE_CHARACTER_AFTER_SELECTION = 4;
 export type HistoryStateEntry = {
   editor: LexicalEditor;
   editorState: EditorState;
-  undoSelection?: RangeSelection | NodeSelection | GridSelection | null;
 };
 export type HistoryState = {
   current: null | HistoryStateEntry;
@@ -348,7 +338,7 @@ function undo(editor: LexicalEditor, historyState: HistoryState): void {
     historyState.current = historyStateEntry || null;
 
     if (historyStateEntry) {
-      historyStateEntry.editor.setEditorState(historyStateEntry.editorState.clone(historyStateEntry.undoSelection), {
+      historyStateEntry.editor.setEditorState(historyStateEntry.editorState, {
         tag: 'historic',
       });
     }
@@ -406,7 +396,6 @@ export function registerHistory(editor: LexicalEditor, historyState: HistoryStat
       if (current !== null) {
         undoStack.push({
           ...current,
-          undoSelection: prevEditorState.read($getSelection),
         });
         editor.dispatchCommand(CAN_UNDO_COMMAND, true);
       }

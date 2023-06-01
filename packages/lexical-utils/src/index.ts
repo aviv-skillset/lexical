@@ -213,17 +213,15 @@ export function $getNearestNodeOfType<T extends ElementNode>(node: LexicalNode, 
 }
 
 /**
- *Returns the element node of the nearest ancestor, otherwise throws an error.
+ * Returns the element node of the nearest ancestor, otherwise throws an error.
  * @param startNode - The starting node of the search
  * @returns The ancestor node found
  */
 export function $getNearestBlockElementAncestorOrThrow(startNode: LexicalNode): ElementNode {
   const blockNode = $findMatchingParent(startNode, (node) => $isElementNode(node) && !node.isInline());
-
   if (!$isElementNode(blockNode)) {
     invariant(false, 'Expected node %s to have closest block element node.', startNode.__key);
   }
-
   return blockNode;
 }
 

@@ -9,8 +9,8 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   LexicalTypeaheadMenuPlugin,
-  QueryMatch,
-  TypeaheadOption,
+  MenuOption,
+  MenuTextMatch,
   useBasicTypeaheadTriggerMatch,
 } from '@lexical/react/LexicalTypeaheadMenuPlugin';
 import { TextNode } from 'lexical';
@@ -510,7 +510,7 @@ function useMentionLookupService(mentionString: string | null) {
   return results;
 }
 
-function checkForCapitalizedNameMentions(text: string, minMatchLength: number): QueryMatch | null {
+function checkForCapitalizedNameMentions(text: string, minMatchLength: number): MenuTextMatch | null {
   const match = CapitalizedNameMentionsRegex.exec(text);
   if (match !== null) {
     // The strategy ignores leading whitespace but we need to know it's
@@ -529,7 +529,7 @@ function checkForCapitalizedNameMentions(text: string, minMatchLength: number): 
   return null;
 }
 
-function checkForAtSignMentions(text: string, minMatchLength: number): QueryMatch | null {
+function checkForAtSignMentions(text: string, minMatchLength: number): MenuTextMatch | null {
   let match = AtSignMentionsRegex.exec(text);
 
   if (match === null) {
@@ -552,12 +552,12 @@ function checkForAtSignMentions(text: string, minMatchLength: number): QueryMatc
   return null;
 }
 
-function getPossibleQueryMatch(text: string): QueryMatch | null {
+function getPossibleQueryMatch(text: string): MenuTextMatch | null {
   const match = checkForAtSignMentions(text, 1);
   return match === null ? checkForCapitalizedNameMentions(text, 3) : match;
 }
 
-class MentionTypeaheadOption extends TypeaheadOption {
+class MentionTypeaheadOption extends MenuOption {
   name: string;
   picture: JSX.Element;
 

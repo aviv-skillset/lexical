@@ -20,6 +20,7 @@ export type UserState = {
   focusing: boolean;
   focusPos: null | RelativePosition;
   name: string;
+  awarenessData: object;
 };
 export const CONNECTED_COMMAND: LexicalCommand<boolean> = createCommand('CONNECTED_COMMAND');
 export const TOGGLE_CONNECT_COMMAND: LexicalCommand<boolean> = createCommand('TOGGLE_CONNECT_COMMAND');
@@ -62,9 +63,16 @@ export function createUndoManager(binding: Binding, root: XmlText): UndoManager 
   });
 }
 
-export function initLocalState(provider: Provider, name: string, color: string, focusing: boolean): void {
+export function initLocalState(
+  provider: Provider,
+  name: string,
+  color: string,
+  focusing: boolean,
+  awarenessData: object,
+): void {
   provider.awareness.setLocalState({
     anchorPos: null,
+    awarenessData,
     color,
     focusPos: null,
     focusing: focusing,
@@ -72,13 +80,20 @@ export function initLocalState(provider: Provider, name: string, color: string, 
   });
 }
 
-export function setLocalStateFocus(provider: Provider, name: string, color: string, focusing: boolean): void {
+export function setLocalStateFocus(
+  provider: Provider,
+  name: string,
+  color: string,
+  focusing: boolean,
+  awarenessData: object,
+): void {
   const { awareness } = provider;
   let localState = awareness.getLocalState();
 
   if (localState === null) {
     localState = {
       anchorPos: null,
+      awarenessData,
       color,
       focusPos: null,
       focusing: focusing,

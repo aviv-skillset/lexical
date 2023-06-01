@@ -55,6 +55,8 @@
       "@lexical/react/LexicalPlainTextPlugin": ["./packages/lexical-react/src/LexicalPlainTextPlugin.tsx"],
       "@lexical/react/LexicalRichTextPlugin": ["./packages/lexical-react/src/LexicalRichTextPlugin.tsx"],
       "@lexical/react/LexicalTypeaheadMenuPlugin": ["packages/lexical-react/src/LexicalTypeaheadMenuPlugin.tsx"],
+      "@lexical/react/LexicalNodeMenuPlugin": ["packages/lexical-react/src/LexicalNodeMenuPlugin.tsx"],
+      "@lexical/react/LexicalContextMenuPlugin": ["packages/lexical-react/src/LexicalContextMenuPlugin.tsx"],
       "@lexical/react/LexicalHistoryPlugin": ["./packages/lexical-react/src/LexicalHistoryPlugin.ts"],
       "@lexical/react/LexicalOnChangePlugin": ["./packages/lexical-react/src/LexicalOnChangePlugin.ts"],
       "@lexical/react/LexicalNodeEventPlugin": ["./packages/lexical-react/src/LexicalNodeEventPlugin.ts"],

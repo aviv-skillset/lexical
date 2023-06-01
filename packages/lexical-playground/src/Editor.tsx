@@ -35,6 +35,7 @@ import AutoLinkPlugin from './plugins/AutoLinkPlugin';
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin';
 import CollapsiblePlugin from './plugins/CollapsiblePlugin';
 import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
+import ContextMenuPlugin from './plugins/ContextMenuPlugin';
 import DragDropPaste from './plugins/DragDropPastePlugin';
 import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
 import EmojiPickerPlugin from './plugins/EmojiPickerPlugin';
@@ -69,6 +70,7 @@ export default function Editor(): JSX.Element {
       isCharLimitUtf8,
       isRichText,
       showTreeView,
+      shouldUseLexicalContextMenu,
       tableCellMerge,
       tableCellBackgroundColor,
     },
@@ -102,7 +104,7 @@ export default function Editor(): JSX.Element {
         setIsSmallWidthViewport(isNextSmallWidthViewport);
       }
     };
-
+    updateViewPortWidth();
     window.addEventListener('resize', updateViewPortWidth);
 
     return () => {
@@ -121,6 +123,7 @@ export default function Editor(): JSX.Element {
         <ComponentPickerPlugin />
         <EmojiPickerPlugin />
         <AutoEmbedPlugin />
+
         <MentionsPlugin />
         <EmojisPlugin />
         <HashtagPlugin />
@@ -192,6 +195,7 @@ export default function Editor(): JSX.Element {
           <CharacterLimitPlugin charset={isCharLimit ? 'UTF-16' : 'UTF-8'} maxLength={5} />
         )}
         {isAutocomplete && <AutocompletePlugin />}
+        {shouldUseLexicalContextMenu && <ContextMenuPlugin />}
         <ActionsPlugin isRichText={isRichText} />
       </div>
       {showTreeView && <TreeViewPlugin />}

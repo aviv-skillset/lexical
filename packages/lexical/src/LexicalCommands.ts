@@ -42,6 +42,7 @@ export const KEY_BACKSPACE_COMMAND: LexicalCommand<KeyboardEvent> = createComman
 export const KEY_ESCAPE_COMMAND: LexicalCommand<KeyboardEvent> = createCommand('KEY_ESCAPE_COMMAND');
 export const KEY_DELETE_COMMAND: LexicalCommand<KeyboardEvent> = createCommand('KEY_DELETE_COMMAND');
 export const KEY_TAB_COMMAND: LexicalCommand<KeyboardEvent> = createCommand('KEY_TAB_COMMAND');
+export const INSERT_TAB_COMMAND: LexicalCommand<void> = createCommand('INSERT_TAB_COMMAND');
 export const INDENT_CONTENT_COMMAND: LexicalCommand<void> = createCommand('INDENT_CONTENT_COMMAND');
 export const OUTDENT_CONTENT_COMMAND: LexicalCommand<void> = createCommand('OUTDENT_CONTENT_COMMAND');
 export const DROP_COMMAND: LexicalCommand<DragEvent> = createCommand('DROP_COMMAND');

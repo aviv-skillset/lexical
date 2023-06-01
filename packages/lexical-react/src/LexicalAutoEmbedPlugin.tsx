@@ -9,7 +9,7 @@ import type { LexicalNode, MutationListener } from 'lexical';
 
 import { $isLinkNode, AutoLinkNode, LinkNode } from '@lexical/link';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { LexicalNodeMenuPlugin, MenuRenderFn, TypeaheadOption } from '@lexical/react/LexicalTypeaheadMenuPlugin';
+import { LexicalNodeMenuPlugin, MenuOption, MenuRenderFn } from '@lexical/react/LexicalNodeMenuPlugin';
 import { mergeRegister } from '@lexical/utils';
 import {
   $getNodeByKey,
@@ -47,7 +47,7 @@ export const URL_MATCHER =
 
 export const INSERT_EMBED_COMMAND: LexicalCommand<EmbedConfig['type']> = createCommand('INSERT_EMBED_COMMAND');
 
-export class AutoEmbedOption extends TypeaheadOption {
+export class AutoEmbedOption extends MenuOption {
   title: string;
   onSelect: (targetNode: LexicalNode | null) => void;
   constructor(
@@ -113,7 +113,7 @@ export function LexicalAutoEmbedPlugin<TEmbedConfig extends EmbedConfig>({
   useEffect(() => {
     const listener: MutationListener = (nodeMutations, { updateTags, dirtyLeaves }) => {
       for (const [key, mutation] of nodeMutations) {
-        if (mutation === 'created' && updateTags.has('paste') && dirtyLeaves.size === 1) {
+        if (mutation === 'created' && updateTags.has('paste') && dirtyLeaves.size <= 3) {
           checkIfLinkNodeIsEmbeddable(key);
         } else if (key === nodeKey) {
           reset();

@@ -17,6 +17,7 @@ import type {
   RangeSelection,
   SerializedElementNode,
   Spread,
+  TabNode,
 } from 'lexical';
 import type { CodeHighlightNode } from '@lexical/code';
 
@@ -40,11 +41,11 @@ import {
   $applyNodeReplacement,
   $createLineBreakNode,
   $createParagraphNode,
-  $getSelection,
-  $isRangeSelection,
   ElementNode,
+  $isTabNode,
+  $createTabNode,
 } from 'lexical';
-import { $createCodeHighlightNode, getFirstCodeHighlightNodeOfLine } from './CodeHighlightNode';
+import { $isCodeHighlightNode, $createCodeHighlightNode, getFirstCodeNodeOfLine } from './CodeHighlightNode';
 import * as Prism from 'prismjs';
 
 export type SerializedCodeNode = Spread<
@@ -204,7 +205,10 @@ export class CodeNode extends ElementNode {
   }
 
   // Mutation
-  insertNewAfter(selection: RangeSelection, restoreSelection = true): null | ParagraphNode | CodeHighlightNode {
+  insertNewAfter(
+    selection: RangeSelection,
+    restoreSelection = true,
+  ): null | ParagraphNode | CodeHighlightNode | TabNode {
     const children = this.getChildren();
     const childrenLength = children.length;
 
@@ -226,33 +230,41 @@ export class CodeNode extends ElementNode {
     // If the selection is within the codeblock, find all leading tabs and
     // spaces of the current line. Create a new line that has all those
     // tabs and spaces, such that leading indentation is preserved.
-    const anchor = selection.anchor.getNode();
-    const firstNode = getFirstCodeHighlightNodeOfLine(anchor);
-    if (firstNode != null) {
-      let leadingWhitespace = 0;
-      const firstNodeText = firstNode.getTextContent();
-      while (leadingWhitespace < firstNodeText.length && /[\t ]/.test(firstNodeText[leadingWhitespace])) {
-        leadingWhitespace += 1;
+    const anchor = selection.anchor;
+    const focus = selection.focus;
+    const firstPoint = anchor.isBefore(focus) ? anchor : focus;
+    const firstSelectionNode = firstPoint.getNode();
+    if ($isCodeHighlightNode(firstSelectionNode) || $isTabNode(firstSelectionNode)) {
+      let node = getFirstCodeNodeOfLine(firstSelectionNode);
+      const insertNodes = [];
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        if ($isTabNode(node)) {
+          insertNodes.push($createTabNode());
+          node = node.getNextSibling();
+        } else if ($isCodeHighlightNode(node)) {
+          let spaces = 0;
+          const text = node.getTextContent();
+          const textSize = node.getTextContentSize();
+          for (; spaces < textSize && text[spaces] === ' '; spaces++);
+          if (spaces !== 0) {
+            insertNodes.push($createCodeHighlightNode(' '.repeat(spaces)));
+          }
+          if (spaces !== textSize) {
+            break;
+          }
+          node = node.getNextSibling();
+        } else {
+          break;
+        }
       }
-      if (leadingWhitespace > 0) {
-        const whitespace = firstNodeText.substring(0, leadingWhitespace);
-        const indentedChild = $createCodeHighlightNode(whitespace);
-        anchor.insertAfter(indentedChild);
-        selection.insertNodes([$createLineBreakNode()]);
-        indentedChild.select();
-        return indentedChild;
+      if (insertNodes.length > 0) {
+        selection.insertNodes([$createLineBreakNode(), ...insertNodes]);
+        return insertNodes[insertNodes.length - 1];
       }
     }
 
     return null;
-  }
-
-  canInsertTab(): boolean {
-    const selection = $getSelection();
-    if (!$isRangeSelection(selection) || !selection.isCollapsed()) {
-      return false;
-    }
-    return true;
   }
 
   canIndent(): false {
@@ -286,7 +298,7 @@ export function $isCodeNode(node: LexicalNode | null | undefined): node is CodeN
 }
 
 function convertPreElement(domNode: Node): DOMConversionOutput {
-  return { node: $createCodeNode(), preformatted: true };
+  return { node: $createCodeNode() };
 }
 
 function convertDivElement(domNode: Node): DOMConversionOutput {
@@ -307,12 +319,11 @@ function convertDivElement(domNode: Node): DOMConversionOutput {
       return childLexicalNodes;
     },
     node: isCode ? $createCodeNode() : null,
-    preformatted: isCode,
   };
 }
 
 function convertTableElement(): DOMConversionOutput {
-  return { node: $createCodeNode(), preformatted: true };
+  return { node: $createCodeNode() };
 }
 
 function convertCodeNoop(): DOMConversionOutput {

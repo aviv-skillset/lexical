@@ -34,10 +34,12 @@ export const TableCellHeaderStates = {
 export type TableCellHeaderState = $Values<typeof TableCellHeaderStates>;
 
 declare export class TableCellNode extends deprecated_GridCellNode {
+  __headerState: TableCellHeaderState;
+  __width?: number;
+  __backgroundColor: null | string;
   static getType(): string;
   static clone(node: TableCellNode): TableCellNode;
   constructor(headerState?: TableCellHeaderState, colSpan?: number, width?: ?number, key?: NodeKey): void;
-  __headerState: TableCellHeaderState;
   createDOM(config: EditorConfig): HTMLElement;
   updateDOM(prevNode: TableCellNode, dom: HTMLElement): boolean;
   insertNewAfter(selection: RangeSelection): null | ParagraphNode | TableCellNode;
@@ -47,6 +49,8 @@ declare export class TableCellNode extends deprecated_GridCellNode {
   getHeaderStyles(): TableCellHeaderState;
   setWidth(width: number): ?number;
   getWidth(): ?number;
+  getBackgroundColor(): null | string;
+  setBackgroundColor(newBackgroundColor: null | string): void;
   toggleHeaderStyle(headerState: TableCellHeaderState): TableCellNode;
   hasHeader(): boolean;
   updateDOM(prevNode: TableCellNode): boolean;

@@ -1,10 +1,72 @@
+## 0.11.1 (2023-05-26)
+
+- Fire selection change on decorator delete (#4555) Acy Watson
+- Fix flow (#4549) Gerard Rovira
+- Add key to portal to avoid decorator component remounting (#4554) Maksim Horbachevsky
+- Mutations to respect canInsertBeforeAfter (#4553) Gerard Rovira
+- Arrow up selection fix #4536 (#4544) Maksim Horbachevsky
+- Max length recalculation. Fix #4542 (#4543) Maksim Horbachevsky
+- Fix update-changelog not finishing (#4537) Gerard Rovira
+
+## 0.11.0 (2023-05-23)
+
+- Tame wild white spaces (#4467) Gerard Rovira
+- Auto embed fix #4530 (#4535) Maksim Horbachevsky
+- Basic Context Menu (behind Switch) (#4285) Tyler Bainbridge
+- Allow importing width and height from table cell and DOM nodes (#4521) Kristian Ignatov
+- Add HTML deserialization recipe to docs (#4432) Ivaylo Pavlov
+- Fix clickable link plugin #4514 (#4519) Maksim Horbachevsky
+- Allow arbitrary awareness fields in Collaboration plugin (#4507) Attila
+- Make tabs flexible in code (#4520) Gerard Rovira
+- Fix GC memory leak (2) (#4513) Gerard Rovira
+- Adjust selection after triple click (#4512) Maksim Horbachevsky
+- Fix GC memory leak (#4510) Gerard Rovira
+- TypeAheadMenu and TableActionMenu rendered off screen fixed. (#4301) Shubhankerism
+- Fix Flow types (#4485) Gerard Rovira
+- Add texturi-list support in clipboard. (#4478) xinyuan0801
+- Sanitize url (#4483) Acy Watson
+- exportDOM methods for HeadingNode, QuoteNode (#4445) Ivaylo Pavlov
+- Tests for inserting text either side of an inline element (#4346) Jamie Birch
+- Improve rect deduplication (#4471) Acy Watson
+- Sanitize floatingLinkEditor (#4462) Acy Watson
+- Generalize Menu Logic (#4284) Tyler Bainbridge
+- Event delegation for NoteEventPlugin (#4424) Maksim Horbachevsky
+- Tab support (#4436) Gerard Rovira
+- Handle empty element deletion (#4380) Maksim Horbachevsky
+- Select all adjustments (#4425) Maksim Horbachevsky
+- Add documentation for TabIndentationPlugin (#4453) Filip Palmqvist
+- Disable flaky test (#4455) Gerard Rovira
+- fix attach event listeners to initial nodes (#4454) Ante Sepic
+- Revisit touch devices (#4441) Gerard Rovira
+- Allow to pass all possible attributes to a content editable div (#4450) Leks Kazimirchuk
+- Fix text click selection on touch devices #3098 (#4395) Ibrahim El-bastawisi
+- Updated Toolbar Plugin to Add keyboard shortcut for adding hyperlinks (#4413) AnuragBalhra
+- simplify logic for the fix Improve responsiveness of the floating text format toolbar buttons (#4431) Alessio Gravili
+- Remove unused styles (#4426) Georgii Dolzhykov
+- Fix HistoryPlugin selection out of sync (#4390) Gerard Rovira
+- Split test files and skip flaky tests in linux  collab (#4394) Acy Watson
+- Optional colrowSpan serialization (#4344) Gerard Rovira
+- Fix list merging (#4386) Acy Watson
+- Fix markdown list merging (#4387) Acy Watson
+- Use provided selection when serializing to HTML (#4392) Acy Watson
+- Flow table bg color types (#4400) Gerard Rovira
+- Add docs for list package (#4393) Acy Watson
+- Make DecoratorBlockNode.isInline return false (#4383) EgonBolton
+- Setting initial state of isSmallWidthViewport (#4398) Ebad
+- Improve responsiveness of the floating text format toolbar buttons (#4298) Brandon
+- Collapsible enhancements (#4257) Maksim Horbachevsky
+- Inherit format for text entity node (#4382) Maksim Horbachevsky
+- Fall back to url if parser fails (#4364) Acy Watson
+- Change MarkNodeclone node arg type to this (#4363) Giovanni Cappellotto
+- 0.10.0 (#4349) Acy Watson
+
 ## 0.10.0 (2023-04-18)
 
 ### Breaking Changes
 
 @lexical/link will now sanitize anchor tag hrefs before rendering them to the DOM. This provides a measure of protection against XSS attacks
 that rely on inlining javascript in that attribute. However, it means that links using less common protocols will now be sanitized (converted to about:blank),
-which will be a breaking change for any existing links. They will still render correctly but will no longer be clickable.
+which will be a breaking change for any existing links.
 
 Like most other node-based logic in Lexical, the sanitization logic can be overriden by overriding LinkNode using the Node Overrides API and replacing it with a node that implements the sanitizeUrl method differently.
 
@@ -332,6 +394,7 @@ This release adds functionality to apply node transforms to node replacements, i
 ## v0.7.1 (2022-12-11)
 
 Contains several small bug fixes from the Lexical 0.7.0 release.
+
 - Fix paste for LexicalLinkPlugin (#3528) Dominic Gannaway
 - RTL fix for checkbox (#3529) shiva-Aluri
 - Add demos section to the navbar (#3507) akmarzhan1
@@ -343,6 +406,7 @@ Contains several small bug fixes from the Lexical 0.7.0 release.
 ## v0.7.0 (2022-12-09)
 
 Lexical 0.7 includes some breaking changes, including:
+
 - Removal of `$cloneContents` from `@lexical/selection`
 - Changes to `PlainTextPlugin` and `RichTextPlugin` with regards to how placeholders are handled
 - Pressing tab with the `RichTextPlugin` no longer indents by default, use the `LexicalTabIndentationPlugin` for this behavior.
@@ -662,14 +726,14 @@ editor.setReadyOnly -> editor.setEditable()
 editor.registerReadOnlyListener -> editor.registerEditableListener()
 editor config { readOnly: true } -> { editable: boolean }
 
-https://github.com/facebook/lexical/pull/2912
+<https://github.com/facebook/lexical/pull/2912>
 
 #### Markdown Transformers Require Dependencies
 
 The "dependencies" property is now required for custom markdown Element and TextMatch Transformers. It takes an array of LexicalNode subclasses and
 asserts that they're available in the editor when transforms are registered.
 
-https://github.com/facebook/lexical/pull/2910
+<https://github.com/facebook/lexical/pull/2910>
 
 #### Selection Updates when isEditable is false (previous ReadOnly mode)
 
@@ -751,11 +815,13 @@ such as commenting via marks, but may cause other indirect changes such as updat
 ## 0.3.9 (August 11, 2022)
 
 Most notably:
+
 - Added playground Figma embed and AutoEmbed plugin
 - LinkNode target and rel support
 - Many bugfixes
 
 Commits:
+
 - No nullish LinkNode props (#2818) Gerard Rovira
 - Fix collapsed selection on links (#2817) Gerard Rovira
 - prevent button from submitting forms (#2811) Gerard Delmàs
@@ -781,7 +847,7 @@ Commits:
 - Selection#formatText to retain selection and handle all text nodes (#2770) Maksim Horbachevsky
 - Fixed scrolling bar view (#2772) Karam Qaoud
 - Add LexicalAutoEmbedPlugin and (Playground)AutoEmbedPlugin. (#2704) Tyler Bainbridge
-- Bug: Undo command after creating a Quote removes text after Quote element (https://github.com/facebook/lexical/issues/2750) (#2767) Alexandru Pavaloi
+- Bug: Undo command after creating a Quote removes text after Quote element (<https://github.com/facebook/lexical/issues/2750>) (#2767) Alexandru Pavaloi
 - Handle insertTranspose for beforeinput event (#2764) Maksim Horbachevsky
 - Fix selection format for empty paragraphs (#2759) Maksim Horbachevsky
 - Remove unused keys from evens and utils (#2763) John Flockton
@@ -802,7 +868,7 @@ Commits:
 - fix: `timeoutId` type (#2735) Shanmughapriyan S
 - fix: some typo (#2737) 子瞻 Luci
 - docs: readme improvements (#2734) GJunior
-- Bug: typo in Documentation. It should be ReactNode instead of React (https://github.com/facebook/lexical/issues/2731) (#2732) Alexandru Pavaloi
+- Bug: typo in Documentation. It should be ReactNode instead of React (<https://github.com/facebook/lexical/issues/2731>) (#2732) Alexandru Pavaloi
 - Added table of contents documentation (#2720) Karam Qaoud
 - Fix: Minor Typo on Lexical Playground ActionsPlugin (#2717) Yamil García Hernández
 - Excalidraw fixes (#2711) John Flockton
@@ -890,6 +956,7 @@ Lots of bug fixes and polish. Notably, the full text of minifed Lexical error co
 ## 0.3.6 (June 29, 2022)
 
 lexical & @lexical/ packages:
+
 - fix(lexical): Text with underline format is stripped out on paste (#2555) 子瞻 Luci
 - Trigger readonly listener only when value has changed (#2550) Maksim Horbachevsky
 - fix(lexical): deselecting a decorator node by clicking (#2554) 子瞻 Luci
@@ -932,16 +999,19 @@ lexical & @lexical/ packages:
 - renamed character styles popup plugin (#2456) Strek
 
 Playground:
+
 - Flower size (#2527) Gerard Rovira
 - fix(lexical-playground): Resizing is not consistent on mobile (#2518) 子瞻 Luci
 - fix(lexical-playground): Floating toolbar displayed on composition (#2506) 子瞻 Luci
 - chore(lexical-playground): remove redundant code (#2497) 子瞻 Luci
 
 Docs:
+
 - add docs for headless package (#2539) Acy Watson
 - tiny typo fix (#2514) Hadi El-Yakhni
 
 Infra:
+
 - Update e2e test docs and run-all script (#2522) yicrotkd
 - Fix Windows CI Runs (#2513) Acy Watson
 - Deploy Lexical prod build to Vercel (#2476) Gerard Rovira
@@ -954,6 +1024,7 @@ Infra:
 - add missing flow type (#2447)
 
 ## 0.3.4 (June 16, 2022)
+
 - Customizable DecoratorBlockNode via theme (#2387)
 - initializeEditorState on LexicalComposer (#2425)
 - Revert "Prevent dispatching redundant can undo/redo commands (#2394)" (#2440)
@@ -979,6 +1050,7 @@ Infra:
 - Code cleanup, type definition and docs improvements
 
 Playground
+
 - Autocomplete v2 (#2343)
 - Add collaboration support for commenting (#2376)
 
@@ -1000,11 +1072,13 @@ Playground
 > Note: this release contains a number of breaking changes.
 
 ### Major Changes
-- JSON parsing has changed from previous versions when serializing/parsing EditorState. See https://lexical.dev/docs/concepts/serialization.
+
+- JSON parsing has changed from previous versions when serializing/parsing EditorState. See <https://lexical.dev/docs/concepts/serialization>.
 - Custom nodes that do not implement `importDOM`/`exportDOM`/`importJSON`/`exportJSON` may trigger a warning in DEV.
 - Imports from the Lexical npm packages that were previously default exports are now all named exports.
 
 ### All Changes
+
 - Fix various JSON/HTML issues (#2317)
 - Add includeHeaders argument to INSERT_TABLE_COMMAND (#2300)
 - 02cb62f8 Fix invariant and update codes (#2315)
@@ -1167,7 +1241,7 @@ Playground
 - Add useLexicaTextEntity hook for using TextEntity in React.
 - Add a warning when cloned nodes might unexpectedly refer to the pending editor state
 - Add support for keyboard selection in Tables.
-- Rename add* APIs to register* (e.g., addUpdateListener -> registerUpdateListener)
+- Rename add*APIs to register* (e.g., addUpdateListener -> registerUpdateListener)
 - Deprecate editor prop in Lexical Composer
 - Reorganize code, creating several new packages: @lexical/code, rich-text, plain-text, dragon, history, link, overflow, markdown
 - Move withSubscription to @lexical/utils
@@ -1236,5 +1310,5 @@ Playground
 
 ## 0.1.8 (February 11, 2022)
 
-- `Lexical{Plain/Rich}TextPlugin` and `DEPRECATED_use{Plain/Rich}TextPlugin` no longer create a ParagraphNode for you. This logic has been decoupled into a separate plugin <BootstrapPlugin />. The Bootstrap plugin also accepts an initialPayloadFn and clearEditorFn for custom initialization (i.e. edit behavior from server data). `<BootstrapPlugin /> <RichTextPlugin .. />`. If you're using the `DEPRECATED_{Plain/Rich}Text` version you may also want to copy-paste this hook and run it before the RichText initialization - https://github.com/facebook/lexical/blob/main/packages/lexical/src/__tests__/utils/DEPRECATED__useLexicalBootstrap.js
+- `Lexical{Plain/Rich}TextPlugin` and `DEPRECATED_use{Plain/Rich}TextPlugin` no longer create a ParagraphNode for you. This logic has been decoupled into a separate plugin <BootstrapPlugin />. The Bootstrap plugin also accepts an initialPayloadFn and clearEditorFn for custom initialization (i.e. edit behavior from server data). `<BootstrapPlugin /> <RichTextPlugin .. />`. If you're using the `DEPRECATED_{Plain/Rich}Text` version you may also want to copy-paste this hook and run it before the RichText initialization - <https://github.com/facebook/lexical/blob/main/packages/lexical/src/**tests**/utils/DEPRECATED__useLexicalBootstrap.js>
 - Bugfixes.

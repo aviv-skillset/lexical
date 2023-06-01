@@ -147,10 +147,6 @@ export class YouTubeNode extends DecoratorBlockNode {
       <YouTubeComponent className={className} format={this.__format} nodeKey={this.getKey()} videoID={this.__id} />
     );
   }
-
-  isInline(): false {
-    return false;
-  }
 }
 
 export function $createYouTubeNode(videoID: string): YouTubeNode {

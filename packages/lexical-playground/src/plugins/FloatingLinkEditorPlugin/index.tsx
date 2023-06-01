@@ -219,7 +219,7 @@ function FloatingLinkEditor({
         </>
       ) : (
         <div className="link-view">
-          <a href={linkUrl} target="_blank" rel="noopener noreferrer">
+          <a href={sanitizeUrl(linkUrl)} target="_blank" rel="noopener noreferrer">
             {linkUrl}
           </a>
           <div

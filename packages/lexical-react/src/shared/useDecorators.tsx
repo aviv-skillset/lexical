@@ -54,7 +54,7 @@ export function useDecorators(editor: LexicalEditor, ErrorBoundary: ErrorBoundar
       const element = editor.getElementByKey(nodeKey);
 
       if (element !== null) {
-        decoratedPortals.push(createPortal(reactDecorator, element));
+        decoratedPortals.push(createPortal(reactDecorator, element, nodeKey));
       }
     }
 

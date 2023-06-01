@@ -14,6 +14,7 @@ export type SettingName =
   | 'isMaxLength'
   | 'isCharLimitUtf8'
   | 'isAutocomplete'
+  | 'shouldUseLexicalContextMenu'
   | 'showTreeView'
   | 'showNestedEditorTreeView'
   | 'emptyEditor'
@@ -35,6 +36,7 @@ export const DEFAULT_SETTINGS: Settings = {
   isMaxLength: false,
   isRichText: true,
   measureTypingPerf: false,
+  shouldUseLexicalContextMenu: false,
   showNestedEditorTreeView: false,
   showTreeView: true,
   tableCellBackgroundColor: true,
