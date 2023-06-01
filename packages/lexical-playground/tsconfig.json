@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2019",
-    "lib": ["esnext", "dom", "dom.iterable"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "jsx": "react-jsx",
     "moduleResolution": "node",
@@ -9,21 +9,32 @@
     "noEmit": true,
     "strict": true,
     "baseUrl": ".",
-    "typeRoots": ["node_modules/@types", "../../libdefs/globals"],
+    "typeRoots": ["node_modules/@types", "./src/libdefs/globals"],
     "skipLibCheck": true,
     "resolveJsonModule": true,
 
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "sourceMap": true,
+    "pretty": true,
+    "incremental": true,
     "paths": {
-      "shared/canUseDOM": ["../shared/src/canUseDOM.ts"],
-      "shared/caretFromPoint": ["../shared/src/caretFromPoint.ts"],
-      "shared/simpleDiffWithCursor": ["packages/shared/src/simpleDiffWithCursor.ts"],
-      "shared/invariant": ["../shared/src/invariant.ts"],
-      "shared/warnOnlyOnce": ["../shared/src/warnOnlyOnce.ts"],
-      "shared/environment": ["../shared/src/environment.ts"],
-      "shared/useLayoutEffect": ["../shared/src/useLayoutEffect.ts"]
+      "shared/*": ["./src/shared/*"],
+      "shared/canUseDOM": ["./src/shared/canUseDOM.ts"],
+      "shared/caretFromPoint": ["./src/shared/caretFromPoint.ts"],
+      "shared/simpleDiffWithCursor": ["package/src/shared/simpleDiffWithCursor.ts"],
+      "shared/invariant": ["./src/shared/invariant.ts"],
+      "shared/warnOnlyOnce": ["./src/shared/warnOnlyOnce.ts"],
+      "shared/environment": ["./src/shared/environment.ts"],
+      "shared/useLayoutEffect": ["./src/shared/useLayoutEffect.ts"]
     }
   },
-  "include": ["../**/*", "../../**/*"],
+  "include": ["./**/*"],
   // "exclude": ["**/__tests__/**", "**/dist/**", "**/npm/**", "**/node_modules/**", "../playwright-core/**"],
   "typedocOptions": {
     "logLevel": "Verbose"

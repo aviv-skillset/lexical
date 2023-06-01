@@ -50,6 +50,12 @@ export default defineConfig({
         split: new URL('./split/index.html', import.meta.url).pathname,
       },
     },
+    lib: {
+      entry: path.resolve(__dirname, 'src/App.tsx'),
+      name: 'LexicalPlayground',
+      formats: ['es'],
+      fileName: (format) => `lexical-playground.${format}.js`,
+    },
     commonjsOptions: { include: [] },
     minify: 'terser',
     terserOptions: {
