@@ -186,3 +186,37 @@ export default function PlaygroundApp(): JSX.Element {
     </SettingsContext>
   );
 }
+
+export const LexicalExport = () => {
+  const {
+    settings: { emptyEditor, measureTypingPerf },
+  } = useSettings();
+
+  const initialConfig = {
+    editorState: emptyEditor ? undefined : prepopulatedRichText,
+    namespace: 'Playground',
+    nodes: [...PlaygroundNodes],
+    onError: (error: Error) => {
+      throw error;
+    },
+    theme: PlaygroundEditorTheme,
+  };
+  return (
+    <LexicalComposer initialConfig={initialConfig}>
+      <SharedHistoryContext>
+        <TableContext>
+          <SharedAutocompleteContext>
+            <div className="editor-shell">
+              <Editor />
+            </div>
+            <Settings />
+            {isDevPlayground ? <PasteLogPlugin /> : null}
+            {isDevPlayground ? <TestRecorderPlugin /> : null}
+
+            {measureTypingPerf ? <TypingPerfPlugin /> : null}
+          </SharedAutocompleteContext>
+        </TableContext>
+      </SharedHistoryContext>
+    </LexicalComposer>
+  );
+};

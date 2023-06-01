@@ -2,14 +2,19 @@
   "name": "lexical-playground",
   "version": "0.10.0",
   "private": true,
+  "main": "./build/lexical-playground.es.js",
+  "typings": "./build/lexical-playground.es.d.ts",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite --port 4000 --host",
     "build-dev": "vite build",
     "build-prod": "vite build --config vite.prod.config.js",
     "build-vercel": "(cd ../../ && node ./scripts/build.js --prod) && npm run build-prod",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@babel/preset-flow": "^7.14.5",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.16.7",
     "@lexical/clipboard": "0.10.0",
     "@lexical/code": "0.10.0",
     "@lexical/file": "0.10.0",
@@ -24,6 +29,12 @@
     "@lexical/selection": "0.10.0",
     "@lexical/table": "0.10.0",
     "@lexical/utils": "0.10.0",
+    "@types/jest": "^29.4.0",
+    "@types/node": "^17.0.31",
+    "@types/react": "^18.0.8",
+    "@types/react-dom": "^18.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.22.0",
+    "@typescript-eslint/parser": "^5.22.0",
     "lexical": "0.10.0",
     "lodash-es": "^4.17.21",
     "prettier": "^2.3.2",
@@ -35,8 +46,10 @@
   },
   "devDependencies": {
     "@types/lodash-es": "^4.14.182",
+    "@rollup/plugin-babel": "^5.3.0",
     "@vitejs/plugin-react": "^1.0.7",
     "vite": "^2.8.0",
+    "vite-plugin-dts": "^2.3.0",
     "vite-plugin-replace": "0.1.1"
   }
 }
